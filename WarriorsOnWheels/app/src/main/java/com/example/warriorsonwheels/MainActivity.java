@@ -1,40 +1,33 @@
 package com.example.warriorsonwheels;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.Task;
-
-import java.util.jar.Attributes;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private LinearLayout profileSection;
     private Button signOut;
+    private Button passProf;
     private SignInButton signIn;
     private TextView Name,Email;
     private ImageView profilePic;
@@ -50,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profileSection = (LinearLayout)findViewById(R.id.prof_section);
         signOut = (Button)findViewById(R.id.bn_signOut);
         signIn = (SignInButton)findViewById(R.id.sign_in_button);
+        passProf = (Button)findViewById(R.id.passProf);
         Name = (TextView)findViewById(R.id.nameDisplay);
         Email = (TextView)findViewById(R.id.emailDisplay);
         profilePic = (ImageView)findViewById(R.id.prof_pic);
@@ -57,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //set onClick Listener
         signIn.setOnClickListener(this);
         signOut.setOnClickListener(this);
+        passProf.setOnClickListener(this);
         profileSection.setVisibility(View.GONE);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
@@ -73,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bn_signOut:
                 signOut();
+                break;
+            case R.id.passProf:
+                Intent intent1 = new Intent(getApplicationContext(), PassengerProfile.class);
+                startActivity(intent1);
                 break;
         }
     }

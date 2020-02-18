@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbrMain"    android:layout_width="match_parent"
+        android:layout_height="wrap_content"    android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"    android:theme="?attr/actionBarTheme"
+        />
+
     <LinearLayout
         android:id="@+id/prof_section"
         android:layout_width="match_parent"
@@ -53,6 +59,12 @@
             android:text="Logout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailDisplay"/>
+
+        <Button
+            android:id="@+id/passProf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Passenger Profile" />
 
     </LinearLayout>
 
