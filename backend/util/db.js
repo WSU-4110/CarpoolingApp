@@ -5,10 +5,10 @@ const con = mysql.createConnection({
   user: 'root',
   password: 'root',
   database: 'warriors_on_wheels',
-  insecureAuth : true
+  insecureAuth: true,
 });
 
-con.connect(function(err) {
+con.connect((err) => {
   if (err) throw err;
   console.log('Connected!');
 });
