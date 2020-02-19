@@ -25,7 +25,6 @@ module.exports = {
     });
   },
   put: (req, res) => {
-
     if (!req.body.access_id) {
       res.status(400).send('Bad request');
       return;
@@ -38,19 +37,18 @@ module.exports = {
       accessId: req.body.access_id,
     };
 
-    db.query('SELECT * FROM passenger WHERE access_id=?', [passenger.accessId], (err, selectResponse) => {
-      if (err) res.status(500).send(err);
+    db.query('SELECT * FROM passenger WHERE access_id=?', [passenger.accessId], (selectErr, selectResponse) => {
+      if (selectErr) res.status(500).send(selectErr);
       else if (selectResponse.length === 0) {
         res.status(404).send('passenger not found');
-      }
-      else {
-        db.query('UPDATE passenger SET phone_number = ?, location = ?, name = ? where access_id = ?', [passenger.phoneNumber, passenger.location, passenger.name, passenger.accessId], (err, updateResponse) => {
-          if (err) res.status(500).send(err);
+      } else {
+        db.query('UPDATE passenger SET phone_number = ?, location = ?, name = ? where access_id = ?', [passenger.phoneNumber, passenger.location, passenger.name, passenger.accessId], (updateErr, updateResponse) => {
+          if (updateErr) res.status(500).send(updateErr);
           else {
             res.send(updateResponse);
           }
         });
       }
     });
-  }
+  },
 };
