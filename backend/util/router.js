@@ -4,7 +4,7 @@ const router = express.Router();
 const passenger = require('../controllers/passenger');
 const ride = require('../controllers/ride');
 
-// passenger    
+// passenger
 router.get('/passenger', passenger.get);
 router.post('/passenger', passenger.post);
 router.put('/passenger', passenger.put);
@@ -14,4 +14,3 @@ router.get('/ride', ride.get);
 
 
 module.exports = router;
-
