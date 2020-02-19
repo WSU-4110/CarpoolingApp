@@ -1,9 +1,9 @@
 const mysql = require('mysql');
 
 const con = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: 'root',
+  host: 'dev-warriors-on-wheels.cdfibhkvsv1j.us-east-2.rds.amazonaws.com',
+  user: 'admin',
+  password: 'Aexohzohr5Eipoo4',
   database: 'warriors_on_wheels',
   insecureAuth: true,
 });
