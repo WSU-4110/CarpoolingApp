@@ -28,17 +28,9 @@ CREATE TABLE `driver` (
   `car` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `passenger_id` (`passenger_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `driver`
---
-
-LOCK TABLES `driver` WRITE;
-/*!40000 ALTER TABLE `driver` DISABLE KEYS */;
-/*!40000 ALTER TABLE `driver` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `passenger`
@@ -57,18 +49,8 @@ CREATE TABLE `passenger` (
   UNIQUE KEY `access_id` (`access_id`),
   UNIQUE KEY `access_id_2` (`access_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `passenger`
---
-
-LOCK TABLES `passenger` WRITE;
-/*!40000 ALTER TABLE `passenger` DISABLE KEYS */;
-INSERT INTO `passenger` VALUES (2,'darpan','1412122234','cali','ab1234');
-/*!40000 ALTER TABLE `passenger` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `ride`
@@ -82,20 +64,12 @@ CREATE TABLE `ride` (
   `driver_id` int(11) NOT NULL,
   `departure_time` datetime DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `ride`
---
 
-LOCK TABLES `ride` WRITE;
-/*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ride` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `ride_passenger_join`
 --
 
@@ -128,4 +102,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-19 22:11:39
+-- Dump completed on 2020-02-23 22:00:17
