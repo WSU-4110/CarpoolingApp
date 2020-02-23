@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 const con = mysql.createConnection({
-  host: 'dev-warriors-on-wheels.cdfibhkvsv1j.us-east-2.rds.amazonaws.com',
-  user: 'admin',
-  password: 'Aexohzohr5Eipoo4',
-  database: 'warriors_on_wheels',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
   insecureAuth: true,
 });
 
