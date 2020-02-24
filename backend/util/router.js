@@ -18,5 +18,9 @@ router.post('/driver', driver.post);
 // ride 
 router.get('/ride', ride.get);
 router.post('/ride', ride.post);
+router.put('/ride',ride.put);
+
+
+
 
 module.exports = router;

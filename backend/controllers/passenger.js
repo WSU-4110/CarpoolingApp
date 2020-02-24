@@ -75,4 +75,7 @@ module.exports.put = (req, res) => {
     });
 };
 
-module.exports.delete = (req, res) => {};
+module.exports.delete = (req, res) => {
+  
+
+};
