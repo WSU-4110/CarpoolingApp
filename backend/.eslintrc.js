@@ -15,6 +15,8 @@ module.exports = {
     ecmaVersion: 2018,
   },
   rules: {
-      "no-console": "off"
+    "indent": [2, 2],
+    "no-console": "off",
+    "arrow-parens": 0,
   },
 };
