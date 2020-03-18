@@ -28,6 +28,6 @@ router.put('/ride', ride.put);
 // rating
 router.get('/rating', rating.get);
 router.get('/rating/:accessId', rating.get);
-router.post('/rating', rating.post);
+router.post('/rating/:accessId', rating.post);
 
 module.exports = router;
