@@ -18,7 +18,8 @@ router.post('/driver', driver.post);
 // ride 
 router.get('/ride', ride.get);
 router.post('/ride', ride.post);
-router.put('/ride',ride.put);
+router.put('/ride', ride.put);
+router.delete('/ride', ride.put);
 
 
 

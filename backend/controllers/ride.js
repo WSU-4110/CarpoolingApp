@@ -89,5 +89,14 @@ module.exports.put = (req, res) => {
       });
   }
 
-
 };
+
+module.exports.delete = (req, res) => {
+
+  const ride_id = req.body.ride_id
+
+    sql = 'DELETE FROM ride_passenger_join';
+    return db.query(sql,[ride_id])
+  
+
+}
