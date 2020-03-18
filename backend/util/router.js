@@ -4,6 +4,7 @@ const router = express.Router();
 const passenger = require('../controllers/passenger');
 const driver = require('../controllers/driver');
 const ride = require('../controllers/ride');
+const rating = require('../controllers/rating');
 
 // passenger
 router.get('/passenger', passenger.get);
@@ -20,7 +21,8 @@ router.get('/ride', ride.get);
 router.post('/ride', ride.post);
 router.put('/ride',ride.put);
 
-
-
+// rating
+router.get('/rating', rating.get);
+router.get('/rating/:accessId', rating.get);
 
 module.exports = router;
