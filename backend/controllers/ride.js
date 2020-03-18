@@ -93,10 +93,15 @@ module.exports.put = (req, res) => {
 
 module.exports.delete = (req, res) => {
 
-  const ride_id = req.body.ride_id
+  const ride_id = req.body.ride_id;
+  const status = req.body.active;
 
-    sql = 'DELETE FROM ride_passenger_join';
-    return db.query(sql,[ride_id])
+    sql = 'UPDATE ride_passenger_join SET active=0 WHERE ride_id=?';
+    return db.query(sql,[status]);
+    
+    
+
+   
   
 
 }
