@@ -19,9 +19,14 @@ module.exports.get = (req, res) => {
 }
 
 module.exports.post = (req, res) => {
-    const userId = req.params.access_id;
+    const userId = req.params.accessId;
     const isDriver = req.body.isDriver ? 1 : 0;
     const rating = req.body.rating;
+
+    if(rating < 1 || rating > 5){
+        respond(400, "Rating must be between 1 and 5 inclusive", res);
+        return;
+    }
 
     let updateRows;
     db.query('START TRANSACTION')
