@@ -6,6 +6,10 @@ const driver = require('../controllers/driver');
 const ride = require('../controllers/ride');
 const rating = require('../controllers/rating');
 
+router.get('/', (req, res) => {
+    res.send('OK');
+})
+
 // passenger
 router.get('/passenger', passenger.get);
 router.post('/passenger', passenger.post);
@@ -19,10 +23,11 @@ router.post('/driver', driver.post);
 // ride 
 router.get('/ride', ride.get);
 router.post('/ride', ride.post);
-router.put('/ride',ride.put);
+router.put('/ride', ride.put);
 
 // rating
 router.get('/rating', rating.get);
 router.get('/rating/:accessId', rating.get);
+router.post('/rating', rating.post);
 
 module.exports = router;

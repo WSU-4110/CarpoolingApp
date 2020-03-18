@@ -2,29 +2,49 @@ const db = require('../util/db');
 const respond = require('../util/respond');
 
 module.exports.get = (req, res) => {
-    const user = req.params.accessId;
-    if (!user) {
+    const userId = req.params.accessId;
+    if (!userId) {
         respond(400, "please provide valid access id.", res);
     }
 
+
+    sql = 'SELECT rating.user_id AS user_id, IFNULL(AVG(rating.value), 0) AS average, COUNT(rating.value) AS count FROM passenger LEFT JOIN rating ON passenger.id=rating.user_id WHERE passenger.access_id = ?;'
+    db.query(sql, userId)
+        .then(rows => {
+            respond(200, rows, res);
+        })
+        .catch(err => {
+            respond(500, err, res);
+        });
+}
+
+module.exports.post = (req, res) => {
+    const userId = req.body.access_id;
+    const isDriver = req.body.isDriver ? 1 : 0;
+    const rating = req.body.rating;
+
+    let updateRows;
     db.query('START TRANSACTION')
         .then(() => {
-            const sql = 'SELECT * FROM passenger WHERE access_id=?';
-            return db.query(sql, [user]);
+            const sql = "SELECT id FROM passenger WHERE access_id = ?";
+            return db.query(sql, [userId]);
         })
         .then(rows => {
             if (rows.length === 0) {
-                const errString = `passenger with access id ${user} not found`;
+                const errString = `passenger with access id ${userId} not found`;
                 respond(400, errString, res);
                 throw errString;
             }
 
-            sql = 'SELECT IFNULL(AVG(value), 0) as average, count(value) as count FROM rating WHERE user_id = ?'
-            return db.query(sql, rows[0].id);
+            const sql = 'INSERT INTO rating (user_id, value, is_driver) VALUES(?, ?, ?)';
+            return db.query(sql, [rows[0].id, rating, isDriver]);
         })
         .then(rows => {
-            respond(200, rows, res);
+            updateRows = rows;
             return db.query('COMMIT');
+        })
+        .then(() => {
+            respond(200, updateRows, res);
         })
         .catch(err => {
             db.query('ROLLBACK')
