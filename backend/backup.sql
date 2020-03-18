@@ -18,7 +18,8 @@
 --
 -- Table structure for table `driver`
 --
-
+CREATE DATABASE warriors_on_wheels;
+USE warriors_on_wheels;
 DROP TABLE IF EXISTS `driver`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
