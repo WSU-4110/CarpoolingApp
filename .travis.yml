@@ -7,12 +7,14 @@ services:
   - docker
 node_js:  
   - 10
-before_install: cd backend/
+before_install: 
+  - cd backend/
+  - openssl aes-256-cbc -K $encrypted_252072f00533_key -iv $encrypted_252072f00533_iv -in carpool_pipeline.json.enc -out carpool_pipeline.json -d
 install: 
   - npm install
 script: 
   - npm run doc
-  - echo $GCR_KEY | docker login -u _json_key --password-stdin https://us.gcr.io
+  - cat carpool_pipeline.json | docker login -u _json_key --password-stdin https://us.gcr.io
   - export IMAGE_NAME=us.gcr.io/carpooling-app-271518/$TRAVIS_REPO_SLUG:$TRAVIS_COMMIT
   - docker build -t $IMAGE_NAME .
   - docker push $IMAGE_NAME
