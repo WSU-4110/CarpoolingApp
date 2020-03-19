@@ -3,7 +3,7 @@ const db = require('../util/db');
 const respond = require('../util/respond');
 
 /**
- * @api {get} /passengers /passengers
+ * @api {get} /passengers list passengers
  * @apiName PassengerGet
  * @apiGroup passenger
  *
@@ -35,6 +35,38 @@ module.exports.get = (req, res) => {
     });
 };
 
+/**
+ * @api {post} /passengers create passenger
+ * @apiName PassengerPost
+ * @apiGroup passenger
+ * 
+ *  * @apiParamExample {json} Request-Example:
+ * {
+ *     "name":"Test",
+ *     "phone_number":"5555555555",
+ *     "location":"Atlantis",
+ *     "access_id":"ab1234"
+ * }
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "fieldCount": 0,
+        "affectedRows": 1,
+        "insertId": 8,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "",
+        "protocol41": true,
+        "changedRows": 0
+    }
+}
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
 module.exports.post = (req, res) => {
   const passenger = {
     name: req.body.name,
@@ -57,8 +89,40 @@ module.exports.post = (req, res) => {
     });
 };
 
+/**
+ * @api {put} /passengers update passenger
+ * @apiName PassengerPut
+ * @apiGroup passenger
+ * 
+ *  * @apiParamExample {json} Request-Example:
+ * {
+ *     "name":"Test",
+ *     "phone_number":"5555555555",
+ *     "location":"Atlantis",
+ *     "access_id":"ab1234"
+ * }
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "fieldCount": 0,
+        "affectedRows": 1,
+        "insertId": 8,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "",
+        "protocol41": true,
+        "changedRows": 0
+    }
+}
+ * @apiError (Error 4xx) {String} 400 Bad Request: "Please provide a valid access id."
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
 module.exports.put = (req, res) => {
-  if (!req.body.access_id) {
+  if (!req.params.access_id) {
     respond(400, 'Please provide a valid access id.', res);
     return;
   }
@@ -67,7 +131,7 @@ module.exports.put = (req, res) => {
     name: req.body.name,
     phoneNumber: req.body.phone_number,
     location: req.body.location,
-    accessId: req.body.access_id,
+    accessId: req.params.access_id,
   };
 
   let updateRows;
