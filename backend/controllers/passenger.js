@@ -1,6 +1,30 @@
+// Api documentation documentation http://apidocjs.com/#params
 const db = require('../util/db');
 const respond = require('../util/respond');
 
+/**
+ * @api {get} /passengers /passengers
+ * @apiName PassengerGet
+ * @apiGroup passenger
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *     "error": false,
+ *     "data": [
+        {
+            "id": 2,
+            "name": "darpan",
+            "phone_number": "1412122234",
+            "location": "vegas baby",
+            "access_id": "ab1234"
+        }
+      ]
+ * }
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
 module.exports.get = (req, res) => {
   db.query('SELECT * FROM passenger')
     .then(rows => {
@@ -10,6 +34,7 @@ module.exports.get = (req, res) => {
       respond(500, err.toString(), res);
     });
 };
+
 module.exports.post = (req, res) => {
   const passenger = {
     name: req.body.name,
@@ -31,6 +56,7 @@ module.exports.post = (req, res) => {
       respond(500, err.toString(), res);
     });
 };
+
 module.exports.put = (req, res) => {
   if (!req.body.access_id) {
     respond(400, 'Please provide a valid access id.', res);
@@ -75,4 +101,7 @@ module.exports.put = (req, res) => {
     });
 };
 
-module.exports.delete = (req, res) => {};
+module.exports.delete = (req, res) => {
+
+
+};

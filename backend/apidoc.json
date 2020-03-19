@@ -1,0 +1,8 @@
+{
+    "name": "Warriors On Wheels API",
+    "version": "1.0.0",
+    "description": "Api Documentation for CS4110 Carpooling App Term Project",
+    "template": {
+        "withCompare": false
+    }
+}
