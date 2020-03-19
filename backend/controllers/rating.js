@@ -19,7 +19,7 @@ module.exports.get = (req, res) => {
 }
 
 module.exports.post = (req, res) => {
-    const userId = req.params.access_id;
+    const userId = req.params.accessId;
     const isDriver = req.body.isDriver ? 1 : 0;
     const rating = req.body.rating;
 

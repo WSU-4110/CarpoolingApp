@@ -24,12 +24,8 @@ router.post('/driver', driver.post);
 router.get('/ride', ride.get);
 router.post('/ride', ride.post);
 router.put('/ride', ride.put);
-<<<<<<< HEAD
-router.delete('/ride', ride.put);
+router.delete('/ride', ride.delete);
 
-
-=======
->>>>>>> 763ff029a5376180d02152cb4839222facd91822
 
 // rating
 router.get('/rating', rating.get);

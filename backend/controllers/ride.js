@@ -94,10 +94,17 @@ module.exports.put = (req, res) => {
 module.exports.delete = (req, res) => {
 
   const ride_id = req.body.ride_id;
-  const status = req.body.active;
+  const active = req.body.active;
 
     sql = 'UPDATE ride_passenger_join SET active=0 WHERE ride_id=?';
-    return db.query(sql,[status]);
+    db.query(sql,[active])
+
+    .then(rows => {
+      respond(200, rows, res);
+    })
+    .catch(err => {
+      respond(500, err, res);
+    });
     
     
 
