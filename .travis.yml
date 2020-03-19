@@ -3,10 +3,16 @@ branches:
     - feature/backend
     - feature/pipeline
 language: node_js
+services: 
+  - docker
 node_js:  
   - 10
+before_install: cd backend/
 install: 
-- cd backend/
-- npm install
+  - npm install
 script: 
-- npm run doc
+  - npm run doc
+  - echo $GCR_KEY | docker login -u _json_key --password-stdin https://us.gcr.io
+  - export IMAGE_NAME=us.gcr.io/carpooling-app-271518/$TRAVIS_REPO_SLUG:$TRAVIS_COMMIT
+  - docker build -t $IMAGE_NAME .
+  - docker push $IMAGE_NAME
