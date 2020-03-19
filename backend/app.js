@@ -9,6 +9,7 @@ const port = process.env.port || 8080;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(router);
+app.use(express.static('apidoc'));
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

@@ -66,4 +66,28 @@ module.exports.post = (req, res) => {
     });
 }
 
-module.exports.put = (req, res) => { };
+module.exports.put = (req, res) => {
+
+
+  const ride_id = req.body.ride_id
+
+  for (i in req.body.passenger) {
+
+    sql = 'SELECT id FROM passenger WHERE access_id=?';
+    return db.query(sql, [passenger.id])
+      .then(rows => {
+        sql = 'INSERT INTO ride_passenger_join id (ride_id, passenger_id) VALUES ?';
+        return db.query(sql, [ride.id, passenger.id]);
+
+
+      })
+      .then(rows => {
+        respond(200, rows, res);
+      })
+      .catch(err => {
+        respond(500, err, res);
+      });
+  }
+
+
+};
