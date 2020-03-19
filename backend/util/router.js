@@ -6,10 +6,6 @@ const driver = require('../controllers/driver');
 const ride = require('../controllers/ride');
 const rating = require('../controllers/rating');
 
-router.get('/', (req, res) => {
-    res.send('OK');
-})
-
 // passenger
 router.get('/passenger', passenger.get);
 router.post('/passenger', passenger.post);
