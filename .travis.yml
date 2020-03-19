@@ -1,3 +1,12 @@
+branches:
+  only:
+    - feature/backend
+    - feature/pipeline
 language: node_js
 node_js:  
   - 10
+install: 
+- cd backend/
+- npm install
+script: 
+- npm run doc
