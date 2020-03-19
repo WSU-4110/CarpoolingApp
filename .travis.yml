@@ -11,7 +11,7 @@ env:
   - NODE_ENV=production
 before_install: 
   - cd backend/
-  - openssl aes-256-cbc -K $encrypted_252072f00533_key -iv $encrypted_252072f00533_iv -in carpool_pipeline.json.enc -out carpool_pipeline.json -d
+  - openssl aes-256-cbc -K $encrypted_252072f00533_key -iv $encrypted_252072f00533_iv -in key.json.enc -out key.json -d
 install: 
   - npm install
 script: 
