@@ -5,6 +5,7 @@ module.exports.get = (req, res) => {
     const userId = req.params.accessId;
     if (!userId) {
         respond(400, "please provide valid access id.", res);
+        return;
     }
 
 
@@ -38,7 +39,7 @@ module.exports.post = (req, res) => {
             if (rows.length === 0) {
                 const errString = `passenger with access id ${userId} not found`;
                 respond(400, errString, res);
-                throw errString;
+                return;
             }
 
             const sql = 'INSERT INTO rating (user_id, value, is_driver) VALUES(?, ?, ?)';
