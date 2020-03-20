@@ -26,16 +26,21 @@ const respond = require('../util/respond');
  */
 module.exports.get = (req, res) => {
   const userId = req.params.accessId;
+  const isDriver = req.query.is_driver ? 1 : 0;
+
   if (!userId) {
     respond(400, 'please provide valid access id.', res);
     return;
   }
 
 
-  sql = 'SELECT rating.user_id AS user_id, IFNULL(AVG(rating.value), 0) AS average, COUNT(rating.value) AS count FROM user LEFT JOIN rating ON user.id=rating.user_id WHERE user.access_id = ?;';
-  db.query(sql, userId)
+  sql = 'SELECT rating.user_id AS user_id, IFNULL(AVG(rating.value), 0) AS average, COUNT(rating.value) AS count FROM user LEFT JOIN rating ON user.id=rating.user_id WHERE user.access_id = ? && is_driver = ?;';
+  db.query(sql, [userId, isDriver])
     .then(rows => {
-      respond(200, rows[0], res);
+      if (rows[0].user_id === null)
+        respond(204, null, res);
+      else
+        respond(200, rows[0], res);
     })
     .catch(err => {
       respond(500, err, res);
