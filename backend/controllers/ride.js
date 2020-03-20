@@ -41,7 +41,7 @@ const respond = require('../util/respond');
  *
  */
 module.exports.get = (req, res) => {
-  let sql = 'select ride.id, driver.id as driver_id, ride.departure_time, ride.location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join passenger on driver.passenger_id = passenger.id) as driver on ride.driver_id = driver.id where ride.active = 1';
+  const sql = 'select ride.id, driver.id as driver_id, ride.departure_time, ride.location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join passenger on driver.passenger_id = passenger.id) as driver on ride.driver_id = driver.id where ride.active = 1';
 
   db.query(sql)
     .then(rows => {
@@ -86,23 +86,21 @@ module.exports.get = (req, res) => {
  *
  */
 module.exports.getById = (req, res) => {
-  let rideId = req.params.id;
+  const rideId = req.params.id;
 
-  let sql = 'select ride.id, driver.id as driver_id, ride.departure_time, ride.location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join passenger on driver.passenger_id = passenger.id) as driver on ride.driver_id = driver.id where ride.active = 1 && ride.id = ? limit 1';
+  const sql = 'select ride.id, driver.id as driver_id, ride.departure_time, ride.location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join passenger on driver.passenger_id = passenger.id) as driver on ride.driver_id = driver.id where ride.active = 1 && ride.id = ? limit 1';
 
   let rideData;
   db.query('START TRANSACTION')
-    .then(() => {
-      return db.query(sql, [rideId]);
-    })
+    .then(() => db.query(sql, [rideId]))
     .then(rows => {
       rideData = rows[0];
-      return db.query('select passenger.id, access_id from ride_passenger_join inner join passenger on ride_passenger_join.passenger_id = passenger.id where ride_passenger_join.ride_id = ?', [rideId])
+      return db.query('select passenger.id, access_id from ride_passenger_join inner join passenger on ride_passenger_join.passenger_id = passenger.id where ride_passenger_join.ride_id = ?', [rideId]);
     })
     .then(rows => {
       respond(200, {
         ride: rideData,
-        passengers: rows
+        passengers: rows,
       }, res);
       db.query('COMMIT');
     })
@@ -110,14 +108,14 @@ module.exports.getById = (req, res) => {
       respond(500, err, res);
       db.query('ROLLBACK');
     });
-}
+};
 
 
 /**
  * @api {post} /ride create ride
  * @apiName RidePost
  * @apiGroup ride
- * 
+ *
  *  * @apiParamExample {json} Request-Example:
 {
 	"driver_access_id": "ab1234",
@@ -149,7 +147,7 @@ module.exports.post = (req, res) => {
   let sql;
   const driverId = req.body.driver_access_id;
   const departureTime = req.body.departure_time;
-  const location = req.body.location;
+  const { location } = req.body;
 
   try {
     const date = new Date(departureTime);
@@ -158,13 +156,12 @@ module.exports.post = (req, res) => {
     if (!(date instanceof Date && !isNaN(date)) || date < new Date()) {
       throw new Error();
     }
-  }
-  catch (err) {
-    respond(400, departureTime + ' is invalid. please supply a valid departure time.', res);
+  } catch (err) {
+    respond(400, `${departureTime} is invalid. please supply a valid departure time.`, res);
     return;
   }
 
-  if (location === "" || location === undefined) {
+  if (location === '' || location === undefined) {
     respond(400, 'please supply a valid location.', res);
     return;
   }
@@ -190,16 +187,15 @@ module.exports.post = (req, res) => {
       db.query('ROLLBACK')
         .then(() => {
           respond(500, err, res);
-
         });
     });
-}
+};
 
 /**
  * @api {put} /ride/:id add passenger to ride
  * @apiName RidePut
  * @apiGroup ride
- * 
+ *
  *  * @apiParamExample {json} Request-Example:
 {
 	"passengers": ["aa5555", "bb6666"]
@@ -227,7 +223,6 @@ module.exports.post = (req, res) => {
 module.exports.put = (req, res) => {
   const rideId = req.params.id;
   for (const passenger of req.body.passengers) {
-
     sql = 'SELECT id FROM passenger WHERE access_id = ?';
     return db.query(sql, [passenger])
       .then(rows => {

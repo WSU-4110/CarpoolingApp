@@ -26,9 +26,7 @@ const respond = require('../util/respond');
  *
  */
 module.exports.get = (req, res) => {
-  const accessId = req.params.accessId;
-
-  let sql = 'SELECT * FROM passenger';
+  const sql = 'SELECT * FROM passenger';
   db.query(sql)
     .then(rows => {
       respond(200, rows, res);
@@ -42,7 +40,7 @@ module.exports.get = (req, res) => {
  * @api {get} /passenger/:accessId get passenger by access ID
  * @apiName PassengerGetById
  * @apiGroup passenger
- * 
+ *
  * @apiParam {String} accessId specific user's access ID
  *
  * @apiSuccessExample Success-Response:
@@ -62,9 +60,9 @@ module.exports.get = (req, res) => {
  *
  */
 module.exports.getById = (req, res) => {
-  const accessId = req.params.accessId;
+  const { accessId } = req.params;
 
-  let sql = 'SELECT * FROM passenger where access_id = ? limit 1';
+  const sql = 'SELECT * FROM passenger where access_id = ? limit 1';
   db.query(sql, [accessId])
     .then(rows => {
       respond(200, rows[0], res);
@@ -72,14 +70,13 @@ module.exports.getById = (req, res) => {
     .catch(err => {
       respond(500, err.toString(), res);
     });
-
 };
 
 /**
  * @api {post} /passenger create passenger
  * @apiName PassengerPost
  * @apiGroup passenger
- * 
+ *
  *  * @apiParamExample {json} Request-Example:
  * {
  *     "name":"Test",
@@ -133,7 +130,7 @@ module.exports.post = (req, res) => {
  * @api {put} /passengers update passenger
  * @apiName PassengerPut
  * @apiGroup passenger
- * 
+ *
  *  * @apiParamExample {json} Request-Example:
  * {
  *     "name":"Test",
@@ -188,7 +185,7 @@ module.exports.put = (req, res) => {
       }
       const sql = 'UPDATE passenger SET phone_number = ?, location = ?, name = ? where access_id = ?';
       return db.query(sql, [passenger.phoneNumber, passenger.location,
-      passenger.name, passenger.accessId]);
+        passenger.name, passenger.accessId]);
     })
     .then(rows => {
       updateRows = rows;

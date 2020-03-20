@@ -8,8 +8,8 @@ const rating = require('./rating');
 
 // index
 router.get('/', (req, res) => {
-  res.send('docs: ' + req.protocol + '://' + req.get('host') + req.originalUrl + 'docs');
-})
+  res.send(`docs: ${req.protocol}://${req.get('host')}${req.originalUrl}docs`);
+});
 
 router.use('/passenger', passenger);
 router.use('/ride', ride);
