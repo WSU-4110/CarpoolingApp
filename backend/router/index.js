@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const passenger = require('./passenger');
+const user = require('./user');
 const driver = require('./driver');
 const ride = require('./ride');
 const rating = require('./rating');
@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   res.send(`docs: ${req.protocol}://${req.get('host')}${req.originalUrl}docs`);
 });
 
-router.use('/passenger', passenger);
+router.use('/user', user);
 router.use('/ride', ride);
 router.use('/driver', driver);
 router.use('/rating', rating);

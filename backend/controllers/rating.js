@@ -32,7 +32,7 @@ module.exports.get = (req, res) => {
   }
 
 
-  sql = 'SELECT rating.user_id AS user_id, IFNULL(AVG(rating.value), 0) AS average, COUNT(rating.value) AS count FROM passenger LEFT JOIN rating ON passenger.id=rating.user_id WHERE passenger.access_id = ?;';
+  sql = 'SELECT rating.user_id AS user_id, IFNULL(AVG(rating.value), 0) AS average, COUNT(rating.value) AS count FROM user LEFT JOIN rating ON user.id=rating.user_id WHERE user.access_id = ?;';
   db.query(sql, userId)
     .then(rows => {
       respond(200, rows[0], res);
@@ -81,12 +81,12 @@ module.exports.post = (req, res) => {
   let updateRows;
   db.query('START TRANSACTION')
     .then(() => {
-      const sql = 'SELECT id FROM passenger WHERE access_id = ?';
+      const sql = 'SELECT id FROM user WHERE access_id = ?';
       return db.query(sql, [userId]);
     })
     .then(rows => {
       if (rows.length === 0) {
-        const errString = `passenger with access id ${userId} not found`;
+        const errString = `user with access id ${userId} not found`;
         respond(400, errString, res);
         return;
       }

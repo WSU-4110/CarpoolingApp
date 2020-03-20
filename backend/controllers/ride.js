@@ -43,7 +43,7 @@ const respond = require('../util/respond');
  *
  */
 module.exports.get = (req, res) => {
-  const sql = 'select ride.id, driver.id as driver_id, ride.departure_time, ride.location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join passenger on driver.passenger_id = passenger.id) as driver on ride.driver_id = driver.id where ride.active = 1';
+  const sql = 'select ride.id, driver.id as driver_id, ride.departure_time, ride.location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join user on driver.user_id = user.id) as driver on ride.driver_id = driver.id where ride.active = 1';
 
   db.query(sql)
     .then(rows => {
@@ -80,7 +80,7 @@ module.exports.get = (req, res) => {
             "phone_number": "1412122234",
             "access_id": "ab1234"
         },
-        "passengers": [
+        "users": [
             {
                 "id": 8,
                 "access_id": "aa5555"
@@ -95,19 +95,19 @@ module.exports.get = (req, res) => {
 module.exports.getById = (req, res) => {
   const rideId = req.params.id;
 
-  const sql = 'select ride.id, driver.id as driver_id, ride.departure_time, ride.location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join passenger on driver.passenger_id = passenger.id) as driver on ride.driver_id = driver.id where ride.active = 1 && ride.id = ? limit 1';
+  const sql = 'select ride.id, driver.id as driver_id, ride.departure_time, ride.location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join user on driver.user_id = user.id) as driver on ride.driver_id = driver.id where ride.active = 1 && ride.id = ? limit 1';
 
   let rideData;
   db.query('START TRANSACTION')
     .then(() => db.query(sql, [rideId]))
     .then(rows => {
       rideData = rows[0];
-      return db.query('select passenger.id, access_id from ride_passenger_join inner join passenger on ride_passenger_join.passenger_id = passenger.id where ride_passenger_join.ride_id = ?', [rideId]);
+      return db.query('select user.id, access_id from ride_user_join inner join user on ride_user_join.user_id = user.id where ride_user_join.ride_id = ?', [rideId]);
     })
     .then(rows => {
       respond(200, {
         ride: rideData,
-        passengers: rows,
+        users: rows,
       }, res);
       db.query('COMMIT');
     })
@@ -174,7 +174,7 @@ module.exports.post = (req, res) => {
   }
   db.query('START TRANSACTION')
     .then(() => {
-      sql = 'SELECT driver.id FROM driver INNER JOIN passenger where passenger.access_id=?';
+      sql = 'SELECT driver.id FROM driver INNER JOIN user where user.access_id=?';
       return db.query(sql, [driverId]);
     })
     .then(rows => {
@@ -199,16 +199,16 @@ module.exports.post = (req, res) => {
 };
 
 /**
- * @api {put} /ride/:id add passenger to ride
+ * @api {put} /ride/:id add user to ride
  * @apiName RidePut
  * @apiGroup ride
  * 
  * @apiParam {String} id specific ride id
- * @apiParam {String[]} passengers list of passengers' access IDs
+ * @apiParam {String[]} users list of users' access IDs
  * 
  *  * @apiParamExample {json} Request-Example:
 {
-	"passengers": ["aa5555", "bb6666"]
+	"users": ["aa5555", "bb6666"]
 }
  *
  * @apiSuccessExample Success-Response:
@@ -232,11 +232,11 @@ module.exports.post = (req, res) => {
  */
 module.exports.put = (req, res) => {
   const rideId = req.params.id;
-  for (const passenger of req.body.passengers) {
-    sql = 'SELECT id FROM passenger WHERE access_id = ?';
-    return db.query(sql, [passenger])
+  for (const user of req.body.users) {
+    sql = 'SELECT id FROM user WHERE access_id = ?';
+    return db.query(sql, [user])
       .then(rows => {
-        sql = 'INSERT INTO ride_passenger_join (ride_id, passenger_id) VALUES (?, ?)';
+        sql = 'INSERT INTO ride_user_join (ride_id, user_id) VALUES (?, ?)';
         return db.query(sql, [rideId, rows[0].id]);
       })
       .then(rows => {

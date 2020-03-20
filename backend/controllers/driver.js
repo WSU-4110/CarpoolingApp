@@ -27,7 +27,7 @@ const respond = require('../util/respond');
  *
  */
 module.exports.get = (req, res) => {
-  db.query('SELECT d.id, d.car, p.name, p.access_id, p.phone_number FROM driver as d INNER JOIN passenger as p ON d.passenger_id = p.id')
+  db.query('SELECT d.id, d.car, p.name, p.access_id, p.phone_number FROM driver as d INNER JOIN user as p ON d.user_id = p.id')
     .then(rows => {
       respond(200, rows, res);
     })
@@ -65,7 +65,7 @@ module.exports.get = (req, res) => {
 module.exports.getById = (req, res) => {
   const accessId = req.params.accessId;
 
-  db.query('SELECT d.id, d.car, p.name, p.access_id, p.phone_number FROM driver as d INNER JOIN passenger as p ON d.passenger_id = p.id where p.access_id = ? limit 1', [accessId])
+  db.query('SELECT d.id, d.car, p.name, p.access_id, p.phone_number FROM driver as d INNER JOIN user as p ON d.user_id = p.id where p.access_id = ? limit 1', [accessId])
     .then(rows => {
       if (!rows.length)
         respond(204, null, res);
@@ -108,14 +108,15 @@ module.exports.post = (req, res) => {
   let insertRows;
   db.query('START TRANSACTION')
     .then(() => {
-      const sql = 'SELECT * FROM passenger WHERE access_id=? LIMIT 1';
+      const sql = 'SELECT * FROM user WHERE access_id=? LIMIT 1';
       return db.query(sql, [accessId]);
     })
     .then(rows => {
-      if (!rows.length) {
+      // TODO: fix 'Can't set headers after they are sent' error
+      if (!rows.length)
         return respond(400, `cannot find user with access id ${accessId}`, res);
-      }
-      return db.query('INSERT INTO driver (passenger_id, car) VALUES (?, ?) ON DUPLICATE KEY UPDATE car = VALUES(car)', [rows[0].id, req.body.car]);
+      else
+        return db.query('INSERT INTO driver (user_id, car) VALUES (?, ?) ON DUPLICATE KEY UPDATE car = VALUES(car)', [rows[0].id, req.body.car]);
     })
     .then(rows => {
       insertRows = rows;
