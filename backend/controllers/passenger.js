@@ -3,7 +3,7 @@ const db = require('../util/db');
 const respond = require('../util/respond');
 
 /**
- * @api {get} /passengers list passengers
+ * @api {get} /passenger list passengers
  * @apiName PassengerGet
  * @apiGroup passenger
  *
@@ -26,7 +26,10 @@ const respond = require('../util/respond');
  *
  */
 module.exports.get = (req, res) => {
-  db.query('SELECT * FROM passenger')
+  const accessId = req.params.accessId;
+
+  let sql = 'SELECT * FROM passenger';
+  db.query(sql)
     .then(rows => {
       respond(200, rows, res);
     })
@@ -36,7 +39,44 @@ module.exports.get = (req, res) => {
 };
 
 /**
- * @api {post} /passengers create passenger
+ * @api {get} /passenger/:accessId get passenger by access ID
+ * @apiName PassengerGetById
+ * @apiGroup passenger
+ * 
+ * @apiParam {String} accessId specific user's access ID
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *     "error": false,
+ *     "data": {
+            "id": 2,
+            "name": "darpan",
+            "phone_number": "1412122234",
+            "location": "vegas baby",
+            "access_id": "ab1234"
+        }
+ * }
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.getById = (req, res) => {
+  const accessId = req.params.accessId;
+
+  let sql = 'SELECT * FROM passenger where access_id = ? limit 1';
+  db.query(sql, [accessId])
+    .then(rows => {
+      respond(200, rows[0], res);
+    })
+    .catch(err => {
+      respond(500, err.toString(), res);
+    });
+
+};
+
+/**
+ * @api {post} /passenger create passenger
  * @apiName PassengerPost
  * @apiGroup passenger
  * 
