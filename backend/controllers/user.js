@@ -140,16 +140,20 @@ module.exports.post = (req, res) => {
 };
 
 /**
- * @api {put} /users update user
+ * @api {put} /users/:accessId update user
  * @apiName UserPut
  * @apiGroup user
+ * 
+ * @apiParam {String} accessId access ID of user to update
+ * @apiParam {String} name name of user to update
+ * @apiParam {String} phone_number phone_number of user to update
+ * @apiParam {String} location location of user to update
  *
  *  * @apiParamExample {json} Request-Example:
  * {
  *     "name":"Test",
  *     "phone_number":"5555555555",
- *     "location":"Atlantis",
- *     "access_id":"ab1234"
+ *     "location":"Atlantis"
  * }
  * 
  *  @apiSuccess (200) {Object} data successful user update
@@ -174,7 +178,7 @@ module.exports.post = (req, res) => {
  *
  */
 module.exports.put = (req, res) => {
-  if (!req.params.access_id) {
+  if (!req.params.accessId) {
     respond(400, 'Please provide a valid access id.', res);
     return;
   }
@@ -183,7 +187,7 @@ module.exports.put = (req, res) => {
     name: req.body.name,
     phoneNumber: req.body.phone_number,
     location: req.body.location,
-    accessId: req.params.access_id,
+    accessId: req.params.accessId,
   };
 
   let updateRows;

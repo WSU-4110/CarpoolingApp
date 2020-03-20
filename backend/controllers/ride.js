@@ -123,9 +123,13 @@ module.exports.getById = (req, res) => {
  * @apiName RidePost
  * @apiGroup ride
  *
- *  * @apiParamExample {json} Request-Example:
+ * @apiParam {String} driver access ID of driver
+ * @apiParam {Date} departure_time date and time of departure in format "YYYY-MM-DD hh:mm:ss"
+ * @apiParam {String} location departure location
+ * 
+ * @apiParamExample {json} Request-Example:
 {
-	"driver_access_id": "ab1234",
+	"driver": "ab1234",
 	"departure_time": "2020-05-20",
 	"location":"troy"
 }
@@ -152,7 +156,7 @@ module.exports.getById = (req, res) => {
  */
 module.exports.post = (req, res) => {
   let sql;
-  const driverId = req.body.driver_access_id;
+  const driverId = req.body.driver;
   const departureTime = req.body.departure_time;
   const { location } = req.body;
 
@@ -205,10 +209,12 @@ module.exports.post = (req, res) => {
  * 
  * @apiParam {String} id specific ride id
  * @apiParam {String[]} users list of users' access IDs
+ * @apiParam {Boolean} whether to add or remove these users from the ride. Must be true or false
  * 
  *  * @apiParamExample {json} Request-Example:
 {
-	"users": ["aa5555", "bb6666"]
+  "users": ["aa5555", "bb6666"],
+  "active": true
 }
  *
  * @apiSuccessExample Success-Response:
@@ -232,18 +238,111 @@ module.exports.post = (req, res) => {
  */
 module.exports.put = (req, res) => {
   const rideId = req.params.id;
-  for (const user of req.body.users) {
-    sql = 'SELECT id FROM user WHERE access_id = ?';
-    return db.query(sql, [user])
-      .then(rows => {
-        sql = 'INSERT INTO ride_user_join (ride_id, user_id) VALUES (?, ?)';
-        return db.query(sql, [rideId, rows[0].id]);
-      })
-      .then(rows => {
-        respond(200, rows, res);
-      })
-      .catch(err => {
-        respond(500, err, res);
-      });
+  const { active } = req.body;
+  const { users } = req.body;
+
+  if (!rideId) {
+    respond(400, 'please provide valid access id.', res);
+    return;
   }
+
+  if (active !== undefined && typeof active !== "boolean") {
+    respond(400, 'active must be true or false.', res);
+    return;
+  }
+
+  db.query('START TRANSACTION')
+    .then(() => {
+      return db.query('SELECT id FROM ride WHERE id = ?', rideId);
+    })
+    .then(rows => {
+      if (!rows.length) {
+        const e = new Error('ride does not exist');
+        e.statusCode = 400;
+        throw e;
+      }
+
+      if (users === undefined || !users.length) {
+        return null;
+      }
+      sql = 'SELECT id FROM user WHERE access_id in (?)';
+      return db.query(sql, [users])
+    })
+    .then(rows => {
+
+      if (rows === null) return;
+
+      let values = [];
+      for (userId of rows.map(r => r.id)) {
+        values.push([rideId, userId, active]);
+      }
+
+      const sql = 'INSERT INTO ride_user_join (ride_id, user_id, active) VALUES ? ON DUPLICATE KEY UPDATE active = VALUES(active)';
+      return db.query(sql, [values]);
+    })
+    .then(rows => {
+      respond(200, rows, res);
+      db.query('COMMIT')
+    })
+    .catch(err => {
+      respond(err.statusCode || 500, err, res);
+      db.query('ROLLBACK')
+    });
 };
+
+/**
+ * @api {delete} /ride/:id deactivate ride
+ * @apiName RideDelete
+ * @apiGroup ride
+ * 
+ * @apiParam {String} id specific ride id
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "fieldCount": 0,
+        "affectedRows": 2,
+        "insertId": 0,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "",
+        "protocol41": true,
+        "changedRows": 0
+    }
+}
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.delete = (req, res) => {
+  const rideId = req.params.id;
+
+  db.query('START TRANSACTION')
+    .then(() => {
+      return db.query('SELECT id FROM ride WHERE id = ?', rideId);
+    })
+    .then(rows => {
+      if (!rows.length) {
+        const e = new Error('ride does not exist');
+        e.statusCode = 400;
+        throw e;
+      }
+
+      const sql = 'UPDATE ride SET active = 0 WHERE id = ?';
+      return db.query(sql, rideId);
+    })
+    .then(rows => {
+      const sql = 'UPDATE ride_user_join SET active = 0 WHERE ride_id = ?';
+      return db.query(sql, rideId);
+    })
+    .then(rows => {
+      respond(200, rows, res);
+      db.query('COMMIT')
+    })
+    .catch(err => {
+      respond(err.statusCode || 500, err, res);
+      db.query('ROLLBACK')
+    });
+}

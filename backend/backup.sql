@@ -18,14 +18,11 @@ SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
 SET @@SESSION.SQL_LOG_BIN= 0;
 
 --
--- GTID state at the beginning of the backup 
---
-
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '76456c1a-6952-11ea-ada9-42010a8002cc:1-30960';
-
---
 -- Table structure for table `driver`
 --
+
+CREATE DATABASE IF NOT EXISTS warriors_on_wheels;
+USE warriors_on_wheels;
 
 DROP TABLE IF EXISTS `driver`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -39,16 +36,6 @@ CREATE TABLE `driver` (
   CONSTRAINT `driver_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `driver`
---
-
-LOCK TABLES `driver` WRITE;
-/*!40000 ALTER TABLE `driver` DISABLE KEYS */;
-INSERT INTO `driver` VALUES (2,2,'2010 ford fusion');
-/*!40000 ALTER TABLE `driver` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `rating`
@@ -65,16 +52,6 @@ CREATE TABLE `rating` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rating`
---
-
-LOCK TABLES `rating` WRITE;
-/*!40000 ALTER TABLE `rating` DISABLE KEYS */;
-INSERT INTO `rating` VALUES (1,4,1,2),(2,3,1,2),(8,2,0,2),(9,2,0,2),(10,2,0,2),(11,2,0,2),(12,2,0,2),(13,2,0,2),(14,2,0,2),(15,2,0,2),(16,2,0,2),(17,2,0,2),(18,2,0,2),(19,2,0,2),(20,2,0,2),(21,2,0,2);
-/*!40000 ALTER TABLE `rating` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `ride`
@@ -96,16 +73,6 @@ CREATE TABLE `ride` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ride`
---
-
-LOCK TABLES `ride` WRITE;
-/*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (10,2,'2020-04-20 12:00:00','troy',1),(11,2,'2020-05-20 00:00:00','troy',1);
-/*!40000 ALTER TABLE `ride` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `ride_user_join`
 --
 
@@ -122,16 +89,6 @@ CREATE TABLE `ride_user_join` (
   CONSTRAINT `ride_user_join_ibfk_2` FOREIGN KEY (`passenger_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ride_user_join`
---
-
-LOCK TABLES `ride_user_join` WRITE;
-/*!40000 ALTER TABLE `ride_user_join` DISABLE KEYS */;
-INSERT INTO `ride_user_join` VALUES (10,8,1);
-/*!40000 ALTER TABLE `ride_user_join` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -152,25 +109,3 @@ CREATE TABLE `user` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'darpan','1412122234','vegas baby','ab1234'),(7,'wayne','911','atlantis','cd1111'),(8,'alyssa','1112222233','nyc','aa5555');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2020-03-20 14:54:35
