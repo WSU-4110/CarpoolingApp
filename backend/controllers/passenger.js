@@ -6,6 +6,10 @@ const respond = require('../util/respond');
  * @api {get} /passenger list passengers
  * @apiName PassengerGet
  * @apiGroup passenger
+ * 
+ * 
+ * @apiSuccess (200) {Object[]} list of passenger profiles
+ * @apiSuccess (204) {Null} blank No Content
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -42,6 +46,9 @@ module.exports.get = (req, res) => {
  * @apiGroup passenger
  *
  * @apiParam {String} accessId specific user's access ID
+ * 
+ * @apiSuccess (200) {Object} data passenger profile
+ * @apiSuccess (204) {Null} blank No Content
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -65,7 +72,10 @@ module.exports.getById = (req, res) => {
   const sql = 'SELECT * FROM passenger where access_id = ? limit 1';
   db.query(sql, [accessId])
     .then(rows => {
-      respond(200, rows[0], res);
+      if (!rows.length)
+        respond(204, null, res);
+      else
+        respond(200, rows[0], res);
     })
     .catch(err => {
       respond(500, err.toString(), res);
@@ -85,6 +95,9 @@ module.exports.getById = (req, res) => {
  *     "access_id":"ab1234"
  * }
  *
+ * 
+ *  @apiSuccess (200) {Object} data successful passenger creation
+ * 
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
 {
@@ -138,6 +151,8 @@ module.exports.post = (req, res) => {
  *     "location":"Atlantis",
  *     "access_id":"ab1234"
  * }
+ * 
+ *  @apiSuccess (200) {Object} data successful passenger update
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -185,7 +200,7 @@ module.exports.put = (req, res) => {
       }
       const sql = 'UPDATE passenger SET phone_number = ?, location = ?, name = ? where access_id = ?';
       return db.query(sql, [passenger.phoneNumber, passenger.location,
-        passenger.name, passenger.accessId]);
+      passenger.name, passenger.accessId]);
     })
     .then(rows => {
       updateRows = rows;

@@ -1,6 +1,29 @@
 const db = require('../util/db');
 const respond = require('../util/respond');
 
+/**
+ * @api {get} /rating:accessId get rating
+ * @apiName RatingGet
+ * @apiGroup rating
+ * 
+ * @apiSuccess (200) {Number} user_id id of user
+ * @apiSuccess (200) {Number} average average user rating
+ * @apiSuccess (200) {Number} count number of ratings for this user
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "user_id": 2,
+        "average": 2.2,
+        "count": 15
+    }
+}
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
 module.exports.get = (req, res) => {
   const userId = req.params.accessId;
   if (!userId) {
@@ -12,13 +35,39 @@ module.exports.get = (req, res) => {
   sql = 'SELECT rating.user_id AS user_id, IFNULL(AVG(rating.value), 0) AS average, COUNT(rating.value) AS count FROM passenger LEFT JOIN rating ON passenger.id=rating.user_id WHERE passenger.access_id = ?;';
   db.query(sql, userId)
     .then(rows => {
-      respond(200, rows, res);
+      respond(200, rows[0], res);
     })
     .catch(err => {
       respond(500, err, res);
     });
 };
 
+/**
+ * @api {post} /rating:accessId create rating
+ * @apiName RatingPost
+ * @apiGroup rating
+ * 
+ * @apiSuccess (200) {Object} data successful rating creation
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "fieldCount": 0,
+        "affectedRows": 1,
+        "insertId": 21,
+        "serverStatus": 3,
+        "warningCount": 0,
+        "message": "",
+        "protocol41": true,
+        "changedRows": 0
+    }
+}
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
 module.exports.post = (req, res) => {
   const userId = req.params.accessId;
   const isDriver = req.body.isDriver ? 1 : 0;

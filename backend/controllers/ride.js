@@ -6,6 +6,8 @@ const respond = require('../util/respond');
  * @api {get} /ride list rides
  * @apiName RideGet
  * @apiGroup ride
+ * 
+ * @apiSuccess (200) {Object[]} data list of ride profiles
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -56,6 +58,11 @@ module.exports.get = (req, res) => {
  * @api {get} /ride:id get ride by ride ID
  * @apiName RideGetById
  * @apiGroup ride
+ * 
+ * @apiParam {Number} id specific ride id
+ * 
+ * @apiSuccess (200) {Object} data ride profile
+ * @apiSuccess (204) {Null} blank No Content
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -195,7 +202,10 @@ module.exports.post = (req, res) => {
  * @api {put} /ride/:id add passenger to ride
  * @apiName RidePut
  * @apiGroup ride
- *
+ * 
+ * @apiParam {String} id specific ride id
+ * @apiParam {String[]} passengers list of passengers' access IDs
+ * 
  *  * @apiParamExample {json} Request-Example:
 {
 	"passengers": ["aa5555", "bb6666"]
