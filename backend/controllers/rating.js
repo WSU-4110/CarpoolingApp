@@ -2,7 +2,7 @@ const db = require('../util/db');
 const respond = require('../util/respond');
 
 /**
- * @api {get} /rating:accessId get rating
+ * @api {get} /rating/:accessId get rating
  * @apiName RatingGet
  * @apiGroup rating
  * 
@@ -43,11 +43,15 @@ module.exports.get = (req, res) => {
 };
 
 /**
- * @api {post} /rating:accessId create rating
+ * @api {post} /rating/:accessId create rating
  * @apiName RatingPost
  * @apiGroup rating
  * 
  * @apiSuccess (200) {Object} data successful rating creation
+ * 
+ * @apiParam {String} accessId specific user's access ID
+ * @apiParam {Number} rating rating to add. Must be between 1 and 5 inclusive
+ * @apiParam {Boolean} isDriver whether rating is for user or driver profile
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
