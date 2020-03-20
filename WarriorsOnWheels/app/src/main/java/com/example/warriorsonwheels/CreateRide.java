@@ -16,6 +16,5 @@ public class CreateRide extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createridelayout);
 
-
     }
 }
