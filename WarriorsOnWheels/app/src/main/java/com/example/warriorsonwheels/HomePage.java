@@ -19,7 +19,7 @@ public class HomePage extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.createridelayout);
+        setContentView(R.layout.homepage);
 
         //Button Ids
         findRideButton = findViewById(R.id.findRideButton);
