@@ -61,6 +61,12 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         signOut = (Button)findViewById(R.id.bn_signOut);
         passProf = (Button)findViewById(R.id.passProf);
 
+        Name = findViewById(R.id.nameDisplay);
+        Email = findViewById(R.id.emailDisplay);
+        profilePic = findViewById(R.id.prof_pic);
+        signOut = findViewById(R.id.bn_signOut);
+        passProf = findViewById(R.id.passProf);
+
         signOut.setOnClickListener(this);
         passProf.setOnClickListener(this);
 
