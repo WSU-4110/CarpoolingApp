@@ -13,8 +13,6 @@
         android:minHeight="?attr/actionBarSize"    android:theme="?attr/actionBarTheme"
         />
 
-
-
     <com.google.android.gms.common.SignInButton
     android:id="@+id/sign_in_button"
     android:layout_width="match_parent"

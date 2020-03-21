@@ -32,7 +32,7 @@ public class DriverProfile extends AppCompatActivity {
         setContentView(R.layout.passengerprofile);
 
         //Buttons
-        finishDriverProf = (Button)findViewById(R.id.finishDriver);
+        finishDriverProf = findViewById(R.id.finishDriver);
 
         //EditText
         location = findViewById(R.id.Loc);
