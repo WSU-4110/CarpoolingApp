@@ -32,6 +32,6 @@ public class HTTPRequest extends Application{
             }
         });
 
-        RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
+        RequestQueue queue = MySingleton.getInstance(getApplicationContext()).getRequestQueue();
 
     }
