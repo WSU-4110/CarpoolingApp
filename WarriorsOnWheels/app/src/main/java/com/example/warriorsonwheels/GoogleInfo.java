@@ -76,7 +76,8 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //NEED THIS FOR IT TO WORK
+
+                //runs when API called from RestQueue/MySingleton
                 Name.setText(response.toString());
 
             }
@@ -87,9 +88,9 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
                     }
                 });
 
+        //Makes API Call
         RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
         MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
-        Name.setText(jsonObjectRequest.toString());
 
 
     }
