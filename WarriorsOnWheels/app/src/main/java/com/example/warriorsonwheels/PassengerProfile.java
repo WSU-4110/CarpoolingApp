@@ -53,6 +53,7 @@ public class PassengerProfile extends AppCompatActivity {
             case R.id.createDrivProf:
                 Intent intent = new Intent(getApplicationContext(), DriverProfile.class);
                 startActivity(intent);
+
                 break;
             case R.id.finishPassProf:
                 Intent intent1 = new Intent(getApplicationContext(), RideSearch.class);

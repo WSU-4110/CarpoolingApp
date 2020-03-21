@@ -10,7 +10,6 @@ public class sharedVars extends Application {
 
     String name, email, imgURL;
 
-
     public void setGoogleAccount(GoogleSignInAccount account)
     {
         googleAccount = account;
