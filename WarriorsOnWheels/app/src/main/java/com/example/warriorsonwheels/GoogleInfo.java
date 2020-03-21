@@ -41,11 +41,11 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.google_info);
 
-        Name = (TextView)findViewById(R.id.nameDisplay);
-        Email = (TextView)findViewById(R.id.emailDisplay);
-        profilePic = (ImageView)findViewById(R.id.prof_pic);
-        signOut = (Button)findViewById(R.id.bn_signOut);
-        passProf = (Button)findViewById(R.id.passProf);
+        Name = findViewById(R.id.nameDisplay);
+        Email = findViewById(R.id.emailDisplay);
+        profilePic = findViewById(R.id.prof_pic);
+        signOut = findViewById(R.id.bn_signOut);
+        passProf = findViewById(R.id.passProf);
 
         signOut.setOnClickListener(this);
         passProf.setOnClickListener(this);

@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //intialize vars
         //profileSection = (LinearLayout)findViewById(R.id.prof_section);
        // signOut = (Button)findViewById(R.id.bn_signOut);
-        signIn = (SignInButton)findViewById(R.id.sign_in_button);
+        signIn = findViewById(R.id.sign_in_button);
        // passProf = (Button)findViewById(R.id.passProf);
        // Name = (TextView)findViewById(R.id.nameDisplay);
        // Email = (TextView)findViewById(R.id.emailDisplay);

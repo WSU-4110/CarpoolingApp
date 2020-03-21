@@ -22,8 +22,8 @@ public class HomePage extends AppCompatActivity{
         setContentView(R.layout.createridelayout);
 
         //Button Ids
-        findRideButton = (Button)findViewById(R.id.findRideButton);
-        postRideButton = (Button)findViewById(R.id.postRideButton);
+        findRideButton = findViewById(R.id.findRideButton);
+        postRideButton = findViewById(R.id.postRideButton);
 
     }
 
