@@ -161,6 +161,7 @@
                 android:layout_height="match_parent"/>
 
             <Spinner
+                android:id="@+id/passengerCount"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
@@ -181,7 +182,7 @@
 
 
             <Button
-                android:id="@+id/shareRide"
+                android:id="@+id/shareRideButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
