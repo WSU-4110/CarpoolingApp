@@ -51,7 +51,7 @@ public class DriverProfile extends AppCompatActivity {
             case R.id.carImage:
                 selectImage(DriverProfile.this);
             case R.id.finishDriver:
-                Intent intent1 = new Intent(getApplicationContext(), CreateRide.class);
+                Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
         }
     }
