@@ -33,7 +33,6 @@ public class PostRide extends AppCompatActivity {
         passengerCount = findViewById(R.id.passengerCount);
         shareRideButton = findViewById(R.id.shareRideButton);
 
-
         //Set Time Picker to 24 hours
         leaveTimePicker.setIs24HourView(true);
 
