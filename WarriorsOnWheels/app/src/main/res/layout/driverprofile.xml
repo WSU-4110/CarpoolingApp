@@ -62,36 +62,7 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/TimeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
 
-
-            <TextView
-                android:id="@+id/asktime1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Common Times:"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/time1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Time"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="35dp"/>
-
-
-        </LinearLayout>
         <TextView
             android:id="@+id/Car"
             android:layout_width="match_parent"
