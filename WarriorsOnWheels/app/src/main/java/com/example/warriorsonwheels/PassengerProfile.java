@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class PassengerProfile extends AppCompatActivity {
+public class PassengerProfile extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout NameLayout;
     private LinearLayout AccessLayout;
@@ -28,31 +28,33 @@ public class PassengerProfile extends AppCompatActivity {
         setContentView(R.layout.passengerprofile);
 
         //Buttons
-        finishPassProf = (Button)findViewById(R.id.finishPassProf);
-        CreateDriveProf = (Button) findViewById(R.id.createDrivProf);
+        finishPassProf = findViewById(R.id.finishPassProf);
+        CreateDriveProf = findViewById(R.id.createDrivProf);
 
         //Textview
-        Name = (TextView) findViewById(R.id.askName);
-        accessId = (TextView) findViewById(R.id.askAccessId);
-        phoneNumber = (TextView) findViewById(R.id.askPhoneNumber);
-        location = (TextView) findViewById(R.id.askLocation);
+        Name = findViewById(R.id.askName);
+        accessId = findViewById(R.id.askAccessId);
+        phoneNumber = findViewById(R.id.askPhoneNumber);
+        location = findViewById(R.id.askLocation);
 
 
 
         //EditText
-        nameInp = (EditText) findViewById(R.id.Name);
-        idInput = (EditText) findViewById(R.id.accessID);
-        numberInput = (EditText) findViewById(R.id.PhoneNumber);
-        locationInput = (EditText) findViewById(R.id.Location);
+        nameInp = findViewById(R.id.Name);
+        idInput = findViewById(R.id.accessID);
+        numberInput = findViewById(R.id.PhoneNumber);
+        locationInput = findViewById(R.id.Location);
 
     }
 
+
+    @Override
     public void onClick(View v) {
         switch(v.getId())
         {
             case R.id.createDrivProf:
-                Intent intent = new Intent(getApplicationContext(), DriverProfile.class);
-                startActivity(intent);
+                Intent intent2 = new Intent(getApplicationContext(), DriverProfile.class);
+                startActivity(intent2);
                 break;
             case R.id.finishPassProf:
                 Intent intent1 = new Intent(getApplicationContext(), RideSearch.class);
@@ -61,5 +63,6 @@ public class PassengerProfile extends AppCompatActivity {
         }
     }
 
-}
 
+
+}

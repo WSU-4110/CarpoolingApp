@@ -25,7 +25,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Console;
 
 public class GoogleInfo extends AppCompatActivity implements View.OnClickListener  {
 
@@ -53,6 +56,12 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         signOut = (Button)findViewById(R.id.bn_signOut);
         passProf = (Button)findViewById(R.id.passProf);
 
+        Name = findViewById(R.id.nameDisplay);
+        Email = findViewById(R.id.emailDisplay);
+        profilePic = findViewById(R.id.prof_pic);
+        signOut = findViewById(R.id.bn_signOut);
+        passProf = findViewById(R.id.passProf);
+
         signOut.setOnClickListener(this);
         passProf.setOnClickListener(this);
 
@@ -66,7 +75,8 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Name.setText("Response: " + response.toString());
+
+                    Name.setText("Response: " + response.toString());
 
             }
         },
@@ -80,6 +90,8 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
                 });
 
         RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
+        queue.start();
+
         //Name.setText(queue.toString());
 
 

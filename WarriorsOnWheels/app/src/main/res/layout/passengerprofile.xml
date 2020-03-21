@@ -150,14 +150,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="50dp"
-            android:text="Create Driver Profile" />
+            android:text="Create Driver Profile"
+            android:onClick="onClick"/>
 
         <Button
             android:id="@+id/finishPassProf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="Finish" />
+            android:text="Finish"
+            android:onClick="onClick"/>
 
     </LinearLayout>
 
