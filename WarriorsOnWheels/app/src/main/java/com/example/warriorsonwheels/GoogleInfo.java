@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -76,25 +77,17 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onResponse(JSONObject response) {
 
-                    Name.setText("Response: " + response.toString());
-
             }
-        },
-                new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.println(Log.ERROR,"ERROR:","Volley Error");
-
+                    public void onErrorResponse(VolleyError error) {Log.println(Log.ERROR,"ERROR:","Volley Error");
 
                     }
                 });
 
         RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
-        queue.start();
-
-        //Name.setText(queue.toString());
-
-
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+        Name.setText("Response: " + jsonObjectRequest.toString());
 
 
     }
