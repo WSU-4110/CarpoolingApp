@@ -278,7 +278,6 @@
             android:layout_gravity="center"
             android:text="Submit" />
 
-
     </LinearLayout>
 
 </ScrollView>
