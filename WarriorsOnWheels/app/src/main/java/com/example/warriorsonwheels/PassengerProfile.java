@@ -37,13 +37,12 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         phoneNumber = findViewById(R.id.askPhoneNumber);
         location = findViewById(R.id.askLocation);
 
-
-
         //EditText
         nameInp = findViewById(R.id.Name);
         idInput = findViewById(R.id.accessID);
         numberInput = findViewById(R.id.PhoneNumber);
         locationInput = findViewById(R.id.Location);
+
 
     }
 
@@ -61,6 +60,15 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
                 startActivity(intent1);
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //sends sign in info to userprofile.java
+        Shared.Data.userName = nameInp;
+
     }
 
 
