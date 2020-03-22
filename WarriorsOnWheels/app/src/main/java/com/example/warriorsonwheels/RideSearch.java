@@ -39,16 +39,14 @@ public class RideSearch extends AppCompatActivity{
             case R.id.FirstRide:
                 confirmButton.setClickable(true);
                 Shared.Data.selectedRide = 1;
-                Intent intent1 = new Intent(getApplicationContext(), RiderInfo.class);
-                startActivity(intent1);
                 break;
             case R.id.SecondRide:
                 confirmButton.setClickable(true);
                 Shared.Data.selectedRide = 2;
-                Intent intent2 = new Intent(getApplicationContext(), RiderInfo.class);
-                startActivity(intent2);
                 break;
             case R.id.confirmbutton:
+                Intent intent3 = new Intent(getApplicationContext(), DriverInfo.class);
+                startActivity(intent3);
         }
     }
 
