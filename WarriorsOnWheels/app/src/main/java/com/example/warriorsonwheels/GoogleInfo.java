@@ -76,7 +76,8 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onResponse(JSONObject response) {
 
-                    Name.setText("Response: " + response.toString());
+                //runs when API called from RestQueue/MySingleton
+                Name.setText(response.toString());
 
             }
         },
@@ -89,12 +90,9 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
                     }
                 });
 
+        //Makes API Call
         RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
-        queue.start();
-
-        //Name.setText(queue.toString());
-
-
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
 
 
     }
