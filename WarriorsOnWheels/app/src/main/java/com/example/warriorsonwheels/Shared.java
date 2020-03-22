@@ -5,5 +5,7 @@ public enum Shared {
     Data;
     public int selectedRide = 0;
     public boolean isDriver = false;
+    public int profPic;
+
 }
 

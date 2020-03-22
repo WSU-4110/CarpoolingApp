@@ -97,6 +97,14 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
 
     }
 
+    //Send profile pic image to UserProfile.java
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //sends sign in info to userprofile.java
+    }
+
     @Override
     public void onClick(View v) {
         switch(v.getId())
