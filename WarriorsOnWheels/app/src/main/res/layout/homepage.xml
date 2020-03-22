@@ -76,7 +76,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="Find A Ride" />
+            android:text="Find A Ride"
+            android:onClick="onClick"/>
 
         </LinearLayout>
         
@@ -109,7 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Share a Ride" />
+            android:text="Share a Ride"
+            android:onClick="onClick"/>
 
         </LinearLayout>
 

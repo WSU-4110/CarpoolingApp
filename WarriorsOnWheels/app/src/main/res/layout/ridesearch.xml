@@ -290,7 +290,8 @@
             android:text="Confirm"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:clickable="false"/>
+            android:clickable="false"
+            android:onClick="onClick"/>
 
     </LinearLayout>
 
