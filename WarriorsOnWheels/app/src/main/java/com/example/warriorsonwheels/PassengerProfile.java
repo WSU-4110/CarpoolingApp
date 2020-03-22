@@ -67,7 +67,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         super.onPause();
 
         //sends sign in info to userprofile.java
-        Shared.Data.userName = nameInp;
+        //Shared.Data.userName = nameInp;
 
     }
 
