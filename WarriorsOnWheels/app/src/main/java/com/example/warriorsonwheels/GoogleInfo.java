@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,11 +42,16 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
     private ImageView profilePic;
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 9001;
+    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.google_info);
+
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         queue = Volley.newRequestQueue(this);
 
