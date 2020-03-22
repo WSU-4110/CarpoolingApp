@@ -45,13 +45,13 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
         //EditText
         nameInp = findViewById(R.id.Name);
-        String sendNameInp = nameInp.getText().toString();
+        //String sendNameInp = nameInp.getText().toString();
 
         idInput = findViewById(R.id.accessID);
-        String sendidInput = idInput.getText().toString();
+        //String sendidInput = idInput.getText().toString();
 
         numberInput = findViewById(R.id.PhoneNumber);
-        String sendNumInp = numberInput.getText().toString();
+        //String sendNumInp = numberInput.getText().toString();
 
         locationInput = findViewById(R.id.Location);
         String sendLocInput = locationInput.getText().toString();
@@ -80,8 +80,17 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         super.onPause();
 
         //sends sign in info to userprofile.java
+        String sendNameInp = nameInp.getText().toString();
+        Shared.Data.userName = sendNameInp;
 
+        String sendidInput = idInput.getText().toString();
+        Shared.Data.userId = sendidInput;
 
+        String sendNumInp = numberInput.getText().toString();
+        Shared.Data.phNumber = sendNumInp;
+
+        String sendLocInput = locationInput.getText().toString();
+        Shared.Data.userLoc = sendLocInput;
     }
 
 
