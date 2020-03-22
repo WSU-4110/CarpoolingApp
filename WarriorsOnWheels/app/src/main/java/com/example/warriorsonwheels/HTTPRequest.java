@@ -15,23 +15,38 @@ import org.json.JSONObject;
 //NOT USED, copied and pasted into Google Info onCreate
 public class HTTPRequest extends Application{
 
-    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/ab1234";
+    public HTTPRequest(){}
 
-    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-        @Override
-        public void onResponse(JSONObject response) {
 
-        }
-    },
-        new Response.ErrorListener() {
+
+    public String apiCall(String URL_TAIL)
+    {
+        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app" + URL_TAIL;
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.println(Log.ERROR,"ERROR:","Volley Error");
+            public void onResponse(JSONObject response) {
 
+                //runs when API called from RestQueue/MySingleton
+                final String value = response.toString();
 
             }
-        });
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error");
 
-        RequestQueue queue = MySingleton.getInstance(getApplicationContext()).getRequestQueue();
 
+                    }
+                });
+
+        //Makes API Call
+        RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+
+        //won't provide right result
+        return jsonObjectRequest.toString();
     }
+}

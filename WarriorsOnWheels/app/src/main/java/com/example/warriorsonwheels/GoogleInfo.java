@@ -71,9 +71,9 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         passProf.setOnClickListener(this);
 
 
-        Name.setText(((sharedVars) this.getApplication()).name);
-        Email.setText(((sharedVars) this.getApplication()).email);
-        Glide.with(this).load(((sharedVars) this.getApplication()).imgURL).into(profilePic);
+        Name.setText(Shared.Data.name);
+        Email.setText(Shared.Data.email);
+        Glide.with(this).load(Shared.Data.imgURL).into(profilePic);
 
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/ab1234";
 
@@ -82,7 +82,7 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
             public void onResponse(JSONObject response) {
 
                 //runs when API called from RestQueue/MySingleton
-                Name.setText(response.toString());
+                //Name.setText(response.toString());
 
             }
         },
@@ -94,8 +94,8 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
 
                     }
                 });
-
-        //Makes API Call
+//
+//        //Makes API Call
         RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
         MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
 

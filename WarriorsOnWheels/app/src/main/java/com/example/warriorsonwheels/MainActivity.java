@@ -123,7 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Glide.with(this).load(imgURL).into(profilePic);
 //            updateUI(true);
 
-            ((sharedVars)this.getApplication()).setGoogleAccount(result.getSignInAccount());
+
+            Shared.Data.setGoogleAccount(result.getSignInAccount());
 
             Intent showGoogleInfo = new Intent(getApplicationContext(),GoogleInfo.class);
             startActivity(showGoogleInfo);
