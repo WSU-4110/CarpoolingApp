@@ -27,7 +27,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
     private EditText location, time, make, model, year, color, licensePlate;
     private ImageButton carImage;
     private boolean isDriver = false;
-    private Toolbar tbrMain;
+    //private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
