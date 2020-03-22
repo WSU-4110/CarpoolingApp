@@ -16,27 +16,33 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-public class DriverProfile extends AppCompatActivity {
+public class DriverProfile extends AppCompatActivity implements View.OnClickListener{
 
     private Button finishDriverProf;
     private EditText location, time, make, model, year, color, licensePlate;
     private ImageButton carImage;
+    private boolean isDriver = false;
+    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.driverprofile);
 
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
+
         //Buttons
         finishDriverProf = findViewById(R.id.finishDriver);
 
         //EditText
         location = findViewById(R.id.Loc);
-        time = findViewById(R.id.time1);
+        //time = findViewById(R.id.time1);
         make = findViewById(R.id.make);
         model = findViewById(R.id.model);
         year = findViewById(R.id.year);
@@ -45,12 +51,14 @@ public class DriverProfile extends AppCompatActivity {
         carImage = findViewById(R.id.carImage);
     }
 
+    @Override
     public void onClick(View v) {
         switch(v.getId())
         {
             case R.id.carImage:
                 selectImage(DriverProfile.this);
             case R.id.finishDriver:
+                isDriver = true;
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
         }
@@ -115,6 +123,14 @@ public class DriverProfile extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //Sends isDriver to following pages
+        Shared.Data.isDriver = isDriver;
     }
 
 }

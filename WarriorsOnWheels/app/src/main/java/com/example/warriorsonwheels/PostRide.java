@@ -24,7 +24,7 @@ public class PostRide extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.createridelayout);
+        setContentView(R.layout.postride);
 
         //Set Variables
         departureText = findViewById(R.id.departureText);
