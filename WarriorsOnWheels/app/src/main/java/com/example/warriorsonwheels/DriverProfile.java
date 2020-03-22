@@ -16,10 +16,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class DriverProfile extends AppCompatActivity implements View.OnClickListener{
 
@@ -27,7 +26,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
     private EditText location, time, make, model, year, color, licensePlate;
     private ImageButton carImage;
     private boolean isDriver = false;
-    //private Toolbar tbrMain;
+    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +34,8 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.driverprofile);
 
         //Toolbar
-        //tbrMain = findViewById(R.id.tbrMain);
-        //setSupportActionBar(tbrMain);
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         //Buttons
         finishDriverProf = findViewById(R.id.finishDriver);
