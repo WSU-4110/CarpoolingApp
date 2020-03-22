@@ -19,7 +19,7 @@ public class RideSearch extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.passengerprofile);
+        setContentView(R.layout.ridesearch);
 
         //Buttons
         confirmButton = findViewById(R.id.confirmbutton);
@@ -43,9 +43,9 @@ public class RideSearch extends AppCompatActivity{
                 startActivity(intent2);
                 break;
             case R.id.confirmbutton:
-
-
         }
     }
+
+
 
 }

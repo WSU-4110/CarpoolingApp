@@ -25,6 +25,7 @@ public class DriverProfile extends AppCompatActivity {
     private Button finishDriverProf;
     private EditText location, time, make, model, year, color, licensePlate;
     private ImageButton carImage;
+    private boolean isDriver = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class DriverProfile extends AppCompatActivity {
 
         //EditText
         location = findViewById(R.id.Loc);
-        time = findViewById(R.id.time1);
+        //time = findViewById(R.id.time1);
         make = findViewById(R.id.make);
         model = findViewById(R.id.model);
         year = findViewById(R.id.year);
@@ -51,6 +52,7 @@ public class DriverProfile extends AppCompatActivity {
             case R.id.carImage:
                 selectImage(DriverProfile.this);
             case R.id.finishDriver:
+                isDriver = true;
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
         }
@@ -115,6 +117,14 @@ public class DriverProfile extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //Sends isDriver to following pages
+        Shared.Data.isDriver = isDriver;
     }
 
 }
