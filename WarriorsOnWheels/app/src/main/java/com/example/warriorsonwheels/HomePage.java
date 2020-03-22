@@ -19,6 +19,7 @@ public class HomePage extends AppCompatActivity{
 
     private Button findRideButton;
     private Button postRideButton;
+    private boolean isDriverHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,13 @@ public class HomePage extends AppCompatActivity{
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isDriverHome = (Shared.Data.isDriver);
+    }
+
     public void onClick(View v) {
         switch(v.getId())
         {
@@ -41,8 +49,13 @@ public class HomePage extends AppCompatActivity{
 
                 //Go to PostRide.java
             case R.id.postRideButton:
-                Intent intent2 = new Intent(getApplicationContext(), PostRide.class);
-                startActivity(intent2);
+                if (isDriverHome = false) {
+                    //Toast message asking to go back and create a driver profile
+                }
+                else {
+                    Intent intent2 = new Intent(getApplicationContext(), PostRide.class);
+                    startActivity(intent2);
+                }
         }
     }
 }
