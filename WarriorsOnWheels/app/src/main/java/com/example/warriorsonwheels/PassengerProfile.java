@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,11 +22,16 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     private Button finishPassProf;
     private TextView Name,accessId, phoneNumber, location;
     private EditText nameInp, idInput, numberInput, locationInput;
+    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.passengerprofile);
+
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         //Buttons
         finishPassProf = findViewById(R.id.finishPassProf);

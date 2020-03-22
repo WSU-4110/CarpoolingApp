@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,11 +23,16 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private Button postRideButton;
     private boolean isDriverHome;
     private Toast toast;
+    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
+
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         //Button Ids
         findRideButton = findViewById(R.id.findRideButton);

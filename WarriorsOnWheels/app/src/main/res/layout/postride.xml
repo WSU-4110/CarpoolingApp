@@ -188,7 +188,8 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Share Ride" />
+                android:text="Share Ride"
+                android:onClick="onClick"/>
         </LinearLayout>
 
     </LinearLayout>

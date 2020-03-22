@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,11 +21,16 @@ public class PostRide extends AppCompatActivity {
     private TimePicker leaveTimePicker;
     private Spinner passengerCount;
     private Button shareRideButton;
+    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postride);
+
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         //Set Variables
         departureText = findViewById(R.id.departureText);

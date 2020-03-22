@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,12 +15,17 @@ public class RideSearch extends AppCompatActivity{
 
     private LinearLayout Ride1,Ride2;
     private Button confirmButton;
+    private Toolbar tbrMain;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ridesearch);
+
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         //Buttons
         confirmButton = findViewById(R.id.confirmbutton);

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,16 +37,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView profilePic;
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 9001;
-    //private Toolbar tbrMain;
+    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //toolbar
-        //tbrMain = findViewById(R.id.tbrMain);
-        //setSupportActionBar(tbrMain);
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         //initialize vars
         //profileSection = (LinearLayout)findViewById(R.id.prof_section);
