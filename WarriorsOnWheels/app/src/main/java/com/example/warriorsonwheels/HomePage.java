@@ -17,7 +17,7 @@ import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class HomePage extends AppCompatActivity{
+public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     private Button findRideButton;
     private Button postRideButton;
@@ -42,6 +42,7 @@ public class HomePage extends AppCompatActivity{
         isDriverHome = (Shared.Data.isDriver);
     }
 
+    @Override
     public void onClick(View v) {
         switch(v.getId())
         {
@@ -62,7 +63,7 @@ public class HomePage extends AppCompatActivity{
                         public void onClick(View v)
                         {
                             toast = Toast.makeText(getApplicationContext(),
-                                    "BYou must create a Driver Profile to post rides", Toast.LENGTH_SHORT);
+                                    "You must create a Driver Profile to post rides", Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.TOP | Gravity.END, 0, 0);
                             toast.show();
                         }

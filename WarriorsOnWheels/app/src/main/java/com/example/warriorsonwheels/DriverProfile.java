@@ -20,7 +20,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DriverProfile extends AppCompatActivity {
+public class DriverProfile extends AppCompatActivity implements View.OnClickListener{
 
     private Button finishDriverProf;
     private EditText location, time, make, model, year, color, licensePlate;
@@ -46,6 +46,7 @@ public class DriverProfile extends AppCompatActivity {
         carImage = findViewById(R.id.carImage);
     }
 
+    @Override
     public void onClick(View v) {
         switch(v.getId())
         {

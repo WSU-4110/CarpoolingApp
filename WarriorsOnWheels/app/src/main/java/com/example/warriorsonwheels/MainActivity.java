@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView profilePic;
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 9001;
-    private Toolbar tbrMain;
+    //private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //toolbar
-        tbrMain = findViewById(R.id.tbrMain);
+        //tbrMain = findViewById(R.id.tbrMain);
         //setSupportActionBar(tbrMain);
 
         //initialize vars
