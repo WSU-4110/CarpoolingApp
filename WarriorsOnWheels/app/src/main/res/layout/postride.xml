@@ -58,7 +58,7 @@
                 android:textSize="25dp"/>
             
             <Space
-                android:layout_width="10dp"
+                android:layout_width="15dp"
                 android:layout_height="match_parent"/>
 
             <EditText
@@ -92,7 +92,7 @@
                 android:textSize="25dp"/>
 
             <Space
-                android:layout_width="39dp"
+                android:layout_width="45dp"
                 android:layout_height="match_parent"/>
 
             <EditText
@@ -116,25 +116,63 @@
             android:orientation="horizontal">
 
 
-            <TextView
-                android:id="@+id/leaveTime"
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Departure Time:"
+                android:text="SELECT DATE"
+                android:id="@+id/leaveDateButton"
+                android:textSize="20dp"
                 android:textStyle="bold"
-                android:textSize="25dp"/>
+                android:onClick="onClick"/>
 
             <Space
                 android:layout_width="20dp"
                 android:layout_height="match_parent"/>
 
-            <TimePicker
-                android:id="@+id/leaveTimePicker"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:timePickerMode="spinner"
-                android:layout_marginRight="10dp"/>
+            <EditText
+                android:id="@+id/leaveDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:ems="10"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <Button
+            android:id="@+id/leaveTimeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="SELECT Time"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:onClick="onClick"/>
+
+            <Space
+                android:layout_width="25dp"
+                android:layout_height="match_parent"/>
+
+            <EditText
+                android:id="@+id/leaveTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:ems="10"
+                android:inputType="text" />
 
 
         </LinearLayout>

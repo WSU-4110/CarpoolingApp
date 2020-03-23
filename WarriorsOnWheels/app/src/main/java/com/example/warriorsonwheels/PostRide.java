@@ -21,7 +21,6 @@ public class PostRide extends AppCompatActivity {
     //Variables
     private EditText departureText;
     private EditText arrivalText;
-    private TimePicker leaveTimePicker;
     private Spinner passengerCount;
     private Button shareRideButton;
     private Toolbar tbrMain;
@@ -38,12 +37,8 @@ public class PostRide extends AppCompatActivity {
         //Set Variables
         departureText = findViewById(R.id.departureText);
         arrivalText = findViewById(R.id.arrivalText);
-        leaveTimePicker = findViewById(R.id.leaveTimePicker);
         passengerCount = findViewById(R.id.passengerCount);
         shareRideButton = findViewById(R.id.shareRideButton);
-
-        //Set Time Picker to 24 hours
-        leaveTimePicker.setIs24HourView(true);
 
     }
 
