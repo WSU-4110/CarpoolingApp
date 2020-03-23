@@ -79,8 +79,10 @@ public class PostRide extends AppCompatActivity {
 
 
         jsonParams.put("driver",Shared.Data.driverAccessID);
-        jsonParams.put("departure_time",time);
-        jsonParams.put("location",departureText.getText().toString());
+        jsonParams.put("date","");
+        jsonParams.put("time",time);
+        jsonParams.put("departure_location",departureText.getText().toString());
+        jsonParams.put("arrival_location",arrivalText.getText().toString());
         jsonParams.put("passenger_count",passengerCount.getSelectedItem().toString());
 
 
