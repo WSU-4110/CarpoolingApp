@@ -16,9 +16,4 @@ router.use('/ride', ride);
 router.use('/driver', driver);
 router.use('/rating', rating);
 
-// rating
-router.get('/rating', rating.get);
-router.get('/rating/:accessId', rating.get);
-router.post('/rating/:accessId', rating.post);
-
 module.exports = router;
