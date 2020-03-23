@@ -35,12 +35,12 @@
             android:id="@+id/Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
             android:ems="10"
+            android:hint="Ex: John Smith"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="120dp"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </LinearLayout>
@@ -68,8 +68,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="87dp"
             android:ems="10"
+            android:hint="Ex: ab1234"
             android:inputType="text"
-            android:text="Access ID"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,8 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:ems="10"
+            android:hint="Ex:555-5555"
             android:inputType="phone"
-            android:text="Phone Number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,8 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:ems="10"
+            android:hint="Ex: Sterling Heights"
             android:inputType="text"
-            android:text="City"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
