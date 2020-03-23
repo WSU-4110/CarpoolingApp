@@ -20,7 +20,7 @@ const respond = require('../util/respond');
         "count": 15
     }
 }
- *
+ * * @apiError (Error 4xx) {String} 400 Bad Request: "please provide valid access id."
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -32,7 +32,6 @@ module.exports.get = (req, res) => {
     respond(400, 'please provide valid access id.', res);
     return;
   }
-
 
   sql = 'SELECT rating.user_id AS user_id, IFNULL(AVG(rating.value), 0) AS average, COUNT(rating.value) AS count FROM user LEFT JOIN rating ON user.id=rating.user_id WHERE user.access_id = ? && is_driver = ?;';
   db.query(sql, [userId, isDriver])
@@ -74,6 +73,7 @@ module.exports.get = (req, res) => {
     }
 }
  *
+ * @apiError (Error 4xx) {String} 400 Bad Request: "Rating must be between 1 and 5 inclusive."
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */

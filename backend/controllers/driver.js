@@ -86,16 +86,25 @@ module.exports.getById = (req, res) => {
  * 
  * @apiSuccess (200) {Object} data successful driver creation
  *
+ *  @apiParamExample {json} Request-Example:
+ * {
+ *     "access_id":"ab1234",
+ *     "car":"2010 ford fusion",
+ * }
+ * 
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
 {
     "error": false,
     "data": {
-        "id": 2,
-        "car": "2010 ford fusion",
-        "name": "darpan",
-        "access_id": "ab1234",
-        "phone_number": "1412122234"
+        "fieldCount": 0,
+        "affectedRows": 1,
+        "insertId": 1,
+        "serverStatus": 3,
+        "warningCount": 0,
+        "message": "",
+        "protocol41": true,
+        "changedRows": 0
     }
 }
  *
@@ -103,7 +112,8 @@ module.exports.getById = (req, res) => {
  * @apiError (Error 4xx) {String} 400 Bad Request: cannot find user with access id <accessId>
  */
 module.exports.post = (req, res) => {
-  let accessId = req.body.access_id;
+  const accessId = req.body.access_id;
+  const { car } = req.body;
 
   let insertRows;
   db.query('START TRANSACTION')
@@ -116,7 +126,7 @@ module.exports.post = (req, res) => {
       if (!rows.length)
         return respond(400, `cannot find user with access id ${accessId}`, res);
       else
-        return db.query('INSERT INTO driver (user_id, car) VALUES (?, ?) ON DUPLICATE KEY UPDATE car = VALUES(car)', [rows[0].id, req.body.car]);
+        return db.query('INSERT INTO driver (user_id, car) VALUES (?, ?) ON DUPLICATE KEY UPDATE car = VALUES(car)', [rows[0].id, car]);
     })
     .then(rows => {
       insertRows = rows;
