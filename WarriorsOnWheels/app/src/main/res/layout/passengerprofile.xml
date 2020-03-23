@@ -69,7 +69,7 @@
             android:layout_marginLeft="87dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Access ID"
+            android:hint="Access ID"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

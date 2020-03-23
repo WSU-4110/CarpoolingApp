@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,18 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DriverProfile extends AppCompatActivity implements View.OnClickListener{
 
@@ -58,6 +71,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
             case R.id.carImage:
                 selectImage(DriverProfile.this);
             case R.id.finishDriver:
+                sendRequest();
                 isDriver = true;
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
@@ -131,6 +145,42 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
 
         //Sends isDriver to following pages
         Shared.Data.isDriver = isDriver;
+    }
+
+    public void sendRequest()
+    {
+        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver";
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+        jsonParams.put("access_id","gg2002");
+       jsonParams.put("car",year.getText() + " " + make.getText() + " " + model.getText());
+
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                // Name.setText(response.toString());
+                Log.i("PUT",response.toString());
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error");
+
+
+                    }
+                });
+//
+//        //Makes API Call
+        RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
+        queue.add(postRequest);
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+
+
     }
 
 }
