@@ -153,8 +153,8 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
-        jsonParams.put("access_id","gg2002");
-       jsonParams.put("car",year.getText() + " " + make.getText() + " " + model.getText());
+        jsonParams.put("access_id",accessId.getText().toString());
+       jsonParams.put("car",year.getText().toString() + " " + make.getText().toString() + " " + model.getText().toString());
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -163,7 +163,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
 
                 //runs when API called from RestQueue/MySingleton
                 // Name.setText(response.toString());
-                Log.i("PUT",response.toString());
+                Log.i("POST",response.toString());
 
             }
         },
@@ -177,8 +177,6 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                 });
 //
 //        //Makes API Call
-        RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
-        queue.add(postRequest);
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
 

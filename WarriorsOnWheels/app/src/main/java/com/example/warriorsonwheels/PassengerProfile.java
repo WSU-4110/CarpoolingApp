@@ -49,11 +49,6 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         finishPassProf = findViewById(R.id.finishPassProf);
         CreateDriveProf = findViewById(R.id.createDrivProf);
 
-        //Textview
-        Name = findViewById(R.id.askName);
-        accessId = findViewById(R.id.askAccessId);
-        phoneNumber = findViewById(R.id.askPhoneNumber);
-        location = findViewById(R.id.askLocation);
 
         //EditText
         nameInp = findViewById(R.id.Name);
@@ -112,10 +107,14 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
-        jsonParams.put("name",Name.getText().toString());
-        jsonParams.put("phone number",phoneNumber.getText().toString());
-        jsonParams.put("location",location.getText().toString());
-        jsonParams.put("access_id",accessId.getText().toString());
+
+
+
+
+        jsonParams.put("name",nameInp.getText().toString());
+        jsonParams.put("phone_number",numberInput.getText().toString());
+        jsonParams.put("location",locationInput.getText().toString());
+        jsonParams.put("access_id",idInput.getText().toString());
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -124,7 +123,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
                 //runs when API called from RestQueue/MySingleton
                 // Name.setText(response.toString());
-                Log.i("PUT",response.toString());
+                Log.i("POST",response.toString());
 
             }
         },
@@ -138,8 +137,6 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
                 });
 //
 //        //Makes API Call
-        RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
-        queue.add(postRequest);
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
 

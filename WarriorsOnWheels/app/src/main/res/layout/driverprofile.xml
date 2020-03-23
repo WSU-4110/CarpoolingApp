@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="City"
+                android:hint="City"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginLeft="100dp"/>
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="access id:"
+                android:text="Access ID:"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -128,7 +128,7 @@
                 android:layout_marginLeft="115dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Make"
+                android:hint="Make"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -157,7 +157,7 @@
                 android:layout_marginLeft="110dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Model"
+                android:hint="Model"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -186,7 +186,7 @@
                 android:layout_marginLeft="125dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Year"
+                android:hint="Year"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -215,7 +215,7 @@
                 android:layout_marginLeft="117dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Color"
+                android:hint="Color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -243,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="License plate"
+                android:hint="License plate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginLeft="42dp"/>
