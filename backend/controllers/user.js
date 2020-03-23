@@ -124,7 +124,7 @@ module.exports.post = (req, res) => {
     return;
   }
 
-  if (!req.body.access_id.name) {
+  if (!req.body.name) {
     respond(400, 'Please provide a valid name.', res);
     return;
   }
