@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 8.0.18, for Linux (x86_64)
 --
--- Host: 34.69.155.204    Database: warriors_on_wheels
+-- Host: 127.0.0.1    Database: warriors_on_wheels
 -- ------------------------------------------------------
--- Server version	5.7.25-google-log
+-- Server version	5.6.47
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,15 +14,13 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
-SET @@SESSION.SQL_LOG_BIN= 0;
+
+CREATE DATABASE IF NOT EXISTS warriors_on_wheels;
+USE warriors_on_wheels;
 
 --
 -- Table structure for table `driver`
 --
-
-CREATE DATABASE IF NOT EXISTS warriors_on_wheels;
-USE warriors_on_wheels;
 
 DROP TABLE IF EXISTS `driver`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -34,8 +32,18 @@ CREATE TABLE `driver` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `passenger_id` (`user_id`),
   CONSTRAINT `driver_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `driver`
+--
+
+LOCK TABLES `driver` WRITE;
+/*!40000 ALTER TABLE `driver` DISABLE KEYS */;
+INSERT INTO `driver` VALUES (2,2,'2010 ford fusion'),(3,24,'2045 Chevy Corvette');
+/*!40000 ALTER TABLE `driver` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `rating`
@@ -54,6 +62,16 @@ CREATE TABLE `rating` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `rating`
+--
+
+LOCK TABLES `rating` WRITE;
+/*!40000 ALTER TABLE `rating` DISABLE KEYS */;
+INSERT INTO `rating` VALUES (8,2,0,2),(9,2,0,2),(10,2,0,2),(11,2,0,2),(12,2,0,2),(13,2,0,2),(14,2,0,2),(15,2,0,2),(16,2,0,2),(17,2,0,2),(18,2,0,2),(19,2,0,2),(20,2,0,2),(21,2,0,2);
+/*!40000 ALTER TABLE `rating` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ride`
 --
 
@@ -63,14 +81,25 @@ DROP TABLE IF EXISTS `ride`;
 CREATE TABLE `ride` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `driver_id` int(11) NOT NULL,
-  `departure_time` datetime DEFAULT NULL,
+  `time` datetime DEFAULT CURRENT_TIMESTAMP,
   `location` varchar(255) DEFAULT NULL,
   `active` tinyint(1) DEFAULT '1',
+  `passenger_count` int(11) NOT NULL DEFAULT '3',
   PRIMARY KEY (`id`),
   KEY `driver_id` (`driver_id`),
   CONSTRAINT `ride_ibfk_1` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ride`
+--
+
+LOCK TABLES `ride` WRITE;
+/*!40000 ALTER TABLE `ride` DISABLE KEYS */;
+INSERT INTO `ride` VALUES (10,2,'2020-04-20 12:00:00','troy',1,1),(11,2,'2020-05-20 00:00:00','troy',1,1),(12,2,'2020-05-20 00:00:00','troy',1,5),(19,2,'2020-04-15 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4),(20,2,'2020-01-01 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4),(21,2,'2020-06-20 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4),(22,2,'2020-08-20 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4);
+/*!40000 ALTER TABLE `ride` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `ride_user_join`
@@ -81,14 +110,24 @@ DROP TABLE IF EXISTS `ride_user_join`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ride_user_join` (
   `ride_id` int(11) NOT NULL,
-  `passenger_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`ride_id`,`passenger_id`),
-  KEY `passenger_id` (`passenger_id`),
+  PRIMARY KEY (`ride_id`,`user_id`),
+  KEY `passenger_id` (`user_id`),
   CONSTRAINT `ride_user_join_ibfk_1` FOREIGN KEY (`ride_id`) REFERENCES `ride` (`id`),
-  CONSTRAINT `ride_user_join_ibfk_2` FOREIGN KEY (`passenger_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `ride_user_join_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ride_user_join`
+--
+
+LOCK TABLES `ride_user_join` WRITE;
+/*!40000 ALTER TABLE `ride_user_join` DISABLE KEYS */;
+INSERT INTO `ride_user_join` VALUES (10,8,1);
+/*!40000 ALTER TABLE `ride_user_join` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -105,7 +144,27 @@ CREATE TABLE `user` (
   `access_id` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `access_id` (`access_id`),
-  UNIQUE KEY `access_id_2` (`access_id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `access_id_2` (`access_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (2,'darpan','1412122234','vegas baby','ab1234'),(7,'wayne','911','atlantis','cd1111'),(8,'alyssa','1112222233','nyc','aa5555'),(21,'Evan is Jesus',NULL,'Detroit Heights','cj5100'),(22,'Evan de Jesus',NULL,'bernietown','cj5101'),(23,'Batman','3138794561','Gotham','bm0313'),(24,'Darpan Shah','5864197630','Sterling Heights','gg2002');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-03-23 17:19:22

@@ -118,6 +118,18 @@ module.exports.getById = (req, res) => {
  *
  */
 module.exports.post = (req, res) => {
+
+  if (!req.body.access_id.length) {
+    respond(400, 'Please provide a valid access id.', res);
+    return;
+  }
+
+  if (!req.body.access_id.name) {
+    respond(400, 'Please provide a valid name.', res);
+    return;
+  }
+
+
   const user = {
     name: req.body.name,
     phoneNumber: req.body.phone_number,
