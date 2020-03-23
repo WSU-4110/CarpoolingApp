@@ -40,13 +40,13 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     }
 
     //Create Menu
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu)
-//    {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.overflowmenu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.overflowmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
 
     //Menu Options
