@@ -75,14 +75,14 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         Email.setText(Shared.Data.email);
         Glide.with(this).load(Shared.Data.imgURL).into(profilePic);
 
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/ab1234";
+        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/ab1234";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                 //runs when API called from RestQueue/MySingleton
-                //Name.setText(response.toString());
+                // Name.setText(response.toString());
 
             }
         },
