@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text=""
+                android:hint="Access ID"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginLeft="100dp"/>
@@ -261,6 +261,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Upload image of car:"
+                android:onClick="onClick"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 

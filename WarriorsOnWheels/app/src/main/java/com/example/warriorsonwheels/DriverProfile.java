@@ -156,6 +156,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         jsonParams.put("access_id",accessId.getText().toString());
        jsonParams.put("car",year.getText().toString() + " " + make.getText().toString() + " " + model.getText().toString());
 
+       Shared.Data.driverAccessID = accessId.getText().toString();
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override

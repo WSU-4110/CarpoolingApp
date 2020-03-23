@@ -110,7 +110,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
 
 
-
+        //Need to add Date, Departure Location, Arrival Location
         jsonParams.put("name",nameInp.getText().toString());
         jsonParams.put("phone_number",numberInput.getText().toString());
         jsonParams.put("location",locationInput.getText().toString());
