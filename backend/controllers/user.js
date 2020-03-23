@@ -223,5 +223,41 @@ module.exports.put = (req, res) => {
 
 module.exports.delete = (req, res) => {
 
+  if (!req.params.accessId) {
+    respond(400, 'Please provide a valid access id.', res);
+    return;
+  }
+  const accessId = req.params.accessId;
+  let userId;
 
+  db.query('START TRANSACTION')
+    .then(() => {
+      return db.query('SELECT id FROM user WHERE access_id = ?', [accessId]);
+    })
+    .then(rows => {
+      if (!rows.length) {
+        let e = new Error('Please provide a valid access id.');
+        e.statusCode = 400;
+        throw e;
+      }
+      userId = rows[0].id;
+      return db.query('DELETE FROM rating WHERE user_id = ?', [userId]);
+    })
+    .then(() => {
+      return db.query('DELETE FROM ride_user_join WHERE user_id = ?', [userId]);
+    })
+    .then(() => {
+      return db.query('DELETE FROM ride WHERE driver_id = ?', [userId]);
+    })
+    .then(() => {
+      return db.query('DELETE FROM driver WHERE user_id = ?', [userId]);
+    })
+    .then(() => {
+      respond(200, `user with access ID ${userId} deleted`, res);
+      db.query('COMMIT');
+    })
+    .catch(err => {
+      db.query('ROLLBACK');
+      respond(err.statusCode || 500, err, res);
+    })
 };

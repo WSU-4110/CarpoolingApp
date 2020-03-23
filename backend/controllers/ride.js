@@ -126,12 +126,14 @@ module.exports.getById = (req, res) => {
  * @apiParam {String} driver access ID of driver
  * @apiParam {Date} departure_time date and time of departure in format "YYYY-MM-DD hh:mm:ss"
  * @apiParam {String} location departure location
+ * @apiParam {Number} passenger_count=3 highest number of passengers this ride can take
  * 
  * @apiParamExample {json} Request-Example:
 {
 	"driver": "ab1234",
 	"departure_time": "2020-05-20",
-	"location":"troy"
+	"location":"troy",
+	"passenger_count":"5"
 }
  *
  * @apiSuccessExample Success-Response:
@@ -159,15 +161,11 @@ module.exports.post = (req, res) => {
   const driverId = req.body.driver;
   const departureTime = req.body.departure_time;
   const { location } = req.body;
+  const numPassengers = req.body.passenger_count;
 
-  try {
-    const date = new Date(departureTime);
-    console.log(date);
+  const date = new Date(departureTime);
 
-    if (!(date instanceof Date && !isNaN(date)) || date < new Date()) {
-      throw new Error();
-    }
-  } catch (err) {
+  if (!(date instanceof Date && !isNaN(date)) || date < new Date()) {
     respond(400, `${departureTime} is invalid. please supply a valid departure time.`, res);
     return;
   }
@@ -176,6 +174,7 @@ module.exports.post = (req, res) => {
     respond(400, 'please supply a valid location.', res);
     return;
   }
+  
   db.query('START TRANSACTION')
     .then(() => {
       sql = 'SELECT driver.id FROM driver INNER JOIN user where user.access_id=?';
@@ -187,8 +186,8 @@ module.exports.post = (req, res) => {
         respond(400, errString, res);
         throw errString;
       }
-      sql = 'INSERT INTO ride (driver_id, departure_time, location) VALUES (?, ?, ?)';
-      return db.query(sql, [rows[0].id, departureTime, req.body.location]);
+      sql = 'INSERT INTO ride (driver_id, departure_time, location, passenger_count) VALUES (?, ?, ?, ?)';
+      return db.query(sql, [rows[0].id, departureTime, req.body.location, numPassengers]);
     })
     .then(rows => {
       db.query('COMMIT');
@@ -209,7 +208,7 @@ module.exports.post = (req, res) => {
  * 
  * @apiParam {String} id specific ride id
  * @apiParam {String[]} users list of users' access IDs
- * @apiParam {Boolean} whether to add or remove these users from the ride. Must be true or false
+ * @apiParam {Boolean} active=true whether to add or remove these users from the ride. Must be true or false
  * 
  *  * @apiParamExample {json} Request-Example:
 {
