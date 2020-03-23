@@ -128,7 +128,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
         String time = hour.toString() + min.toString();
 
-
         jsonParams.put("driver",Shared.Data.driverAccessID);
         jsonParams.put("date",leaveDate.getText().toString());
         jsonParams.put("time",time);
