@@ -7,10 +7,17 @@ import androidx.appcompat.widget.Toolbar;
 
 public class FindPassengers extends AppCompatActivity {
 
+    //Vars
+    private Toolbar tbrMain;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.findpassengers);
+
+        //Toolbar
+        tbrMain =  findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
     }
 }

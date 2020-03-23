@@ -64,13 +64,10 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         passengerCount = findViewById(R.id.passengerCount);
         shareRideButton = findViewById(R.id.shareRideButton);
 
-
-        //Set Time Picker to 24 hours
         leaveDate = findViewById(R.id.leaveDate);
-
-
-
         leaveTime = findViewById(R.id.leaveTimePicker);
+        leaveTime.setIs24HourView(true);
+
     }
 
     //Create Menu
