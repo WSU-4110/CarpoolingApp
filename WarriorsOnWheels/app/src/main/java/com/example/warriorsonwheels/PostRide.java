@@ -11,19 +11,27 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import androidx.appcompat.widget.Toolbar;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import java.util.Calendar;
+import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.sql.Time;
 
-public class PostRide extends AppCompatActivity {
+public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
     //Variables
-    private EditText departureText;
-    private EditText arrivalText;
+    private EditText departureText, arrivalText;
     private Spinner passengerCount;
     private Button shareRideButton;
     private Toolbar tbrMain;
+    //private Button leaveDateButton, leaveTimeButton;
+    //private int mYear, mMonth, mDay, mHour, mMinute;
+    private Calendar calendar;
+    private TimePicker leaveTime;
+    private EditText leaveDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +48,11 @@ public class PostRide extends AppCompatActivity {
         passengerCount = findViewById(R.id.passengerCount);
         shareRideButton = findViewById(R.id.shareRideButton);
 
+        leaveDate = findViewById(R.id.leaveDate);
+        leaveTime = findViewById(R.id.leaveTimePicker);
     }
 
+    //Create Menu
     //Create Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
