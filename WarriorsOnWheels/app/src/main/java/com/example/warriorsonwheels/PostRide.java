@@ -33,6 +33,8 @@ public class PostRide extends AppCompatActivity {
     private Spinner passengerCount;
     private Button shareRideButton;
     private Toolbar tbrMain;
+    private EditText leaveDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class PostRide extends AppCompatActivity {
         setContentView(R.layout.postride);
 
         //Toolbar
-        tbrMain = findViewById(R.id.tbrMain);
+        tbrMain =  findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
 
         //Set Variables
@@ -51,6 +53,7 @@ public class PostRide extends AppCompatActivity {
         shareRideButton = findViewById(R.id.shareRideButton);
 
         //Set Time Picker to 24 hours
+        leaveDate = findViewById(R.id.leaveDate);
         leaveTimePicker.setIs24HourView(true);
 
     }
@@ -59,7 +62,7 @@ public class PostRide extends AppCompatActivity {
         switch(v.getId())
         {
             //Go to FindPassengers.java
-            case R.id.findRideButton:
+            case R.id.shareRideButton:
                 postRequest();
                 Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
                 startActivity(intent);
@@ -79,7 +82,7 @@ public class PostRide extends AppCompatActivity {
 
 
         jsonParams.put("driver",Shared.Data.driverAccessID);
-        jsonParams.put("date","");
+        jsonParams.put("date",leaveDate.getText().toString());
         jsonParams.put("time",time);
         jsonParams.put("departure_location",departureText.getText().toString());
         jsonParams.put("arrival_location",arrivalText.getText().toString());
