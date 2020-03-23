@@ -23,7 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 public class DriverProfile extends AppCompatActivity implements View.OnClickListener{
 
     private Button finishDriverProf;
-    private EditText location, time, make, model, year, color, licensePlate;
+    private EditText location, time, make, model, year, color, licensePlate, accessId;
     private ImageButton carImage;
     private boolean isDriver = false;
     private Toolbar tbrMain;
@@ -42,6 +42,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
 
         //EditText
         location = findViewById(R.id.Loc);
+        accessId = findViewById(R.id.accessIDask);
         //time = findViewById(R.id.time1);
         make = findViewById(R.id.make);
         model = findViewById(R.id.model);
