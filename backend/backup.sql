@@ -15,8 +15,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE DATABASE IF NOT EXISTS warriors_on_wheels;
-USE warriors_on_wheels;
+CREATE DATABASE IF NOT EXISTS `warriors_on_wheels`;
+USE `warriors_on_wheels`;
 
 --
 -- Table structure for table `driver`
@@ -82,13 +82,14 @@ CREATE TABLE `ride` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `driver_id` int(11) NOT NULL,
   `time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `location` varchar(255) DEFAULT NULL,
+  `departure_location` varchar(255) NOT NULL,
   `active` tinyint(1) DEFAULT '1',
   `passenger_count` int(11) NOT NULL DEFAULT '3',
+  `arrival_location` varchar(255) DEFAULT 'wayne',
   PRIMARY KEY (`id`),
   KEY `driver_id` (`driver_id`),
   CONSTRAINT `ride_ibfk_1` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +98,7 @@ CREATE TABLE `ride` (
 
 LOCK TABLES `ride` WRITE;
 /*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (10,2,'2020-04-20 12:00:00','troy',1,1),(11,2,'2020-05-20 00:00:00','troy',1,1),(12,2,'2020-05-20 00:00:00','troy',1,5),(19,2,'2020-04-15 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4),(20,2,'2020-01-01 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4),(21,2,'2020-06-20 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4),(22,2,'2020-08-20 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4);
+INSERT INTO `ride` VALUES (10,2,'2020-04-20 12:00:00','troy',1,1,'wayne'),(11,2,'2020-05-20 00:00:00','troy',1,1,'wayne'),(12,2,'2020-05-20 00:00:00','troy',1,5,'wayne'),(19,2,'2020-04-15 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4,'wayne'),(20,2,'2020-01-01 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4,'wayne'),(21,2,'2020-06-20 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4,'wayne'),(22,2,'2020-08-20 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4,'wayne'),(23,2,'2020-08-20 08:00:00','13018 Brierstone Dr. Sterling Heights, MI 48312',1,4,NULL);
 /*!40000 ALTER TABLE `ride` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,4 +168,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-23 17:19:22
+-- Dump completed on 2020-03-23 20:09:27

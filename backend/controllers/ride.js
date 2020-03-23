@@ -91,7 +91,7 @@ module.exports.get = (req, res) => {
   }
 
 
-  let sql = `select ride.id, driver.id as driver_id, DATE_FORMAT(ride.time, \'%Y-%m-%d %Ts\') as time, ride.location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join user on driver.user_id = user.id) as driver on ride.driver_id = driver.id where ride.active = 1 && ride.time >= \'${start}\'`;
+  let sql = `select ride.id, driver.id as driver_id, DATE_FORMAT(ride.time, \'%Y-%m-%d %Ts\') as time, ride.departure_location, ride.arrival_location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join user on driver.user_id = user.id) as driver on ride.driver_id = driver.id where ride.active = 1 && ride.time >= \'${start}\'`;
 
   if (end.length)
     sql += ` && ride.time <= \'${end}\'`
@@ -172,7 +172,8 @@ module.exports.getById = (req, res) => {
  * @apiParam {String} driver access ID of driver
  * @apiParam {String} date date of departure in format "YYYY-MM-DD"
  * @apiParam {String} time time of departure in format "hh:mm:ss"
- * @apiParam {String} location departure location
+ * @apiParam {String} departure_location departure location
+ * @apiParam {String} arrival_location="wayne" arrival location
  * @apiParam {Number} passenger_count=3 highest number of passengers this ride can take
  * 
  * @apiParamExample {json} Request-Example:
@@ -180,7 +181,8 @@ module.exports.getById = (req, res) => {
 	"driver": "ab1234",
 	"date": "2020-05-20",
 	"time": "08:00:00",
-	"location":"troy",
+	"departure_location":"troy",
+	"arrival_location":"prentis bldg",
 	"passenger_count":"5"
 }
  *
@@ -209,7 +211,8 @@ module.exports.post = (req, res) => {
   const driverId = req.body.driver;
   const date = req.body.date;
   const time = req.body.time;
-  const { location } = req.body;
+  const departureLocation = req.body.departure_location;
+  const arrivalLocation = req.body.arrival_location;
   const numPassengers = req.body.passenger_count;
 
   const fmt = 'YYYY-MM-DD hh:mm:ss';
@@ -220,8 +223,13 @@ module.exports.post = (req, res) => {
     return;
   }
 
-  if (location === '' || location === undefined) {
-    respond(400, 'please supply a valid location.', res);
+  if (departureLocation === '' || departureLocation === undefined) {
+    respond(400, 'please supply a valid departure location.', res);
+    return;
+  }
+
+  if (arrivalLocation === '' || arrivalLocation === undefined) {
+    respond(400, 'please supply a valid arrival location.', res);
     return;
   }
 
@@ -236,8 +244,8 @@ module.exports.post = (req, res) => {
         respond(400, errString, res);
         throw errString;
       }
-      sql = 'INSERT INTO ride (driver_id, time, location, passenger_count) VALUES (?, ?, ?, ?)';
-      return db.query(sql, [rows[0].id, datetime.format(fmt), req.body.location, numPassengers]);
+      sql = 'INSERT INTO ride (driver_id, time, arrival_location, departure_location, passenger_count) VALUES (?, ?, ?, ?, ?)';
+      return db.query(sql, [rows[0].id, datetime.format(fmt), arrivalLocation, departureLocation, numPassengers]);
     })
     .then(rows => {
       db.query('COMMIT');
