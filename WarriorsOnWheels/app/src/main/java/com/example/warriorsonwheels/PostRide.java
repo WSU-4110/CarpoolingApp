@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import androidx.appcompat.widget.Toolbar;
@@ -38,7 +39,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
     //Variables
     private EditText departureText, arrivalText;
-    private Spinner passengerCount;
+    private EditText passengerCount;
     private Button shareRideButton;
     private Toolbar tbrMain;
 
@@ -131,7 +132,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         jsonParams.put("time",time);
         jsonParams.put("departure_location",departureText.getText().toString());
         jsonParams.put("arrival_location",arrivalText.getText().toString());
-        jsonParams.put("passenger_count",passengerCount.getSelectedItem().toString());
+        jsonParams.put("passenger_count",passengerCount.getText().toString());
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
