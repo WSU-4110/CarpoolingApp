@@ -32,7 +32,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     private LinearLayout LocationLayout;
     private Button CreateDriveProf;
     private Button finishPassProf;
-    private TextView Name,accessId, phoneNumber, location;
+   // private TextView Name,accessId, phoneNumber, location;
     private EditText nameInp, idInput, numberInput, locationInput;
     private Toolbar tbrMain;
 
@@ -50,6 +50,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         CreateDriveProf = findViewById(R.id.createDrivProf);
 
 
+
         //EditText
         nameInp = findViewById(R.id.Name);
         //String sendNameInp = nameInp.getText().toString();
@@ -61,7 +62,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         //String sendNumInp = numberInput.getText().toString();
 
         locationInput = findViewById(R.id.Location);
-        String sendLocInput = locationInput.getText().toString();
+        //String sendLocInput = locationInput.getText().toString();
 
 
     }

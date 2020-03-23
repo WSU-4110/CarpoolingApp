@@ -53,12 +53,13 @@
                 android:id="@+id/Loc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
                 android:ems="10"
+                android:hint="Ex: Canton"
                 android:inputType="textPersonName"
-                android:hint="City"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="100dp"/>
+                />
 
 
         </LinearLayout>
@@ -83,12 +84,12 @@
                 android:id="@+id/accessIDask"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:hint="Access ID"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="100dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </LinearLayout>
@@ -127,8 +128,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="115dp"
                 android:ems="10"
+                android:hint="Ex: Ford"
                 android:inputType="textPersonName"
-                android:hint="Make"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -156,8 +157,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="110dp"
                 android:ems="10"
+                android:hint="Ex: Fusion"
                 android:inputType="textPersonName"
-                android:hint="Model"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -185,8 +186,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="125dp"
                 android:ems="10"
+                android:hint="Ex: 2015"
                 android:inputType="textPersonName"
-                android:hint="Year"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -214,8 +215,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="117dp"
                 android:ems="10"
+                android:hint="Ex: Blue"
                 android:inputType="textPersonName"
-                android:hint="Color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -241,12 +242,12 @@
                 android:id="@+id/license"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="42dp"
                 android:ems="10"
+                android:hint="Ex: ABC 1234"
                 android:inputType="textPersonName"
-                android:hint="License plate"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="42dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </LinearLayout>

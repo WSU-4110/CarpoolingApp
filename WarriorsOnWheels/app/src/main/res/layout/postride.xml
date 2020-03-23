@@ -139,6 +139,7 @@
                 android:ems="10"
                 android:inputType="datetime" />
 
+
         </LinearLayout>
 
         <LinearLayout
@@ -185,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="# of Passengers::"
+                android:text="# of Passengers:"
                 android:textStyle="bold"
                 android:textSize="25dp"/>
 
