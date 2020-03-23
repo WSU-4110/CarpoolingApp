@@ -21,7 +21,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     private Button findRideButton;
     private Button postRideButton;
-    private boolean isDriverHome;
+    private boolean isDriverHome = false;
     private Toast toast;
     private Toolbar tbrMain;
 
@@ -90,8 +90,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
             case R.id.postRideButton:
                 if (isDriverHome = false) {
                     //Toast message asking to go back and create a driver profile
-                    // Define basic toast button
-                    //postRideButton = (Button) findViewById(R.id.postRideButton);
+                    //Define basic toast button
                     postRideButton.setOnClickListener(new View.OnClickListener()
                     {
                         @Override
