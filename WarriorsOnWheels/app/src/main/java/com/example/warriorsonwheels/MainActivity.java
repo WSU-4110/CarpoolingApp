@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 9001;
     private Toolbar tbrMain;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Toolbar
         tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
+
+
+        //Bypass to Home Button
+        button = findViewById(R.id.button);
+
+        //initialize vars
 
 
         signIn = (SignInButton)findViewById(R.id.sign_in_button);
@@ -66,6 +73,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sign_in_button:
                 signIn();
                 break;
+
+            case R.id.button:
+                Intent intent = new Intent (getApplicationContext(), HomePage.class);
+                startActivity(intent);
+                break;
+
+
         }
     }
 
