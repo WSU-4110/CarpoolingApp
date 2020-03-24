@@ -31,6 +31,7 @@ public class RateDriver extends AppCompatActivity{
 
     public void onClick(View v) {
         //add rating to DataBase
+        
     }
 
     //Create Menu

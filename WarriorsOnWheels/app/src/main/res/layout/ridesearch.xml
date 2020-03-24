@@ -42,7 +42,8 @@
                 android:layout_width="200dp"
                 android:layout_height="185dp"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="onClick">
 
                 <TextView
                     android:id="@+id/Ride1"
@@ -162,7 +163,8 @@
             android:layout_height="185dp"
             android:clickable="true"
             android:orientation="horizontal"
-            android:id="@+id/SecondRide">
+            android:id="@+id/SecondRide"
+            android:onClick="onClick">
 
             <LinearLayout
                 android:layout_width="200dp"
