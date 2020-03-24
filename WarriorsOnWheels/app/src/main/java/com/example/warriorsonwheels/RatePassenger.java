@@ -2,24 +2,16 @@ package com.example.warriorsonwheels;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
-
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.Spinner;
-import android.widget.TimePicker;
-import androidx.appcompat.widget.Toolbar;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import java.util.Calendar;
-import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,46 +19,46 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostRide extends AppCompatActivity implements View.OnClickListener{
+public class RatePassenger extends AppCompatActivity{
 
-    //Variables
-    private EditText departureText, arrivalText;
-    private EditText passengerCount;
-    private Button shareRideButton;
-    private Toolbar tbrMain;
-
-    //private Button leaveDateButton, leaveTimeButton;
-    //private int mYear, mMonth, mDay, mHour, mMinute;
-    private Calendar calendar;
-    private TimePicker leaveTime;
-    private EditText leaveDate;
+    private Button Rate;
+    private RatingBar RatePassenger;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.postride);
+        setContentView(R.layout.ratepassenger);
 
-        //Toolbar
-        tbrMain =  findViewById(R.id.tbrMain);
-        setSupportActionBar(tbrMain);
+        //Buttons
+        RatePassenger = findViewById(R.id.passengerRatingBar);
+        Rate = findViewById(R.id.RatePassenger);
+        imageView = findViewById(R.id.imageView);
 
-        //Set Variables
-        departureText = findViewById(R.id.departureText);
-        arrivalText = findViewById(R.id.arrivalText);
-        passengerCount = findViewById(R.id.passengerCount);
-        shareRideButton = findViewById(R.id.shareRideButton);
+        Glide.with(this).load(Shared.Data.imgURL).into(imageView);
 
-        leaveDate = findViewById(R.id.leaveDate);
-        leaveTime = findViewById(R.id.leaveTimePicker);
-        leaveTime.setIs24HourView(true);
+        RatePassenger.setNumStars(5);
+        //Initialize DriverImage
+    }
+
+    public void onClick(View v) {
+        //add rating to DataBase
+        switch (v.getId())
+        {
+            case R.id.RatePassenger:
+                postRequest();
+                Intent intent1 = new Intent(getApplicationContext(), FindPassengers.class);
+                startActivity(intent1);
+
+
+        }
 
     }
 
@@ -78,7 +70,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         inflater.inflate(R.menu.overflowmenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
 
     //Menu Options
@@ -103,36 +94,20 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    public void onClick (View v) {
-        switch(v.getId())
-        {
-            //Go to FindPassengers.java
-            case R.id.shareRideButton:
-                postRequest();
-
-                Intent intent = new Intent(getApplicationContext(), RatePassenger.class);
-                startActivity(intent);
-        }
-    }
-
     public void postRequest()
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
+
+        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/"+Shared.Data.driverAccessID;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-        Integer hour = leaveTime.getHour();
-        Integer min = leaveTime.getMinute();
 
 
-        String time = hour.toString() + ":" + min.toString() + ":00";
 
-        jsonParams.put("driver",Shared.Data.driverAccessID);
-        jsonParams.put("date",leaveDate.getText().toString());
-        jsonParams.put("time",time);
-        jsonParams.put("departure_location",departureText.getText().toString());
-        jsonParams.put("arrival_location",arrivalText.getText().toString());
-        jsonParams.put("passenger_count",passengerCount.getText().toString());
+
+        jsonParams.put("accessId",Shared.Data.driverAccessID);
+        jsonParams.put("rating",String.valueOf(RatePassenger.getNumStars()));
+        jsonParams.put("isDriver","true");
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -158,4 +133,5 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
     }
+
 }

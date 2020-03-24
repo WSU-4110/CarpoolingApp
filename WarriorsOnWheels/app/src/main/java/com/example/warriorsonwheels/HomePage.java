@@ -21,7 +21,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     private Button findRideButton;
     private Button postRideButton;
-    private boolean isDriverHome;
+    private boolean isDriverHome = false;
     private Toast toast;
     private Toolbar tbrMain;
 
@@ -37,9 +37,39 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         //Button Ids
         findRideButton = findViewById(R.id.findRideButton);
         postRideButton = findViewById(R.id.postRideButton);
-
     }
 
+    //Create Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.overflowmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    //Menu Options
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.homePage:
+                Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
+                startActivity(intent1);
+                return true;
+
+            case R.id.userProfilePage:
+                Intent intent2 = new Intent(getApplicationContext(), UserProfile.class);
+                startActivity(intent2);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -58,26 +88,10 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
                 //Go to PostRide.java
             case R.id.postRideButton:
-                if (isDriverHome = false) {
-                    //Toast message asking to go back and create a driver profile
-                    // Define basic toast button
-                    //postRideButton = (Button) findViewById(R.id.postRideButton);
-                    postRideButton.setOnClickListener(new View.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(View v)
-                        {
-                            toast = Toast.makeText(getApplicationContext(),
-                                    "You must create a Driver Profile to post rides", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.TOP | Gravity.END, 0, 0);
-                            toast.show();
-                        }
-                    });
-                }
-                else {
+
+
                     Intent intent2 = new Intent(getApplicationContext(), PostRide.class);
                     startActivity(intent2);
-                }
         }
     }
 }
