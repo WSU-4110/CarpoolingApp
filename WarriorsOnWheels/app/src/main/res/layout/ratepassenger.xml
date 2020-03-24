@@ -25,7 +25,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rate Your Driver!"
+            android:text="Rate Your Passenger!"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginTop="15dp"
@@ -41,20 +41,19 @@
             android:layout_marginTop="15dp"/>
 
         <RatingBar
-            android:id="@+id/driverRatingBar"
+            android:id="@+id/passengerRatingBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:numStars="5"
             android:layout_marginTop="20dp"/>
 
         <Button
-            android:id="@+id/RateDriver"
+            android:id="@+id/RatePassenger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Rate"
-            android:layout_marginTop="20dp"
-            android:onClick="onClick"/>
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
 
 </ScrollView>

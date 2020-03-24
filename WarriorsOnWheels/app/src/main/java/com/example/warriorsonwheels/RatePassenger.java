@@ -13,24 +13,26 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-public class RateDriver extends AppCompatActivity{
+public class RatePassenger extends AppCompatActivity{
 
     private Button Rate;
-    private RatingBar RateDriver;
+    private RatingBar RatePassenger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ratedriver);
+        setContentView(R.layout.ratepassenger);
 
         //Buttons
-        RateDriver = findViewById(R.id.driverRatingBar);
-        Rate = findViewById(R.id.RateDriver);
+        RatePassenger = findViewById(R.id.passengerRatingBar);
+        Rate = findViewById(R.id.RatePassenger);
         //Initialize DriverImage
     }
 
     public void onClick(View v) {
         //add rating to DataBase
+        Intent intent3 = new Intent(getApplicationContext(), HomePage.class);
+        startActivity(intent3);
     }
 
     //Create Menu

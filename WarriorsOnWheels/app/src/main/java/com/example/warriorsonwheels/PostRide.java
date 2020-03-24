@@ -49,7 +49,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
     private TimePicker leaveTime;
     private EditText leaveDate;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,8 +109,8 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
             //Go to FindPassengers.java
             case R.id.shareRideButton:
                 postRequest();
-//                Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), RatePassenger.class);
+                startActivity(intent);
         }
     }
 
