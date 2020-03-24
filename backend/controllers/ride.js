@@ -91,6 +91,7 @@ module.exports.put = (req, res) => {
 
 };
 
+
 module.exports.delete = (req, res) => {
 
   const ride_id = req.body.ride_id;
@@ -111,4 +112,8 @@ module.exports.delete = (req, res) => {
    
   
 
+
 }
+
+
+

@@ -49,6 +49,7 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.google_info);
 
+
         //Toolbar
         tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
