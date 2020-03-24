@@ -76,29 +76,29 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         Email.setText(Shared.Data.email);
         Glide.with(this).load(Shared.Data.imgURL).into(profilePic);
 
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/ab1234";
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                //runs when API called from RestQueue/MySingleton
-                // Name.setText(response.toString());
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.println(Log.ERROR,"ERROR:","Volley Error");
-
-
-                    }
-                });
+//        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/ab1234";
 //
-//        //Makes API Call
-        RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
-        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//
+//                //runs when API called from RestQueue/MySingleton
+//                // Name.setText(response.toString());
+//
+//            }
+//        },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.println(Log.ERROR,"ERROR:","Volley Error");
+//
+//
+//                    }
+//                });
+////
+////        //Makes API Call
+//        RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
+//        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
 
 
     }
