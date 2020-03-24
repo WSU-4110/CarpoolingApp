@@ -88,25 +88,10 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
                 //Go to PostRide.java
             case R.id.postRideButton:
-                if (isDriverHome = false) {
-                    //Toast message asking to go back and create a driver profile
-                    //Define basic toast button
-                    postRideButton.setOnClickListener(new View.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(View v)
-                        {
-                            toast = Toast.makeText(getApplicationContext(),
-                                    "You must create a Driver Profile to post rides", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.TOP | Gravity.END, 0, 0);
-                            toast.show();
-                        }
-                    });
-                }
-                else {
+
+
                     Intent intent2 = new Intent(getApplicationContext(), PostRide.class);
                     startActivity(intent2);
-                }
         }
     }
 }

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import androidx.appcompat.widget.Toolbar;
@@ -47,7 +48,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
     private Calendar calendar;
     private TimePicker leaveTime;
     private EditText leaveDate;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +109,8 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
             //Go to FindPassengers.java
             case R.id.shareRideButton:
                 postRequest();
-                Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
+
+                Intent intent = new Intent(getApplicationContext(), RatePassenger.class);
                 startActivity(intent);
         }
     }

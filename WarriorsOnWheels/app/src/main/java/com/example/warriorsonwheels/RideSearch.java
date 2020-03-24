@@ -80,7 +80,7 @@ public class RideSearch extends AppCompatActivity{
                 Shared.Data.selectedRide = 2;
                 break;
             case R.id.confirmbutton:
-                Intent intent3 = new Intent(getApplicationContext(), DriverInfo.class);
+                Intent intent3 = new Intent(getApplicationContext(), RateDriver.class);
                 startActivity(intent3);
         }
     }
