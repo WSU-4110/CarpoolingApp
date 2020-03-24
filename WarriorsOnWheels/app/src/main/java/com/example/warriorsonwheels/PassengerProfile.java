@@ -7,12 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class PassengerProfile extends AppCompatActivity implements View.OnClickListener {
+public class PassengerProfile extends AppCompatActivity {
 
     private LinearLayout NameLayout;
     private LinearLayout AccessLayout;
@@ -22,77 +21,45 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     private Button finishPassProf;
     private TextView Name,accessId, phoneNumber, location;
     private EditText nameInp, idInput, numberInput, locationInput;
-    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.passengerprofile);
 
-        //Toolbar
-        tbrMain = findViewById(R.id.tbrMain);
-        setSupportActionBar(tbrMain);
-
         //Buttons
-        finishPassProf = findViewById(R.id.finishPassProf);
-        CreateDriveProf = findViewById(R.id.createDrivProf);
+        finishPassProf = (Button)findViewById(R.id.finishPassProf);
+        CreateDriveProf = (Button) findViewById(R.id.createDrivProf);
 
         //Textview
-        Name = findViewById(R.id.askName);
-        accessId = findViewById(R.id.askAccessId);
-        phoneNumber = findViewById(R.id.askPhoneNumber);
-        location = findViewById(R.id.askLocation);
+        Name = (TextView) findViewById(R.id.askName);
+        accessId = (TextView) findViewById(R.id.askAccessId);
+        phoneNumber = (TextView) findViewById(R.id.askPhoneNumber);
+        location = (TextView) findViewById(R.id.askLocation);
+
+
 
         //EditText
-        nameInp = findViewById(R.id.Name);
-        //String sendNameInp = nameInp.getText().toString();
-
-        idInput = findViewById(R.id.accessID);
-        //String sendidInput = idInput.getText().toString();
-
-        numberInput = findViewById(R.id.PhoneNumber);
-        //String sendNumInp = numberInput.getText().toString();
-
-        locationInput = findViewById(R.id.Location);
-        String sendLocInput = locationInput.getText().toString();
-
+        nameInp = (EditText) findViewById(R.id.Name);
+        idInput = (EditText) findViewById(R.id.accessID);
+        numberInput = (EditText) findViewById(R.id.PhoneNumber);
+        locationInput = (EditText) findViewById(R.id.Location);
 
     }
 
-
-    @Override
     public void onClick(View v) {
         switch(v.getId())
         {
             case R.id.createDrivProf:
-                Intent intent2 = new Intent(getApplicationContext(), DriverProfile.class);
-                startActivity(intent2);
+                Intent intent = new Intent(getApplicationContext(), DriverProfile.class);
+                startActivity(intent);
                 break;
             case R.id.finishPassProf:
-                Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
+                Intent intent1 = new Intent(getApplicationContext(), RideSearch.class);
                 startActivity(intent1);
                 break;
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        //sends sign in info to userprofile.java
-        String sendNameInp = nameInp.getText().toString();
-        Shared.Data.userName = sendNameInp;
-
-        String sendidInput = idInput.getText().toString();
-        Shared.Data.userId = sendidInput;
-
-        String sendNumInp = numberInput.getText().toString();
-        Shared.Data.phNumber = sendNumInp;
-
-        String sendLocInput = locationInput.getText().toString();
-        Shared.Data.userLoc = sendLocInput;
-    }
-
-
-
 }
+
