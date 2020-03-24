@@ -6,34 +6,44 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class RideSearch extends AppCompatActivity{
+public class UserProfile extends AppCompatActivity {
 
-    private LinearLayout Ride1,Ride2;
-    private Button confirmButton;
+    //Pass Prof Var
+    private TextView name, accessID, phNum, primLoc, passRating;
+
+    //Driver Prof Var
+    private TextView carMake, carModel, carYear, carColor, licensePlate, drivRating;
+
     private Toolbar tbrMain;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ridesearch);
+        setContentView(R.layout.userprofile);
 
         //Toolbar
         tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
 
-        //Buttons
-        confirmButton = findViewById(R.id.confirmbutton);
-        Ride1 = findViewById(R.id.FirstRide);
-        Ride2 = findViewById(R.id.SecondRide);
+        //TextViews
+        name = findViewById(R.id.name);
+        accessID = findViewById(R.id.accessID);
+        phNum = findViewById(R.id.phNum);
+        primLoc = findViewById(R.id.primLoc);
+        passRating = findViewById(R.id.passRating);
+
+        carMake = findViewById(R.id.carMake);
+        carYear = findViewById(R.id.carYear);
+        carModel = findViewById(R.id.carModel);
+        carColor = findViewById(R.id.carColor);
+        licensePlate = findViewById(R.id.licensePlate);
+        drivRating = findViewById(R.id.drivRating);
+
     }
 
     //Create Menu
@@ -68,21 +78,6 @@ public class RideSearch extends AppCompatActivity{
         }
     }
 
-    public void onClick(View v) {
-        switch(v.getId())
-        {
-            case R.id.FirstRide:
-                confirmButton.setClickable(true);
-                Shared.Data.selectedRide = 1;
-                break;
-            case R.id.SecondRide:
-                confirmButton.setClickable(true);
-                Shared.Data.selectedRide = 2;
-                break;
-            case R.id.confirmbutton:
-                Intent intent3 = new Intent(getApplicationContext(), RateDriver.class);
-                startActivity(intent3);
-        }
-    }
+
 
 }

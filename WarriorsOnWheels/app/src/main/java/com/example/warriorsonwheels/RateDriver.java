@@ -7,33 +7,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+public class RateDriver extends AppCompatActivity{
 
-public class RideSearch extends AppCompatActivity{
-
-    private LinearLayout Ride1,Ride2;
-    private Button confirmButton;
-    private Toolbar tbrMain;
-
+    private Button Rate;
+    private RatingBar RateDriver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ridesearch);
-
-        //Toolbar
-        tbrMain = findViewById(R.id.tbrMain);
-        setSupportActionBar(tbrMain);
+        setContentView(R.layout.ratedriver);
 
         //Buttons
-        confirmButton = findViewById(R.id.confirmbutton);
-        Ride1 = findViewById(R.id.FirstRide);
-        Ride2 = findViewById(R.id.SecondRide);
+        RateDriver = findViewById(R.id.driverRatingBar);
+        Rate = findViewById(R.id.RateDriver);
+        //Initialize DriverImage
+    }
+
+    public void onClick(View v) {
+        //add rating to DataBase
     }
 
     //Create Menu
@@ -65,23 +62,6 @@ public class RideSearch extends AppCompatActivity{
             default:
                 return super.onOptionsItemSelected(item);
 
-        }
-    }
-
-    public void onClick(View v) {
-        switch(v.getId())
-        {
-            case R.id.FirstRide:
-                confirmButton.setClickable(true);
-                Shared.Data.selectedRide = 1;
-                break;
-            case R.id.SecondRide:
-                confirmButton.setClickable(true);
-                Shared.Data.selectedRide = 2;
-                break;
-            case R.id.confirmbutton:
-                Intent intent3 = new Intent(getApplicationContext(), RateDriver.class);
-                startActivity(intent3);
         }
     }
 

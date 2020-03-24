@@ -3,13 +3,9 @@ const db = require('../util/db');
 const respond = require('../util/respond');
 
 /**
- * @api {get} /user list users
- * @apiName UserGet
- * @apiGroup user
- * 
- * 
- * @apiSuccess (200) {Object[]} list of user profiles
- * @apiSuccess (204) {Null} blank No Content
+ * @api {get} /passengers list passengers
+ * @apiName PassengerGet
+ * @apiGroup passenger
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -30,8 +26,7 @@ const respond = require('../util/respond');
  *
  */
 module.exports.get = (req, res) => {
-  const sql = 'SELECT * FROM user';
-  db.query(sql)
+  db.query('SELECT * FROM passenger')
     .then(rows => {
       respond(200, rows, res);
     })
@@ -41,52 +36,10 @@ module.exports.get = (req, res) => {
 };
 
 /**
- * @api {get} /user/:accessId get user by access ID
- * @apiName UserGetById
- * @apiGroup user
- *
- * @apiParam {String} accessId specific user's access ID
+ * @api {post} /passengers create passenger
+ * @apiName PassengerPost
+ * @apiGroup passenger
  * 
- * @apiSuccess (200) {Object} data user profile
- * @apiSuccess (204) {Null} blank No Content
- *
- * @apiSuccessExample Success-Response:
- * HTTP/1.1 200 OK
- * {
- *     "error": false,
- *     "data": {
-            "id": 2,
-            "name": "darpan",
-            "phone_number": "1412122234",
-            "location": "vegas baby",
-            "access_id": "ab1234"
-        }
- * }
- *
- * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
- *
- */
-module.exports.getById = (req, res) => {
-  const { accessId } = req.params;
-
-  const sql = 'SELECT * FROM user where access_id = ? limit 1';
-  db.query(sql, [accessId])
-    .then(rows => {
-      if (!rows.length)
-        respond(204, null, res);
-      else
-        respond(200, rows[0], res);
-    })
-    .catch(err => {
-      respond(500, err.toString(), res);
-    });
-};
-
-/**
- * @api {post} /user create user
- * @apiName UserPost
- * @apiGroup user
- *
  *  * @apiParamExample {json} Request-Example:
  * {
  *     "name":"Test",
@@ -95,9 +48,6 @@ module.exports.getById = (req, res) => {
  *     "access_id":"ab1234"
  * }
  *
- * 
- *  @apiSuccess (200) {Object} data successful user creation
- * 
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
 {
@@ -118,7 +68,7 @@ module.exports.getById = (req, res) => {
  *
  */
 module.exports.post = (req, res) => {
-  const user = {
+  const passenger = {
     name: req.body.name,
     phoneNumber: req.body.phone_number,
     location: req.body.location,
@@ -126,10 +76,10 @@ module.exports.post = (req, res) => {
   };
 
   const values = [
-    [user.name, user.phoneNumber, user.location, user.accessId],
+    [passenger.name, passenger.phoneNumber, passenger.location, passenger.accessId],
   ];
 
-  const sql = 'INSERT INTO user (name, phone_number, location, access_id) VALUES ? ON DUPLICATE KEY UPDATE name = VALUES(name), phone_number = VALUES(phone_number), location = VALUES(location)';
+  const sql = 'INSERT INTO passenger (name, phone_number, location, access_id) VALUES ? ON DUPLICATE KEY UPDATE name = VALUES(name), phone_number = VALUES(phone_number), location = VALUES(location)';
   db.query(sql, [values])
     .then(rows => {
       respond(200, rows, res);
@@ -140,10 +90,10 @@ module.exports.post = (req, res) => {
 };
 
 /**
- * @api {put} /users update user
- * @apiName UserPut
- * @apiGroup user
- *
+ * @api {put} /passengers update passenger
+ * @apiName PassengerPut
+ * @apiGroup passenger
+ * 
  *  * @apiParamExample {json} Request-Example:
  * {
  *     "name":"Test",
@@ -151,8 +101,6 @@ module.exports.post = (req, res) => {
  *     "location":"Atlantis",
  *     "access_id":"ab1234"
  * }
- * 
- *  @apiSuccess (200) {Object} data successful user update
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -179,7 +127,7 @@ module.exports.put = (req, res) => {
     return;
   }
 
-  const user = {
+  const passenger = {
     name: req.body.name,
     phoneNumber: req.body.phone_number,
     location: req.body.location,
@@ -189,18 +137,18 @@ module.exports.put = (req, res) => {
   let updateRows;
   db.query('START TRANSACTION')
     .then(() => {
-      const sql = 'SELECT * FROM user WHERE access_id=?';
-      return db.query(sql, [user.accessId]);
+      const sql = 'SELECT * FROM passenger WHERE access_id=?';
+      return db.query(sql, [passenger.accessId]);
     })
     .then(rows => {
       if (rows.length === 0) {
-        const errString = `user with access id ${user.accessId} not found`;
+        const errString = `passenger with access id ${passenger.accessId} not found`;
         respond(400, errString, res);
         throw errString;
       }
-      const sql = 'UPDATE user SET phone_number = ?, location = ?, name = ? where access_id = ?';
-      return db.query(sql, [user.phoneNumber, user.location,
-      user.name, user.accessId]);
+      const sql = 'UPDATE passenger SET phone_number = ?, location = ?, name = ? where access_id = ?';
+      return db.query(sql, [passenger.phoneNumber, passenger.location,
+      passenger.name, passenger.accessId]);
     })
     .then(rows => {
       updateRows = rows;

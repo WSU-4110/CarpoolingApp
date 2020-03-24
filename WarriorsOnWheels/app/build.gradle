@@ -28,10 +28,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-<<<<<<< HEAD
 
     implementation 'com.android.volley:volley:1.1.0'
-=======
+
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
->>>>>>> 1755b6670f21fac60ea009bd43903327b9f02901
+
+
+    implementation 'com.android.volley:volley:1.1.0'
+
 }

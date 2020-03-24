@@ -1,10 +1,14 @@
 package com.example.warriorsonwheels;
 
-import android.app.Application;
-
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-public class sharedVars extends Application {
+public enum Shared {
+    //initiate enum shared variables
+    Data;
+    public int selectedRide = 0;
+    public boolean isDriver = false;
+    public int profPic;
+    public String userName, userId, userLoc, phNumber,driverAccessID;
 
     GoogleSignInAccount googleAccount;
 
@@ -27,4 +31,6 @@ public class sharedVars extends Application {
     {
         return googleAccount;
     }
+
 }
+

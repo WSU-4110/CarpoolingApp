@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +25,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Console;
 
 public class GoogleInfo extends AppCompatActivity implements View.OnClickListener  {
 
@@ -39,11 +42,17 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
     private ImageView profilePic;
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 9001;
+    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.google_info);
+
+
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         queue = Volley.newRequestQueue(this);
 
@@ -63,16 +72,18 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         passProf.setOnClickListener(this);
 
 
-        Name.setText(((sharedVars) this.getApplication()).name);
-        Email.setText(((sharedVars) this.getApplication()).email);
-        Glide.with(this).load(((sharedVars) this.getApplication()).imgURL).into(profilePic);
+        Name.setText(Shared.Data.name);
+        Email.setText(Shared.Data.email);
+        Glide.with(this).load(Shared.Data.imgURL).into(profilePic);
 
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/ab1234";
+        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/ab1234";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Name.setText("Response: " + response.toString());
+
+                //runs when API called from RestQueue/MySingleton
+                // Name.setText(response.toString());
 
             }
         },
@@ -84,13 +95,20 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
 
                     }
                 });
-
+//
+//        //Makes API Call
         RequestQueue queue = MySingleton.getInstance(this).getRequestQueue();
-        //Name.setText(queue.toString());
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
 
 
+    }
 
+    //Send profile pic image to UserProfile.java
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        //sends sign in info to userprofile.java
     }
 
     @Override

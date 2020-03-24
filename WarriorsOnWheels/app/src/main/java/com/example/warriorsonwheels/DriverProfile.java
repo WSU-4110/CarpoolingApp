@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,27 +17,46 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-public class DriverProfile extends AppCompatActivity {
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class DriverProfile extends AppCompatActivity implements View.OnClickListener{
 
     private Button finishDriverProf;
-    private EditText location, time, make, model, year, color, licensePlate;
+    private EditText location, time, make, model, year, color, licensePlate, accessId;
     private ImageButton carImage;
+    private boolean isDriver = false;
+    private Toolbar tbrMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.passengerprofile);
+        setContentView(R.layout.driverprofile);
+
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         //Buttons
         finishDriverProf = findViewById(R.id.finishDriver);
 
         //EditText
         location = findViewById(R.id.Loc);
-        time = findViewById(R.id.time1);
+        accessId = findViewById(R.id.accessIDask);
+        //time = findViewById(R.id.time1);
         make = findViewById(R.id.make);
         model = findViewById(R.id.model);
         year = findViewById(R.id.year);
@@ -45,12 +65,15 @@ public class DriverProfile extends AppCompatActivity {
         carImage = findViewById(R.id.carImage);
     }
 
+    @Override
     public void onClick(View v) {
         switch(v.getId())
         {
             case R.id.carImage:
                 selectImage(DriverProfile.this);
             case R.id.finishDriver:
+                sendRequest();
+                isDriver = true;
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
         }
@@ -117,5 +140,47 @@ public class DriverProfile extends AppCompatActivity {
         }
     }
 
-}
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        //Sends isDriver to following pages
+        Shared.Data.isDriver = isDriver;
+    }
+
+    public void sendRequest()
+    {
+        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver";
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+        jsonParams.put("access_id",accessId.getText().toString());
+       jsonParams.put("car",year.getText().toString() + " " + make.getText().toString() + " " + model.getText().toString());
+
+       Shared.Data.driverAccessID = accessId.getText().toString();
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                // Name.setText(response.toString());
+                Log.i("POST",response.toString());
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error");
+
+
+                    }
+                });
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+
+
+    }
+
+}

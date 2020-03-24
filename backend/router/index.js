@@ -1,17 +1,17 @@
 const express = require('express');
 
 const router = express.Router();
-const user = require('./user');
+const passenger = require('./passenger');
 const driver = require('./driver');
 const ride = require('./ride');
 const rating = require('./rating');
 
 // index
 router.get('/', (req, res) => {
-  res.send(`docs: ${req.protocol}://${req.get('host')}${req.originalUrl}docs`);
-});
+  res.send('docs: ' + req.protocol + '://' + req.get('host') + req.originalUrl + 'docs');
+})
 
-router.use('/user', user);
+router.use('/passenger', passenger);
 router.use('/ride', ride);
 router.use('/driver', driver);
 router.use('/rating', rating);
