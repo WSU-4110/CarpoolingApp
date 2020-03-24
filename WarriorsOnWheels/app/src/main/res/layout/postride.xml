@@ -194,14 +194,15 @@
                 android:layout_width="39dp"
                 android:layout_height="match_parent"/>
 
-            <Spinner
+            <EditText
                 android:id="@+id/passengerCount"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:hint="#"
-                android:layout_marginRight="10dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:hint="3"
+                android:ems="10"
+                android:inputType="number" />
 
         </LinearLayout>
 

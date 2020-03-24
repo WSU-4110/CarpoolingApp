@@ -38,7 +38,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
     //Variables
     private EditText departureText, arrivalText;
-    private Spinner passengerCount;
+    private EditText passengerCount;
     private Button shareRideButton;
     private Toolbar tbrMain;
 
@@ -109,8 +109,8 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
             //Go to FindPassengers.java
             case R.id.shareRideButton:
                 postRequest();
-//                Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
+                startActivity(intent);
         }
     }
 
@@ -123,14 +123,15 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         Integer hour = leaveTime.getHour();
         Integer min = leaveTime.getMinute();
 
-        String time = hour.toString() + min.toString();
+
+        String time = hour.toString() + ":" + min.toString() + ":00";
 
         jsonParams.put("driver",Shared.Data.driverAccessID);
         jsonParams.put("date",leaveDate.getText().toString());
         jsonParams.put("time",time);
         jsonParams.put("departure_location",departureText.getText().toString());
         jsonParams.put("arrival_location",arrivalText.getText().toString());
-        jsonParams.put("passenger_count",passengerCount.getSelectedItem().toString());
+        jsonParams.put("passenger_count",passengerCount.getText().toString());
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -154,7 +155,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
-
 
     }
 }
