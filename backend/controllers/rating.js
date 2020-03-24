@@ -33,7 +33,8 @@ module.exports.get = (req, res) => {
     return;
   }
 
-  sql = 'SELECT rating.user_id AS user_id, IFNULL(AVG(rating.value), 0) AS average, COUNT(rating.value) AS count FROM user LEFT JOIN rating ON user.id=rating.user_id WHERE user.access_id = ? && is_driver = ?;';
+  sql = 'SELECT rating.user_id AS user_id, IFNULL(AVG(rating.value), 0) AS average, COUNT(rating.value) AS count FROM user LEFT JOIN rating ON user.id=rating.user_id WHERE user.access_id = ? && is_driver = ?';
+  
   db.query(sql, [userId, isDriver])
     .then(rows => {
       if (rows[0].user_id === null)
