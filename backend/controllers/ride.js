@@ -95,10 +95,7 @@ module.exports.get = (req, res) => {
   let sql = `select ride.id, driver.id as driver_id, DATE_FORMAT(ride.time, \'%Y-%m-%d %Ts\') as time, ride.departure_location, ride.arrival_location, ride.active, driver.car, driver.name, driver.phone_number, driver.access_id from ride inner join (select driver.id as id, car, name, phone_number, access_id from driver inner join user on driver.user_id = user.id) as driver on ride.driver_id = driver.id where ride.active = 1 && ride.time >= \'${start}\'`;
 
   if (end.length)
-    sql += ` && ride.time <= \'${end}\'`
-
-  console.log(sql);
-
+    sql += ` && ride.time <= \'${end}\'`;
 
   db.query(sql)
     .then(rows => {
