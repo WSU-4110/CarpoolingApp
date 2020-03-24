@@ -87,7 +87,8 @@ module.exports.get = (req, res) => {
   }
 
   if (start === "") {
-    start = 'CURRENT_TIMESTAMP';
+    const fmt = 'YYYY-MM-DD hh:mm:ss';
+    start = moment().format(fmt);
   }
 
 
