@@ -129,10 +129,21 @@ module.exports.post = (req, res) => {
     return;
   }
 
+  if (!req.body.phone_number) {
+    respond(400, 'Please provide a valid phone number.', res);
+    return;
+  }
+
+  const phoneNumber = req.body.phone_number.replace(/\D/g, '');
+  if (phoneNumber.length < 9 || phoneNumber.length > 10) {
+    respond(400, 'Please provide a valid phone number.', res);
+    return;
+  }
+
 
   const user = {
     name: req.body.name,
-    phoneNumber: req.body.phone_number,
+    phoneNumber,
     location: req.body.location,
     accessId: req.body.access_id,
   };
@@ -141,12 +152,15 @@ module.exports.post = (req, res) => {
     [user.name, user.phoneNumber, user.location, user.accessId],
   ];
 
-  const sql = 'INSERT INTO user (name, phone_number, location, access_id) VALUES ? ON DUPLICATE KEY UPDATE name = VALUES(name), phone_number = VALUES(phone_number), location = VALUES(location)';
+  const sql = 'INSERT INTO user (name, phone_number, location, access_id) VALUES ?';// ON DUPLICATE KEY UPDATE name = VALUES(name), phone_number = VALUES(phone_number), location = VALUES(location)';
   db.query(sql, [values])
     .then(rows => {
       respond(200, rows, res);
     })
     .catch(err => {
+      if(err.errno === 1062)
+      respond(400, 'a user with access ID ' + user.accessId + ' already exists', res);
+      else 
       respond(500, err.toString(), res);
     });
 };
