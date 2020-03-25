@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(result.isSuccess())
         {
 
-
-
+            //SINGLETON
+            //Sets Google Account throughout app which allows it to be initialized only once
             Shared.Data.setGoogleAccount(result.getSignInAccount());
 
             Intent showGoogleInfo = new Intent(getApplicationContext(),GoogleInfo.class);

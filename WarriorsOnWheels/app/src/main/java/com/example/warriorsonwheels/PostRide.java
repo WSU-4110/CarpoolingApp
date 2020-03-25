@@ -154,7 +154,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                     }
                 });
 //
-//        //Makes API Call
+//        //Makes API Call using MySingleton class
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
     }

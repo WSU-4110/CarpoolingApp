@@ -70,7 +70,7 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
         signOut.setOnClickListener(this);
         passProf.setOnClickListener(this);
 
-
+        //Retrieves Google Account info from Singleton class
         Name.setText(Shared.Data.name);
         Email.setText(Shared.Data.email);
         Glide.with(this).load(Shared.Data.imgURL).into(profilePic);

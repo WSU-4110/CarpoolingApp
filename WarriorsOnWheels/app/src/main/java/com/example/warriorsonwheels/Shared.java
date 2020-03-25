@@ -14,16 +14,13 @@ public enum Shared {
 
     String name, email, imgURL;
 
-
+    //Singleton used for Google Account to be used throughout the App
     public void setGoogleAccount(GoogleSignInAccount account)
     {
         googleAccount = account;
-
         name = account.getDisplayName();
         email = account.getEmail();
         imgURL = account.getPhotoUrl().toString();
-
-
 
     }
 
