@@ -9,7 +9,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
-//Singleton Used to get Data from API
+//Singleton Used to get Data from API //SINGLETON EXAMPLE FOR HW 5
 public class MySingleton {
     private static MySingleton instance;
     private RequestQueue requestQueue;
@@ -41,7 +41,7 @@ public class MySingleton {
         if (instance == null) {
             instance = new MySingleton(context);
         }
-        return instance;
+        return instance; //returns instance for singleton
     }
 
     public RequestQueue getRequestQueue() {
@@ -50,7 +50,7 @@ public class MySingleton {
             // Activity or BroadcastReceiver if someone passes one in.
             requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
         }
-        return requestQueue;
+        return requestQueue; //used throughout app for API Calls
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
@@ -60,4 +60,4 @@ public class MySingleton {
     public ImageLoader getImageLoader() {
         return imageLoader;
     }
-}
+} 
