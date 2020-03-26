@@ -89,18 +89,19 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     protected void onPause() {
         super.onPause();
 
-        //sends sign in info to userprofile.java
         String sendNameInp = nameInp.getText().toString();
-        Shared.Data.userName = sendNameInp;
 
         String sendidInput = idInput.getText().toString();
-        Shared.Data.userId = sendidInput;
-
         String sendNumInp = numberInput.getText().toString();
-        Shared.Data.phNumber = sendNumInp;
 
         String sendLocInput = locationInput.getText().toString();
-        Shared.Data.userLoc = sendLocInput;
+
+        Passenger pass1 = new Passenger.Builder()
+                .setName(sendNameInp)
+                .setAccessId(sendidInput)
+                .setPhoneNum(sendNumInp)
+                .setPrimaryLocation(sendLocInput)
+                .create();
     }
 
     public void postRequest()
