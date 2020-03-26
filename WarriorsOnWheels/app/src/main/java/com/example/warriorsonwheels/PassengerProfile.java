@@ -26,10 +26,6 @@ import java.util.Map;
 
 public class PassengerProfile extends AppCompatActivity implements View.OnClickListener {
 
-    private LinearLayout NameLayout;
-    private LinearLayout AccessLayout;
-    private LinearLayout NumberLayout;
-    private LinearLayout LocationLayout;
     private Button CreateDriveProf;
     private Button finishPassProf;
    // private TextView Name,accessId, phoneNumber, location;
