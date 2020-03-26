@@ -14,6 +14,19 @@ public class Passenger {
         primaryLocation = builder.primaryLocation;
     }
 
+    public String getName() {
+        return name;
+    }
+    public String getAccessId() {
+        return accessId;
+    }
+    public String getPhone() {
+        return phoneNum;
+    }
+    public String getPrimaryLocation() {
+        return primaryLocation;
+    }
+
     public static class Builder {
         private String name;
         private String accessId;
