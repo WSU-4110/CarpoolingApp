@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbrMain"
@@ -12,7 +14,8 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:text="@string/app_name"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        android:backgroundTint="@color/toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,6 +28,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="MY PROFILE"
+            android:textColor="@color/heading_1"
             android:textSize="40dp"
             android:textStyle="bold"/>
 
@@ -44,6 +48,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text="Passenger Profile:"
+            android:textColor="@color/heading_1"
             android:textStyle="bold"
             android:layout_marginLeft="15dp"
             android:textSize="30dp" />
@@ -83,6 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Name:"
+                    android:textColor="@color/heading_2"
                     android:textStyle="bold"
                     android:textSize="15dp"/>
 
@@ -96,6 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="(insert name)"
+                    android:textColor="@color/text"
                     android:textSize="15dp"/>
 
             </LinearLayout>
@@ -115,6 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Access ID:"
+                    android:textColor="@color/heading_2"
                     android:textStyle="bold"
                     android:textSize="15dp"/>
 
@@ -128,6 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="(insert accessID)"
+                    android:textColor="@color/text"
                     android:textSize="15dp"/>
 
             </LinearLayout>
@@ -152,6 +161,7 @@
             android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:text="Phone Number:"
+            android:textColor="@color/heading_2"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -165,6 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="(insert number)"
+            android:textColor="@color/text"
             android:textSize="15dp"/>
 
     </LinearLayout>
@@ -185,6 +196,7 @@
             android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:text="Primary Location:"
+            android:textColor="@color/heading_2"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -198,6 +210,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="(insert location)"
+            android:textColor="@color/text"
             android:textSize="15dp"/>
 
     </LinearLayout>
@@ -218,6 +231,7 @@
             android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:text="Rating:"
+            android:textColor="@color/heading_2"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -231,6 +245,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="(insert rating)"
+            android:textColor="@color/text"
             android:textSize="15dp"/>
 
     </LinearLayout>
@@ -249,6 +264,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text="Driver Profile:"
+            android:textColor="@color/heading_1"
             android:textStyle="bold"
             android:layout_marginLeft="15dp"
             android:textSize="30dp" />
@@ -288,6 +304,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Make:"
+                    android:textColor="@color/heading_2"
                     android:textStyle="bold"
                     android:textSize="15dp"/>
 
@@ -301,6 +318,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="(insert make)"
+                    android:textColor="@color/text"
                     android:textSize="15dp"/>
 
             </LinearLayout>
@@ -320,6 +338,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Model:"
+                    android:textColor="@color/heading_2"
                     android:textStyle="bold"
                     android:textSize="15dp"/>
 
@@ -333,6 +352,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="(insert model)"
+                    android:textColor="@color/text"
                     android:textSize="15dp"/>
 
             </LinearLayout>
@@ -352,6 +372,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Year:"
+                    android:textColor="@color/heading_2"
                     android:textStyle="bold"
                     android:textSize="15dp"/>
 
@@ -365,6 +386,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="(insert year)"
+                    android:textColor="@color/text"
                     android:textSize="15dp"/>
 
             </LinearLayout>
@@ -384,6 +406,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Color:"
+                    android:textColor="@color/heading_2"
                     android:textStyle="bold"
                     android:textSize="15dp"/>
 
@@ -397,6 +420,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="(insert color)"
+                    android:textColor="@color/text"
                     android:textSize="15dp"/>
 
             </LinearLayout>
@@ -421,6 +445,7 @@
             android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:text="License Plate #:"
+            android:textColor="@color/heading_2"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -434,6 +459,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="(insert number)"
+            android:textColor="@color/text"
             android:textSize="15dp"/>
 
     </LinearLayout>
@@ -454,6 +480,7 @@
             android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:text="Rating:"
+            android:textColor="@color/heading_2"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -467,6 +494,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="(insert rating)"
+            android:textColor="@color/text"
             android:textSize="15dp"/>
 
     </LinearLayout>
