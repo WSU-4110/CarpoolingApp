@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".MainActivity">
+    tools:context=".RatePassenger">
 
     <LinearLayout
         android:orientation="vertical"
@@ -50,6 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:numStars="5"
+            android:progressTint="@color/heading_2"
+            android:progressBackgroundTint="@color/text"
             android:layout_marginTop="20dp"/>
 
         <Button
