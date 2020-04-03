@@ -6,11 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity" >
 
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tbrMain"
@@ -19,13 +21,15 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:text="@string/app_name"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="?attr/actionBarTheme"
+            android:backgroundTint="@color/toolbar"/>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Rides Available right now:"
+            android:textColor="@color/heading_1"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
@@ -51,6 +55,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Ride 1:"
+                    android:textColor="@color/heading_1"
                     android:textSize="21sp"
                     android:textStyle="bold" />
 
@@ -61,6 +66,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Leaving from:"
+                    android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -71,6 +77,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="Arriving at:"
+                    android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -81,6 +88,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="Departure Time:"
+                    android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -91,6 +99,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="# of Passengers:"
+                    android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -119,6 +128,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Troy"
+                    android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -129,6 +139,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="11:30 am"
+                    android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -139,6 +150,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="11:00 am"
+                    android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -149,6 +161,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="2"
+                    android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -177,6 +190,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Ride 2:"
+                    android:textColor="@color/heading_1"
                     android:textSize="21sp"
                     android:textStyle="bold" />
 
@@ -187,6 +201,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Leaving from:"
+                    android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -197,6 +212,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="Arriving at:"
+                    android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -207,6 +223,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="Departure Time:"
+                    android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -217,6 +234,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="# of Passengers:"
+                    android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -245,6 +263,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Canton"
+                    android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -255,6 +274,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="12:00 pm"
+                    android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -265,6 +285,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="11:00 am"
+                    android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -275,6 +296,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="3"
+                    android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -288,6 +310,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Confirm"
+            android:background="@color/button"
+            android:textColor="@color/text"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:clickable="false"
