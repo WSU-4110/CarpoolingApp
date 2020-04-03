@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-
     <color name="background">#f9e9de</color>
     <color name="toolbar">#3e5172</color>
     <color name="text">#000000</color>
     <color name="heading_1">#3e5172</color>
-    <color name="heading_2">#607A89</color>
-    <color name="button">#cc6c5c</color>
+    <color name="heading_2">#cc6c5c</color>
+    <color name="button">#f9b49b</color>
 </resources>
