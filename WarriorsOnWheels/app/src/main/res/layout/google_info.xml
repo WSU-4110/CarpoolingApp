@@ -3,12 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbrMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:backgroundTint="@color/toolbar"
+        android:text="@string/app_name"
+        android:theme="?attr/actionBarTheme" />
 
     <LinearLayout
         android:id="@+id/prof_section"
         android:layout_width="match_parent"
-        android:layout_height="452dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:orientation="vertical">
 
@@ -26,6 +37,7 @@
             android:layout_marginStart="124dp"
             android:layout_marginTop="50dp"
             android:text="NAME HERE"
+            android:textColor="@color/heading_1"
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +50,7 @@
             android:layout_marginStart="144dp"
             android:layout_marginTop="20dp"
             android:text="Email Display"
+            android:textColor="@color/heading_2"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameDisplay" />
@@ -49,15 +62,23 @@
             android:layout_marginStart="160dp"
             android:layout_marginTop="20dp"
             android:text="Logout"
-            android:onClick="onClick"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailDisplay" />
+            android:background="@color/button"
+            android:textColor="@color/text"
+            android:onClick="onClick" />
+        
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
 
         <Button
             android:id="@+id/passProf"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Create Passenger Profile"
+            android:padding="10dp"
+            android:background="@color/button"
+            android:textColor="@color/text"
             android:onClick="onClick"/>
 
     </LinearLayout>
