@@ -242,7 +242,6 @@
                 android:gravity="center"
                 android:text="Share Ride"
                 android:background="@color/button"
-                android:textColor="@color/text"
                 android:onClick="onClick"/>
         </LinearLayout>
 
