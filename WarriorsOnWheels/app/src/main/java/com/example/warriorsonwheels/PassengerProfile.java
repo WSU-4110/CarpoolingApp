@@ -78,6 +78,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
                 startActivity(intent2);
                 break;
             case R.id.finishPassProf:
+                Shared.Data.isDriverCheck = false;
                 postRequest();
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);

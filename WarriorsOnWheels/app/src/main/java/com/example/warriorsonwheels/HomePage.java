@@ -72,12 +72,6 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        isDriverHome = (Shared.Data.isDriver);
-    }
-
-    @Override
     public void onClick(View v) {
         switch(v.getId())
         {
@@ -88,10 +82,17 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
                 //Go to PostRide.java
             case R.id.postRideButton:
-
-
+                if (Shared.Data.isDriverCheck = true) {
                     Intent intent2 = new Intent(getApplicationContext(), PostRide.class);
                     startActivity(intent2);
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Error:");
+                    builder.setMessage("Driver Profile must be made to share rides.");
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
+                }
         }
     }
 }

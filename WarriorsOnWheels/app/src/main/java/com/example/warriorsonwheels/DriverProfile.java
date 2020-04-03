@@ -38,7 +38,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
     private Button finishDriverProf;
     private EditText location, time, make, model, year, color, licensePlate, accessId;
     private ImageButton carImage;
-    private boolean isDriver = false;
+    //private boolean isDriver = false;
     private Toolbar tbrMain;
 
     @Override
@@ -73,7 +73,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                 selectImage(DriverProfile.this);
             case R.id.finishDriver:
                 sendRequest();
-                isDriver = true;
+                Shared.Data.isDriverCheck = true;
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
         }
@@ -138,14 +138,6 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                     break;
             }
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        //Sends isDriver to following pages
-        Shared.Data.isDriver = isDriver;
     }
 
     public void sendRequest()
