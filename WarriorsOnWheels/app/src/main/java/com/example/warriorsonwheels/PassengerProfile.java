@@ -46,25 +46,14 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         setSupportActionBar(tbrMain);
 
         //Buttons
-        finishPassProf = findViewById(R.id.finishPassProf);
-        CreateDriveProf = findViewById(R.id.createDrivProf);
-
-
+        finishPassProf = (Button) findViewById(R.id.finishPassProf);
+        CreateDriveProf = (Button) findViewById(R.id.createDrivProf);
 
         //EditText
-        nameInp = findViewById(R.id.Name);
-        //String sendNameInp = nameInp.getText().toString();
-
-        idInput = findViewById(R.id.accessID);
-        //String sendidInput = idInput.getText().toString();
-
-        numberInput = findViewById(R.id.PhoneNumber);
-        //String sendNumInp = numberInput.getText().toString();
-
-        locationInput = findViewById(R.id.Location);
-        //String sendLocInput = locationInput.getText().toString();
-
-
+        nameInp = (EditText) findViewById(R.id.Name);
+        idInput = (EditText) findViewById(R.id.accessID);
+        numberInput = (EditText) findViewById(R.id.PhoneNumber);
+        locationInput = (EditText) findViewById(R.id.Location);
     }
 
 

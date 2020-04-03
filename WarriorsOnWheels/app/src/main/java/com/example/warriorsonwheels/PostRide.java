@@ -34,6 +34,7 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimerTask;
 
 public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
@@ -46,7 +47,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
     //private Button leaveDateButton, leaveTimeButton;
     //private int mYear, mMonth, mDay, mHour, mMinute;
     private Calendar calendar;
-    private TimePicker leaveTime;
+    private TimePicker leaveTimePicker;
     private EditText leaveDate;
 
     @Override
@@ -59,14 +60,14 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         setSupportActionBar(tbrMain);
 
         //Set Variables
-        departureText = findViewById(R.id.departureText);
-        arrivalText = findViewById(R.id.arrivalText);
-        passengerCount = findViewById(R.id.passengerCount);
-        shareRideButton = findViewById(R.id.shareRideButton);
+        departureText = (EditText) findViewById(R.id.departureText);
+        arrivalText = (EditText)findViewById(R.id.arrivalText);
+        passengerCount = (EditText)findViewById(R.id.passengerCount);
+        shareRideButton = (Button) findViewById(R.id.shareRideButton);
 
-        leaveDate = findViewById(R.id.leaveDate);
-        leaveTime = findViewById(R.id.leaveTimePicker);
-        leaveTime.setIs24HourView(true);
+        leaveDate = (EditText) findViewById(R.id.leaveDate);
+        leaveTimePicker = (TimePicker) findViewById(R.id.leaveTimePicker);
+        leaveTimePicker.setIs24HourView(true);
 
     }
 
@@ -120,8 +121,8 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-        Integer hour = leaveTime.getHour();
-        Integer min = leaveTime.getMinute();
+        Integer hour = leaveTimePicker.getHour();
+        Integer min = leaveTimePicker.getMinute();
 
         String time = hour.toString() + min.toString();
 

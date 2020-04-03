@@ -31,18 +31,18 @@ public class UserProfile extends AppCompatActivity {
         setSupportActionBar(tbrMain);
 
         //TextViews
-        name = findViewById(R.id.name);
-        accessID = findViewById(R.id.accessID);
-        phNum = findViewById(R.id.phNum);
-        primLoc = findViewById(R.id.primLoc);
-        passRating = findViewById(R.id.passRating);
+        name = (TextView) findViewById(R.id.name);
+        accessID = (TextView)findViewById(R.id.accessID);
+        phNum = (TextView)findViewById(R.id.phNum);
+        primLoc = (TextView)findViewById(R.id.primLoc);
+        passRating = (TextView)findViewById(R.id.passRating);
 
-        carMake = findViewById(R.id.carMake);
-        carYear = findViewById(R.id.carYear);
-        carModel = findViewById(R.id.carModel);
-        carColor = findViewById(R.id.carColor);
-        licensePlate = findViewById(R.id.licensePlate);
-        drivRating = findViewById(R.id.drivRating);
+        carMake = (TextView)findViewById(R.id.carMake);
+        carYear = (TextView)findViewById(R.id.carYear);
+        carModel = (TextView)findViewById(R.id.carModel);
+        carColor = (TextView)findViewById(R.id.carColor);
+        licensePlate = (TextView)findViewById(R.id.licensePlate);
+        drivRating = (TextView)findViewById(R.id.drivRating);
 
     }
 

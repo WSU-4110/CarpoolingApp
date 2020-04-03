@@ -24,8 +24,8 @@ public class RateDriver extends AppCompatActivity{
         setContentView(R.layout.ratedriver);
 
         //Buttons
-        RateDriver = findViewById(R.id.driverRatingBar);
-        Rate = findViewById(R.id.RateDriver);
+        RateDriver = (RatingBar) findViewById(R.id.driverRatingBar);
+        Rate = (Button) findViewById(R.id.RateDriver);
         //Initialize DriverImage
     }
 

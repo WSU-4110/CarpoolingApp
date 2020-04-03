@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //Bypass to Home Button
-        button = findViewById(R.id.button);
+        button = (Button) findViewById(R.id.button);
 
         //initialize vars
 

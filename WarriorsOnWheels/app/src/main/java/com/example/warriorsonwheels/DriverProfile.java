@@ -51,18 +51,17 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         setSupportActionBar(tbrMain);
 
         //Buttons
-        finishDriverProf = findViewById(R.id.finishDriver);
+        finishDriverProf = (Button) findViewById(R.id.finishDriver);
 
         //EditText
-        location = findViewById(R.id.Loc);
-        accessId = findViewById(R.id.accessIDask);
-        //time = findViewById(R.id.time1);
-        make = findViewById(R.id.make);
-        model = findViewById(R.id.model);
-        year = findViewById(R.id.year);
-        color = findViewById(R.id.color);
-        licensePlate = findViewById(R.id.license);
-        carImage = findViewById(R.id.carImage);
+        location = (EditText) findViewById(R.id.Loc);
+        accessId = (EditText) findViewById(R.id.accessIDask);
+        make = (EditText) findViewById(R.id.make);
+        model = (EditText) findViewById(R.id.model);
+        year = (EditText) findViewById(R.id.year);
+        color = (EditText) findViewById(R.id.color);
+        licensePlate = (EditText)findViewById(R.id.license);
+        carImage = (ImageButton) findViewById(R.id.carImage);
     }
 
     @Override

@@ -35,8 +35,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         setSupportActionBar(tbrMain);
 
         //Button Ids
-        findRideButton = findViewById(R.id.findRideButton);
-        postRideButton = findViewById(R.id.postRideButton);
+        findRideButton = (Button) findViewById(R.id.findRideButton);
+        postRideButton = (Button) findViewById(R.id.postRideButton);
     }
 
     //Create Menu

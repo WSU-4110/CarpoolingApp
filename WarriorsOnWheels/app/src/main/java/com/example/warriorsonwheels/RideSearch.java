@@ -31,7 +31,7 @@ public class RideSearch extends AppCompatActivity{
         setSupportActionBar(tbrMain);
 
         //Buttons
-        confirmButton = findViewById(R.id.confirmbutton);
+        confirmButton = (Button) findViewById(R.id.confirmbutton);
         Ride1 = findViewById(R.id.FirstRide);
         Ride2 = findViewById(R.id.SecondRide);
     }
