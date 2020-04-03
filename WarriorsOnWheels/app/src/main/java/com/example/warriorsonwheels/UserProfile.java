@@ -46,6 +46,24 @@ public class UserProfile extends AppCompatActivity {
 
     }
 
+    //Recieve data from profile pages
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Pass Profile
+        name.setText(Shared.Data.userName);
+        accessID.setText(Shared.Data.userId);
+        phNum.setText(Shared.Data.phNumber);
+        primLoc.setText(Shared.Data.userLoc);
+
+        //Driver Profile
+        carMake.setText(Shared.Data.userCarMake);
+        carModel.setText(Shared.Data.userCarModel);
+        carYear.setText(Shared.Data.userCarYear);
+        carColor.setText(Shared.Data.userCarColor);
+        licensePlate.setText(Shared.Data.userLicPlate);
+    }
+
     //Create Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

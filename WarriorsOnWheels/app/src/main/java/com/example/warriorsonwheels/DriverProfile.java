@@ -65,6 +65,27 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        //sends sign in info to userprofile.java
+        String sendMake = make.getText().toString();
+        Shared.Data.userName = sendMake;
+
+        String sendModel = model.getText().toString();
+        Shared.Data.userId = sendModel;
+
+        String sendYear = year.getText().toString();
+        Shared.Data.phNumber = sendYear;
+
+        String sendColor = color.getText().toString();
+        Shared.Data.userLoc = sendColor;
+
+        String sendPlateNum = licensePlate.getText().toString();
+        Shared.Data.userLoc = sendPlateNum;
+    }
+
+    @Override
     public void onClick(View v) {
         switch(v.getId())
         {

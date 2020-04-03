@@ -10,6 +10,7 @@ public enum Shared {
     public boolean isDriverCheck = false;
     public int profPic;
     public String userName, userId, userLoc, phNumber,driverAccessID;
+    public String userCarMake, userCarModel, userCarYear, userCarColor, userLicPlate;
 
     GoogleSignInAccount googleAccount;
 
