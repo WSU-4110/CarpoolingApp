@@ -55,7 +55,6 @@ public class UserProfile extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
     //Menu Options
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

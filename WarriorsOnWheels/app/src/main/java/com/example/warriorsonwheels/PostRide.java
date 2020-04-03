@@ -81,7 +81,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
     }
 
 
-
     //Menu Options
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

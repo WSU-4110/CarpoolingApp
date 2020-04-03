@@ -18,6 +18,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".UserProfile"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
         <activity android:name=".PassengerProfile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
