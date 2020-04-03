@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbrMain"
@@ -12,7 +14,8 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:text="@string/app_name"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        android:backgroundTint="@color/toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,6 +29,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Enter Ride Information:"
+            android:textColor="@color/heading_1"
             android:textSize="30dp"
             android:textStyle="bold"/>
 
@@ -54,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Leaving From:"
+                android:textColor="@color/heading_2"
                 android:textStyle="bold"
                 android:textSize="25dp"/>
 
@@ -68,6 +73,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:hint="Sterling Heights"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
                 android:ems="10"
                 android:inputType="text" />
 
@@ -88,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Arriving At:"
+                android:textColor="@color/heading_2"
                 android:textStyle="bold"
                 android:textSize="25dp"/>
 
@@ -102,6 +110,8 @@
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
                 android:hint="Detroit"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
                 android:ems="10"
                 android:inputType="text" />
 
@@ -122,6 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Departure Date:"
+                android:textColor="@color/heading_2"
                 android:textStyle="bold"
                 android:textSize="25dp"/>
 
@@ -136,6 +147,8 @@
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
                 android:hint="Date"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
                 android:ems="10"
                 android:inputType="datetime" />
 
@@ -156,6 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Departure Time:"
+                android:textColor="@color/heading_2"
                 android:textStyle="bold"
                 android:textSize="25dp"/>
 
@@ -187,6 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="# of Passengers:"
+                android:textColor="@color/heading_2"
                 android:textStyle="bold"
                 android:textSize="25dp"/>
 
@@ -201,6 +216,8 @@
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
                 android:hint="3"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
                 android:ems="10"
                 android:inputType="number" />
 
@@ -224,6 +241,8 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Share Ride"
+                android:background="@color/button"
+                android:textColor="@color/text"
                 android:onClick="onClick"/>
         </LinearLayout>
 
