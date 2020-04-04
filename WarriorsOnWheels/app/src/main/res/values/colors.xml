@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#f9e9de</color>
-    <color name="toolbar">#3e5172</color>
+    <color name="background">#f2f3ee</color>
+    <color name="toolbar">#cb9b42</color>
     <color name="text">#000000</color>
-    <color name="heading_1">#3e5172</color>
-    <color name="heading_2">#cc6c5c</color>
-    <color name="button">#f9b49b</color>
+    <color name="heading_1">#cb9b42</color>
+    <color name="heading_2">#609f89</color>
+    <color name="button">#609f89</color>
+    <color name="textHint">#aba287</color>
 </resources>

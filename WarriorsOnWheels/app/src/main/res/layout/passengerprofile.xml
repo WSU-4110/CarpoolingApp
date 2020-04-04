@@ -61,7 +61,7 @@
             android:ems="10"
             android:hint="Ex: John Smith"
             android:textColor="@color/text"
-            android:textColorHint="@color/text"
+            android:textColorHint="@color/textHint"
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,7 @@
             android:ems="10"
             android:hint="Ex: ab1234"
             android:textColor="@color/text"
-            android:textColorHint="@color/text"
+            android:textColorHint="@color/textHint"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -129,7 +129,7 @@
             android:ems="10"
             android:hint="Ex: 3132485863"
             android:textColor="@color/text"
-            android:textColorHint="@color/text"
+            android:textColorHint="@color/textHint"
             android:inputType="phone"/>
 
     </LinearLayout>
@@ -160,7 +160,7 @@
             android:ems="10"
             android:hint="Ex: Sterling Heights"
             android:textColor="@color/text"
-            android:textColorHint="@color/text"
+            android:textColorHint="@color/textHint"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
