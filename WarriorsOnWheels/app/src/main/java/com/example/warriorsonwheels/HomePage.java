@@ -79,7 +79,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
             case R.id.findRideButton:
                 Intent intent1 = new Intent(getApplicationContext(), RideSearch.class);
                 startActivity(intent1);
-
+                break;
                 //Go to PostRide.java
             case R.id.postRideButton:
                 if (Shared.Data.isDriverCheck = true) {
@@ -93,6 +93,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                     builder.setPositiveButton("OK", null);
                     builder.show();
                 }
+                break;
         }
     }
 }
