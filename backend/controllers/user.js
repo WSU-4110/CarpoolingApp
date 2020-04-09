@@ -1,15 +1,15 @@
 // Api documentation documentation http://apidocjs.com/#params
-const db = require('../util/db');
+const models = require('../models/index');
 const respond = require('../util/respond');
+const jwt = require('../util/jwt');
+const validate = require('../util/validate');
 
 /**
  * @api {get} /user list users
  * @apiName UserGet
  * @apiGroup user
- * 
- * 
+ *
  * @apiSuccess (200) {Object[]} list of user profiles
- * @apiSuccess (204) {Null} blank No Content
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -30,13 +30,13 @@ const respond = require('../util/respond');
  *
  */
 module.exports.get = (req, res) => {
-  const sql = 'SELECT * FROM user';
-  db.query(sql)
-    .then(rows => {
-      respond(200, rows, res);
+  models.User.findAll()
+    .then(users => {
+      users.map(u => { delete u.dataValues.password; return u; });
+      respond(200, users, res);
     })
     .catch(err => {
-      respond(500, err.toString(), res);
+      respond(500, err, res);
     });
 };
 
@@ -46,9 +46,8 @@ module.exports.get = (req, res) => {
  * @apiGroup user
  *
  * @apiParam {String} accessId specific user's access ID
- * 
+ *
  * @apiSuccess (200) {Object} data user profile
- * @apiSuccess (204) {Null} blank No Content
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -69,16 +68,19 @@ module.exports.get = (req, res) => {
 module.exports.getById = (req, res) => {
   const { accessId } = req.params;
 
-  const sql = 'SELECT * FROM user where access_id = ? limit 1';
-  db.query(sql, [accessId])
-    .then(rows => {
-      if (!rows.length)
-        respond(204, null, res);
-      else
-        respond(200, rows[0], res);
+  models.User.findAll({
+    limit: 1,
+    where: {
+      access_id: accessId,
+    },
+  })
+    .then(users => {
+      const obj = users.length ? users[0] : {};
+      delete obj.dataValues.password;
+      respond(200, obj, res);
     })
     .catch(err => {
-      respond(500, err.toString(), res);
+      respond(500, err, res);
     });
 };
 
@@ -88,29 +90,27 @@ module.exports.getById = (req, res) => {
  * @apiGroup user
  *
  *  * @apiParamExample {json} Request-Example:
- * {
- *     "name":"Test",
- *     "phone_number":"5555555555",
- *     "location":"Atlantis",
- *     "access_id":"ab1234"
- * }
+{
+	"name":"Evan de Jesus",
+  "access_id": "cj5102",
+  "password": "1234",
+	"phone_number": "5869783333",
+	"location":"atlantis"
+}
  *
- * 
+ *
  *  @apiSuccess (200) {Object} data successful user creation
- * 
+ *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
 {
     "error": false,
     "data": {
-        "fieldCount": 0,
-        "affectedRows": 1,
-        "insertId": 8,
-        "serverStatus": 2,
-        "warningCount": 0,
-        "message": "",
-        "protocol41": true,
-        "changedRows": 0
+        "id": 2,
+        "name": "Evan de Jesus",
+        "phone_number": "5869783333",
+        "location": "atlantis",
+        "access_id": "cj5102"
     }
 }
  *
@@ -118,58 +118,98 @@ module.exports.getById = (req, res) => {
  *
  */
 module.exports.post = (req, res) => {
+  const b = req.body;
+  if (!validate(b, {
+    access_id: 'string',
+    name: 'string',
+    location: 'string',
+    phone_number: 'string',
+    password: 'string',
+  }, res)) return;
 
-  if (!req.body.access_id.length) {
-    respond(400, 'Please provide a valid access id.', res);
-    return;
-  }
-
-  if (!req.body.name) {
-    respond(400, 'Please provide a valid name.', res);
-    return;
-  }
-
-  if (!req.body.phone_number) {
-    respond(400, 'Please provide a valid phone number.', res);
-    return;
-  }
-
-  const phoneNumber = req.body.phone_number.replace(/\D/g, '');
+  const phoneNumber = b.phone_number.replace(/\D/g, '');
   if (phoneNumber.length < 9 || phoneNumber.length > 10) {
     respond(400, 'Please provide a valid phone number.', res);
     return;
   }
 
-
   const user = {
-    name: req.body.name,
-    phoneNumber,
-    location: req.body.location,
-    accessId: req.body.access_id,
+    name: b.name,
+    phone_number: b.phone_number,
+    location: b.location,
+    access_id: b.access_id,
+    password: b.password,
   };
 
-  const values = [
-    [user.name, user.phoneNumber, user.location, user.accessId],
-  ];
-
-  const sql = 'INSERT INTO user (name, phone_number, location, access_id) VALUES ?';// ON DUPLICATE KEY UPDATE name = VALUES(name), phone_number = VALUES(phone_number), location = VALUES(location)';
-  db.query(sql, [values])
+  models.User.create(user, { fields: ['name', 'phone_number', 'location', 'access_id', 'password'] })
     .then(rows => {
+      delete rows.dataValues.password;
       respond(200, rows, res);
     })
     .catch(err => {
-      if(err.errno === 1062)
-      respond(400, 'a user with access ID ' + user.accessId + ' already exists', res);
-      else 
-      respond(500, err.toString(), res);
+      if (err.name && err.name === 'SequelizeUniqueConstraintError') respond(400, err.errors[0].message, res);
+      else respond(500, err, res);
     });
+};
+
+/**
+ * @api {post} /user/auth login
+ * @apiName UserLogin
+ * @apiGroup user
+ *
+ *  * @apiParamExample {json} Request-Example:
+{
+  "access_id": "cj5102",
+  "password" : "1234"
+}
+ *
+ *
+ *  @apiSuccess (200) {Object} data successful user creation
+ *  @apiSuccess (200) {Object} token JWT to use in future API requests
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IkV2YW4gZGUgSmVzdXMiLCJwaG9uZV9udW1iZXIiOiI1ODY5NzgzMzMzIiwibG9jYXRpb24iOiJhdGxhbnRpcyIsImFjY2Vzc19pZCI6ImFhMjIyMiIsImlhdCI6MTU4NjQ3MjU5MSwiZXhwIjoxNTg2NzMxNzkxfQ.7IXaMlJOJm_NSKr8vU1BJivOPl6POxQu5CWHFZb-zo4"
+    }
+}
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.auth = async (req, res) => {
+  const b = req.body;
+  if (!validate(b, { access_id: 'string', password: 'string' }, res)) return;
+
+  const users = await models.User.findAll({
+    limit: 1,
+    where: {
+      access_id: b.access_id,
+    },
+  });
+  if (!users.length) {
+    respond(401, 'Unauthorized', res);
+  } else {
+    const u = users[0];
+    const valid = await u.validPassword(b.password);
+    if (valid) {
+      const data = u.dataValues;
+      delete data.password;
+      const token = await jwt.sign(data);
+      respond(200, { token }, res);
+    } else {
+      respond(401, 'Unauthorized', res);
+    }
+  }
 };
 
 /**
  * @api {put} /users/:accessId update user
  * @apiName UserPut
  * @apiGroup user
- * 
+ *
  * @apiParam {String} accessId access ID of user to update
  * @apiParam {String} name name of user to update
  * @apiParam {String} phone_number phone_number of user to update
@@ -181,7 +221,7 @@ module.exports.post = (req, res) => {
  *     "phone_number":"5555555555",
  *     "location":"Atlantis"
  * }
- * 
+ *
  *  @apiSuccess (200) {Object} data successful user update
  *
  * @apiSuccessExample Success-Response:
@@ -189,14 +229,7 @@ module.exports.post = (req, res) => {
 {
     "error": false,
     "data": {
-        "fieldCount": 0,
-        "affectedRows": 1,
-        "insertId": 8,
-        "serverStatus": 2,
-        "warningCount": 0,
-        "message": "",
-        "protocol41": true,
-        "changedRows": 0
+        "updated": 1
     }
 }
  * @apiError (Error 4xx) {String} 400 Bad Request: "Please provide a valid access id."
@@ -204,86 +237,65 @@ module.exports.post = (req, res) => {
  *
  */
 module.exports.put = (req, res) => {
-  if (!req.params.accessId) {
-    respond(400, 'Please provide a valid access id.', res);
-    return;
-  }
+  if (!validate(req.params, {
+    accessId: 'string',
+  }, res)) return;
 
   const user = {
     name: req.body.name,
-    phoneNumber: req.body.phone_number,
+    phone_number: req.body.phone_number,
     location: req.body.location,
-    accessId: req.params.accessId,
   };
 
-  let updateRows;
-  db.query('START TRANSACTION')
-    .then(() => {
-      const sql = 'SELECT * FROM user WHERE access_id=?';
-      return db.query(sql, [user.accessId]);
-    })
-    .then(rows => {
-      if (rows.length === 0) {
-        const errString = `user with access id ${user.accessId} not found`;
-        respond(400, errString, res);
-        throw errString;
-      }
-      const sql = 'UPDATE user SET phone_number = ?, location = ?, name = ? where access_id = ?';
-      return db.query(sql, [user.phoneNumber, user.location,
-      user.name, user.accessId]);
-    })
-    .then(rows => {
-      updateRows = rows;
-      return db.query('COMMIT');
-    })
-    .then(() => {
-      respond(200, updateRows, res);
+  models.User.update(user, {
+    where: {
+      access_id: req.params.accessId,
+    },
+  })
+    .then(updated => {
+      respond(200, { updated: updated[0] }, res);
     })
     .catch(err => {
-      db.query('ROLLBACK')
-        .then(() => {
-          respond(500, err, res);
-        });
+      respond(500, err, res);
     });
 };
 
+/**
+ * @api {delete} /users/:accessId delete user
+ * @apiName UserDelete
+ * @apiGroup user
+ *
+ * @apiParam {String} accessId access ID of user to updateupdate
+ * @apiParam {String} location location of user to update
+ *
+ *  @apiSuccess (200) {Object} data successful user update
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "deleted": 1
+    }
+}
+ * @apiError (Error 4xx) {String} 400 Bad Request: "Please provide a valid access id."
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
 module.exports.delete = (req, res) => {
+  if (!validate(req.params, {
+    accessId: 'string',
+  }, res)) return;
 
-  if (!req.params.accessId) {
-    respond(400, 'Please provide a valid access id.', res);
-    return;
-  }
-  const accessId = req.params.accessId;
-  let userId;
-
-  db.query('START TRANSACTION')
-    .then(() => {
-      return db.query('SELECT id FROM user WHERE access_id = ?', [accessId]);
-    })
-    .then(rows => {
-      if (!rows.length) {
-        let e = new Error('Please provide a valid access id.');
-        e.statusCode = 400;
-        throw e;
-      }
-      userId = rows[0].id;
-      return db.query('DELETE FROM rating WHERE user_id = ?', [userId]);
-    })
-    .then(() => {
-      return db.query('DELETE FROM ride_user_join WHERE user_id = ?', [userId]);
-    })
-    .then(() => {
-      return db.query('DELETE FROM ride WHERE driver_id = ?', [userId]);
-    })
-    .then(() => {
-      return db.query('DELETE FROM driver WHERE user_id = ?', [userId]);
-    })
-    .then(() => {
-      respond(200, `user with access ID ${userId} deleted`, res);
-      db.query('COMMIT');
+  models.User.destroy({
+    where: {
+      access_id: req.params.accessId,
+    },
+  })
+    .then(deleted => {
+      respond(200, { deleted }, res);
     })
     .catch(err => {
-      db.query('ROLLBACK');
-      respond(err.statusCode || 500, err, res);
-    })
+      respond(500, err, res);
+    });
 };

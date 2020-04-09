@@ -1,11 +1,12 @@
-const db = require('../util/db');
+const models = require('../models/index');
 const respond = require('../util/respond');
+const validate = require('../util/validate');
 
 /**
- * @api {get} /driver get driver
+ * @api {get} /driver list drivers
  * @apiName DriverGet
  * @apiGroup driver
- * 
+ *
  * @apiSuccess (200) {Object} data list of driver profiles
  *
  * @apiSuccessExample Success-Response:
@@ -27,9 +28,21 @@ const respond = require('../util/respond');
  *
  */
 module.exports.get = (req, res) => {
-  db.query('SELECT d.id, d.car, p.name, p.access_id, p.phone_number FROM driver as d INNER JOIN user as p ON d.user_id = p.id')
-    .then(rows => {
-      respond(200, rows, res);
+  models.Driver.findAll({
+    include: models.User,
+  })
+    .then(drivers => {
+      const list = drivers.map(d => ({
+        id: d.id,
+        user_id: d.userId,
+        name: d.user.name,
+        phone_number: d.user.phone_number,
+        location: d.user.location,
+        access_id: d.user.access_id,
+        car: d.car,
+      }));
+
+      respond(200, list, res);
     })
     .catch(err => {
       respond(500, err, res);
@@ -37,53 +50,67 @@ module.exports.get = (req, res) => {
 };
 
 /**
- * @api {get} /driver:accessId get driver by access ID
+ * @api {get} /driver/:accessId get driver by access ID
  * @apiName DriverGetById
  * @apiGroup driver
- * 
+ *
  * @apiParam {String} accessId specific user's access ID
- * 
+ *
  * @apiSuccess (200) {Object} data list of driver profiles
- * @apiSuccess (204) {Null} blank No Content
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
 {
     "error": false,
-    "data": {
-        "id": 2,
-        "car": "2010 ford fusion",
-        "name": "darpan",
-        "access_id": "ab1234",
-        "phone_number": "1412122234"
-    }
+    "data": 
+        {
+            "id": 2,
+            "car": "2010 ford fusion",
+            "name": "darpan",
+            "access_id": "ab1234",
+            "phone_number": "1412122234"
+        }
+    
 }
  *
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
 module.exports.getById = (req, res) => {
-  const accessId = req.params.accessId;
+  const { accessId } = req.params;
 
-  db.query('SELECT d.id, d.car, p.name, p.access_id, p.phone_number FROM driver as d INNER JOIN user as p ON d.user_id = p.id where p.access_id = ? limit 1', [accessId])
-    .then(rows => {
-      if (!rows.length)
-        respond(204, null, res);
-      else
-        respond(200, rows[0], res);
+  models.Driver.findAll({
+    limit: 1,
+    include: { model: models.User, where: { access_id: accessId } },
+  })
+    .then(drivers => {
+      let obj = {};
+      if (drivers.length) {
+        const d = drivers[0];
+        obj = {
+          id: d.id,
+          user_id: d.userId,
+          name: d.user.name,
+          phone_number: d.user.phone_number,
+          location: d.user.location,
+          access_id: d.user.access_id,
+          car: d.car,
+        };
+      }
 
+      respond(200, obj, res);
     })
     .catch(err => {
       respond(500, err, res);
     });
-}
+};
 
 
 /**
  * @api {post} /driver create driver
  * @apiName DriverPost
  * @apiGroup driver
- * 
+ *
  * @apiSuccess (200) {Object} data successful driver creation
  *
  *  @apiParamExample {json} Request-Example:
@@ -91,20 +118,15 @@ module.exports.getById = (req, res) => {
  *     "access_id":"ab1234",
  *     "car":"2010 ford fusion",
  * }
- * 
+ *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
 {
     "error": false,
     "data": {
-        "fieldCount": 0,
-        "affectedRows": 1,
-        "insertId": 1,
-        "serverStatus": 3,
-        "warningCount": 0,
-        "message": "",
-        "protocol41": true,
-        "changedRows": 0
+        "id": 2,
+        "car": "2016 VW Tiguan",
+        "userId": 3
     }
 }
  *
@@ -112,29 +134,94 @@ module.exports.getById = (req, res) => {
  * @apiError (Error 4xx) {String} 400 Bad Request: cannot find user with access id <accessId>
  */
 module.exports.post = (req, res) => {
-  const accessId = req.body.access_id;
-  const { car } = req.body;
+  const b = req.body;
+  if (!validate(b, {
+    access_id: 'string',
+    car: 'string',
+  }, res)) return;
 
-  let insertRows;
-  db.query('START TRANSACTION')
-    .then(() => {
-      const sql = 'SELECT * FROM user WHERE access_id=? LIMIT 1';
-      return db.query(sql, [accessId]);
+  const driver = {
+    car: b.car,
+  };
+
+  let responded = false;
+  models.User.findAll({
+    limit: 1,
+    include: models.Driver,
+    where: {
+      access_id: b.access_id,
+    },
+  })
+    .then(users => {
+      if (!users.length) {
+        const errString = `no user exists with access ID ${b.access_id}`;
+        respond(400, errString, res);
+        responded = true;
+        throw errString;
+      } else if (users[0].driver !== null) {
+        const errString = `driver with access ID ${b.access_id} already exists`;
+        respond(400, errString, res);
+        responded = true;
+        throw errString;
+      } else {
+        driver.userId = users[0].id;
+        return users[0].createDriver(driver, { fields: ['car', 'userId'] });
+      }
     })
-    .then(rows => {
-      // TODO: fix 'Can't set headers after they are sent' error
-      if (!rows.length)
-        return respond(400, `cannot find user with access id ${accessId}`, res);
-      else
-        return db.query('INSERT INTO driver (user_id, car) VALUES (?, ?) ON DUPLICATE KEY UPDATE car = VALUES(car)', [rows[0].id, car]);
+    .then(driver => {
+      respond(200, driver, res);
     })
-    .then(rows => {
-      insertRows = rows;
-      return db.query('COMMIT');
-    })
-    .then(() => respond(200, insertRows, res))
     .catch(err => {
-      db.query('ROLLBACK')
-        .then(() => respond(500, err, res));
+      if (responded) return;
+      if (err.name && err.name === 'SequelizeUniqueConstraintError') respond(400, err.errors[0].message, res);
+      else respond(500, err, res);
+    });
+};
+
+/**
+ * @api {delete} /driver/:accessId delete driver
+ * @apiName DriverDelete
+ * @apiGroup driver
+ *
+ * @apiSuccess (200) {Object} data successful driver creation
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "deleted": 1
+    }
+}
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ * @apiError (Error 4xx) {String} 400 Bad Request: cannot find user with access id <accessId>
+ */
+module.exports.delete = (req, res) => {
+  if (!validate(req.params, {
+    accessId: 'string',
+  }, res)) return;
+
+  models.User.findAll({
+    limit: 1,
+    include: models.Driver,
+    where: {
+      access_id: req.params.accessId,
+    },
+  })
+    .then(users => {
+      if (users.length) {
+        return models.Driver.destroy({
+          where: {
+            userId: users[0].id,
+          },
+        });
+      }
+    })
+    .then(deleted => {
+      respond(200, { deleted }, res);
+    })
+    .catch(err => {
+      respond(500, err, res);
     });
 };
