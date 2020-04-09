@@ -89,6 +89,11 @@ public class UserProfile extends AppCompatActivity {
                 startActivity(intent2);
                 return true;
 
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 

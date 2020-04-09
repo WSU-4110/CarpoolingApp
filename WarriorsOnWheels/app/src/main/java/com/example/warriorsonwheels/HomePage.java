@@ -3,6 +3,7 @@ package com.example.warriorsonwheels;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +22,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     private Button findRideButton;
     private Button postRideButton;
-    private boolean isDriverHome = false;
+    private boolean isDriverHome;
     private Toast toast;
     private Toolbar tbrMain;
 
@@ -65,6 +66,11 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 startActivity(intent2);
                 return true;
 
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -86,6 +92,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                     Intent intent2 = new Intent(getApplicationContext(), PostRide.class);
                     startActivity(intent2);
                 }
+
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Error:");

@@ -18,6 +18,18 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Login"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity android:name=".Payment">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".UserProfile"
             android:windowSoftInputMode="stateHidden">
         </activity>

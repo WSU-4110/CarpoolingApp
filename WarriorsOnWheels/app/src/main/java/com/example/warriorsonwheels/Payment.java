@@ -6,31 +6,32 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
-import android.widget.TextView;
+import android.widget.EditText;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-public class RateDriver extends AppCompatActivity{
+import androidx.appcompat.widget.Toolbar;
 
-    private Button Rate;
-    private RatingBar RateDriver;
+public class Payment extends AppCompatActivity implements View.OnClickListener {
+    public EditText nameOnCard, creditCardNum, expDate, cvv, zipCode;
+
+    private Toolbar tbrMain;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ratedriver);
+        setContentView(R.layout.payment);
 
-        //Buttons
-        RateDriver = (RatingBar) findViewById(R.id.driverRatingBar);
-        Rate = (Button) findViewById(R.id.RateDriver);
-        //Initialize DriverImage
-    }
+        //Toolbar
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
-    public void onClick(View v) {
-        //add rating to DataBase
+        nameOnCard = (EditText)findViewById(R.id.nameOnCard);
+        creditCardNum = (EditText)findViewById(R.id.creditCardNum);
+        expDate = (EditText)findViewById(R.id.expDate);
+        cvv = (EditText)findViewById(R.id.securityCode);
+        zipCode = (EditText)findViewById(R.id.zipCode);
+
     }
 
     //Create Menu
@@ -41,7 +42,6 @@ public class RateDriver extends AppCompatActivity{
         inflater.inflate(R.menu.overflowmenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     //Menu Options
     @Override
@@ -70,4 +70,9 @@ public class RateDriver extends AppCompatActivity{
         }
     }
 
+    @Override
+    public void onClick(View v) {
+
+
+    }
 }
