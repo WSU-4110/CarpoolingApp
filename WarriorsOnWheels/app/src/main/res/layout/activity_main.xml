@@ -40,9 +40,17 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/button"
         android:textColor="@color/text"
-        android:text="Bypass to Home Page"
+        android:text="Create Passenger Profile"
         android:onClick="onClick"/>
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/button"
+        android:textColor="@color/text"
+        android:text="Login"
+        android:onClick="onClick"/>
 
 </LinearLayout>
 </ScrollView>

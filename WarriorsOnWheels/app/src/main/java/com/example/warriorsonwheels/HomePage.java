@@ -3,6 +3,7 @@ package com.example.warriorsonwheels;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,6 +64,11 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
             case R.id.userProfilePage:
                 Intent intent2 = new Intent(getApplicationContext(), UserProfile.class);
                 startActivity(intent2);
+                return true;
+
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
                 return true;
 
             default:
