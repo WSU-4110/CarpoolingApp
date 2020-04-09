@@ -62,6 +62,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         color = (EditText) findViewById(R.id.color);
         licensePlate = (EditText)findViewById(R.id.license);
         carImage = (ImageButton) findViewById(R.id.carImage);
+        carImage.setOnClickListener(this);
     }
 
     @Override
@@ -91,11 +92,13 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         {
             case R.id.carImage:
                 selectImage(DriverProfile.this);
+                break;
             case R.id.finishDriver:
                 sendRequest();
                 Shared.Data.isDriverCheck = true;
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
+                break;
         }
     }
 
