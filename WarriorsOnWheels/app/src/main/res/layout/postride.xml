@@ -82,7 +82,7 @@
                 android:layout_weight="1"
                 android:hint="Sterling Heights"
                 android:textColor="@color/text"
-                android:textColorHint="@color/text"
+                android:textColorHint="@color/textHint"
                 android:ems="10"
                 android:inputType="text" />
 
@@ -119,7 +119,7 @@
                 android:layout_marginRight="10dp"
                 android:hint="Detroit"
                 android:textColor="@color/text"
-                android:textColorHint="@color/text"
+                android:textColorHint="@color/textHint"
                 android:ems="10"
                 android:inputType="text" />
 
@@ -156,7 +156,7 @@
                 android:layout_marginRight="10dp"
                 android:hint="Date"
                 android:textColor="@color/text"
-                android:textColorHint="@color/text"
+                android:textColorHint="@color/textHint"
                 android:ems="10"
                 android:inputType="datetime" />
 
@@ -223,11 +223,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
-                android:hint="3"
+                android:hint="no more than 6"
                 android:textColor="@color/text"
-                android:textColorHint="@color/text"
+                android:textColorHint="@color/textHint"
                 android:ems="10"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxEms="6"/>
 
         </LinearLayout>
 

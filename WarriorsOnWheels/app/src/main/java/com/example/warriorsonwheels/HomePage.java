@@ -22,7 +22,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     private Button findRideButton;
     private Button postRideButton;
-    private boolean isDriverHome = false;
+    private boolean isDriverHome;
     private Toast toast;
     private Toolbar tbrMain;
 
@@ -92,6 +92,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                     Intent intent2 = new Intent(getApplicationContext(), PostRide.class);
                     startActivity(intent2);
                 }
+
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Error:");
