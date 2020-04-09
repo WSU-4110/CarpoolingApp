@@ -1,7 +1,9 @@
+'use strict';
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = require('./router/index');
+const models = require('./models');
 
 const app = express();
 const port = process.env.port || 8080;

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "dev": "nodemon app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
     "lint": "eslint --fix ./",
     "doc": "apidoc -i . -e node_modules -e apidoc -o apidoc"
   },
@@ -17,7 +17,10 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "moment": "^2.24.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.6"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
