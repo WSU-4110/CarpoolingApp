@@ -92,6 +92,26 @@
 
 
             <EditText
+                android:id="@+id/accessId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="accessID"
+                android:inputType="text"
+                android:text=""
+                android:maxLength="6"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <EditText
                 android:id="@+id/pw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

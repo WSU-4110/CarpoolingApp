@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity {
-    EditText email, pw;
+    EditText accessID, pw;
     Button confirm;
 
 
@@ -20,7 +20,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        email = (EditText)findViewById(R.id.emailDisplay);
+        accessID = (EditText)findViewById(R.id.idInput);
         pw = (EditText)findViewById(R.id.pwDisplay);
 
         confirm = (Button) findViewById(R.id.submitLoginButton);

@@ -16,13 +16,14 @@
 
 
             <EditText
-                android:id="@+id/emailDisplay"
+                android:id="@+id/idInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Email"
-                android:inputType="textEmailAddress" />
+                android:hint="accessID"
+                android:inputType="text"
+                android:maxLength="6"/>
 
         </LinearLayout>
 

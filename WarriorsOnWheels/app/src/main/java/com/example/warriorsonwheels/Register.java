@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Register extends AppCompatActivity {
-    EditText firstName, lastName, phoneNumber, email, pw, confirmPW;
+    EditText firstName, lastName, phoneNumber, accessID, pw, confirmPW;
     Button confirm;
 
 
@@ -24,7 +24,7 @@ public class Register extends AppCompatActivity {
 
         firstName = (EditText)findViewById(R.id.firstName);
         lastName = (EditText)findViewById(R.id.lastName);
-        email = (EditText)findViewById(R.id.email);
+        accessID = (EditText)findViewById(R.id.accessID);
         pw = (EditText)findViewById(R.id.pw);
         confirmPW = (EditText)findViewById(R.id.confirmpw);
 
