@@ -62,6 +62,7 @@
             android:text="Rate"
             android:background="@color/button"
             android:textColor="@color/text"
+            android:onClick="onClick"
             android:layout_marginTop="20dp"/>
 
     </LinearLayout>

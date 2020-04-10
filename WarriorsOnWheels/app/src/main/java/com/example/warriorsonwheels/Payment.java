@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
@@ -26,6 +27,7 @@ public class Payment extends AppCompatActivity implements View.OnClickListener {
         tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
 
+        //Vars
         nameOnCard = (EditText)findViewById(R.id.nameOnCard);
         creditCardNum = (EditText)findViewById(R.id.creditCardNum);
         expDate = (EditText)findViewById(R.id.expDate);
@@ -72,7 +74,6 @@ public class Payment extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
 
     }
 }

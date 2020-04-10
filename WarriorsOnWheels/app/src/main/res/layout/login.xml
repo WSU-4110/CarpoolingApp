@@ -72,7 +72,6 @@
                 android:textStyle="bold"
                 android:textSize="15dp"/>
 
-
             <EditText
                 android:id="@+id/idInput"
                 android:layout_width="0dp"
@@ -101,7 +100,6 @@
                 android:textColor="@color/heading_2"
                 android:textStyle="bold"
                 android:textSize="15dp"/>
-
 
             <EditText
                 android:id="@+id/pwDisplay"
@@ -139,4 +137,3 @@
     </LinearLayout>
 </LinearLayout>
 </ScrollView>
-

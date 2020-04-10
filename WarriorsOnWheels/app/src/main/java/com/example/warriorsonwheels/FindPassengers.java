@@ -16,8 +16,8 @@ public class FindPassengers extends AppCompatActivity {
         setContentView(R.layout.findpassengers);
 
         //Toolbar
-        tbrMain =  findViewById(R.id.tbrMain);
-        setSupportActionBar(tbrMain);
+//        tbrMain =  findViewById(R.id.tbrMain);
+//        setSupportActionBar(tbrMain);
 
     }
 }

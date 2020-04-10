@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -40,9 +39,7 @@
             android:layout_height="150dp"
             android:clickable="true"
             android:orientation="horizontal"
-            android:id="@+id/FirstRide"
-
-            >
+            android:id="@+id/FirstRide" >
 
             <LinearLayout
                 android:layout_width="200dp"
@@ -149,11 +146,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/SecondRide"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:clickable="true"
             android:orientation="horizontal"
-            android:id="@+id/SecondRide"
             android:visibility="gone"
             >
 
@@ -439,7 +436,8 @@
                 android:layout_width="200dp"
                 android:layout_height="150dp"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:onClick="onClick">
 
                 <TextView
                     android:id="@+id/space4"
@@ -658,7 +656,6 @@
                     android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
 
             </LinearLayout>
 
