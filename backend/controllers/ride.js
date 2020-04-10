@@ -180,6 +180,11 @@ module.exports.post = async (req, res) => {
       },
     });
 
+    if (!driver) {
+      respond(400, `driver with access ID ${b.driver} not found`, res);
+      return;
+    }
+
     const ride = await models.Ride.create({
       driverId: driver.dataValues.id,
       date: datetime,
