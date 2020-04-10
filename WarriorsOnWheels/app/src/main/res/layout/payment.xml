@@ -28,8 +28,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,7 +62,6 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-
             <EditText
                 android:id="@+id/nameOnCard"
                 android:layout_width="wrap_content"
@@ -73,11 +75,11 @@
                 android:text="" />
 
         </LinearLayout>
-        
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="10dp" />
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,6 +99,7 @@
                 android:maxLength="16"/>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -149,7 +152,7 @@
                 android:text=""
                 android:maxLength="5"/>
         </LinearLayout>
-        
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="20dp" />
@@ -174,3 +177,4 @@
     </LinearLayout>
 </LinearLayout>
 </ScrollView>
+

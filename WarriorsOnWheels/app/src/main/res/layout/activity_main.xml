@@ -21,11 +21,11 @@
         android:id="@+id/tbrMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/toolbar"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        />
+        android:backgroundTint="@color/toolbar"
+        android:text="@string/app_name"
+        android:theme="?attr/actionBarTheme" />
 
     <com.google.android.gms.common.SignInButton
     android:id="@+id/sign_in_button"
@@ -35,7 +35,7 @@
     android:onClick="onClick" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/button"
@@ -44,7 +44,7 @@
         android:onClick="onClick"/>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/button"

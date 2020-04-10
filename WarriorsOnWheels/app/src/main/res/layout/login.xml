@@ -72,7 +72,6 @@
                 android:textStyle="bold"
                 android:textSize="15dp"/>
 
-
             <EditText
                 android:id="@+id/idInput"
                 android:layout_width="0dp"
@@ -81,6 +80,7 @@
                 android:ems="10"
                 android:hint="ab1234"
                 android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="text"
                 android:maxLength="6"/>
 
@@ -102,7 +102,6 @@
                 android:textStyle="bold"
                 android:textSize="15dp"/>
 
-
             <EditText
                 android:id="@+id/pwDisplay"
                 android:layout_width="0dp"
@@ -110,6 +109,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="password"
+                android:textColor="@color/text"
                 android:textColorHint="@color/textHint"
                 android:inputType="textPassword" />
 
@@ -139,4 +139,3 @@
     </LinearLayout>
 </LinearLayout>
 </ScrollView>
-

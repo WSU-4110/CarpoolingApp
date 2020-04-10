@@ -7,9 +7,7 @@
     android:fillViewport="true"
     tools:context=".PassengerProfile">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -39,7 +37,7 @@
     <LinearLayout
         android:id="@+id/NameLayout"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp">
 
@@ -72,7 +70,7 @@
     <LinearLayout
         android:id="@+id/AccessLayout"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp">
 
@@ -106,7 +104,7 @@
     <LinearLayout
         android:id="@+id/NumberLayout"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp">
 
@@ -137,7 +135,7 @@
     <LinearLayout
         android:id="@+id/LocationLayout"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp">
 
@@ -147,18 +145,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="Primary Location:"
+            android:text="Address:"
             android:textColor="@color/heading_2"
             android:textSize="20sp"
             android:textStyle="bold" />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/AddressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+
         <EditText
-            android:id="@+id/Location"
+            android:id="@+id/street"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:ems="10"
-            android:hint="Ex: Sterling Heights"
+            android:hint="Street"
             android:textColor="@color/text"
             android:textColorHint="@color/textHint"
             android:inputType="text"
@@ -169,35 +178,135 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/AddressLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
 
-        <Button
-            android:id="@+id/createDrivProf"
+        <EditText
+            android:id="@+id/city"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:hint="City"
+            android:inputType="text"
+            android:textColor="@color/text"
+            android:textColorHint="@color/textHint" />
+
+        <EditText
+            android:id="@+id/state"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:hint="State"
+            android:maxLength="2"
+            android:inputType="text"
+            android:textColor="@color/text"
+            android:textColorHint="@color/textHint" />
+
+        <EditText
+            android:id="@+id/zipCode"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:ems="10"
+            android:hint="Zip Code"
+            android:maxLength="5"
+            android:inputType="text"
+            android:textColor="@color/text"
+            android:textColorHint="@color/textHint" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pwLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+
+        <TextView
+            android:id="@+id/askPass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
-            android:text="Create Driver Profile"
-            android:background="@color/button"
+            android:layout_marginLeft="20dp"
+            android:text="Password:"
+            android:textColor="@color/heading_2"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/pw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="88dp"
+            android:ems="10"
+            android:hint="Input Password"
             android:textColor="@color/text"
-            android:onClick="onClick"/>
+            android:textColorHint="@color/textHint"
+            android:inputType="textPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/confirmPassLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+
+        <TextView
+            android:id="@+id/confirmPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Confirm Password:"
+            android:textColor="@color/heading_2"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/confirmpw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:hint="Confirm Password"
+            android:textColor="@color/text"
+            android:textColorHint="@color/textHint"
+            android:inputType="text" />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <Button
             android:id="@+id/finishPassProf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:gravity="center"
             android:text="Finish"
             android:background="@color/button"
             android:textColor="@color/text"
             android:onClick="onClick"/>
 
     </LinearLayout>
-
-
-
 
 </LinearLayout>
 </ScrollView>

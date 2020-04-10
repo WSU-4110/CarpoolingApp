@@ -114,6 +114,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
             //Go to FindPassengers.java
             case R.id.shareRideButton:
                 postRequest();
+
                 Intent intent = new Intent(getApplicationContext(), RatePassenger.class);
                 startActivity(intent);
         }
@@ -128,8 +129,8 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         Integer hour = leaveTimePicker.getHour();
         Integer min = leaveTimePicker.getMinute();
 
-        String time = hour.toString() + min.toString();
 
+        String time = hour.toString() + ":" + min.toString() + ":00";
 
         jsonParams.put("driver",Shared.Data.driverAccessID);
         jsonParams.put("date",leaveDate.getText().toString());
@@ -160,7 +161,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
-
 
     }
 }
