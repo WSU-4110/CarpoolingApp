@@ -35,10 +35,11 @@ public class Register extends AppCompatActivity {
 
         firstName = (EditText)findViewById(R.id.firstName);
         lastName = (EditText)findViewById(R.id.lastName);
-        accessID = (EditText)findViewById(R.id.accessID);
+        accessID = (EditText)findViewById(R.id.accessId);
         pw = (EditText)findViewById(R.id.pw);
         confirmPW = (EditText)findViewById(R.id.confirmpw);
         location = (EditText)findViewById(R.id.userLocation);
+        phoneNumber = (EditText)findViewById(R.id.PhoneNumber);
 
         confirm = (Button) findViewById(R.id.confirmRegistration);
 
@@ -83,7 +84,7 @@ public class Register extends AppCompatActivity {
         jsonParams.put("password",pw.getText().toString());
         jsonParams.put("phone_number",phoneNumber.getText().toString());
         jsonParams.put("location",location.getText().toString());
-        
+
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -91,12 +92,11 @@ public class Register extends AppCompatActivity {
             public void onResponse(JSONObject response) {
 
                 //runs when API called from RestQueue/MySingleton
-                // Name.setText(response.toString());
-                Log.i("POST",response.toString());
+                Log.i("POST", response.toString());
 
             }
         },
-                new Response.ErrorListener() {
+        new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
@@ -104,9 +104,14 @@ public class Register extends AppCompatActivity {
 
                     }
                 });
+
+
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
+
+
+
 
     }
 
