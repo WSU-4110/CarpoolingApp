@@ -133,9 +133,9 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
         String time = hour.toString() + ":" + min.toString() + ":00";
 
-        jsonParams.put("driver",Shared.Data.driverAccessID);
+        jsonParams.put("driver","gg2002");
         jsonParams.put("date",leaveDate.getText().toString());
-        jsonParams.put("time",time);
+        jsonParams.put("time","12:00:00");
         jsonParams.put("departure_location",departureText.getText().toString());
         jsonParams.put("arrival_location",arrivalText.getText().toString());
         jsonParams.put("passenger_count",passengerCount.getText().toString());
@@ -146,12 +146,10 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
             public void onResponse(JSONObject response) {
 
                 //runs when API called from RestQueue/MySingleton
-                // Name.setText(response.toString());
                 Log.i("POST",response.toString());
 
             }
         },
-
 
                 new Response.ErrorListener() {
                     @Override
