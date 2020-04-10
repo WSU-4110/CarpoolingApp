@@ -1,41 +1,50 @@
 package com.example.warriorsonwheels;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RideSearch extends AppCompatActivity implements View.OnClickListener{
 
-    private LinearLayout Ride1,Ride2, Ride3, Ride4, Ride5, Ride6, Ride7, Ride8;
-    LinearLayout layout[] = {Ride1,Ride2, Ride3, Ride4, Ride5, Ride6, Ride7, Ride8};
-    int layoutId[] = {R.id.FirstRide, R.id.SecondRide, R.id.ThirdRide, R.id.FourthRide, R.id.FifthRide, R.id.SixthRide, R.id.SeventhRide, R.id.EigthRide};
     private Button confirmButton;
     private Toolbar tbrMain;
-    private RadioButton r1, r2, r3, r4, r5, r6, r7,r8;
-    private TextView loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8, time1, time2, time3, time4, time5, time6, time7, time8, driver1, driver2, driver3, driver4, driver5, driver6, driver7, driver8;
-    TextView locations[] = {loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8};
-    int locationId[] = {R.id.left1,R.id.left2,R.id.left3,R.id.left4,R.id.left5,R.id.left6,R.id.left7,R.id.left8};
-    TextView times[] = {time1, time2, time3, time4, time5, time6, time7, time8};
-    int timeId[] = {R.id.depart1,R.id.depart2,R.id.depart3,R.id.depart4,R.id.depart5,R.id.depart6,R.id.depart7,R.id.depart8};
-    TextView drivers[] = {driver1, driver2, driver3, driver4, driver5, driver6, driver7, driver8};
-    int driverId[] = {R.id.driverName1,R.id.driverName2,R.id.driverName3,R.id.driverName4,R.id.driverName5,R.id.driverName6,R.id.driverName7,R.id.driverName8};
-    RadioButton rides[] = {r1, r2, r3, r4, r5, r6, r7,r8};
-    int rideId[] = {R.id.radioButton1,R.id.radioButton2,R.id.radioButton3,R.id.radioButton4,R.id.radioButton5,R.id.radioButton6,R.id.radioButton7,R.id.radioButton8};
-
+    private ListView rideList;
+    ArrayList<String> locations;
+    ArrayList<String> times;
+    ArrayList<String> drivers;
+    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +55,65 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
         tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
 
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading....");
+        dialog.show();
+
         //Buttons
         confirmButton = (Button) findViewById(R.id.confirmbutton);
         confirmButton.setClickable(false);
 
-        for(int i = 0; i < rides.length; i++)
-        {
-            rides[i] = findViewById(rideId[i]);
-            rides[i].setOnClickListener(this);
-            layout[i] = findViewById(layoutId[i]);
-            locations[i] = findViewById(locationId[i]);
-            times[i] = findViewById(timeId[i]);
-            drivers[i] = findViewById(driverId[i]);
+        rideList = (ListView) findViewById(R.id.rideList);
+
+
+        rideList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                confirmButton.setClickable(true);
+                confirmButton.setOnClickListener(RideSearch.this);
+            }
+        });
+
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                parseJsonData(string);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
+        rQueue.add(request);
+
+    }
+
+    void parseJsonData(String jsonString) {
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONArray ridesArray = object.getJSONArray("data");
+            ArrayList al = new ArrayList();
+
+            for(int i = 0; i < ridesArray.length(); ++i) {
+                al.add(ridesArray.getString(i));
+                JSONObject dataobj = ridesArray.getJSONObject(i);
+                locations.add(dataobj.getString("loaction"));
+                times.add(dataobj.getString("time"));
+                drivers.add(dataobj.getString("name"));
+            }
+
+            CustomListAdapter whatever = new CustomListAdapter(this, locations, times, drivers);
+            rideList.setAdapter(whatever);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+        dialog.dismiss();
     }
 
     //Create Menu
@@ -100,13 +155,6 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
 
     public void onClick(View v) {
 
-        for(int i = 0; i < rides.length; i++)
-        {
-            if(v.getId() == rideId[i])
-            {
-                confirmButton.setClickable(true);
-            }
-        }
         switch(v.getId())
         {
             case R.id.confirmbutton:
@@ -114,18 +162,6 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                 startActivity(intent3);
                 break;
         }
-    }
-
-    public void getRequest()
-    {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
-        Map<String, String> jsonParams = new HashMap<String, String>();
-
-        String driverName = jsonParams.get("driver");
-        String driverid = jsonParams.get("driver_id");
-        String time = jsonParams.get("time");
-        String location = jsonParams.get("location");
-
     }
 
 
