@@ -35,7 +35,8 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     //private Button CreateDriveProf;
     private Button finishPassProf;
    // private TextView Name,accessId, phoneNumber, location;
-    private EditText nameInp, idInput, numberInput, locationInput, pw, confirmPW;
+    private EditText nameInp, idInput, numberInput, pw, confirmPW;
+    private EditText street, city, state, zipCode;
     private Toolbar tbrMain;
 
     @Override
@@ -55,7 +56,12 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         nameInp = (EditText) findViewById(R.id.Name);
         idInput = (EditText) findViewById(R.id.accessID);
         numberInput = (EditText) findViewById(R.id.PhoneNumber);
-        locationInput = (EditText) findViewById(R.id.Location);
+
+        street = (EditText) findViewById(R.id.street);
+        city = (EditText) findViewById(R.id.city);
+        state = (EditText) findViewById(R.id.state);
+        zipCode = (EditText) findViewById(R.id.zipCode);
+
         pw = (EditText)findViewById(R.id.pw);
         confirmPW = (EditText)findViewById(R.id.confirmpw);
 
@@ -87,15 +93,10 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch(v.getId())
         {
-            case R.id.createDrivProf:
-                postRequest();
-                Intent intent2 = new Intent(getApplicationContext(), DriverProfile.class);
-                startActivity(intent2);
-                break;
+
             case R.id.finishPassProf:
-                Shared.Data.isDriverCheck = false;
                 postRequest();
-                Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
+                Intent intent1 = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent1);
                 break;
         }
@@ -115,22 +116,22 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         String sendNumInp = numberInput.getText().toString();
         Shared.Data.phNumber = sendNumInp;
 
-        String sendLocInput = locationInput.getText().toString();
+        String sendLocInput = city.getText().toString();
         Shared.Data.userLoc = sendLocInput;
     }
 
     public void postRequest()
     {
+        String address = street.toString() + " " + city.toString() + " " + state.toString() + " " + zipCode.toString();
+
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-
-
         //Need to add Date, Departure Location, Arrival Location
         jsonParams.put("name",nameInp.getText().toString());
         jsonParams.put("phone_number",numberInput.getText().toString());
-        jsonParams.put("location",locationInput.getText().toString());
+        jsonParams.put("location", address);
         jsonParams.put("access_id",idInput.getText().toString());
         jsonParams.put("password",pw.getText().toString());
 
