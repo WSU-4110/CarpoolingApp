@@ -23,6 +23,7 @@ import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -150,14 +151,26 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
             }
         },
+
+
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.println(Log.ERROR,"ERROR:","Volley Error");
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
 
 
                     }
-                });
+                }) {
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<String, String>();
+                    headers.put("Authorization", Shared.Data.token);
+                    return headers;
+                }
+
+
+        };
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
