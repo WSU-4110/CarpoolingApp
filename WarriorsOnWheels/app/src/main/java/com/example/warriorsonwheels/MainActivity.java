@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SignInButton signIn;
     private TextView Name,Email;
     private ImageView profilePic;
-    private GoogleApiClient googleApiClient;
-    private static final int REQ_CODE = 9001;
     private Toolbar tbrMain;
     private Button loginButton,registerButton;
 
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.registerButton:
-                Intent intent1 = new Intent (getApplicationContext(), Register.class);
+                Intent intent1 = new Intent (getApplicationContext(), PassengerProfile.class);
                 startActivity(intent1);
                 break;
 

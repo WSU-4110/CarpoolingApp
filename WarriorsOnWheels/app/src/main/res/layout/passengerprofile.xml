@@ -7,9 +7,7 @@
     android:fillViewport="true"
     tools:context=".PassengerProfile">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -97,6 +95,7 @@
             android:textColor="@color/text"
             android:textColorHint="@color/textHint"
             android:inputType="text"
+            android:maxLength="6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -161,7 +160,7 @@
             android:hint="Ex: Sterling Heights"
             android:textColor="@color/text"
             android:textColorHint="@color/textHint"
-            android:inputType="text"
+            android:inputType="textPostalAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -229,42 +228,31 @@
             android:hint="Confirm Password"
             android:textColor="@color/text"
             android:textColorHint="@color/textHint"
-            android:inputType="text" />
+            android:inputType="textPassword" />
 
 
     </LinearLayout>
 
-
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/createDrivProf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
-            android:text="Create Driver Profile"
-            android:background="@color/button"
-            android:textColor="@color/text"
-            android:onClick="onClick"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <Button
             android:id="@+id/finishPassProf"
-            android:layout_width="wrap_content"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
             android:text="Finish"
             android:background="@color/button"
-            android:textColor="@color/text"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:textColor="@color/text" />
 
     </LinearLayout>
-
-
 
 
 </LinearLayout>
