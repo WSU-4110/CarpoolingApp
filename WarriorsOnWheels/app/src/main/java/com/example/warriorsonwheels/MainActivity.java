@@ -57,9 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
 
-
-
-
     }
 
     @Override

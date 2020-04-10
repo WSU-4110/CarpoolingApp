@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,10 +32,10 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     private LinearLayout AccessLayout;
     private LinearLayout NumberLayout;
     private LinearLayout LocationLayout;
-    private Button CreateDriveProf;
+    //private Button CreateDriveProf;
     private Button finishPassProf;
    // private TextView Name,accessId, phoneNumber, location;
-    private EditText nameInp, idInput, numberInput, locationInput;
+    private EditText nameInp, idInput, numberInput, locationInput, pw, confirmPW;
     private Toolbar tbrMain;
 
     @Override
@@ -46,24 +48,37 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         setSupportActionBar(tbrMain);
 
         //Buttons
-        finishPassProf = findViewById(R.id.finishPassProf);
-        CreateDriveProf = findViewById(R.id.createDrivProf);
-
-
+        finishPassProf = (Button) findViewById(R.id.finishPassProf);
+        //CreateDriveProf = (Button) findViewById(R.id.createDrivProf);
 
         //EditText
-        nameInp = findViewById(R.id.Name);
-        //String sendNameInp = nameInp.getText().toString();
+        nameInp = (EditText) findViewById(R.id.Name);
+        idInput = (EditText) findViewById(R.id.accessID);
+        numberInput = (EditText) findViewById(R.id.PhoneNumber);
+        locationInput = (EditText) findViewById(R.id.Location);
+        pw = (EditText)findViewById(R.id.pw);
+        confirmPW = (EditText)findViewById(R.id.confirmpw);
 
-        idInput = findViewById(R.id.accessID);
-        //String sendidInput = idInput.getText().toString();
+        finishPassProf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        numberInput = findViewById(R.id.PhoneNumber);
-        //String sendNumInp = numberInput.getText().toString();
 
-        locationInput = findViewById(R.id.Location);
-        //String sendLocInput = locationInput.getText().toString();
+                if(String.valueOf(pw.getText()).equals(String.valueOf(confirmPW.getText())))
+                {
+                    postRequest();
+                    Intent intent = new Intent(getApplicationContext(),Login.class);
+                    startActivity(intent);
+                }
+                else
+                {
 
+                    Toast toast = Toast.makeText(getApplicationContext(), "Password did not match",Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
+            }
+        });
 
     }
 
@@ -78,6 +93,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
                 startActivity(intent2);
                 break;
             case R.id.finishPassProf:
+                Shared.Data.isDriverCheck = false;
                 postRequest();
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
@@ -116,6 +132,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         jsonParams.put("phone_number",numberInput.getText().toString());
         jsonParams.put("location",locationInput.getText().toString());
         jsonParams.put("access_id",idInput.getText().toString());
+        jsonParams.put("password",pw.getText().toString());
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {

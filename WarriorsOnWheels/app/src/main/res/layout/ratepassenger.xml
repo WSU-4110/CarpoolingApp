@@ -6,11 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".MainActivity">
+    tools:context=".RatePassenger">
 
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tbrMain"
@@ -19,13 +21,15 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:text="@string/app_name"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="?attr/actionBarTheme"
+            android:backgroundTint="@color/toolbar"/>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Rate Your Passenger!"
+            android:textColor="@color/heading_1"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginTop="15dp"
@@ -44,8 +48,10 @@
             android:id="@+id/passengerRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:numStars="5"
             android:layout_gravity="center"
+            android:numStars="5"
+            android:progressTint="@color/heading_2"
+            android:progressBackgroundTint="@color/text"
             android:layout_marginTop="20dp"/>
 
         <Button
@@ -54,8 +60,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Rate"
+            android:background="@color/button"
+            android:textColor="@color/text"
             android:onClick="onClick"
             android:layout_marginTop="20dp"/>
+
     </LinearLayout>
 
 </ScrollView>

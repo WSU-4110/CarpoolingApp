@@ -45,6 +45,7 @@ public class RatePassenger extends AppCompatActivity{
         Glide.with(this).load(Shared.Data.imgURL).into(imageView);
 
         RatePassenger.setNumStars(5);
+
         //Initialize DriverImage
     }
 
@@ -86,6 +87,11 @@ public class RatePassenger extends AppCompatActivity{
             case R.id.userProfilePage:
                 Intent intent2 = new Intent(getApplicationContext(), UserProfile.class);
                 startActivity(intent2);
+                return true;
+
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
                 return true;
 
             default:

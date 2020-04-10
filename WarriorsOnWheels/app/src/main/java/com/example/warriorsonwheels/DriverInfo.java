@@ -21,15 +21,16 @@ public class DriverInfo extends AppCompatActivity{
         setContentView(R.layout.driverinfo);
 
         //Buttons
-        OptOutOfRide = findViewById(R.id.OptOutOfRide);
-        driverName = findViewById(R.id.DriverName);
-        driverPhone = findViewById(R.id.DriverPhone);
-        driverRating = findViewById(R.id.DriverRating);
-        placeInLine = findViewById(R.id.PassPlaceInLine);
-        ArrivalTime = findViewById(R.id.ArrivalTime);
-        MakeModeYear = findViewById(R.id.makeModelYear);
-        Color = findViewById(R.id.Carcolor);
-        LicensePlate = findViewById(R.id.CarLicense);
+        OptOutOfRide = (Button) findViewById(R.id.OptOutOfRide);
+
+        driverName = (TextView) findViewById(R.id.DriverName);
+        driverPhone = (TextView) findViewById(R.id.DriverPhone);
+        driverRating = (TextView) findViewById(R.id.DriverRating);
+        placeInLine = (TextView) findViewById(R.id.PassPlaceInLine);
+        ArrivalTime = (TextView) findViewById(R.id.ArrivalTime);
+        MakeModeYear = (TextView) findViewById(R.id.makeModelYear);
+        Color = (TextView) findViewById(R.id.Carcolor);
+        LicensePlate = (TextView) findViewById(R.id.CarLicense);
         //Initialize carImage
     }
 
