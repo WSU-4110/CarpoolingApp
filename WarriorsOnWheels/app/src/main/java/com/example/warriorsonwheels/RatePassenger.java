@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -45,6 +46,7 @@ public class RatePassenger extends AppCompatActivity{
         Glide.with(this).load(Shared.Data.imgURL).into(imageView);
 
         RatePassenger.setNumStars(5);
+
         //Initialize DriverImage
     }
 
@@ -88,6 +90,11 @@ public class RatePassenger extends AppCompatActivity{
                 startActivity(intent2);
                 return true;
 
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -127,7 +134,17 @@ public class RatePassenger extends AppCompatActivity{
 
 
                     }
-                });
+                }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+
+
+        };
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);

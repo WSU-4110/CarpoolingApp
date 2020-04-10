@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".HomePage">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbrMain"
@@ -12,6 +21,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:text="@string/app_name"
+        android:backgroundTint="@color/toolbar"
         android:theme="?attr/actionBarTheme" />
 
     <LinearLayout
@@ -26,6 +36,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Welcome to Warriors on Wheels!"
+            android:textColor="@color/heading_1"
             android:textStyle="bold"
             android:textSize="40dp"/>
 
@@ -53,6 +64,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Would you like to..."
+            android:textColor="@color/heading_2"
             android:textStyle="italic"
             android:textSize="30dp"/>
 
@@ -77,6 +89,8 @@
             android:gravity="center"
             android:layout_weight="1"
             android:text="Find A Ride"
+            android:background="@color/button"
+            android:textColor="@color/text"
             android:onClick="onClick"/>
 
         </LinearLayout>
@@ -93,6 +107,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="or"
+                android:textColor="@color/heading_2"
                 android:textStyle="italic"
                 android:textSize="30dp"/>
 
@@ -111,6 +126,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Share a Ride"
+            android:background="@color/button"
+            android:textColor="@color/text"
             android:onClick="onClick"/>
 
         </LinearLayout>
@@ -118,3 +135,4 @@
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

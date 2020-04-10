@@ -24,8 +24,8 @@ public class RateDriver extends AppCompatActivity{
         setContentView(R.layout.ratedriver);
 
         //Buttons
-        RateDriver = findViewById(R.id.driverRatingBar);
-        Rate = findViewById(R.id.RateDriver);
+        RateDriver = (RatingBar) findViewById(R.id.driverRatingBar);
+        Rate = (Button) findViewById(R.id.RateDriver);
         //Initialize DriverImage
     }
 
@@ -58,6 +58,11 @@ public class RateDriver extends AppCompatActivity{
             case R.id.userProfilePage:
                 Intent intent2 = new Intent(getApplicationContext(), UserProfile.class);
                 startActivity(intent2);
+                return true;
+
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
                 return true;
 
             default:

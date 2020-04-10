@@ -31,19 +31,37 @@ public class UserProfile extends AppCompatActivity {
         setSupportActionBar(tbrMain);
 
         //TextViews
-        name = findViewById(R.id.name);
-        accessID = findViewById(R.id.accessID);
-        phNum = findViewById(R.id.phNum);
-        primLoc = findViewById(R.id.primLoc);
-        passRating = findViewById(R.id.passRating);
+        name = (TextView) findViewById(R.id.name);
+        accessID = (TextView)findViewById(R.id.accessID);
+        phNum = (TextView)findViewById(R.id.phNum);
+        primLoc = (TextView)findViewById(R.id.primLoc);
+        passRating = (TextView)findViewById(R.id.passRating);
 
-        carMake = findViewById(R.id.carMake);
-        carYear = findViewById(R.id.carYear);
-        carModel = findViewById(R.id.carModel);
-        carColor = findViewById(R.id.carColor);
-        licensePlate = findViewById(R.id.licensePlate);
-        drivRating = findViewById(R.id.drivRating);
+        carMake = (TextView)findViewById(R.id.carMake);
+        carYear = (TextView)findViewById(R.id.carYear);
+        carModel = (TextView)findViewById(R.id.carModel);
+        carColor = (TextView)findViewById(R.id.carColor);
+        licensePlate = (TextView)findViewById(R.id.licensePlate);
+        drivRating = (TextView)findViewById(R.id.drivRating);
 
+    }
+
+    //Recieve data from profile pages
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Pass Profile
+        name.setText(Shared.Data.userName);
+        accessID.setText(Shared.Data.userId);
+        phNum.setText(Shared.Data.phNumber);
+        primLoc.setText(Shared.Data.userLoc);
+
+        //Driver Profile
+        carMake.setText(Shared.Data.userCarMake);
+        carModel.setText(Shared.Data.userCarModel);
+        carYear.setText(Shared.Data.userCarYear);
+        carColor.setText(Shared.Data.userCarColor);
+        licensePlate.setText(Shared.Data.userLicPlate);
     }
 
     //Create Menu
@@ -54,7 +72,6 @@ public class UserProfile extends AppCompatActivity {
         inflater.inflate(R.menu.overflowmenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     //Menu Options
     @Override
@@ -70,6 +87,11 @@ public class UserProfile extends AppCompatActivity {
             case R.id.userProfilePage:
                 Intent intent2 = new Intent(getApplicationContext(), UserProfile.class);
                 startActivity(intent2);
+                return true;
+
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
                 return true;
 
             default:

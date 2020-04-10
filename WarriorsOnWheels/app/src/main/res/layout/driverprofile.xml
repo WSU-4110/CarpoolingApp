@@ -6,26 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".MainActivity">
+    tools:context=".DriverProfile">
 
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tbrMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/toolbar"
             android:minHeight="?attr/actionBarSize"
             android:text="@string/app_name"
             android:theme="?attr/actionBarTheme" />
+
+        <TextView
+            android:id="@+id/title3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Driver Profile:"
+            android:textColor="@color/heading_1"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Departure Details:"
+            android:textColor="@color/heading_2"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
@@ -46,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Location:"
+                android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -56,6 +72,8 @@
                 android:layout_marginLeft="100dp"
                 android:ems="10"
                 android:hint="Ex: Canton"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -77,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Access ID:"
+                android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -88,6 +107,8 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:hint="Access ID"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,6 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Car Details:"
+            android:textColor="@color/heading_2"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
@@ -119,6 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Make:"
+                android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -129,6 +152,8 @@
                 android:layout_marginLeft="115dp"
                 android:ems="10"
                 android:hint="Ex: Ford"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -148,6 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Model:"
+                android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -158,6 +184,8 @@
                 android:layout_marginLeft="110dp"
                 android:ems="10"
                 android:hint="Ex: Fusion"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -177,6 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Year:"
+                android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -187,6 +216,8 @@
                 android:layout_marginLeft="125dp"
                 android:ems="10"
                 android:hint="Ex: 2015"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -206,6 +237,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Color:"
+                android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -216,6 +248,8 @@
                 android:layout_marginLeft="117dp"
                 android:ems="10"
                 android:hint="Ex: Blue"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -235,6 +269,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Licence Plate:"
+                android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -245,6 +280,8 @@
                 android:layout_marginLeft="42dp"
                 android:ems="10"
                 android:hint="Ex: ABC 1234"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -262,6 +299,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Upload image of car:"
+                android:textColor="@color/heading_2"
                 android:onClick="onClick"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -280,6 +318,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Submit"
+            android:background="@color/button"
+            android:textColor="@color/text"
             android:onClick="onClick"/>
 
     </LinearLayout>
