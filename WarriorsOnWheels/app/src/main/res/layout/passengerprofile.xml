@@ -39,7 +39,7 @@
     <LinearLayout
         android:id="@+id/NameLayout"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp">
 
@@ -72,7 +72,7 @@
     <LinearLayout
         android:id="@+id/AccessLayout"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp">
 
@@ -106,7 +106,7 @@
     <LinearLayout
         android:id="@+id/NumberLayout"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp">
 
@@ -137,7 +137,7 @@
     <LinearLayout
         android:id="@+id/LocationLayout"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp">
 
@@ -167,6 +167,74 @@
 
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pwLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+
+        <TextView
+            android:id="@+id/askPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Password:"
+            android:textColor="@color/heading_2"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/pw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="88dp"
+            android:ems="10"
+            android:hint="Input Password"
+            android:textColor="@color/text"
+            android:textColorHint="@color/textHint"
+            android:inputType="textPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/confirmPassLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+
+        <TextView
+            android:id="@+id/confirmPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Confirm Password:"
+            android:textColor="@color/heading_2"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/confirmpw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:hint="Confirm Password"
+            android:textColor="@color/text"
+            android:textColorHint="@color/textHint"
+            android:inputType="text" />
+
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:orientation="horizontal"
