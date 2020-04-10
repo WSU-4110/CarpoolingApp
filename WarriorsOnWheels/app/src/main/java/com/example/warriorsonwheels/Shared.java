@@ -8,7 +8,7 @@ public enum Shared {
     public int selectedRide = 0;
     public boolean isDriver = false;
     public int profPic;
-    public String userName, userId, userLoc, phNumber,driverAccessID;
+    public String userName, userId, userLoc, phNumber,driverAccessID,token;
 
     GoogleSignInAccount googleAccount;
 
