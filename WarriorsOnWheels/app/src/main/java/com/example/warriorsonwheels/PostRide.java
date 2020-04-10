@@ -115,7 +115,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
             case R.id.shareRideButton:
                 postRequest();
 
-                Intent intent = new Intent(getApplicationContext(), RatePassenger.class);
+                Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
                 startActivity(intent);
         }
     }

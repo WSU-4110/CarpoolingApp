@@ -41,24 +41,133 @@
 
         </LinearLayout>
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/timer"
+                android:id="@+id/pass1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="1. "
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/heading_2"/>
+
+            <TextView
+                android:id="@+id/pass2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="2. "
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/heading_2"/>
+
+            <TextView
+                android:id="@+id/pass3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="3. "
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/heading_2"/>
+
+            <TextView
+                android:id="@+id/pass4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="4. "
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/heading_2"/>
+
+            <TextView
+                android:id="@+id/pass5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="5. "
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/heading_2"/>
+
+            <TextView
+                android:id="@+id/pass6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="6. "
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/heading_2"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="00:00"
-                android:textSize="25dp"
-                android:textColor="@color/text"
-                android:textColorHint="@color/textHint"/>
+                android:text="Refresh Page"
+                android:background="@color/button"
+                android:textColor="@color/text"/>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Ride"
+                android:background="@color/button"
+                android:textColor="@color/text"/>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel Ride"
+                android:background="@color/button"
+                android:textColor="@color/text"/>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 
