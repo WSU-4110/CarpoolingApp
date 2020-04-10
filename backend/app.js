@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const router = require('./routes/index');
 const models = require('./models');
 
+const firebase = require('./controllers/firebase');
+
 const app = express();
 const port = process.env.port || 8080;
 
