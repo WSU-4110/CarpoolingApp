@@ -102,7 +102,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
             for(int i = 0; i < ridesArray.length(); ++i) {
                 al.add(ridesArray.getString(i));
                 JSONObject dataobj = ridesArray.getJSONObject(i);
-                locations.add(dataobj.getString("loaction"));
+                locations.add(dataobj.getString("location"));
                 times.add(dataobj.getString("time"));
                 drivers.add(dataobj.getString("name"));
             }
