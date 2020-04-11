@@ -102,7 +102,6 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                 return headers;
             }
 
-
         };
         RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
         rQueue.add(request);
@@ -182,7 +181,6 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
         switch(v.getId())
         {
             case R.id.confirmbutton:
-
                 Intent intent3 = new Intent(getApplicationContext(), RateDriver.class);
                 startActivity(intent3);
                 break;
