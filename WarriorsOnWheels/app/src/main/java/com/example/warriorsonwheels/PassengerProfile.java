@@ -34,9 +34,8 @@ public class PassengerProfile extends AppCompatActivity{
     private LinearLayout LocationLayout;
     //private Button CreateDriveProf;
     private Button finishPassProf;
-   // private TextView Name,accessId, phoneNumber, location;
-    private EditText nameInp, idInput, numberInput, pw, confirmPW;
-    private EditText street, city, state, zipCode;
+    // private TextView Name,accessId, phoneNumber, location;
+    private EditText nameInp, idInput, numberInput, locationInput, pw, confirmPW;
     private Toolbar tbrMain;
 
     @Override
@@ -56,12 +55,7 @@ public class PassengerProfile extends AppCompatActivity{
         nameInp = (EditText) findViewById(R.id.Name);
         idInput = (EditText) findViewById(R.id.accessID);
         numberInput = (EditText) findViewById(R.id.PhoneNumber);
-
-        street = (EditText) findViewById(R.id.street);
-        city = (EditText) findViewById(R.id.city);
-        state = (EditText) findViewById(R.id.state);
-        zipCode = (EditText) findViewById(R.id.zipCode);
-
+        locationInput = (EditText) findViewById(R.id.Location);
         pw = (EditText)findViewById(R.id.pw);
         confirmPW = (EditText)findViewById(R.id.confirmpw);
 
@@ -101,7 +95,7 @@ public class PassengerProfile extends AppCompatActivity{
         String sendNumInp = numberInput.getText().toString();
         Shared.Data.phNumber = sendNumInp;
 
-        String sendLocInput = city.getText().toString();
+        String sendLocInput = locationInput.getText().toString();
         Shared.Data.userLoc = sendLocInput;
     }
 
@@ -122,8 +116,6 @@ public class PassengerProfile extends AppCompatActivity{
 
     public void createUser()
     {
-        String address = street.toString() + " " + city.toString() + " " + state.toString() + " " + zipCode.toString();
-
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
