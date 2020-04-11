@@ -6,25 +6,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class RideStarted extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class RideStarted extends FragmentActivity implements OnMapReadyCallback {
 
     private Toolbar tbrMain;
-    private MapView mapView;
-
-    private GoogleMap gmap;
-
-    private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,120 +30,20 @@ public class RideStarted extends AppCompatActivity implements OnMapReadyCallback
 
         //Toolbar
         tbrMain =  findViewById(R.id.tbrMain);
-        setSupportActionBar(tbrMain);
+        //setSupportActionBar(tbrMain);
 
-        mapView = (MapView) findViewById(R.id.mapView);
-
-        Bundle mapViewBundle = null;
-        if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
-        }
-
-        mapView = findViewById(R.id.mapView);
-        mapView.onCreate(mapViewBundle);
-        mapView.getMapAsync(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        Bundle mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY);
-        if (mapViewBundle == null) {
-            mapViewBundle = new Bundle();
-            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle);
-        }
-
-        mapView.onSaveInstanceState(mapViewBundle);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mapView.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mapView.onStop();
-    }
-    @Override
-    protected void onPause() {
-        mapView.onPause();
-        super.onPause();
-    }
-    @Override
-    protected void onDestroy() {
-        mapView.onDestroy();
-        super.onDestroy();
-    }
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        gmap = googleMap;
-        gmap.setMinZoomPreference(12);
-        LatLng ny = new LatLng(40.7143528, -74.0059731);
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
-    }
+        mMap = googleMap;
 
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId())
-        {
-            case R.id.endRide:
-                Intent intent1 = new Intent(getApplicationContext(), RatePassenger.class);
-                startActivity(intent1);
-                break;
-
-        }
-    }
-
-    //Create Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.overflowmenu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-    //Menu Options
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.homePage:
-                Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
-                startActivity(intent1);
-                return true;
-
-            case R.id.userProfilePage:
-                Intent intent2 = new Intent(getApplicationContext(), UserProfile.class);
-                startActivity(intent2);
-                return true;
-
-            case R.id.userLoginPage:
-                Intent intent3 = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent3);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-
-        }
+        // Add a marker in Sydney, Australia, and move the camera.
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
