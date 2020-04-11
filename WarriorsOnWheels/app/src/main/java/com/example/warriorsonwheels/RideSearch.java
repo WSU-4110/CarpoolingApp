@@ -40,9 +40,13 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
     private Button confirmButton;
     private Toolbar tbrMain;
     private ListView rideList;
-    ArrayList<String> locations;
+    ArrayList<String> departs;
     ArrayList<String> times;
-    ArrayList<String> drivers;
+    ArrayList<String> arrives;
+    ArrayList<String> dates;
+    ArrayList<String> passengers;
+    ArrayList<Integer> rideId;
+    ArrayList<Integer> driverId;
     String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
     ProgressDialog dialog;
 
@@ -102,12 +106,16 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
             for(int i = 0; i < ridesArray.length(); ++i) {
                 al.add(ridesArray.getString(i));
                 JSONObject dataobj = ridesArray.getJSONObject(i);
-                locations.add(dataobj.getString("loaction"));
+                departs.add(dataobj.getString("departure_location"));
                 times.add(dataobj.getString("time"));
-                drivers.add(dataobj.getString("name"));
+                arrives.add(dataobj.getString("arrival_location"));
+                dates.add(dataobj.getString("date"));
+                passengers.add(dataobj.getString("passenger_count"));
+                rideId.add(dataobj.getInt("id"));
+                driverId.add(dataobj.getInt("driverId"));
             }
 
-            CustomListAdapter whatever = new CustomListAdapter(this, locations, times, drivers);
+            CustomListAdapter whatever = new CustomListAdapter(this, departs, times, arrives, dates, passengers);
             rideList.setAdapter(whatever);
         } catch (JSONException e) {
             e.printStackTrace();
