@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PassengerProfile extends AppCompatActivity implements View.OnClickListener {
+public class PassengerProfile extends AppCompatActivity{
 
     private LinearLayout NameLayout;
     private LinearLayout AccessLayout;
@@ -34,9 +34,8 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     private LinearLayout LocationLayout;
     //private Button CreateDriveProf;
     private Button finishPassProf;
-   // private TextView Name,accessId, phoneNumber, location;
-    private EditText nameInp, idInput, numberInput, pw, confirmPW;
-    private EditText street, city, state, zipCode;
+    // private TextView Name,accessId, phoneNumber, location;
+    private EditText nameInp, idInput, numberInput, locationInput, pw, confirmPW;
     private Toolbar tbrMain;
 
     @Override
@@ -56,12 +55,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         nameInp = (EditText) findViewById(R.id.Name);
         idInput = (EditText) findViewById(R.id.accessID);
         numberInput = (EditText) findViewById(R.id.PhoneNumber);
-
-        street = (EditText) findViewById(R.id.street);
-        city = (EditText) findViewById(R.id.city);
-        state = (EditText) findViewById(R.id.state);
-        zipCode = (EditText) findViewById(R.id.zipCode);
-
+        locationInput = (EditText) findViewById(R.id.Location);
         pw = (EditText)findViewById(R.id.pw);
         confirmPW = (EditText)findViewById(R.id.confirmpw);
 
@@ -72,9 +66,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
                 if(String.valueOf(pw.getText()).equals(String.valueOf(confirmPW.getText())))
                 {
-                    postRequest();
-                    Intent intent = new Intent(getApplicationContext(),Login.class);
-                    startActivity(intent);
+                    createUser();
                 }
                 else
                 {
@@ -90,19 +82,6 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
 
     @Override
-    public void onClick(View v) {
-        switch(v.getId())
-        {
-
-            case R.id.finishPassProf:
-                postRequest();
-                Intent intent1 = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent1);
-                break;
-        }
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
 
@@ -116,24 +95,40 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         String sendNumInp = numberInput.getText().toString();
         Shared.Data.phNumber = sendNumInp;
 
-        String sendLocInput = city.getText().toString();
+        String sendLocInput = locationInput.getText().toString();
         Shared.Data.userLoc = sendLocInput;
     }
 
-    public void postRequest()
+    public void successfulReg (boolean success)
     {
-        String address = street.toString() + " " + city.toString() + " " + state.toString() + " " + zipCode.toString();
+        if(success)
+        {
 
+            Intent intent = new Intent(getApplicationContext(),Login.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast toast = Toast.makeText(getApplicationContext(), "API ERROR",Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    public void createUser()
+    {
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-        //Need to add Date, Departure Location, Arrival Location
+
+
         jsonParams.put("name",nameInp.getText().toString());
-        jsonParams.put("phone_number",numberInput.getText().toString());
-        jsonParams.put("location", address);
         jsonParams.put("access_id",idInput.getText().toString());
         jsonParams.put("password",pw.getText().toString());
+        jsonParams.put("phone_number",numberInput.getText().toString());
+        jsonParams.put("location",locationInput.getText().toString());
+
+
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -141,8 +136,8 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
             public void onResponse(JSONObject response) {
 
                 //runs when API called from RestQueue/MySingleton
-                // Name.setText(response.toString());
                 Log.i("POST",response.toString());
+                successfulReg(true);
 
             }
         },
@@ -150,11 +145,12 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
+                        successfulReg(false);
 
 
                     }
                 });
-//
+
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 

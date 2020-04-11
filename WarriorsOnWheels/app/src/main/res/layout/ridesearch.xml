@@ -37,7 +37,8 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rideList"/>
+            android:id="@+id/rideList"
+            android:layout_weight="5"/>
 
         <Button
             android:id="@+id/confirmbutton"
@@ -49,7 +50,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:clickable="false"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 

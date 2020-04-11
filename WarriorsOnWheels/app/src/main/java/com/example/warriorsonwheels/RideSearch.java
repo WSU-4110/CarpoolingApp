@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -40,9 +41,13 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
     private Button confirmButton;
     private Toolbar tbrMain;
     private ListView rideList;
-    ArrayList<String> locations;
-    ArrayList<String> times;
-    ArrayList<String> drivers;
+    ArrayList<String> departs = new ArrayList<String>();
+    ArrayList<String> times= new ArrayList<String>();
+    ArrayList<String> arrives = new ArrayList<String>();
+    ArrayList<String> dates = new ArrayList<String>();
+    ArrayList<String> passengers = new ArrayList<String>();
+    ArrayList<Integer> rideId = new ArrayList<Integer>();
+    ArrayList<Integer> driverId = new ArrayList<Integer>();
     String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
     ProgressDialog dialog;
 
@@ -72,6 +77,9 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                                     long id) {
                 confirmButton.setClickable(true);
                 confirmButton.setOnClickListener(RideSearch.this);
+                Shared.Data.selectedDriverId = driverId.get(position);
+                Shared.Data.selectedRideId = rideId.get(position);
+
             }
         });
 
@@ -86,10 +94,20 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                 Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
-        });
+        }) {
 
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+
+
+        };
         RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
         rQueue.add(request);
+
 
     }
 
@@ -97,17 +115,24 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
         try {
             JSONObject object = new JSONObject(jsonString);
             JSONArray ridesArray = object.getJSONArray("data");
-            ArrayList al = new ArrayList();
 
             for(int i = 0; i < ridesArray.length(); ++i) {
-                al.add(ridesArray.getString(i));
                 JSONObject dataobj = ridesArray.getJSONObject(i);
-                locations.add(dataobj.getString("location"));
-                times.add(dataobj.getString("time"));
-                drivers.add(dataobj.getString("name"));
+
+                //if(!dataobj.toString().equals("{}")) {
+                    departs.add(dataobj.getString("departure_location"));
+                    String dateTime = dataobj.getString("date");
+                    arrives.add(dataobj.getString("arrival_location"));
+                    dates.add(dateTime.substring(0,dateTime.lastIndexOf('T')));
+                    times.add(dateTime.substring(dateTime.lastIndexOf('T') + 1 , dateTime.length() - 8));
+                    passengers.add(dataobj.getString("passenger_count"));
+                    rideId.add(dataobj.getInt("id"));
+                    driverId.add(dataobj.getInt("driverId"));
+                //}
+
             }
 
-            CustomListAdapter whatever = new CustomListAdapter(this, locations, times, drivers);
+            CustomListAdapter whatever = new CustomListAdapter(this, departs, times, arrives, dates, passengers);
             rideList.setAdapter(whatever);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -158,6 +183,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
         switch(v.getId())
         {
             case R.id.confirmbutton:
+
                 Intent intent3 = new Intent(getApplicationContext(), RateDriver.class);
                 startActivity(intent3);
                 break;

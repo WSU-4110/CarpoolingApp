@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="185dp"
+
         android:orientation="vertical">
 
         <TextView
@@ -17,20 +17,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ride 1:"
+            android:layout_marginTop="10dp"
             android:textColor="@color/heading_1"
             android:textSize="21sp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/leave1"
+        android:id="@+id/leave1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Departure location:"
+        android:textColor="@color/heading_2"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/driver1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Leaving from:"
+            android:text="Arrival location:"
             android:textColor="@color/heading_2"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Date:"
+        android:textColor="@color/heading_2"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
 
 
         <TextView
@@ -38,29 +59,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
             android:text="Departure Time:"
             android:textColor="@color/heading_2"
             android:textSize="20sp"
             android:textStyle="bold" />
 
+
         <TextView
-            android:id="@+id/driver1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="Driver:"
+            android:text="# of Passengers:"
             android:textColor="@color/heading_2"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="185dp"
         android:orientation="vertical">
 
         <TextView
@@ -68,6 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:text=""
             android:textSize="21sp"
             android:textStyle="bold" />
@@ -84,27 +104,44 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/arrival1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="wayne"
+            android:textColor="@color/text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/date1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="2020-06-06"
+            android:textColor="@color/text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/departed1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
             android:text="11:00 am"
             android:textColor="@color/text"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/driverName1"
+            android:id="@+id/numPasses1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="john"
+            android:text="3"
             android:textColor="@color/text"
             android:textSize="20sp"
             android:textStyle="bold" />
-
     </LinearLayout>
 
 </LinearLayout>
