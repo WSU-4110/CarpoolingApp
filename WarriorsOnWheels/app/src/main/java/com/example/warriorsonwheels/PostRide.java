@@ -100,7 +100,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                 calendar1.set(Calendar.YEAR, year);
                 calendar1.set(Calendar.MONTH, month);
                 calendar1.set(Calendar.DATE, date);
-                String dateText = DateFormat.format("EEEE, MMM d, yyyy", calendar1).toString();
+                String dateText = DateFormat.format("yyyy-MM-dd", calendar1).toString();
 
                 leaveDate.setText(dateText);
             }
@@ -123,7 +123,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                 Calendar calendar1 = Calendar.getInstance();
                 calendar1.set(Calendar.HOUR, hour);
                 calendar1.set(Calendar.MINUTE, minute);
-                String dateText = DateFormat.format("h:mm a", calendar1).toString();
+                String dateText = DateFormat.format("hh:mm:00", calendar1).toString();
                 leaveTime.setText(dateText);
             }
         }, HOUR, MINUTE, is24HourFormat);
@@ -194,8 +194,8 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         //String time = hour.toString() + ":" + min.toString() + ":00";
 
         jsonParams.put("driver","gg2002");
-        //jsonParams.put("date",leaveDate.getText().toString());
-        //jsonParams.put("time",leaveTime.getText().toString());
+        jsonParams.put("date",leaveDate.getText().toString());
+        jsonParams.put("time",leaveTime.getText().toString());
         jsonParams.put("departure_location",departureText.getText().toString());
         jsonParams.put("arrival_location",arrivalText.getText().toString());
         jsonParams.put("passenger_count",passengerCount.getText().toString());

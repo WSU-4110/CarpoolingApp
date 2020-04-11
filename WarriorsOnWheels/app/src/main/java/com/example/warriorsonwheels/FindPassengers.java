@@ -63,29 +63,29 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         start = (Button) findViewById(R.id.start);
         cancel = (Button) findViewById(R.id.cancel);
 
-        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String string) {
-                parseJsonData(string);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", Shared.Data.token);
-                return headers;
-            }
-
-        };
-        RequestQueue rQueue = Volley.newRequestQueue(FindPassengers.this);
-        rQueue.add(request);
+//        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String string) {
+//                parseJsonData(string);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+//                dialog.dismiss();
+//            }
+//        }) {
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> headers = new HashMap<String, String>();
+//                headers.put("Authorization", Shared.Data.token);
+//                return headers;
+//            }
+//
+//        };
+//        RequestQueue rQueue = Volley.newRequestQueue(FindPassengers.this);
+//        rQueue.add(request);
     }
 
     void parseJsonData(String jsonString) {
@@ -104,7 +104,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
 
-        dialog.dismiss();
+        //dialog.dismiss();
     }
 
     @Override
