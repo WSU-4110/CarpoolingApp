@@ -6,7 +6,8 @@ public enum Shared {
     //initiate enum shared variables
     Data;
 
-    public int selectedRide = 0;
+    public int selectedRideId = 0;
+    public int selectedDriverId = 0;
     public boolean isDriverCheck = false;
     public int profPic;
 
