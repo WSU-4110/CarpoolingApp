@@ -49,10 +49,12 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 Intent intent1 = new Intent(getApplicationContext(), FindPassengers.class);
                 startActivity(intent1);
                 break;
+
             case R.id.start:
                 Intent intent2 = new Intent(getApplicationContext(), RideStarted.class);
                 startActivity(intent2);
                 break;
+
             case R.id.cancel:
                 cancel();
                 break;

@@ -72,8 +72,7 @@
                 android:layout_marginTop="30dp"
                 android:text="Ride Ended"
                 android:background="@color/button"
-                android:textColor="@color/text"
-                android:onClick="onClick" />
+                android:textColor="@color/text" />
 
         </LinearLayout>
     </LinearLayout>

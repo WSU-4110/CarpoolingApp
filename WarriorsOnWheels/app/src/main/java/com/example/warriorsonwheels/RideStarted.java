@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -22,6 +24,7 @@ public class RideStarted extends FragmentActivity implements OnMapReadyCallback 
 
     private Toolbar tbrMain;
     private GoogleMap mMap;
+    private Button endRide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +34,35 @@ public class RideStarted extends FragmentActivity implements OnMapReadyCallback 
         //Toolbar
         tbrMain =  findViewById(R.id.tbrMain);
         //setSupportActionBar(tbrMain);
+        endRide = (Button) findViewById(R.id.endRide);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        endRide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch(v.getId())
+                {
+                    case R.id.endRide:
+                        Intent intent1 = new Intent(getApplicationContext(), RatePassenger.class);
+                        startActivity(intent1);
+                        break;
+                    }
+            }
+        });
+
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney, Australia, and move the camera.
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Add a marker
+        LatLng wayne_state = new LatLng(42.358694, -83.070194);
+        mMap.addMarker(new MarkerOptions().position(wayne_state).title("Marker in Wayne State"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne_state));
     }
 }
