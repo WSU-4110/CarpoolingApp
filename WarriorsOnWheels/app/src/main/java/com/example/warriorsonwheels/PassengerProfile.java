@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PassengerProfile extends AppCompatActivity implements View.OnClickListener {
+public class PassengerProfile extends AppCompatActivity{
 
     private LinearLayout NameLayout;
     private LinearLayout AccessLayout;
@@ -72,9 +72,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
                 if(String.valueOf(pw.getText()).equals(String.valueOf(confirmPW.getText())))
                 {
-                    postRequest();
-                    Intent intent = new Intent(getApplicationContext(),Login.class);
-                    startActivity(intent);
+                    createUser();
                 }
                 else
                 {
@@ -88,19 +86,6 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId())
-        {
-
-            case R.id.finishPassProf:
-                postRequest();
-                Intent intent1 = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent1);
-                break;
-        }
-    }
 
     @Override
     protected void onPause() {
@@ -120,7 +105,22 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         Shared.Data.userLoc = sendLocInput;
     }
 
-    public void postRequest()
+    public void successfulReg (boolean success)
+    {
+        if(success)
+        {
+
+            Intent intent = new Intent(getApplicationContext(),Login.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast toast = Toast.makeText(getApplicationContext(), "API ERROR",Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    public void createUser()
     {
         String address = street.toString() + " " + city.toString() + " " + state.toString() + " " + zipCode.toString();
 
@@ -128,12 +128,15 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-        //Need to add Date, Departure Location, Arrival Location
+
+
         jsonParams.put("name",nameInp.getText().toString());
-        jsonParams.put("phone_number",numberInput.getText().toString());
-        jsonParams.put("location", address);
         jsonParams.put("access_id",idInput.getText().toString());
         jsonParams.put("password",pw.getText().toString());
+        jsonParams.put("phone_number",numberInput.getText().toString());
+        jsonParams.put("location",locationInput.getText().toString());
+
+
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -141,8 +144,8 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
             public void onResponse(JSONObject response) {
 
                 //runs when API called from RestQueue/MySingleton
-                // Name.setText(response.toString());
                 Log.i("POST",response.toString());
+                successfulReg(true);
 
             }
         },
@@ -150,11 +153,12 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
+                        successfulReg(false);
 
 
                     }
                 });
-//
+
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 

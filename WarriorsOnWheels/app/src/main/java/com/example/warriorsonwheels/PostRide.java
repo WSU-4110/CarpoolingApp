@@ -23,6 +23,7 @@ import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -132,9 +133,9 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
         String time = hour.toString() + ":" + min.toString() + ":00";
 
-        jsonParams.put("driver",Shared.Data.driverAccessID);
+        jsonParams.put("driver","gg2002");
         jsonParams.put("date",leaveDate.getText().toString());
-        jsonParams.put("time",time);
+        jsonParams.put("time","12:00:00");
         jsonParams.put("departure_location",departureText.getText().toString());
         jsonParams.put("arrival_location",arrivalText.getText().toString());
         jsonParams.put("passenger_count",passengerCount.getText().toString());
@@ -145,19 +146,29 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
             public void onResponse(JSONObject response) {
 
                 //runs when API called from RestQueue/MySingleton
-                // Name.setText(response.toString());
                 Log.i("POST",response.toString());
 
             }
         },
+
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.println(Log.ERROR,"ERROR:","Volley Error");
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
 
 
                     }
-                });
+                }) {
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<String, String>();
+                    headers.put("Authorization", Shared.Data.token);
+                    return headers;
+                }
+
+
+        };
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
