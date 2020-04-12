@@ -18,6 +18,8 @@ public enum Shared {
     public String userName, userId, userLoc, phNumber,driverAccessID, token;
     public String userCarMake, userCarModel, userCarYear, userCarColor, userLicPlate;
 
+    public String city;
+
 
     GoogleSignInAccount googleAccount;
 

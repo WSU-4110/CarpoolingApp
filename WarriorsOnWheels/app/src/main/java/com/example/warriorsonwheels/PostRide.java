@@ -181,6 +181,13 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String sendCity = arrivalText.getText().toString();
+        Shared.Data.city = sendCity;
+    }
+
     public void postRequest()
     {
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
