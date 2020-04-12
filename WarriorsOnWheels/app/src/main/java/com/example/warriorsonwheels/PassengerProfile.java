@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PassengerProfile extends AppCompatActivity{
+public class PassengerProfile extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout NameLayout;
     private LinearLayout AccessLayout;
@@ -78,6 +78,17 @@ public class PassengerProfile extends AppCompatActivity{
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId())
+        {
+            //Go to FindPassengers.java
+            case R.id.shareRideButton:
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+        }
     }
 
 
@@ -156,7 +167,5 @@ public class PassengerProfile extends AppCompatActivity{
 
 
     }
-
-
 
 }

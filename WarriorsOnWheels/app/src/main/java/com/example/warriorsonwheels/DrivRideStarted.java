@@ -2,26 +2,21 @@ package com.example.warriorsonwheels;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class RideStarted extends FragmentActivity implements OnMapReadyCallback {
+public class DrivRideStarted extends FragmentActivity implements OnMapReadyCallback {
 
     private Toolbar tbrMain;
     private GoogleMap mMap;
@@ -30,7 +25,7 @@ public class RideStarted extends FragmentActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ridestarted);
+        setContentView(R.layout.driv_ridestarted);
 
         //Toolbar
         tbrMain =  findViewById(R.id.tbrMain);

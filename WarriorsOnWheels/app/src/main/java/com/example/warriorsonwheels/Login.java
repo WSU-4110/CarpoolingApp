@@ -28,8 +28,6 @@ import java.util.Map;
 
 public class Login extends AppCompatActivity {
 
-
-
     EditText accessID, pw;
     Button confirm;
     @Override
@@ -51,7 +49,6 @@ public class Login extends AppCompatActivity {
                 toast.show();
 
                 loginPost();
-
             }
         });
     }
@@ -118,6 +115,5 @@ public class Login extends AppCompatActivity {
 
 
         }
-
-    }
+}
 
