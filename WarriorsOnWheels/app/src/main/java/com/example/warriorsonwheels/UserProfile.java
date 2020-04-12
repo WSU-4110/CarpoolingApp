@@ -1,15 +1,35 @@
 package com.example.warriorsonwheels;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserProfile extends AppCompatActivity {
 
@@ -17,7 +37,7 @@ public class UserProfile extends AppCompatActivity {
     private TextView name, accessID, phNum, primLoc, passRating;
 
     //Driver Prof Var
-    private TextView carMake, carModel, carYear, carColor, licensePlate, drivRating;
+    private TextView carMake, drivRating,licensePlate;
 
     private Toolbar tbrMain;
 
@@ -38,31 +58,104 @@ public class UserProfile extends AppCompatActivity {
         passRating = (TextView)findViewById(R.id.passRating);
 
         carMake = (TextView)findViewById(R.id.carMake);
-        carYear = (TextView)findViewById(R.id.carYear);
-        carModel = (TextView)findViewById(R.id.carModel);
-        carColor = (TextView)findViewById(R.id.carColor);
         licensePlate = (TextView)findViewById(R.id.licensePlate);
         drivRating = (TextView)findViewById(R.id.drivRating);
 
+
+        getUserData();
+        getDriverData();
+        Log.i("LOGGED IN USER",Shared.Data.loggedInuser);
+
     }
 
-    //Recieve data from profile pages
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //Pass Profile
-        name.setText(Shared.Data.userName);
-        accessID.setText(Shared.Data.userId);
-        phNum.setText(Shared.Data.phNumber);
-        primLoc.setText(Shared.Data.userLoc);
+    public void getUserData()
+    {
+        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/"+Shared.Data.loggedInuser;
 
-        //Driver Profile
-        carMake.setText(Shared.Data.userCarMake);
-        carModel.setText(Shared.Data.userCarModel);
-        carYear.setText(Shared.Data.userCarYear);
-        carColor.setText(Shared.Data.userCarColor);
-        licensePlate.setText(Shared.Data.userLicPlate);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.i("User Data:",response.toString());
+
+                            JSONObject dataobj = response.getJSONObject("data");
+                            name.setText(dataobj.getString("name"));
+                            accessID.setText(dataobj.getString("access_id"));
+                            phNum.setText(dataobj.getString("phone_number"));
+                            primLoc.setText(dataobj.getString("location"));
+                            passRating.setText("NEED TO ADD RATING IN /user/accessId");
+
+                        } catch (JSONException e) {
+                            Log.i("JSONException ERROR", e.toString()); }
+                    }
+                },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+
+                            }
+                        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+
+        // Access the RequestQueue through your singleton class.
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
+
+    public void getDriverData()
+    {
+        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver/"+Shared.Data.loggedInuser;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.i("User Data:",response.toString());
+
+                            JSONObject dataobj = response.getJSONObject("data");
+                            carMake.setText(dataobj.getString("car"));
+                            drivRating.setText("NEED DRIVER RATING in GET");
+
+
+                        } catch (JSONException e) {
+                            Log.i("JSONException ERROR", e.toString()); }
+                    }
+                },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                carMake.setText("NOT A DRIVER");
+                                Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+
+                            }
+                        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+
+        // Access the RequestQueue through your singleton class.
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+    }
+
+
 
     //Create Menu
     @Override

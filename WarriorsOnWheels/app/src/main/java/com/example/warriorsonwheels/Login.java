@@ -57,6 +57,7 @@ public class Login extends AppCompatActivity {
         public void loginSuccess (boolean success)
         {
             if (success) {
+                Shared.Data.loggedInuser = accessID.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent);
             } else {
