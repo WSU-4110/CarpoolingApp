@@ -311,7 +311,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Make:"
+                    android:text="Car:"
                     android:textColor="@color/heading_2"
                     android:textStyle="bold"
                     android:textSize="15dp"/>
@@ -335,103 +335,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="15dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/modelTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Model:"
-                    android:textColor="@color/heading_2"
-                    android:textStyle="bold"
-                    android:textSize="15dp"/>
-
-                <Space
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:id="@+id/carModel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="(insert model)"
-                    android:textColor="@color/text"
-                    android:textSize="15dp"/>
-
-            </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="15dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/yearTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Year:"
-                    android:textColor="@color/heading_2"
-                    android:textStyle="bold"
-                    android:textSize="15dp"/>
-
-                <Space
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:id="@+id/carYear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="(insert year)"
-                    android:textColor="@color/text"
-                    android:textSize="15dp"/>
-
-            </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="15dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/colorTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Color:"
-                    android:textColor="@color/heading_2"
-                    android:textStyle="bold"
-                    android:textSize="15dp"/>
-
-                <Space
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:id="@+id/carColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="(insert color)"
-                    android:textColor="@color/text"
-                    android:textSize="15dp"/>
-
-            </LinearLayout>
 
         </LinearLayout>
 

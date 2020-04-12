@@ -113,7 +113,7 @@ public class RatePassenger extends AppCompatActivity{
 
     public void postRequest()
     {
-
+        //accessId SHOULD BE PASSENGERS
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/"+Shared.Data.driverAccessID;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
@@ -121,10 +121,8 @@ public class RatePassenger extends AppCompatActivity{
 
 
 
-
-        jsonParams.put("accessId",Shared.Data.driverAccessID);
         jsonParams.put("rating",String.valueOf(RatePassenger.getNumStars()));
-        jsonParams.put("isDriver","true");
+        jsonParams.put("isDriver","false");
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
