@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class RatePassenger extends AppCompatActivity{
 
-    private Button Rate;
+    private Button rateBtn;
     private RatingBar RatePassenger;
     private ImageView imageView;
 
@@ -42,7 +42,7 @@ public class RatePassenger extends AppCompatActivity{
 
         //Buttons
         RatePassenger = findViewById(R.id.passengerRatingBar);
-        Rate = findViewById(R.id.RatePassenger);
+        rateBtn = findViewById(R.id.rateBtn);
         imageView = findViewById(R.id.imageView);
 
         Glide.with(this).load(Shared.Data.imgURL).into(imageView);
@@ -53,20 +53,24 @@ public class RatePassenger extends AppCompatActivity{
     }
 
     public void onClick(View v) {
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(v.getContext());
-        builder.setTitle("RIDE OVER");
-        builder.setMessage("Thank you for using Warriors on Wheels!");
-        builder.setPositiveButton("Ok",
-                new DialogInterface.OnClickListener()
-                {
-                    public void onClick(
-                            DialogInterface dialog, int option)
-                    {
-                        Intent intent4 = new Intent(getApplicationContext(), HomePage.class);
-                        startActivity(intent4);
-                    }
-                });
+        switch(v.getId())
+        {
+            case R.id.rateBtn:
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(v.getContext());
+                builder.setTitle("RIDE OVER");
+                builder.setMessage("Thank you for using Warriors on Wheels!");
+                builder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+                                Intent intent4 = new Intent(getApplicationContext(), HomePage.class);
+                                startActivity(intent4);
+                            }
+                        });
+        }
 
     }
 
@@ -148,7 +152,6 @@ public class RatePassenger extends AppCompatActivity{
                 headers.put("Authorization", Shared.Data.token);
                 return headers;
             }
-
 
         };
 //

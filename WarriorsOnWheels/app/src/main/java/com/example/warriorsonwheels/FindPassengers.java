@@ -2,6 +2,7 @@ package com.example.warriorsonwheels;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,17 +10,29 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FindPassengers extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,10 +40,13 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     private Toolbar tbrMain;
     //private TextView pass1, pass2, pass3, pass4, pass5, pass6;
     private Button refresh, start, cancel;
-
-    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
-    Dialog dialog;
+    private ListView passList;
     ArrayList<String> passengers = new ArrayList<String>();
+    ArrayList<String> userRideId = new ArrayList<String>();
+
+    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/:id/users";
+    ProgressDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,39 +54,55 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.findpassengers);
 
         //Toolbar
-        tbrMain =  findViewById(R.id.tbrMain);
+        tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
 
-
         //Vars
-
         refresh = (Button) findViewById(R.id.refresh);
         start = (Button) findViewById(R.id.start);
         cancel = (Button) findViewById(R.id.cancel);
+        passList = (ListView) findViewById(R.id.passList);
 
-//        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String string) {
-//                parseJsonData(string);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
-//                dialog.dismiss();
-//            }
-//        }) {
-//
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> headers = new HashMap<String, String>();
-//                headers.put("Authorization", Shared.Data.token);
-//                return headers;
-//            }
-//
-//        };
-//        RequestQueue rQueue = Volley.newRequestQueue(FindPassengers.this);
-//        rQueue.add(request);
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading....");
+        dialog.show();
+
+
+        passList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                Shared.Data.userRideId = userRideId.get(position);
+                //Shared.Data.selectedRideId = rideId.get(position);
+
+            }
+        });
+
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                parseJsonData(string);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+
+        };
+        RequestQueue rQueue = Volley.newRequestQueue(FindPassengers.this);
+        rQueue.add(request);
+
+
     }
 
     void parseJsonData(String jsonString) {
@@ -81,15 +113,19 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
             for(int i = 0; i < ridesArray.length(); ++i) {
                 JSONObject dataobj = ridesArray.getJSONObject(i);
 
-                passengers.add(dataobj.getString("id"));
+                //if(!dataobj.toString().equals("{}")) {
+                passengers.add(dataobj.getString("users"));
+                //}
 
             }
 
+            PassengerListAdapter whatever = new PassengerListAdapter(this, passengers);
+            passList.setAdapter(whatever);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        //dialog.dismiss();
+        dialog.dismiss();
     }
 
     @Override

@@ -131,8 +131,6 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-
-
         jsonParams.put("name",nameInp.getText().toString());
         jsonParams.put("access_id",idInput.getText().toString());
         jsonParams.put("password",pw.getText().toString());
@@ -157,7 +155,6 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
                         successfulReg(false);
-
 
                     }
                 });
