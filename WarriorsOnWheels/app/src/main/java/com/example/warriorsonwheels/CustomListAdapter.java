@@ -22,7 +22,6 @@ public class CustomListAdapter extends ArrayAdapter {
     public CustomListAdapter(Activity context, ArrayList<String> dept, ArrayList<String> time, ArrayList<String> arrival, ArrayList<String> date, ArrayList<String> passengers) {
 
         super(context, R.layout.riderow, dept);
-
         this.context = context;
         this.departure = dept;
         this.date = date;
