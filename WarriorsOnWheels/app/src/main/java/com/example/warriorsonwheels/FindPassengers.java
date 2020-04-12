@@ -47,7 +47,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/:id/users";
     ProgressDialog dialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +100,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         };
         RequestQueue rQueue = Volley.newRequestQueue(FindPassengers.this);
         rQueue.add(request);
-
 
     }
 
