@@ -3,18 +3,14 @@ package com.example.warriorsonwheels;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -25,9 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -203,38 +201,81 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
             case R.id.confirmbutton:
 
                 url2 = url1 + "/" + Shared.Data.selectedRideId + "/users";
+                getRiders();
+                riders.add(Shared.Data.loggedInuser);
 
-                StringRequest request = new StringRequest(url2, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String string) {
-                        parseJsonData2(string);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                }) {
-
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> headers = new HashMap<String, String>();
-                        headers.put("Authorization", Shared.Data.token);
-                        return headers;
-                    }
-
-
-                };
-                RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
-                rQueue.add(request);
-
-                riders.add(Shared.Data.userId);
+                postRequest();
                 Intent intent3 = new Intent(getApplicationContext(), RateDriver.class);
                 startActivity(intent3);
                 break;
         }
     }
 
+    public void postRequest()
+    {
+        Map<String, ArrayList<String>> jsonParams = new HashMap<>();
+
+        jsonParams.put("users", riders);
+        Log.i("after putting",jsonParams.toString());
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url2, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("POST",response.toString());
+
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+
+    }
+
+    public void getRiders()
+    {
+        StringRequest request = new StringRequest(url2, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                parseJsonData2(string);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+
+
+        };
+        RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
+        rQueue.add(request);
+    };
 
 }
