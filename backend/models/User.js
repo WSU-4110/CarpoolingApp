@@ -5,11 +5,12 @@ const config = require('../util/sequelize_config');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
+    access_id: { type: DataTypes.CHAR(6), unique: true },
     name: DataTypes.STRING,
     phone_number: DataTypes.STRING,
     location: DataTypes.STRING,
     password: DataTypes.STRING,
-    access_id: { type: DataTypes.CHAR(6), unique: true },
+    device_token: DataTypes.STRING,
   }, {
     ...config,
     ...{
