@@ -1,6 +1,8 @@
 package com.example.warriorsonwheels;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,7 +25,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
     //Vars
     private Toolbar tbrMain;
-    private TextView pass1, pass2, pass3, pass4, pass5, pass6;
+    //private TextView pass1, pass2, pass3, pass4, pass5, pass6;
     private Button refresh, start, cancel;
 
     String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
@@ -41,12 +43,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
 
         //Vars
-        pass1 = (TextView) findViewById(R.id.pass1);
-        pass2 = (TextView) findViewById(R.id.pass2);
-        pass3 = (TextView) findViewById(R.id.pass3);
-        pass4 = (TextView) findViewById(R.id.pass4);
-        pass5 = (TextView) findViewById(R.id.pass5);
-        pass6 = (TextView) findViewById(R.id.pass6);
 
         refresh = (Button) findViewById(R.id.refresh);
         start = (Button) findViewById(R.id.start);
@@ -111,15 +107,41 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.cancel:
-                cancel();
+                cancel(v);
                 break;
 
         }
     }
 
-    private void cancel() {
-        //TO DO
-        // ADD ABILITY TO CANCEL RIDE
+    private void cancel (View v) {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(v.getContext());
+        builder.setTitle("END RIDE");
+        builder.setMessage("Are you sure you want to cancel your ride?");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(
+                            DialogInterface dialog, int option)
+                    {
+
+                        //TO DO
+                        // ADD ABILITY TO CANCEL RIDE
+
+                        Intent intent3 = new Intent(getApplicationContext(), HomePage.class);
+                        startActivity(intent3);
+                    }
+                });
+        builder.setNegativeButton("No",
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(
+                            DialogInterface dialog, int option)
+                    {
+                        System.out.println("Ride will not be cancelled.");
+                    }
+                });
+        builder.show();
     }
 
     //Create Menu

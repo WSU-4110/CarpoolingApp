@@ -25,12 +25,19 @@ public class RateDriver extends AppCompatActivity{
 
         //Buttons
         RateDriver = (RatingBar) findViewById(R.id.driverRatingBar);
-        Rate = (Button) findViewById(R.id.RateDriver);
+        Rate = (Button) findViewById(R.id.rateDriver);
         //Initialize DriverImage
     }
 
     public void onClick(View v) {
         //add rating to DataBase
+        switch(v.getId())
+        {
+            case R.id.rateDriver:
+                Intent intent3 = new Intent(getApplicationContext(), Payment.class);
+                startActivity(intent3);
+                break;
+        }
         
     }
 

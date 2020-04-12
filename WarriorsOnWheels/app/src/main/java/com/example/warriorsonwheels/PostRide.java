@@ -226,8 +226,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                     headers.put("Authorization", Shared.Data.token);
                     return headers;
                 }
-
-
         };
 //
 //        //Makes API Call
