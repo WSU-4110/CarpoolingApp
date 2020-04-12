@@ -132,6 +132,40 @@
 
         </LinearLayout>
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Not a Registered Driver?"
+                android:textColor="@color/heading_2"
+                android:gravity="center"
+                android:textStyle="italic"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <Button
+                android:id="@+id/createDrivProf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Create a Driver Profile"
+                android:background="@color/button"
+                android:textColor="@color/text"
+                android:onClick="onClick"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

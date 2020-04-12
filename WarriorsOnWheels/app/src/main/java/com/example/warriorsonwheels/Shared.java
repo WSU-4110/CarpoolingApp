@@ -8,11 +8,17 @@ public enum Shared {
 
     public int selectedRideId = 0;
     public int selectedDriverId = 0;
+
+    public String rideId;
+    public String userRideId;
+
     public boolean isDriverCheck = false;
     public int profPic;
 
-    public String userName, userId, userLoc, phNumber,driverAccessID, token;
+    public String userName, userId, userLoc, phNumber,driverAccessID, token, loggedInuser;
     public String userCarMake, userCarModel, userCarYear, userCarColor, userLicPlate;
+
+    public String city;
 
 
     GoogleSignInAccount googleAccount;

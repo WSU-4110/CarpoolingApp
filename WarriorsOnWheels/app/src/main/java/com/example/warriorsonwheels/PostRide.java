@@ -3,6 +3,7 @@ package com.example.warriorsonwheels;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import android.view.Menu;
@@ -39,17 +40,16 @@ import java.util.TimerTask;
 
 public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String TAG = "PostRide";
+
     //Variables
     private EditText departureText, arrivalText;
     private EditText passengerCount;
-    private Button shareRideButton;
+    private Button shareRideButton, dateBtn, timeBtn;
     private Toolbar tbrMain;
 
-    //private Button leaveDateButton, leaveTimeButton;
-    //private int mYear, mMonth, mDay, mHour, mMinute;
     private Calendar calendar;
-    private TimePicker leaveTimePicker;
-    private EditText leaveDate;
+    private EditText leaveDate, leaveTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +65,70 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         arrivalText = (EditText)findViewById(R.id.arrivalText);
         passengerCount = (EditText)findViewById(R.id.passengerCount);
         shareRideButton = (Button) findViewById(R.id.shareRideButton);
+        dateBtn = (Button) findViewById(R.id.dateBtn);
+        timeBtn = (Button) findViewById(R.id.timeBtn);
 
         leaveDate = (EditText) findViewById(R.id.leaveDate);
-        leaveTimePicker = (TimePicker) findViewById(R.id.leaveTimePicker);
-        leaveTimePicker.setIs24HourView(true);
+        leaveTime = (EditText) findViewById(R.id.leaveTime);
+
+        dateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleDateButton();
+            }
+        });
+        timeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleTimeButton();
+            }
+        });
+
+    }
+
+    private void handleDateButton() {
+        Calendar calendar = Calendar.getInstance();
+        int YEAR = calendar.get(Calendar.YEAR);
+        int MONTH = calendar.get(Calendar.MONTH);
+        int DATE = calendar.get(Calendar.DATE);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int date) {
+
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.set(Calendar.YEAR, year);
+                calendar1.set(Calendar.MONTH, month);
+                calendar1.set(Calendar.DATE, date);
+                String dateText = DateFormat.format("yyyy-MM-dd", calendar1).toString();
+
+                leaveDate.setText(dateText);
+            }
+        }, YEAR, MONTH, DATE);
+
+        datePickerDialog.show();
+    }
+
+    private void handleTimeButton() {
+        Calendar calendar = Calendar.getInstance();
+        int HOUR = calendar.get(Calendar.HOUR);
+        int MINUTE = calendar.get(Calendar.MINUTE);
+        boolean is24HourFormat = DateFormat.is24HourFormat(this);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                Log.i(TAG, "onTimeSet: " + hour + minute);
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.set(Calendar.HOUR, hour);
+                calendar1.set(Calendar.MINUTE, minute);
+                String dateText = DateFormat.format("hh:mm:00", calendar1).toString();
+                leaveTime.setText(dateText);
+            }
+        }, HOUR, MINUTE, is24HourFormat);
+
+        timePickerDialog.show();
 
     }
 
@@ -116,9 +176,16 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
             case R.id.shareRideButton:
                 postRequest();
 
-                Intent intent = new Intent(getApplicationContext(), RatePassenger.class);
+                Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
                 startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String sendCity = arrivalText.getText().toString();
+        Shared.Data.city = sendCity;
     }
 
     public void postRequest()
@@ -127,15 +194,15 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-        Integer hour = leaveTimePicker.getHour();
-        Integer min = leaveTimePicker.getMinute();
+        //Integer hour = leaveTimePicker.getHour();
+        //Integer min = leaveTimePicker.getMinute();
 
 
-        String time = hour.toString() + ":" + min.toString() + ":00";
+        //String time = hour.toString() + ":" + min.toString() + ":00";
 
         jsonParams.put("driver","gg2002");
         jsonParams.put("date",leaveDate.getText().toString());
-        jsonParams.put("time","12:00:00");
+        jsonParams.put("time",leaveTime.getText().toString());
         jsonParams.put("departure_location",departureText.getText().toString());
         jsonParams.put("arrival_location",arrivalText.getText().toString());
         jsonParams.put("passenger_count",passengerCount.getText().toString());
@@ -166,8 +233,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                     headers.put("Authorization", Shared.Data.token);
                     return headers;
                 }
-
-
         };
 //
 //        //Makes API Call

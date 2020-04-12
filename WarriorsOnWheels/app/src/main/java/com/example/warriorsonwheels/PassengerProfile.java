@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PassengerProfile extends AppCompatActivity{
+public class PassengerProfile extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout NameLayout;
     private LinearLayout AccessLayout;
@@ -80,24 +80,17 @@ public class PassengerProfile extends AppCompatActivity{
 
     }
 
-
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        //sends sign in info to userprofile.java
-        String sendNameInp = nameInp.getText().toString();
-        Shared.Data.userName = sendNameInp;
-
-        String sendidInput = idInput.getText().toString();
-        Shared.Data.userId = sendidInput;
-
-        String sendNumInp = numberInput.getText().toString();
-        Shared.Data.phNumber = sendNumInp;
-
-        String sendLocInput = locationInput.getText().toString();
-        Shared.Data.userLoc = sendLocInput;
+    public void onClick(View v) {
+        switch(v.getId())
+        {
+            //Go to FindPassengers.java
+            case R.id.shareRideButton:
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+        }
     }
+
 
     public void successfulReg (boolean success)
     {
@@ -119,8 +112,6 @@ public class PassengerProfile extends AppCompatActivity{
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
-
-
 
         jsonParams.put("name",nameInp.getText().toString());
         jsonParams.put("access_id",idInput.getText().toString());
@@ -147,7 +138,6 @@ public class PassengerProfile extends AppCompatActivity{
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
                         successfulReg(false);
 
-
                     }
                 });
 
@@ -156,7 +146,5 @@ public class PassengerProfile extends AppCompatActivity{
 
 
     }
-
-
 
 }

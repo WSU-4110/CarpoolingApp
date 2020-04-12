@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".GoogleInfo">
+    tools:context=".FindPassengers">
 
     <LinearLayout
         android:orientation="vertical"
@@ -26,39 +26,79 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Passengers Joining Ride: "
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:textColor="@color/heading_1"/>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Passengers Joining Ride: "
+                android:textColor="@color/heading_1"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            <ListView
+                android:id="@+id/passList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                android:layout_height="15dp" />
 
-            <TextView
-                android:id="@+id/timer"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="00:00"
-                android:textSize="25dp"
-                android:textColor="@color/text"
-                android:textColorHint="@color/textHint"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"/>
+
+                <Button
+                    android:id="@+id/refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Refresh Page"
+                    android:background="@color/button"
+                    android:textColor="@color/text"
+                    android:onClick="onClick"/>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"/>
+
+                <Button
+                    android:id="@+id/start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Ride"
+                    android:background="@color/button"
+                    android:textColor="@color/text"
+                    android:onClick="onClick"/>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"/>
+
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel Ride"
+                    android:background="@color/button"
+                    android:textColor="@color/text"
+                    android:onClick="onClick"/>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

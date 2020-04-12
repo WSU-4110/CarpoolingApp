@@ -86,11 +86,16 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 Intent intent1 = new Intent(getApplicationContext(), RideSearch.class);
                 startActivity(intent1);
                 break;
+
+            case R.id.createDrivProf:
+                Intent intent2 = new Intent(getApplicationContext(), DriverProfile.class);
+                startActivity(intent2);
+                break;
                 //Go to PostRide.java
             case R.id.postRideButton:
                 if (Shared.Data.isDriverCheck = true) {
-                    Intent intent2 = new Intent(getApplicationContext(), PostRide.class);
-                    startActivity(intent2);
+                    Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
+                    startActivity(intent3);
                 }
 
                 else {

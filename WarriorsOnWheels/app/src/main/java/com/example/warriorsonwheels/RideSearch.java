@@ -20,7 +20,6 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,7 +104,6 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                 return headers;
             }
 
-
         };
         RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
         rQueue.add(request);
@@ -120,6 +118,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
 
             for(int i = 0; i < ridesArray.length(); ++i) {
                 JSONObject dataobj = ridesArray.getJSONObject(i);
+
                 //if(!dataobj.toString().equals("{}")) {
                     departs.add(dataobj.getString("departure_location"));
                     String dateTime = dataobj.getString("date");
@@ -130,6 +129,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                     rideId.add(dataobj.getInt("id"));
                     driverId.add(dataobj.getInt("driverId"));
                 //}
+
             }
 
             CustomListAdapter whatever = new CustomListAdapter(this, departs, times, arrives, dates, passengers);

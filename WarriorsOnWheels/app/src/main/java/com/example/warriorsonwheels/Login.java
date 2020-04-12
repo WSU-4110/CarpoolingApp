@@ -28,8 +28,6 @@ import java.util.Map;
 
 public class Login extends AppCompatActivity {
 
-
-
     EditText accessID, pw;
     Button confirm;
     @Override
@@ -51,7 +49,6 @@ public class Login extends AppCompatActivity {
                 toast.show();
 
                 loginPost();
-
             }
         });
     }
@@ -60,6 +57,7 @@ public class Login extends AppCompatActivity {
         public void loginSuccess (boolean success)
         {
             if (success) {
+                Shared.Data.loggedInuser = accessID.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent);
             } else {
@@ -118,6 +116,5 @@ public class Login extends AppCompatActivity {
 
 
         }
-
-    }
+}
 
