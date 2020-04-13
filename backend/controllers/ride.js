@@ -199,6 +199,43 @@ module.exports.post = async (req, res) => {
 };
 
 /**
+ * @api {delete} /ride/:id delete ride
+ * @apiName rideDelete
+ * @apiGroup ride
+ *
+ * @apiParam {Integer} id id of ride to delete
+ *
+ *  @apiSuccess (200) {Object} data successful user update
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "deleted": 1
+    }
+}
+ * @apiError (Error 4xx) {String} 400 Bad Request: "Please provide a valid access id."
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.delete = async (req, res) => {
+  try {
+    const deleted = await models.Ride.destroy({
+      where: {
+        id: req.params.id,
+      }
+    });
+    respond(200, { deleted }, res);
+
+  }
+  catch (err) {
+    respond(500, err, res);
+
+  }
+}
+
+/**
  * @api {get} /ride/:id/users get ride's user list
  * @apiName RideUserGet
  * @apiGroup ride
