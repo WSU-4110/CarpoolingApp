@@ -58,7 +58,7 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onResume() {
         super.onResume();
-        city.setText(Shared.Data.city);
+        city.setText(Shared.Data.arrival);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker
-        city.setText(Shared.Data.city);
+        city.setText(Shared.Data.arrival);
         LatLng wayne_state = new LatLng(42.358694, -83.070194);
         mMap.addMarker(new MarkerOptions().position(wayne_state).title("Marker in Wayne State"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne_state));

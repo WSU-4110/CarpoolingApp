@@ -76,7 +76,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                                     long id) {
                 refresh.setClickable(true);
                 refresh.setOnClickListener(FindPassengers.this);
-                rideId.get(position);
+                passengers.get(position);
             }
         });
 
