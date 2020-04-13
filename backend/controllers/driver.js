@@ -1,6 +1,7 @@
 const models = require('../models/index');
 const respond = require('../util/respond');
 const validate = require('../util/validate');
+const sequelize = require('sequelize');
 
 /**
  * @api {get} /driver list drivers
@@ -27,9 +28,26 @@ const validate = require('../util/validate');
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
+
+// include: {
+//   model: models.Rating,
+//     attributes: [
+//       [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
+//       [sequelize.fn('AVG', sequelize.col('value')), 'average']
+//     ]
+// }
 module.exports.get = (req, res) => {
   models.Driver.findAll({
-    include: models.User,
+    include: {
+      model: models.User,
+      include: {
+        model: models.Rating,
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
+          [sequelize.fn('AVG', sequelize.col('value')), 'average']
+        ]
+      }
+    },
   })
     .then(drivers => {
       const list = drivers.map(d => ({
@@ -40,6 +58,7 @@ module.exports.get = (req, res) => {
         location: d.user.location,
         access_id: d.user.access_id,
         car: d.car,
+        rating: d.user.rating
       }));
 
       respond(200, list, res);
@@ -81,11 +100,21 @@ module.exports.getById = (req, res) => {
 
   models.Driver.findAll({
     limit: 1,
-    include: { model: models.User, where: { access_id: accessId } },
+    include: {
+      model: models.User,
+      where: { access_id: accessId },
+      include: {
+        model: models.Rating,
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
+          [sequelize.fn('AVG', sequelize.col('value')), 'average']
+        ]
+      }
+    },
   })
     .then(drivers => {
       let obj = {};
-      if (drivers.length) {
+      if (drivers.length && drivers[0].dataValues.id !== null) {
         const d = drivers[0];
         obj = {
           id: d.id,
@@ -95,6 +124,8 @@ module.exports.getById = (req, res) => {
           location: d.user.location,
           access_id: d.user.access_id,
           car: d.car,
+          rating: d.user.rating
+
         };
       }
 

@@ -92,8 +92,9 @@ module.exports.getById = (req, res) => {
     }
   })
     .then(users => {
-      const obj = users.length ? users[0] : {};
-      delete obj.dataValues.password;
+      const obj = (users.length && users[0].dataValues.id !== null) ? users[0] : {};
+      if (obj.dataValues)
+        delete obj.dataValues.password;
       respond(200, obj, res);
     })
     .catch(err => {
