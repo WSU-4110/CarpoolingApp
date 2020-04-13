@@ -3,6 +3,8 @@ const models = require('../models/index');
 const respond = require('../util/respond');
 const jwt = require('../util/jwt');
 const validate = require('../util/validate');
+const sequelize = require('sequelize');
+
 
 /**
  * @api {get} /user list users
@@ -30,7 +32,15 @@ const validate = require('../util/validate');
  *
  */
 module.exports.get = (req, res) => {
-  models.User.findAll()
+  models.User.findAll({
+    include: {
+      model: models.Rating,
+      attributes: [
+        [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
+        [sequelize.fn('AVG', sequelize.col('value')), 'average']
+      ]
+    }
+  })
     .then(users => {
       users.map(u => { delete u.dataValues.password; return u; });
       respond(200, users, res);
@@ -73,6 +83,13 @@ module.exports.getById = (req, res) => {
     where: {
       access_id: accessId,
     },
+    include: {
+      model: models.Rating,
+      attributes: [
+        [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
+        [sequelize.fn('AVG', sequelize.col('value')), 'average']
+      ]
+    }
   })
     .then(users => {
       const obj = users.length ? users[0] : {};
