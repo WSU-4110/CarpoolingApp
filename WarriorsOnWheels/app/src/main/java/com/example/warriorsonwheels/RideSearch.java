@@ -78,7 +78,6 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                 confirmButton.setOnClickListener(RideSearch.this);
                 Shared.Data.selectedDriverId = driverId.get(position);
                 Shared.Data.selectedRideId = rideId.get(position);
-
             }
         });
 

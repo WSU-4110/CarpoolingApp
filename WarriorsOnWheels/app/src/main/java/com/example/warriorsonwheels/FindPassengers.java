@@ -43,9 +43,9 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     private Button refresh, start, cancel;
     private ListView passList;
     ArrayList<String> passengers = new ArrayList<String>();
-    ArrayList<String> userRideId = new ArrayList<String>();
+    ArrayList<String> riders = new ArrayList<String>();
 
-    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/:id/users";
+    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/";
     ProgressDialog dialog;
 
     @Override
@@ -67,17 +67,32 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         dialog.setMessage("Loading....");
         dialog.show();
 
+    }
 
-        passList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                Shared.Data.userRideId = userRideId.get(position);
-                //Shared.Data.selectedRideId = rideId.get(position);
+    void parseJsonData(String jsonString) {
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONArray ridesArray = object.getJSONArray("data");
 
+            for(int i = 0; i < ridesArray.length(); ++i) {
+                JSONObject dataobj = ridesArray.getJSONObject(i);
+                //if(!dataobj.toString().equals("{}")) {
+                riders.add(dataobj.getString("name"));
+                //}
             }
-        });
 
+            PassengerListAdapter whatever = new PassengerListAdapter(this, riders);
+            passList.setAdapter(whatever);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        dialog.dismiss();
+    }
+
+    public void getRiders()
+    {
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
@@ -101,31 +116,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         };
         RequestQueue rQueue = Volley.newRequestQueue(FindPassengers.this);
         rQueue.add(request);
-
-    }
-
-    void parseJsonData(String jsonString) {
-        try {
-            JSONObject object = new JSONObject(jsonString);
-            JSONArray ridesArray = object.getJSONArray("data");
-
-            for(int i = 0; i < ridesArray.length(); ++i) {
-                JSONObject dataobj = ridesArray.getJSONObject(i);
-
-                //if(!dataobj.toString().equals("{}")) {
-                passengers.add(dataobj.getString("users"));
-                //}
-
-            }
-
-            PassengerListAdapter whatever = new PassengerListAdapter(this, passengers);
-            passList.setAdapter(whatever);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        dialog.dismiss();
-    }
+    };
 
     @Override
     public void onClick(View v) {
