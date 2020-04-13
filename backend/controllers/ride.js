@@ -3,6 +3,7 @@ const moment = require('moment');
 const respond = require('../util/respond');
 const models = require('../models/index');
 const validate = require('../util/validate');
+const jwt = require('../util/jwt');
 
 /**
  * @api {get} /ride list rides
@@ -23,12 +24,14 @@ const validate = require('../util/validate');
     "error": false,
     "data": [
         {
-            "id": 3,
+            "id": 2,
             "date": "2020-06-06 12:00:00",
             "departure_location": "troy",
             "arrival_location": "wayne",
             "passenger_count": 5,
-            "driverId": 1
+            "driverId": 1,
+            "access_id": "cj5100",
+            "car": "2012 ford fiesta"
         }
     ]
 }
@@ -44,7 +47,13 @@ module.exports.get = async (req, res) => {
 
   try {
     let rides = await models.Ride.findAll({
-    })
+      include: {
+        model: models.Driver,
+        include: {
+          model: models.User
+        }
+      }
+    });
     const list = rides.filter(r => {
       const date = moment(`${r.dataValues.date}`, fmt);
       if (start && date < start)
@@ -52,7 +61,15 @@ module.exports.get = async (req, res) => {
       else if (end && date > end)
         return false;
       return true;
-    })
+    }).map(ride => {
+      const access_id = ride.driver.user.access_id;
+      const driverCar = ride.driver.car;
+      delete ride.dataValues.driver;
+      return Object.assign({}, ride.dataValues, {
+        access_id,
+        car: driverCar
+      });
+    });
     respond(200, list, res);
   }
   catch (err) {
@@ -100,9 +117,22 @@ module.exports.getById = async (req, res) => {
       limit: 1,
       where: {
         id: req.params.id
+      },
+      include: {
+        model: models.Driver,
+        include: {
+          model: models.User
+        }
       }
     });
-    respond(200, ride || {}, res);
+    const access_id = ride.driver.user.access_id;
+    const driverCar = ride.driver.car;
+    delete ride.dataValues.driver;
+    const obj = Object.assign({}, ride.dataValues, {
+      access_id,
+      car: driverCar
+    });
+    respond(200, obj || {}, res);
   }
   catch (err) {
     respond(500, err, res);
@@ -153,13 +183,29 @@ module.exports.getById = async (req, res) => {
 module.exports.post = async (req, res) => {
   const b = req.body;
   if (!validate(b, {
-    driver: 'string',
+    // driver: 'string',
     date: 'date',
     time: 'string',
     departure_location: 'string',
     arrival_location: 'string',
     passenger_count: 'integer',
   }, res)) return;
+
+  const decoded = await jwt.decode(req.headers.authorization);
+
+  const [driver] = await models.Driver.findAll({
+    include: {
+      model: models.User,
+      where: {
+        access_id: decoded.access_id,
+      },
+    },
+  });
+
+  if (!driver) {
+    respond(403, 'Forbidden', res);
+    return;
+  }
 
   const fmt = 'YYYY-MM-DD hh:mm:ss';
   const datetime = moment(`${b.date} ${b.time}`, fmt);
@@ -170,20 +216,15 @@ module.exports.post = async (req, res) => {
   }
 
   try {
-    const [driver] = await models.Driver.findAll({
-      limit: 1,
-      include: {
-        model: models.User,
-        where: {
-          access_id: b.driver,
-        },
-      },
-    });
-
-    if (!driver) {
-      respond(400, `driver with access ID ${b.driver} not found`, res);
-      return;
-    }
+    // const [driver] = await models.Driver.findAll({
+    //   limit: 1,
+    //   include: {
+    //     model: models.User,
+    //     where: {
+    //       access_id: b.driver,
+    //     },
+    //   },
+    // });
 
     const ride = await models.Ride.create({
       driverId: driver.dataValues.id,
@@ -357,6 +398,10 @@ module.exports.rideUsersPost = async (req, res) => {
     const ride = await models.Ride.findByPk(rideId);
     if (!ride) {
       respond(400, `ride with id ${rideId} not found`, res);
+      return;
+    }
+    if (ride.passenger_count < userAccessIds.length) {
+      respond(400, 'Number of users added exceeds maximum passenger count: ' + ride.passenger_count, res);
       return;
     }
     await ride.setUsers(userAccessIds.map(u => u.id));

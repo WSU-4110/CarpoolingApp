@@ -2,6 +2,7 @@ const models = require('../models/index');
 const respond = require('../util/respond');
 const validate = require('../util/validate');
 const sequelize = require('sequelize');
+const jwt = require('../util/jwt');
 
 /**
  * @api {get} /driver list drivers
@@ -164,53 +165,46 @@ module.exports.getById = (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  * @apiError (Error 4xx) {String} 400 Bad Request: cannot find user with access id <accessId>
  */
-module.exports.post = (req, res) => {
+module.exports.post = async (req, res) => {
   const b = req.body;
   if (!validate(b, {
-    access_id: 'string',
     car: 'string',
   }, res)) return;
 
-  const driver = {
-    car: b.car,
-  };
+  try {
 
-  let responded = false;
-  models.User.findAll({
-    limit: 1,
-    include: models.Driver,
-    where: {
-      access_id: b.access_id,
-    },
-  })
-    .then(users => {
-      if (!users.length) {
-        const errString = `no user exists with access ID ${b.access_id}`;
-        respond(400, errString, res);
-        responded = true;
-        throw errString;
-      } else if (users[0].driver !== null) {
-        const errString = `driver with access ID ${b.access_id} already exists`;
-        respond(400, errString, res);
-        responded = true;
-        throw errString;
-      } else {
-        driver.userId = users[0].id;
-        return users[0].createDriver(driver, { fields: ['car', 'userId'] });
+    const decoded = await jwt.decode(req.headers.authorization);
+
+    const [driver] = await models.Driver.findAll({
+      include: {
+        model: models.User,
+        where: {
+          access_id: decoded.access_id
+        }
       }
-    })
-    .then(driver => {
-      respond(200, driver, res);
-    })
-    .catch(err => {
-      if (responded) return;
-      if (err.name && err.name === 'SequelizeUniqueConstraintError') respond(400, err.errors[0].message, res);
-      else respond(500, err, res);
     });
+
+    if (driver) {
+      respond(400, 'Driver with access ID ${decoded.access_id} already exists', res);
+      return;
+    }
+
+    const created = await models.Driver.create({
+      car: b.car,
+      userId: decoded.id
+    }, { fields: ['car', 'userId'] });
+
+    respond(200, created, res);
+  }
+
+  catch (err) {
+    if (err.name && err.name === 'SequelizeUniqueConstraintError') respond(400, err.errors[0].message, res);
+    else respond(500, err, res);
+  }
 };
 
 /**
- * @api {delete} /driver/:accessId delete driver
+ * @api {delete} /driver delete driver
  * @apiName DriverDelete
  * @apiGroup driver
  *
@@ -228,31 +222,22 @@ module.exports.post = (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  * @apiError (Error 4xx) {String} 400 Bad Request: cannot find user with access id <accessId>
  */
-module.exports.delete = (req, res) => {
+module.exports.delete = async (req, res) => {
   if (!validate(req.params, {
     accessId: 'string',
   }, res)) return;
 
-  models.User.findAll({
-    limit: 1,
-    include: models.Driver,
-    where: {
-      access_id: req.params.accessId,
-    },
-  })
-    .then(users => {
-      if (users.length) {
-        return models.Driver.destroy({
-          where: {
-            userId: users[0].id,
-          },
-        });
+  try {
+    const decoded = await jwt.decode(req.headers.authorization);
+    const deleted = await models.Driver.destroy({
+      where: {
+        userId: decoded.id,
       }
-    })
-    .then(deleted => {
-      respond(200, { deleted }, res);
-    })
-    .catch(err => {
-      respond(500, err, res);
     });
-};
+    respond(200, { deleted }, res);
+  }
+  catch (err) {
+    respond(500, err, res);
+  }
+
+}
