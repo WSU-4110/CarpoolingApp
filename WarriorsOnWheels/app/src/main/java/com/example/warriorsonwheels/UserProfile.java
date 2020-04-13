@@ -58,7 +58,7 @@ public class UserProfile extends AppCompatActivity {
         passRating = (TextView)findViewById(R.id.passRating);
 
         carMake = (TextView)findViewById(R.id.carMake);
-        licensePlate = (TextView)findViewById(R.id.licensePlate);
+        //licensePlate = (TextView)findViewById(R.id.licensePlate);
         drivRating = (TextView)findViewById(R.id.drivRating);
 
 

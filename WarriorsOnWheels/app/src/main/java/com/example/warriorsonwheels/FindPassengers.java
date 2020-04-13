@@ -1,7 +1,6 @@
 package com.example.warriorsonwheels;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,9 +40,10 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     private Button refresh, start, cancel;
     private ListView passList;
     ArrayList<String> passengers = new ArrayList<String>();
-    ArrayList<String> riders = new ArrayList<String>();
+    ArrayList<Integer> rideId = new ArrayList<Integer>();
 
     String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/";
+    String newUrl = " ";
     ProgressDialog dialog;
 
     @Override
@@ -67,36 +65,25 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         dialog.setMessage("Loading....");
         dialog.show();
 
-    }
-
-    void parseJsonData(String jsonString) {
-        try {
-            JSONObject object = new JSONObject(jsonString);
-            JSONArray ridesArray = object.getJSONArray("data");
-
-            for(int i = 0; i < ridesArray.length(); ++i) {
-                JSONObject dataobj = ridesArray.getJSONObject(i);
-                //if(!dataobj.toString().equals("{}")) {
-                riders.add(dataobj.getString("name"));
-                //}
+        // --------------------------------------------------------------
+        //
+        //                  POST ALL RIDE IDS
+        //
+        // --------------------------------------------------------------
+        passList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                refresh.setClickable(true);
+                refresh.setOnClickListener(FindPassengers.this);
+                rideId.get(position);
             }
+        });
 
-            PassengerListAdapter whatever = new PassengerListAdapter(this, riders);
-            passList.setAdapter(whatever);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        dialog.dismiss();
-    }
-
-    public void getRiders()
-    {
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
-                parseJsonData(string);
+                parseJsonData1(string);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -116,19 +103,105 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         };
         RequestQueue rQueue = Volley.newRequestQueue(FindPassengers.this);
         rQueue.add(request);
-    };
+    }
+
+    // --------------------------------------------------------------
+    //
+    //                  GET ALL RIDE IDS FROM API
+    //
+    // --------------------------------------------------------------
+    void parseJsonData1(String jsonString) {
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONArray ridesArray = object.getJSONArray("data");
+
+            for(int i = 0; i < ridesArray.length(); ++i) {
+                JSONObject dataobj = ridesArray.getJSONObject(i);
+                rideId.add(dataobj.getInt("id"));
+
+                // --------------------------------------------------------------
+                //
+                //             GETS CURRENT RIDE AND CONVERTS URL
+                //
+                // --------------------------------------------------------------
+                //String currentId = getString(rideId.get(rideId.size() - 1));
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        dialog.dismiss();
+    }
+
+    // --------------------------------------------------------------
+    //
+    //                  DISPLAY USERS WHO HAVE CHOSEN RIDE
+    //
+    // --------------------------------------------------------------
+    void parseJsonData2(String jsonString) {
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONArray ridesArray = object.getJSONArray("data");
+
+            for(int i = 0; i < ridesArray.length(); ++i) {
+                JSONObject dataobj = ridesArray.getJSONObject(i);
+                //if(!dataobj.toString().equals("{}")) {
+                passengers.add(dataobj.getString("name"));
+                //}
+            }
+
+            PassengerListAdapter whatever = new PassengerListAdapter(this, passengers);
+            passList.setAdapter(whatever);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        dialog.dismiss();
+    }
+
+    public void getRiders()
+    {
+        //String currentId = getString(rideId.get(rideId.size() - 1));;
+        //newUrl = url + currentId + "/users";
+
+        StringRequest request = new StringRequest(newUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                parseJsonData2(string);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+
+        };
+        RequestQueue rQueue = Volley.newRequestQueue(FindPassengers.this);
+        rQueue.add(request);
+    }
 
     @Override
     public void onClick(View v) {
         switch(v.getId())
         {
             case R.id.refresh:
+                getRiders();
                 Intent intent1 = new Intent(getApplicationContext(), FindPassengers.class);
                 startActivity(intent1);
                 break;
 
             case R.id.start:
-                Intent intent2 = new Intent(getApplicationContext(), DrivRideStarted.class);
+                Intent intent2 = new Intent(getApplicationContext(), DuringRide.class);
                 startActivity(intent2);
                 break;
 

@@ -111,7 +111,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DrivRideStarted">
+        <activity android:name=".DuringRide">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
