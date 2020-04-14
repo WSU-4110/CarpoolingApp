@@ -37,7 +37,7 @@ import java.util.Map;
 public class DriverProfile extends AppCompatActivity implements View.OnClickListener{
 
     private Button finishDriverProf;
-    private EditText location, time, make, model, year, color, licensePlate, accessId;
+    private EditText location, time, make, model, year, color, license_plate, accessId;
     private ImageButton carImage;
     private boolean isDriver = false;
     private Toolbar tbrMain;
@@ -61,7 +61,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         model = (EditText) findViewById(R.id.model);
         year = (EditText) findViewById(R.id.year);
         color = (EditText) findViewById(R.id.color);
-        licensePlate = (EditText)findViewById(R.id.license);
+        license_plate = (EditText)findViewById(R.id.license);
         carImage = (ImageButton) findViewById(R.id.carImage);
         carImage.setOnClickListener(this);
     }
@@ -83,7 +83,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         String sendColor = color.getText().toString();
         Shared.Data.userLoc = sendColor;
 
-        String sendPlateNum = licensePlate.getText().toString();
+        String sendPlateNum = license_plate.getText().toString();
         Shared.Data.userLoc = sendPlateNum;
     }
 

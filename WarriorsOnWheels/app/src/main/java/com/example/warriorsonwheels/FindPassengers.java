@@ -40,7 +40,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     private Button refresh, start, cancel;
     private ListView passList;
     ArrayList<String> passengers = new ArrayList<String>();
-    String rideId = Integer.toString(Shared.Data.currentRideId);
+    //int rideId = Shared.Data.currentRideId;
 
     String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/";
     //String newUrl = " ";
@@ -110,7 +110,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
     public void getRiders()
     {
-        url = url + rideId + "/users";
+        url = url + Shared.Data.currentRideId + "/users";
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
