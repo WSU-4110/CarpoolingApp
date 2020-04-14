@@ -6,6 +6,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +14,11 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,7 +26,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
 
@@ -54,6 +64,7 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
                     case R.id.endRide:
                         if(Shared.Data.isDriverCheck)
                         {
+                            endRide();
                             Intent intent1 = new Intent(getApplicationContext(), RatePassenger.class);
                             startActivity(intent1);
                             break;
@@ -79,6 +90,48 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
         LatLng address = new LatLng(42.358694, -83.070194);
         mMap.addMarker(new MarkerOptions().position(address).title("Marker is Placed"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
+    }
+
+    public void endRide()
+    {
+        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+
+        jsonParams.put("access_id","gh4683");
+        jsonParams.put("type","2");
+
+
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("POST",response.toString());
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+
     }
 
 

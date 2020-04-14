@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,9 +19,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -147,6 +150,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.start:
+                postRideEvent();
                 Intent intent2 = new Intent(getApplicationContext(), DuringRide.class);
                 startActivity(intent2);
                 break;
@@ -224,6 +228,49 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+
+    public void postRideEvent()
+    {
+        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+
+
+        jsonParams.put("type","0");
+
+
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("POST",response.toString());
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+
     }
 
 }
