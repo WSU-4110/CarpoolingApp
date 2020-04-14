@@ -1,6 +1,9 @@
 package com.example.warriorsonwheels;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import android.view.View;
@@ -16,6 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
 
@@ -56,20 +61,14 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        city.setText(Shared.Data.arrival);
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         // Add a marker
-        city.setText(Shared.Data.arrival);
-        LatLng wayne_state = new LatLng(42.358694, -83.070194);
-        mMap.addMarker(new MarkerOptions().position(wayne_state).title("Marker in Wayne State"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne_state));
+        //city.setText(Shared.Data.arrival);
+        LatLng address = new LatLng(42.358694, -83.070194);
+        mMap.addMarker(new MarkerOptions().position(address).title("Marker is Placed"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
     }
 
 
