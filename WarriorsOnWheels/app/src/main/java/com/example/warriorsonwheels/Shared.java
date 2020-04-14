@@ -8,7 +8,7 @@ public enum Shared {
 
     public int selectedRideId = 0;
     public int selectedDriverId = 0;
-
+    public String AccessIdDriver = "";
     public String rideId;
     public String userRideId;
 

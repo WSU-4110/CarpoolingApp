@@ -82,6 +82,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     />
+                <!--
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,10 +93,21 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     />
+                    -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Estimated Arrival time:"
+                    android:text="Date:"
+                    android:textColor="@color/heading_2"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Departure Time:"
                     android:textColor="@color/heading_2"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -111,6 +123,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+                <!--
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -129,6 +142,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+                    -->
             </LinearLayout>
             <LinearLayout
                 android:layout_width="200dp"
@@ -169,11 +183,24 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     />
+                <!--
                 <TextView
                     android:id="@+id/PassPlaceInLine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="#3"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                    -->
+                <TextView
+                    android:id="@+id/Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2020-08-09"
                     android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -188,7 +215,7 @@
                     android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="21dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     />
                 <TextView
@@ -199,9 +226,10 @@
                     android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="31dp"
+                    android:layout_marginTop="21dp"
                     android:layout_marginLeft="10dp"
                     />
+                <!--
                 <TextView
                     android:id="@+id/Carcolor"
                     android:layout_width="match_parent"
@@ -210,7 +238,7 @@
                     android:textColor="@color/text"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="22dp"
+                    android:layout_marginTop="23dp"
                     android:layout_marginLeft="10dp"
                     />
                 <TextView
@@ -224,8 +252,10 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     />
+                    -->
             </LinearLayout>
         </LinearLayout>
+        <!--
         <ImageView
             android:id="@+id/carImage"
             android:layout_width="200dp"
@@ -233,14 +263,36 @@
             app:srcCompat="@android:drawable/ic_menu_gallery"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"/>
-        <Button
-            android:id="@+id/OptOutOfRide"
-            android:layout_width="wrap_content"
+            -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Opt Out of Ride"
-            android:textColor="@color/text"
-            android:background="@color/button"
-            android:layout_gravity="center"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/OptOutOfRide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opt Out of Ride"
+                android:textColor="@color/text"
+                android:background="@color/button"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginLeft="80dp"
+                android:onClick="onClick"/>
+            <Button
+                android:id="@+id/DriverRatingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rate Driver"
+                android:textColor="@color/text"
+                android:background="@color/button"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:onClick="onClick"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
