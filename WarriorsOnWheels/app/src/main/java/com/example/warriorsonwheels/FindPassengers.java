@@ -40,10 +40,10 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     private Button refresh, start, cancel;
     private ListView passList;
     ArrayList<String> passengers = new ArrayList<String>();
-    ArrayList<Integer> rideId = new ArrayList<Integer>();
+    String rideId;
 
     String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/";
-    String newUrl = " ";
+    //String newUrl = " ";
     ProgressDialog dialog;
 
     @Override
@@ -79,58 +79,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 passengers.get(position);
             }
         });
-
-        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String string) {
-                parseJsonData1(string);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", Shared.Data.token);
-                return headers;
-            }
-
-        };
-        RequestQueue rQueue = Volley.newRequestQueue(FindPassengers.this);
-        rQueue.add(request);
-    }
-
-    // --------------------------------------------------------------
-    //
-    //                  GET ALL RIDE IDS FROM API
-    //
-    // --------------------------------------------------------------
-    void parseJsonData1(String jsonString) {
-        try {
-            JSONObject object = new JSONObject(jsonString);
-            JSONArray ridesArray = object.getJSONArray("data");
-
-            for(int i = 0; i < ridesArray.length(); ++i) {
-                JSONObject dataobj = ridesArray.getJSONObject(i);
-                rideId.add(dataobj.getInt("id"));
-
-                // --------------------------------------------------------------
-                //
-                //             GETS CURRENT RIDE AND CONVERTS URL
-                //
-                // --------------------------------------------------------------
-                //String currentId = getString(rideId.get(rideId.size() - 1));
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        dialog.dismiss();
     }
 
     // --------------------------------------------------------------
@@ -160,11 +108,16 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         dialog.dismiss();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        rideId = Shared.Data.currentRideId;
+    }
+
     public void getRiders()
     {
-        newUrl = url + 1 + "/users";
-
-        StringRequest request = new StringRequest(newUrl, new Response.Listener<String>() {
+        url = url + rideId + "/users";
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
                 parseJsonData2(string);

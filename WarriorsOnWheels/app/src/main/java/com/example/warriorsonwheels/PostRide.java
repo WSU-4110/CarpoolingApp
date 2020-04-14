@@ -19,6 +19,8 @@ import android.widget.TimePicker;
 import androidx.appcompat.widget.Toolbar;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+
+import java.math.BigDecimal;
 import java.util.Calendar;
 import android.widget.DatePicker;
 
@@ -30,6 +32,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Time;
@@ -50,6 +54,8 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
     private Calendar calendar;
     private EditText leaveDate, leaveTime;
+
+    String currentRideID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,20 +181,9 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
             //Go to FindPassengers.java
             case R.id.shareRideButton:
                 postRequest();
-
                 Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
                 startActivity(intent);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        String sendCity = arrivalText.getText().toString();
-        Shared.Data.arrival = sendCity;
-
-        String sendLeaveCity = departureText.getText().toString();
-        Shared.Data.departure = sendLeaveCity;
     }
 
     public void postRequest()
@@ -217,7 +212,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
                 //runs when API called from RestQueue/MySingleton
                 Log.i("POST",response.toString());
-
+                currentRideID = response.toString();
             }
         },
 
@@ -242,4 +237,18 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String sendCity = arrivalText.getText().toString();
+        Shared.Data.arrival = sendCity;
+
+        String sendLeaveCity = departureText.getText().toString();
+        Shared.Data.departure = sendLeaveCity;
+
+        String sendCurrentId = currentRideID;
+        Shared.Data.currentRideId = sendCurrentId;
+    }
+
 }
