@@ -31,6 +31,8 @@ public enum Shared {
 
     public String arrival, departure;
 
+    public String firebaseToken;
+
 
     GoogleSignInAccount googleAccount;
 
