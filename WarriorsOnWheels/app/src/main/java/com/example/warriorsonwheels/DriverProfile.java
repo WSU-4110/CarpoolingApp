@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -132,7 +133,8 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_CANCELED) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_CANCELED) {
             switch (requestCode) {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
@@ -143,7 +145,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                     break;
                 case 1:
                     if (resultCode == RESULT_OK && data != null) {
-                        Uri selectedImage =  data.getData();
+                        Uri selectedImage = data.getData();
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         if (selectedImage != null) {
                             Cursor cursor = getContentResolver().query(selectedImage,
@@ -191,7 +193,15 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
 
 
                     }
-                });
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
