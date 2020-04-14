@@ -87,6 +87,7 @@ public class Login extends AppCompatActivity {
         {
             if (success) {
                 Shared.Data.firebaseToken = FBtoken;
+                Shared.Data.loggedInuser = accessID.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent);
             } else {

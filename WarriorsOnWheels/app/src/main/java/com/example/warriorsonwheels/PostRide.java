@@ -216,6 +216,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                 try {
                     JSONObject obj = response.getJSONObject("data");
                     Shared.Data.currentRideId = obj.getInt("id");
+                    Log.i("Ride ID", String.valueOf(Shared.Data.currentRideId));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

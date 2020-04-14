@@ -142,8 +142,8 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         {
             case R.id.refresh:
                 getRiders();
-                Intent intent1 = new Intent(getApplicationContext(), FindPassengers.class);
-                startActivity(intent1);
+//                Intent intent1 = new Intent(getApplicationContext(), FindPassengers.class);
+//                startActivity(intent1);
                 break;
 
             case R.id.start:
