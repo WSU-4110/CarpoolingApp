@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -190,7 +191,15 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
                     }
-                });
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);

@@ -23,6 +23,7 @@ import android.app.TimePickerDialog;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -226,6 +227,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+                        Toast.makeText(PostRide.this, "Must be driver to post ride", Toast.LENGTH_SHORT).show();
 
 
                     }
