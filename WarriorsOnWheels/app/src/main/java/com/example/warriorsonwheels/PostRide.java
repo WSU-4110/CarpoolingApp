@@ -185,7 +185,10 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
     protected void onPause() {
         super.onPause();
         String sendCity = arrivalText.getText().toString();
-        Shared.Data.city = sendCity;
+        Shared.Data.arrival = sendCity;
+
+        String sendLeaveCity = departureText.getText().toString();
+        Shared.Data.departure = sendLeaveCity;
     }
 
     public void postRequest()
