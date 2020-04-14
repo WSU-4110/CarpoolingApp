@@ -142,13 +142,15 @@ module.exports.getById = async (req, res) => {
   "access_id": "cj5102",
   "password": "1234",
 	"phone_number": "5869783333",
-	"location":"atlantis"
+  "location":"atlantis",
+  "device_token": "eScrvHntSOKlY8DNpsi6l4:APA91bE1YZX-_PDGe5Rh"
 }
  * @apiParam {String} access_id user's access ID
  * @apiParam {String} name user name
  * @apiParam {String} password user password
  * @apiParam {String} phone_number user phone number
  * @apiParam {String} location user address
+ * @apiParam {String} device_token (Optional) registration token of caller's device
  *
  *
  *  @apiSuccess (200) {Object} data successful user creation
@@ -192,9 +194,10 @@ module.exports.post = (req, res) => {
     location: b.location,
     access_id: b.access_id,
     password: b.password,
+    device_token: b.device_token
   };
 
-  models.User.create(user, { fields: ['name', 'phone_number', 'location', 'access_id', 'password'] })
+  models.User.create(user)
     .then(rows => {
       delete rows.dataValues.password;
       respond(200, rows, res);
@@ -267,6 +270,7 @@ module.exports.auth = async (req, res) => {
  * @apiParam {String} accessId access ID of user to update
  * @apiParam {String} name name of user to update
  * @apiParam {String} phone_number phone number of user to update
+ * @apiParam {String} device_token registration token of user's device
  * @apiParam {String} location address of user to update
  *
  *  * @apiParamExample {json} Request-Example:
@@ -369,7 +373,7 @@ module.exports.delete = (req, res) => {
 module.exports.devicePost = async (req, res) => {
   try {
     const decoded = await jwt.decode(req.headers.authorization);
-    console.log(decoded);
+    // console.log(decoded);
 
     const [updated] = await models.User.update({ device_token: req.body.token }, {
       where: {

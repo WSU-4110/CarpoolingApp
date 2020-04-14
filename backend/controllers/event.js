@@ -4,6 +4,7 @@ const respond = require('../util/respond');
 const models = require('../models/index');
 const validate = require('../util/validate');
 const jwt = require('../util/jwt');
+const firebase = require('./firebase');
 
 const verifyDriver = async (header, rideId, res) => {
   const decoded = await jwt.decode(header);
@@ -148,7 +149,7 @@ module.exports.post = async (req, res) => {
   let beginEvent = [];
   let endEvent = [];
   let user;
-
+  let message = "";
   // begin SQL transaction
   const t = await models.sequelize.transaction();
 
@@ -189,6 +190,10 @@ module.exports.post = async (req, res) => {
 
     // get ride's list of passengers
     const passengers = await ride.getUsers();
+    const driver = await ride.getDriver({
+      include: models.User
+    });
+    passengers.push(driver.dataValues.user);
 
     switch (type) {
       // caller wants to begin ride
@@ -213,6 +218,8 @@ module.exports.post = async (req, res) => {
             id: req.params.id
           }
         }, { transaction: t });
+
+        message = `Ride with driver ${driver.dataValues.user.dataValues.access_id} has started!`;
         break;
 
       // driver has picked up a passenger
@@ -255,8 +262,9 @@ module.exports.post = async (req, res) => {
           respond(400, `user with access ID ${user.dataValues.access_id} has already been picked up`, res);
           return;
         }
-        break;
 
+        message = `Driver has picked up passenger ${req.body.access_id}!`;
+        break;
       // driver has finished ride
       case 2:
         // test if ride has already begun
@@ -271,12 +279,13 @@ module.exports.post = async (req, res) => {
           respond(400, 'ride has not begun yet', res);
           return;
         }
+
+        message = "You have arrived at your destination. Go Warriors!";
         break;
       default:
         await t.rollback();
         respond(400, 'invalid event type: possible values are {0, 1, 2}', res);
         return;
-        break;
     }
 
     // create new event for this ride
@@ -286,6 +295,16 @@ module.exports.post = async (req, res) => {
       userId: type === 1 ? userDbId : null,
       rideId: parseInt(req.params.id)
     }, { transaction: t });
+
+    const firebaseRequest = {
+      body: {
+        message,
+        users: passengers.map(p => p.access_id)
+      }
+    };
+
+    const notification = await firebase.post(firebaseRequest, null);
+    event.dataValues.notification = notification;
 
     await t.commit();
     respond(200, event, res);

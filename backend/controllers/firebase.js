@@ -1,4 +1,6 @@
 const admin = require('firebase-admin');
+const models = require('../models/index');
+const { Op } = require('sequelize');
 
 admin.initializeApp({
   name: 'Carpool App',
@@ -6,31 +8,43 @@ admin.initializeApp({
   databaseURL: 'https://carpooling-app-271518.firebaseio.com'
 });
 
-var registrationToken = 'cuY66e1BRSewMBDpncXfmz:APA91bGY3o9K7IAOWtiElHysVHj690j9QlOwenSjswfC_FsaE886dYNAu7TvxkKLdT59WNJ6_xrMzYeLdObX-D5z_s11JXg7PH4IRu3ocfurQYVSJ2PzKUvhZYpcZpraGY3-HtXzfjeh';
-
-var message = {
-  notification: {
-    title: 'Carpool App',
-    body: ' this is my message'
-  },
-  android: {
-    ttl: 3600 * 1000,
-    notification: {
-      icon: 'stock_ticker_update',
-      color: '#f45342',
-    },
-  },
-
-  token: registrationToken
-};
-
-// Send a message to the device corresponding to the provided
-// registration token.
-admin.messaging().send(message)
-  .then((response) => {
-    // Response is a message ID string.
-    console.log('Successfully sent message:', response);
+module.exports.post = async (req, res) => {
+  const users = await models.User.findAll({
+    where: {
+      access_id: {
+        [Op.in]: req.body.users
+      }
+    }
   })
-  .catch((error) => {
-    console.log('Error sending message:', error);
+  const tokens = users.map(u => u.dataValues.device_token);
+  console.log(tokens);
+
+  var message = {
+    notification: {
+      title: 'Carpool App',
+      body: req.body.message
+    },
+    android: {
+      ttl: 3600 * 1000,
+      notification: {
+        icon: 'stock_ticker_update',
+        color: '#f45342',
+      },
+    },
+
+    tokens
+  };
+
+  // Send a message to the device corresponding to the provided
+  // registration token.
+  return new Promise((resolve, reject) => {
+    if (message.tokens.length)
+      admin.messaging().sendMulticast(message)
+        .then(resolve)
+        .catch(reject);
+    else
+      resolve({
+        message: "No users notified"
+      })
   });
+}
