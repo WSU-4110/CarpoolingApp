@@ -212,7 +212,13 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
                 //runs when API called from RestQueue/MySingleton
                 Log.i("POST",response.toString());
-                currentRideID = response.toString();
+                try {
+                    JSONObject obj = response.getJSONObject("data");
+                    Shared.Data.currentRideId = obj.getInt("id");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         },
 
@@ -248,7 +254,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         Shared.Data.departure = sendLeaveCity;
 
         String sendCurrentId = currentRideID;
-        Shared.Data.currentRideId = sendCurrentId;
     }
 
 }
