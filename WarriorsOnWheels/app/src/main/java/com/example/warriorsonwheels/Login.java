@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import android.util.Log;
 
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +37,7 @@ public class Login extends AppCompatActivity {
     EditText accessID, pw;
     Button confirm;
     String FBtoken;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +97,7 @@ public class Login extends AppCompatActivity {
 
         public void loginPost ()
         {
-            String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/auth";
+            String url = Shared.Data.url + "/user/auth";
 
             Map<String, String> jsonParams = new HashMap<String, String>();
 
@@ -145,7 +145,7 @@ public class Login extends AppCompatActivity {
 
     public void getToken() {
 
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/token";
+        String url = Shared.Data.url + "/user/token";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 

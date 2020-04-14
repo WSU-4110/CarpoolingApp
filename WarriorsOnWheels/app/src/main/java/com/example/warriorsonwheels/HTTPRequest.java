@@ -17,8 +17,6 @@ public class HTTPRequest extends Application{
 
     public HTTPRequest(){}
 
-
-
     public String apiCall(String URL_TAIL)
     {
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app" + URL_TAIL;
@@ -37,7 +35,6 @@ public class HTTPRequest extends Application{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
-
 
                     }
                 });

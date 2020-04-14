@@ -33,10 +33,10 @@ public enum Shared {
 
     public String firebaseToken;
 
-
     GoogleSignInAccount googleAccount;
-
     String name, email, imgURL;
+
+    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app";
 
 
     public void setGoogleAccount(GoogleSignInAccount account)
