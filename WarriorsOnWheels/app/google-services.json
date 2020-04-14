@@ -1,63 +1,34 @@
 {
   "project_info": {
-    "project_number": "52456763798",
-    "firebase_url": "https://carpooling-app-271518.firebaseio.com",
-    "project_id": "carpooling-app-271518",
-    "storage_bucket": "carpooling-app-271518.appspot.com"
+    "project_number": "182651448717",
+    "firebase_url": "https://warriorsonwheels-7ade2.firebaseio.com",
+    "project_id": "warriorsonwheels-7ade2",
+    "storage_bucket": "warriorsonwheels-7ade2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:52456763798:android:1973c000675b19d7e4edb7",
+        "mobilesdk_app_id": "1:182651448717:android:a0c84d1613023c346461c4",
         "android_client_info": {
-          "package_name": "com.company.carpool"
+          "package_name": "com.example.warriorsonwheels"
         }
       },
       "oauth_client": [
         {
-          "client_id": "52456763798-spfn5e6h9i67p421qrjhdbl09nocfefk.apps.googleusercontent.com",
+          "client_id": "182651448717-cb5i3pi9211ab6uhba5cvclq42mh5fn5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLpgfxAW2_6GI9in-imkOcRR0LX5-z1tA"
+          "current_key": "AIzaSyAlo5k6t8hAIuuntxBQfcQK6gwfLF4IoAk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "52456763798-spfn5e6h9i67p421qrjhdbl09nocfefk.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:52456763798:android:7ebbcc8abbd6d716e4edb7",
-        "android_client_info": {
-          "package_name": "com.google.firebase.quickstart.fcm"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "52456763798-spfn5e6h9i67p421qrjhdbl09nocfefk.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBLpgfxAW2_6GI9in-imkOcRR0LX5-z1tA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "52456763798-spfn5e6h9i67p421qrjhdbl09nocfefk.apps.googleusercontent.com",
+              "client_id": "182651448717-cb5i3pi9211ab6uhba5cvclq42mh5fn5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

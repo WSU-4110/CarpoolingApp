@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -36,6 +37,7 @@ public class Login extends AppCompatActivity {
 
     EditText accessID, pw;
     Button confirm;
+    String FBtoken;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,22 +68,16 @@ public class Login extends AppCompatActivity {
                                 }
 
                                 // Get new Instance ID token
-                                String token = task.getResult().getToken();
+                                FBtoken = task.getResult().getToken();
 
                                 // Log and toast
-                                String msg = getString(R.string.msg_token_fmt, token);
+                                String msg = getString(R.string.msg_token_fmt, FBtoken);
                                 Log.d("FB INSTANCE", msg);
                                 Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
-
-
-
-
-
-
-
                 loginPost();
+                //getToken();
             }
         });
     }
@@ -90,7 +86,7 @@ public class Login extends AppCompatActivity {
         public void loginSuccess (boolean success)
         {
             if (success) {
-                Shared.Data.loggedInuser = accessID.getText().toString();
+                Shared.Data.firebaseToken = FBtoken;
                 Intent intent = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent);
             } else {
@@ -119,6 +115,7 @@ public class Login extends AppCompatActivity {
                         Shared.Data.token = (String) data.get("token");
 
                         Log.i("Token", Shared.Data.token);
+                        getToken();
                         loginSuccess(true);
 
 
@@ -138,16 +135,54 @@ public class Login extends AppCompatActivity {
                             Log.println(Log.ERROR, "ERROR:", "Volley Error");
                             loginSuccess(false);
 
-
                         }
                     });
-
-
 //
 //        //Makes API Call
             MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
-
         }
+
+    public void getToken() {
+
+        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/token";
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+
+        jsonParams.put("token", FBtoken);
+
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("Token", Shared.Data.firebaseToken);
+                loginSuccess(true);
+
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("POST", response.toString());
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+
+    }
+
 }
 
