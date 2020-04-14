@@ -56,6 +56,7 @@ public class RatePassenger extends AppCompatActivity{
         switch(v.getId())
         {
             case R.id.rateBtn:
+                postRequest();
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(v.getContext());
                 builder.setTitle("RIDE OVER");

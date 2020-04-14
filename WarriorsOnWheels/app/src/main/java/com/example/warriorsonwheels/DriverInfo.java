@@ -75,7 +75,7 @@ public class DriverInfo extends AppCompatActivity{
                 //cancel ride
                 break;
             case R.id.DriverRatingButton:
-                Intent intent2 = new Intent(getApplicationContext(), RateDriver.class);
+                Intent intent2 = new Intent(getApplicationContext(), DuringRide.class);
                 startActivity(intent2);
                 break;
         }

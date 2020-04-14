@@ -52,9 +52,19 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
                 switch(v.getId())
                 {
                     case R.id.endRide:
-                        Intent intent1 = new Intent(getApplicationContext(), RatePassenger.class);
-                        startActivity(intent1);
-                        break;
+                        if(Shared.Data.isDriverCheck)
+                        {
+                            Intent intent1 = new Intent(getApplicationContext(), RatePassenger.class);
+                            startActivity(intent1);
+                            break;
+                        }
+                        else
+                        {
+                            Intent intent2 = new Intent(getApplicationContext(), Payment.class);
+                            startActivity(intent2);
+                            break;
+                        }
+
                     }
             }
         });

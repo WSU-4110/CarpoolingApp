@@ -1,5 +1,7 @@
 package com.example.warriorsonwheels;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,9 +50,20 @@ public class RateDriver extends AppCompatActivity{
         {
             case R.id.rateDriver:
                 postRequest();
-                Intent intent3 = new Intent(getApplicationContext(), Payment.class);
-                startActivity(intent3);
-                break;
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(v.getContext());
+                builder.setTitle("RIDE OVER");
+                builder.setMessage("Thank you for using Warriors on Wheels!");
+                builder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+                                Intent intent4 = new Intent(getApplicationContext(), HomePage.class);
+                                startActivity(intent4);
+                            }
+                        });
         }
         
     }

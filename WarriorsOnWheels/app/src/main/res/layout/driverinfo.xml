@@ -284,7 +284,7 @@
                 android:id="@+id/DriverRatingButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rate Driver"
+                android:text="Go to Maps"
                 android:textColor="@color/text"
                 android:background="@color/button"
                 android:layout_gravity="center"

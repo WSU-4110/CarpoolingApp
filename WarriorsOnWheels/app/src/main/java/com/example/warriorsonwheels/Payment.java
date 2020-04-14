@@ -93,7 +93,7 @@ public class Payment extends AppCompatActivity implements View.OnClickListener {
                             public void onClick(
                                     DialogInterface dialog, int option)
                             {
-                                Intent intent4 = new Intent(getApplicationContext(), HomePage.class);
+                                Intent intent4 = new Intent(getApplicationContext(), RateDriver.class);
                                 startActivity(intent4);
                             }
                         });
