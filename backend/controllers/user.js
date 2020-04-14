@@ -31,23 +31,31 @@ const sequelize = require('sequelize');
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.get = (req, res) => {
-  models.User.findAll({
-    include: {
-      model: models.Rating,
-      attributes: [
-        [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-        [sequelize.fn('AVG', sequelize.col('value')), 'average']
-      ]
-    }
-  })
-    .then(users => {
-      users.map(u => { delete u.dataValues.password; return u; });
-      respond(200, users, res);
-    })
-    .catch(err => {
-      respond(500, err, res);
-    });
+module.exports.get = async (req, res) => {
+  try {
+
+
+    const users = await models.User.findAll();
+    await Promise.all(users.map(async user => {
+      const rating = await models.Rating.findAll({
+        where: {
+          userId: user.dataValues.id,
+        },
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
+          [sequelize.fn('AVG', sequelize.col('value')), 'average']
+        ]
+      });
+      user.dataValues.rating = rating[0].dataValues;
+
+    }));
+
+    users.map(u => { delete u.dataValues.password; return u; });
+    respond(200, users, res);
+  }
+  catch (err) {
+    respond(500, err, res);
+  };
 };
 
 /**
@@ -75,31 +83,38 @@ module.exports.get = (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.getById = (req, res) => {
-  const { accessId } = req.params;
+module.exports.getById = async (req, res) => {
+  try {
+    const { accessId } = req.params;
 
-  models.User.findAll({
-    limit: 1,
-    where: {
-      access_id: accessId,
-    },
-    include: {
-      model: models.Rating,
+    const [user] = await models.User.findAll({
+      limit: 1,
+      where: {
+        access_id: accessId,
+      }
+    });
+    if (!user) {
+      respond(400, 'user with access ID ' + accessId + ' not found', res);
+    }
+    const rating = await models.Rating.findAll({
+      where: {
+        userId: user.dataValues.id,
+      },
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
         [sequelize.fn('AVG', sequelize.col('value')), 'average']
       ]
-    }
-  })
-    .then(users => {
-      const obj = (users.length && users[0].dataValues.id !== null) ? users[0] : {};
-      if (obj.dataValues)
-        delete obj.dataValues.password;
-      respond(200, obj, res);
-    })
-    .catch(err => {
-      respond(500, err, res);
     });
+    user.dataValues.rating = rating[0].dataValues;
+
+    const obj = (user && user.dataValues.id !== null) ? user : {};
+    if (obj.dataValues)
+      delete obj.dataValues.password;
+    respond(200, obj, res);
+  }
+  catch (err) {
+    respond(500, err, res);
+  };
 };
 
 /**
@@ -259,13 +274,7 @@ module.exports.put = (req, res) => {
     accessId: 'string',
   }, res)) return;
 
-  const user = {
-    name: req.body.name,
-    phone_number: req.body.phone_number,
-    location: req.body.location,
-  };
-
-  models.User.update(user, {
+  models.User.update(req.body.user, {
     where: {
       access_id: req.params.accessId,
     },

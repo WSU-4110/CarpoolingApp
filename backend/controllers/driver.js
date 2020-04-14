@@ -17,11 +17,17 @@ const jwt = require('../util/jwt');
     "error": false,
     "data": [
         {
-            "id": 2,
-            "car": "2010 ford fusion",
-            "name": "darpan",
-            "access_id": "ab1234",
-            "phone_number": "1412122234"
+            "id": 1,
+            "user_id": 1,
+            "name": "Evan",
+            "phone_number": "0001112222",
+            "location": "troy",
+            "access_id": "cj5100",
+            "car": "2012 ford fiesta",
+            "rating": {
+                "count": 1,
+                "average": "5.0000"
+            }
         }
     ]
 }
@@ -30,44 +36,42 @@ const jwt = require('../util/jwt');
  *
  */
 
-// include: {
-//   model: models.Rating,
-//     attributes: [
-//       [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-//       [sequelize.fn('AVG', sequelize.col('value')), 'average']
-//     ]
-// }
-module.exports.get = (req, res) => {
-  models.Driver.findAll({
-    include: {
-      model: models.User,
+module.exports.get = async (req, res) => {
+  try {
+    let drivers = await models.Driver.findAll({
       include: {
-        model: models.Rating,
+        model: models.User
+      },
+    });
+
+    await Promise.all(drivers.map(async driver => {
+      const rating = await models.Rating.findAll({
+        where: {
+          userId: driver.dataValues.user.id
+        },
         attributes: [
           [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
           [sequelize.fn('AVG', sequelize.col('value')), 'average']
         ]
-      }
-    },
-  })
-    .then(drivers => {
-      const list = drivers.map(d => ({
-        id: d.id,
-        user_id: d.userId,
-        name: d.user.name,
-        phone_number: d.user.phone_number,
-        location: d.user.location,
-        access_id: d.user.access_id,
-        car: d.car,
-        rating: d.user.rating
-      }));
-
-      respond(200, list, res);
-    })
-    .catch(err => {
-      respond(500, err, res);
-    });
-};
+      });
+      driver.rating = rating[0].dataValues;
+    }));
+    const list = drivers.map(d => ({
+      id: d.id,
+      user_id: d.userId,
+      name: d.user.name,
+      phone_number: d.user.phone_number,
+      location: d.user.location,
+      access_id: d.user.access_id,
+      car: d.car,
+      rating: d.rating
+    }));
+    respond(200, list, res);
+  }
+  catch (err) {
+    respond(500, err, res);
+  }
+}
 
 /**
  * @api {get} /driver/:accessId get driver by access ID
@@ -82,59 +86,65 @@ module.exports.get = (req, res) => {
  * HTTP/1.1 200 OK
 {
     "error": false,
-    "data": 
-        {
-            "id": 2,
-            "car": "2010 ford fusion",
-            "name": "darpan",
-            "access_id": "ab1234",
-            "phone_number": "1412122234"
+    "data": {
+        "id": 1,
+        "user_id": 1,
+        "name": "Evan",
+        "phone_number": "0001112222",
+        "location": "troy",
+        "access_id": "cj5100",
+        "car": "2012 ford fiesta",
+        "rating": {
+            "count": 1,
+            "average": "5.0000"
         }
-    
+    }
 }
  *
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.getById = (req, res) => {
+module.exports.getById = async (req, res) => {
   const { accessId } = req.params;
 
-  models.Driver.findAll({
-    limit: 1,
-    include: {
-      model: models.User,
-      where: { access_id: accessId },
+  try {
+    const [driver] = await models.Driver.findAll({
       include: {
-        model: models.Rating,
-        attributes: [
-          [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-          [sequelize.fn('AVG', sequelize.col('value')), 'average']
-        ]
-      }
-    },
-  })
-    .then(drivers => {
-      let obj = {};
-      if (drivers.length && drivers[0].dataValues.id !== null) {
-        const d = drivers[0];
-        obj = {
-          id: d.id,
-          user_id: d.userId,
-          name: d.user.name,
-          phone_number: d.user.phone_number,
-          location: d.user.location,
-          access_id: d.user.access_id,
-          car: d.car,
-          rating: d.user.rating
+        model: models.User,
+        where: { access_id: accessId }
 
-        };
-      }
-
-      respond(200, obj, res);
-    })
-    .catch(err => {
-      respond(500, err, res);
+      },
     });
+
+    if (!driver) {
+      respond(400, 'user with access ID ' + accessId + ' not found', res);
+    }
+
+    const rating = await models.Rating.findAll({
+      where: { userId: driver.dataValues.user.id },
+      attributes: [
+        [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
+        [sequelize.fn('AVG', sequelize.col('value')), 'average']
+      ]
+    });
+
+    driver.dataValues.rating = rating[0].dataValues;
+    const d = driver.dataValues;
+    const obj = {
+      id: d.id,
+      user_id: d.userId,
+      name: d.user.name,
+      phone_number: d.user.phone_number,
+      location: d.user.location,
+      access_id: d.user.access_id,
+      car: d.car,
+      rating: d.rating
+    };
+    respond(200, obj, res);
+  }
+  catch (err) {
+    respond(500, err, res);
+  }
 };
 
 
