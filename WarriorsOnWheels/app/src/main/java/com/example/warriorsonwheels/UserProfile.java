@@ -58,7 +58,7 @@ public class UserProfile extends AppCompatActivity {
         passRating = (TextView)findViewById(R.id.passRating);
 
         carMake = (TextView)findViewById(R.id.carMake);
-        licensePlate = (TextView)findViewById(R.id.licensePlate);
+        //licensePlate = (TextView)findViewById(R.id.licensePlate);
         drivRating = (TextView)findViewById(R.id.drivRating);
 
 
@@ -81,11 +81,23 @@ public class UserProfile extends AppCompatActivity {
                             Log.i("User Data:",response.toString());
 
                             JSONObject dataobj = response.getJSONObject("data");
+
+
                             name.setText(dataobj.getString("name"));
                             accessID.setText(dataobj.getString("access_id"));
                             phNum.setText(dataobj.getString("phone_number"));
                             primLoc.setText(dataobj.getString("location"));
-                            passRating.setText("NEED TO ADD RATING IN /user/accessId");
+
+                            if (dataobj.getString("average").equals("null"))
+                            {
+                                passRating.setText("No Rating");
+                            }
+                            else
+                            {
+                                passRating.setText(dataobj.getString("rating"));
+
+                            }
+
 
                         } catch (JSONException e) {
                             Log.i("JSONException ERROR", e.toString()); }
@@ -126,7 +138,16 @@ public class UserProfile extends AppCompatActivity {
 
                             JSONObject dataobj = response.getJSONObject("data");
                             carMake.setText(dataobj.getString("car"));
-                            drivRating.setText("NEED DRIVER RATING in GET");
+
+                            if (dataobj.getString("average").equals("null"))
+                            {
+                                drivRating.setText("No Rating");
+                            }
+                            else
+                            {
+                                drivRating.setText(dataobj.getString("rating"));
+
+                            }
 
 
                         } catch (JSONException e) {

@@ -1,6 +1,17 @@
 package com.example.warriorsonwheels;
 
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import static android.provider.Settings.System.getString;
 
 public enum Shared {
     //initiate enum shared variables
@@ -18,7 +29,7 @@ public enum Shared {
     public String userName, userId, userLoc, phNumber,driverAccessID, token, loggedInuser;
     public String userCarMake, userCarModel, userCarYear, userCarColor, userLicPlate;
 
-    public String city;
+    public String arrival, departure;
 
 
     GoogleSignInAccount googleAccount;
@@ -42,6 +53,8 @@ public enum Shared {
     {
         return googleAccount;
     }
+
+
 
 }
 
