@@ -15,18 +15,27 @@ const sequelize = require('sequelize');
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
- * {
- *     "error": false,
- *     "data": [
+{
+    "error": false,
+    "data": [
+        {
+            "id": 1,
+            "name": "Evan",
+            "phone_number": "0001112222",
+            "location": "troy",
+            "access_id": "cj5100",
+            "rating": null
+        },
         {
             "id": 2,
-            "name": "darpan",
-            "phone_number": "1412122234",
-            "location": "vegas baby",
-            "access_id": "ab1234"
+            "name": "Sam",
+            "phone_number": "1112223333",
+            "location": "clawson",
+            "access_id": "ab1234",
+            "rating": null
         }
-      ]
- * }
+    ]
+}
  *
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
@@ -37,7 +46,7 @@ module.exports.get = async (req, res) => {
 
     const users = await models.User.findAll();
     await Promise.all(users.map(async user => {
-      const rating = await models.Rating.findAll({
+      const [rating] = await models.Rating.findAll({
         where: {
           userId: user.dataValues.id,
           is_driver: false,
@@ -47,7 +56,7 @@ module.exports.get = async (req, res) => {
           [sequelize.fn('AVG', sequelize.col('value')), 'average']
         ]
       });
-      user.dataValues.rating = rating[0].dataValues;
+      user.dataValues.rating = rating.dataValues.average;
 
     }));
 
@@ -70,16 +79,17 @@ module.exports.get = async (req, res) => {
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
- * {
- *     "error": false,
- *     "data": {
-            "id": 2,
-            "name": "darpan",
-            "phone_number": "1412122234",
-            "location": "vegas baby",
-            "access_id": "ab1234"
-        }
- * }
+{
+    "error": false,
+    "data": {
+        "id": 2,
+        "name": "Sam",
+        "phone_number": "1112223333",
+        "location": "clawson",
+        "access_id": "ab1234",
+        "rating": null
+    }
+}
  *
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
@@ -98,7 +108,7 @@ module.exports.getById = async (req, res) => {
       respond(400, 'user with access ID ' + accessId + ' not found', res);
       return;
     }
-    const rating = await models.Rating.findAll({
+    const [rating] = await models.Rating.findAll({
       where: {
         userId: user.dataValues.id,
         is_driver: false,
@@ -108,7 +118,7 @@ module.exports.getById = async (req, res) => {
         [sequelize.fn('AVG', sequelize.col('value')), 'average']
       ]
     });
-    user.dataValues.rating = rating[0].dataValues;
+    user.dataValues.rating = rating.dataValues.average;
 
     const obj = (user && user.dataValues.id !== null) ? user : {};
     if (obj.dataValues)

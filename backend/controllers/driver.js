@@ -24,10 +24,7 @@ const jwt = require('../util/jwt');
             "location": "troy",
             "access_id": "cj5100",
             "car": "2012 ford fiesta",
-            "rating": {
-                "count": 1,
-                "average": "5.0000"
-            }
+            "rating": "3.3333"
         }
     ]
 }
@@ -45,7 +42,7 @@ module.exports.get = async (req, res) => {
     });
 
     await Promise.all(drivers.map(async driver => {
-      const rating = await models.Rating.findAll({
+      const [rating] = await models.Rating.findAll({
         where: {
           userId: driver.dataValues.user.id,
           is_driver: true,
@@ -55,7 +52,7 @@ module.exports.get = async (req, res) => {
           [sequelize.fn('AVG', sequelize.col('value')), 'average']
         ]
       });
-      driver.rating = rating[0].dataValues;
+      driver.rating = rating.dataValues;
     }));
     const list = drivers.map(d => ({
       id: d.id,
@@ -65,7 +62,7 @@ module.exports.get = async (req, res) => {
       location: d.user.location,
       access_id: d.user.access_id,
       car: d.car,
-      rating: d.rating
+      rating: d.rating.average
     }));
     respond(200, list, res);
   }
@@ -87,21 +84,20 @@ module.exports.get = async (req, res) => {
  * HTTP/1.1 200 OK
 {
     "error": false,
-    "data": {
-        "id": 1,
-        "user_id": 1,
-        "name": "Evan",
-        "phone_number": "0001112222",
-        "location": "troy",
-        "access_id": "cj5100",
-        "car": "2012 ford fiesta",
-        "rating": {
-            "count": 1,
-            "average": "5.0000"
+    "data": 
+        {
+            "id": 1,
+            "user_id": 1,
+            "name": "Evan",
+            "phone_number": "0001112222",
+            "location": "troy",
+            "access_id": "cj5100",
+            "car": "2012 ford fiesta",
+            "rating": "3.3333"
         }
-    }
 }
  *
+ * @apiError (Error 4xx) {String} 400 driver with access ID <id> not found
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -118,11 +114,11 @@ module.exports.getById = async (req, res) => {
     });
 
     if (!driver) {
-      respond(400, 'user with access ID ' + accessId + ' not found', res);
+      respond(400, 'driver with access ID ' + accessId + ' not found', res);
       return;
     }
 
-    const rating = await models.Rating.findAll({
+    const [rating] = await models.Rating.findAll({
       where: {
         userId: driver.dataValues.user.id,
         is_driver: true,
@@ -133,7 +129,7 @@ module.exports.getById = async (req, res) => {
       ]
     });
 
-    driver.dataValues.rating = rating[0].dataValues;
+    driver.dataValues.rating = rating.dataValues;
     const d = driver.dataValues;
     const obj = {
       id: d.id,
@@ -143,7 +139,7 @@ module.exports.getById = async (req, res) => {
       location: d.user.location,
       access_id: d.user.access_id,
       car: d.car,
-      rating: d.rating
+      rating: d.rating.average
     };
     respond(200, obj, res);
   }
