@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +46,7 @@ public class Login extends AppCompatActivity {
 
         confirm = (Button) findViewById(R.id.submitLoginButton);
 
+        FirebaseApp.initializeApp(this);
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +54,32 @@ public class Login extends AppCompatActivity {
 
                 Toast toast = Toast.makeText(getApplicationContext(), "Processing...", Toast.LENGTH_LONG);
                 toast.show();
+
+
+                FirebaseInstanceId.getInstance().getInstanceId()
+                        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.w("FB INSTANCE", "getInstanceId failed", task.getException());
+                                    return;
+                                }
+
+                                // Get new Instance ID token
+                                String token = task.getResult().getToken();
+
+                                // Log and toast
+                                String msg = getString(R.string.msg_token_fmt, token);
+                                Log.d("FB INSTANCE", msg);
+                                Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+
+
+
+
 
                 loginPost();
             }
