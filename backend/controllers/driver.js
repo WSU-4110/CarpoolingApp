@@ -50,9 +50,10 @@ module.exports.get = async (req, res) => {
         attributes: [
           [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
           [sequelize.fn('AVG', sequelize.col('value')), 'average']
-        ]
+        ],
+        group: ["user_id"],
       });
-      driver.rating = rating.dataValues;
+      driver.rating = rating !== undefined ? rating.dataValues.average : null;
     }));
     const list = drivers.map(d => ({
       id: d.id,
@@ -62,7 +63,7 @@ module.exports.get = async (req, res) => {
       location: d.user.location,
       access_id: d.user.access_id,
       car: d.car,
-      rating: d.rating.average
+      rating: d.rating
     }));
     respond(200, list, res);
   }
@@ -126,10 +127,11 @@ module.exports.getById = async (req, res) => {
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
         [sequelize.fn('AVG', sequelize.col('value')), 'average']
-      ]
+      ],
+      group: ["user_id"]
     });
 
-    driver.dataValues.rating = rating.dataValues;
+    driver.rating = rating !== undefined ? rating.dataValues.average : null;
     const d = driver.dataValues;
     const obj = {
       id: d.id,
@@ -139,7 +141,7 @@ module.exports.getById = async (req, res) => {
       location: d.user.location,
       access_id: d.user.access_id,
       car: d.car,
-      rating: d.rating.average
+      rating: d.rating
     };
     respond(200, obj, res);
   }

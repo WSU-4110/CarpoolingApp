@@ -54,9 +54,10 @@ module.exports.get = async (req, res) => {
         attributes: [
           [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
           [sequelize.fn('AVG', sequelize.col('value')), 'average']
-        ]
+        ],
+        group: ["user_id"],
       });
-      user.dataValues.rating = rating.dataValues.average;
+      user.dataValues.rating = rating !== undefined ? rating.dataValues.average : null;
 
     }));
 
@@ -117,9 +118,10 @@ module.exports.getById = async (req, res) => {
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
         [sequelize.fn('AVG', sequelize.col('value')), 'average']
-      ]
+      ],
+      group: ["user_id"],
     });
-    user.dataValues.rating = rating.dataValues.average;
+    user.dataValues.rating = rating !== undefined ? rating.dataValues.average : null;
 
     const obj = (user && user.dataValues.id !== null) ? user : {};
     if (obj.dataValues)

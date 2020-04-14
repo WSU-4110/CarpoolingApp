@@ -42,6 +42,7 @@ module.exports.get = async (req, res) => {
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
         [sequelize.fn('AVG', sequelize.col('value')), 'average']
       ],
+      group: ["user_id"],
       where: {
         is_driver: false,
       },
@@ -52,13 +53,16 @@ module.exports.get = async (req, res) => {
         }
       }
     });
-    delete userRatings.dataValues.user;
+
+    if (userRatings)
+      delete userRatings.dataValues.user;
 
     const [driverRatings] = await models.Rating.findAll({
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
         [sequelize.fn('AVG', sequelize.col('value')), 'average']
       ],
+      group: ["user_id"],
       where: {
         is_driver: true,
       },
@@ -69,11 +73,12 @@ module.exports.get = async (req, res) => {
         }
       }
     });
-    delete driverRatings.dataValues.user;
+    if (driverRatings)
+      delete driverRatings.dataValues.user;
 
     respond(200, {
-      user: userRatings,
-      driver: driverRatings
+      user: userRatings || { count: 0, average: null },
+      driver: driverRatings || { count: 0, average: null }
     }, res);
 
   }
@@ -130,10 +135,23 @@ module.exports.post = async (req, res) => {
       where: {
         access_id: req.params.accessId,
       }
-    })
+    });
     if (!user) {
-      respond(400, `cannot find user with access ID ${b.access_id}`, res);
+      respond(400, `cannot find user with access ID ${req.params.accessId}`, res);
       return;
+    }
+
+    if (b.is_driver) {
+      const [driver] = await models.Driver.findAll({
+        limit: 1,
+        where: {
+          userId: user.dataValues.id,
+        }
+      });
+      if (!driver) {
+        respond(400, `cannot find driver with access ID ${req.params.accessId}`, res);
+        return;
+      }
     }
     const userRatingInsert = await user.createRating({
       userId: user.id,
