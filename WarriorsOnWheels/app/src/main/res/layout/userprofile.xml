@@ -74,7 +74,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/headshot" />
+            app:srcCompat="@drawable/profilepic2" />
 
         <LinearLayout
             android:layout_width="200dp"
@@ -290,7 +290,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            app:srcCompat="@drawable/profileppic1" />
 
         <LinearLayout
             android:layout_width="200dp"
@@ -325,7 +325,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="(insert make)"
+                    android:text="(insert car details)"
                     android:textColor="@color/text"
                     android:textSize="15dp"/>
 
@@ -335,91 +335,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="15dp" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/drivRatingTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Driver Rating:"
+                    android:textColor="@color/heading_2"
+                    android:textStyle="bold"
+                    android:textSize="15dp"/>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="15dp" />
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
 
+                <TextView
+                    android:id="@+id/drivRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="(insert rating)"
+                    android:textColor="@color/text"
+                    android:textSize="15dp"/>
 
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="15dp" />
-
+            </LinearLayout>
 
 
         </LinearLayout>
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="15dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/licPlateTitle"
-            android:layout_width="8dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="1"
-            android:text="License Plate #:"
-            android:textColor="@color/heading_2"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-        <Space
-            android:layout_width="40dp"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:id="@+id/licensePlate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="(insert number)"
-            android:textColor="@color/text"
-            android:textSize="15dp"/>
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="15dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/drivRatingTitle"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="1"
-            android:text="Rating:"
-            android:textColor="@color/heading_2"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-        <Space
-            android:layout_width="25dp"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:id="@+id/drivRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="(insert rating)"
-            android:textColor="@color/text"
-            android:textSize="15dp"/>
 
     </LinearLayout>
 
