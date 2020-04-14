@@ -162,8 +162,8 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
     public void getRiders()
     {
-        //String currentId = getString(rideId.get(rideId.size() - 1));;
-        //newUrl = url + currentId + "/users";
+        String currentId = getString(rideId.get(rideId.size() - 1));;
+        newUrl = url + currentId + "/users";
 
         StringRequest request = new StringRequest(newUrl, new Response.Listener<String>() {
             @Override
