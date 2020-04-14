@@ -16,9 +16,7 @@ module.exports.post = async (req, res) => {
       }
     }
   })
-  const tokens = users.map(u => u.dataValues.device_token);
-  console.log(tokens);
-
+  const tokens = users.map(u => u.dataValues.device_token).filter(t => t !== null && t !== undefined);
   var message = {
     notification: {
       title: 'Carpool App',
