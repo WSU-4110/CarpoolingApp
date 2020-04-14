@@ -32,7 +32,7 @@ public class PassengerListAdapter extends ArrayAdapter {
         TextView passengerTextField = (TextView) rowView.findViewById(R.id.passName);
 
         //this code sets the values of the objects to values from the arrays
-        passengerTextField.setText(passengers.get(position));
+        passengerTextField.setText("Nidhi Nadig");
 
         return rowView;
     };
