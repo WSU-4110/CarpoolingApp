@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     phone_number: DataTypes.STRING,
     location: DataTypes.STRING,
     password: DataTypes.STRING,
+    device_token: DataTypes.STRING,
     access_id: { type: DataTypes.CHAR(6), unique: true },
   }, {
     ...config,

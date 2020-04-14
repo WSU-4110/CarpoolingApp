@@ -85,7 +85,6 @@ module.exports.get = async (req, res) => {
  * @apiParam {Number} id specific ride id
  *
  * @apiSuccess (200) {Object} data ride profile
- * @apiSuccess (204) {Null} blank No Content
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -125,6 +124,12 @@ module.exports.getById = async (req, res) => {
         }
       }
     });
+
+    if (!ride) {
+      respond(400, `ride not found`, res);
+      return;
+    }
+
     const access_id = ride.driver.user.access_id;
     const driverCar = ride.driver.car;
     delete ride.dataValues.driver;
@@ -176,7 +181,8 @@ module.exports.getById = async (req, res) => {
     }
 }
  *
- * @apiError (Error 4xx) {String} 400 Bad Request: "departure time is invalid. please supply a valid departure time."
+ * @apiError (Error 4xx) {String} 400 Bad Request
+ * @apiError (Error 4xx) {String} 403 Forbidden
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -216,15 +222,6 @@ module.exports.post = async (req, res) => {
   }
 
   try {
-    // const [driver] = await models.Driver.findAll({
-    //   limit: 1,
-    //   include: {
-    //     model: models.User,
-    //     where: {
-    //       access_id: b.driver,
-    //     },
-    //   },
-    // });
 
     const ride = await models.Ride.create({
       driverId: driver.dataValues.id,
@@ -304,6 +301,7 @@ module.exports.delete = async (req, res) => {
     ]
 }
  *
+ * @apiError (Error 4xx) {String} 400 Bad Request
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -342,7 +340,7 @@ module.exports.rideUsersGet = async (req, res) => {
  *
  *  * @apiParamExample {json} Request-Example:
 {
-  "users": ["aa5555", "bb6666"]
+  "users": ["ab1234"]
 }
  *
  * @apiSuccessExample Success-Response:
@@ -366,6 +364,7 @@ module.exports.rideUsersGet = async (req, res) => {
     ]
 }
  *
+ * @apiError (Error 4xx) {String} 400 Bad Request
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */

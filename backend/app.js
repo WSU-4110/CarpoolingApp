@@ -47,6 +47,13 @@ app.post('/_fill', (req, res) => {
       })
     })
     .then(() => {
+      return models.Ride.create({
+        "driverId": "1",
+        "passenger_count": 5,
+        "date": new Date(),
+      })
+    })
+    .then(() => {
       res.send('OK');
     })
 });

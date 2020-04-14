@@ -10,5 +10,6 @@ router.post('/', controller.post);
 router.put('/:accessId', controller.put);
 router.delete('/:accessId', auth, controller.delete);
 router.post('/auth', controller.auth);
+router.post('/token', auth, controller.devicePost);
 
 module.exports = router;

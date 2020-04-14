@@ -26,7 +26,7 @@ const sequelize = require('sequelize');
         }
     }
 }
- * * @apiError (Error 4xx) {String} 400 Bad Request: "please provide valid access id."
+ * * @apiError (Error 4xx) {String} 400 Bad Request
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -147,43 +147,4 @@ module.exports.post = async (req, res) => {
     respond(500, err, res);
 
   }
-
-  // const userId = req.params.accessId;
-  // const isDriver = req.body.isDriver ? 1 : 0;
-  // const { rating } = req.body;
-
-  // if (rating < 1 || rating > 5) {
-  //   respond(400, 'Rating must be between 1 and 5 inclusive', res);
-  //   return;
-  // }
-
-  // let updateRows;
-  // db.query('START TRANSACTION')
-  //   .then(() => {
-  //     const sql = 'SELECT id FROM user WHERE access_id = ?';
-  //     return db.query(sql, [userId]);
-  //   })
-  //   .then(rows => {
-  //     if (rows.length === 0) {
-  //       const errString = `user with access id ${userId} not found`;
-  //       respond(400, errString, res);
-  //       return;
-  //     }
-
-  //     const sql = 'INSERT INTO rating (user_id, value, is_driver) VALUES(?, ?, ?)';
-  //     return db.query(sql, [rows[0].id, rating, isDriver]);
-  //   })
-  //   .then(rows => {
-  //     updateRows = rows;
-  //     return db.query('COMMIT');
-  //   })
-  //   .then(() => {
-  //     respond(200, updateRows, res);
-  //   })
-  //   .catch(err => {
-  //     db.query('ROLLBACK')
-  //       .then(() => {
-  //         respond(500, err, res);
-  //       });
-  //   });
 };

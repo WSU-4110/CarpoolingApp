@@ -91,6 +91,7 @@ module.exports.get = async (req, res) => {
     }
 }
  *
+ * @apiError (Error 4xx) {String} 400 Bad Request
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -143,6 +144,11 @@ module.exports.getById = async (req, res) => {
 	"phone_number": "5869783333",
 	"location":"atlantis"
 }
+ * @apiParam {String} access_id user's access ID
+ * @apiParam {String} name user name
+ * @apiParam {String} password user password
+ * @apiParam {String} phone_number user phone number
+ * @apiParam {String} location user address
  *
  *
  *  @apiSuccess (200) {Object} data successful user creation
@@ -160,6 +166,7 @@ module.exports.getById = async (req, res) => {
     }
 }
  *
+ * @apiError (Error 4xx) {String} 400 Bad Request
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -210,7 +217,6 @@ module.exports.post = (req, res) => {
 }
  *
  *
- *  @apiSuccess (200) {Object} data successful user creation
  *  @apiSuccess (200) {Object} token JWT to use in future API requests
  *
  * @apiSuccessExample Success-Response:
@@ -222,6 +228,8 @@ module.exports.post = (req, res) => {
     }
 }
  *
+ * @apiError (Error 4xx) {String} 400 Bad Request
+ * @apiError (Error 4xx) {String} 401 Unauthorized
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -258,8 +266,8 @@ module.exports.auth = async (req, res) => {
  *
  * @apiParam {String} accessId access ID of user to update
  * @apiParam {String} name name of user to update
- * @apiParam {String} phone_number phone_number of user to update
- * @apiParam {String} location location of user to update
+ * @apiParam {String} phone_number phone number of user to update
+ * @apiParam {String} location address of user to update
  *
  *  * @apiParamExample {json} Request-Example:
  * {
@@ -278,7 +286,6 @@ module.exports.auth = async (req, res) => {
         "updated": 1
     }
 }
- * @apiError (Error 4xx) {String} 400 Bad Request: "Please provide a valid access id."
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -318,7 +325,6 @@ module.exports.put = (req, res) => {
         "deleted": 1
     }
 }
- * @apiError (Error 4xx) {String} 400 Bad Request: "Please provide a valid access id."
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
@@ -338,4 +344,44 @@ module.exports.delete = (req, res) => {
     .catch(err => {
       respond(500, err, res);
     });
+};
+
+/**
+ * @api {post} /users/token update device token
+ * @apiName UserTokenPost
+ * @apiGroup user
+ *
+ * @apiParam {String} token registration token of caller's device
+ *
+ *  @apiSuccess (200) {Object} data successful token update
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "update": 1
+    }
+}
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.devicePost = async (req, res) => {
+  try {
+    const decoded = await jwt.decode(req.headers.authorization);
+    console.log(decoded);
+
+    const [updated] = await models.User.update({ device_token: req.body.token }, {
+      where: {
+        id: decoded.id
+      }
+    })
+    respond(200, { updated }, res);
+
+  }
+  catch (err) {
+    respond(500, err, res);
+
+  }
+
 };
