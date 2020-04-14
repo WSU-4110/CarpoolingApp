@@ -47,7 +47,8 @@ module.exports.get = async (req, res) => {
     await Promise.all(drivers.map(async driver => {
       const rating = await models.Rating.findAll({
         where: {
-          userId: driver.dataValues.user.id
+          userId: driver.dataValues.user.id,
+          is_driver: true,
         },
         attributes: [
           [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
@@ -118,10 +119,14 @@ module.exports.getById = async (req, res) => {
 
     if (!driver) {
       respond(400, 'user with access ID ' + accessId + ' not found', res);
+      return;
     }
 
     const rating = await models.Rating.findAll({
-      where: { userId: driver.dataValues.user.id },
+      where: {
+        userId: driver.dataValues.user.id,
+        is_driver: true,
+      },
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
         [sequelize.fn('AVG', sequelize.col('value')), 'average']

@@ -40,6 +40,7 @@ module.exports.get = async (req, res) => {
       const rating = await models.Rating.findAll({
         where: {
           userId: user.dataValues.id,
+          is_driver: false,
         },
         attributes: [
           [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
@@ -95,10 +96,12 @@ module.exports.getById = async (req, res) => {
     });
     if (!user) {
       respond(400, 'user with access ID ' + accessId + ' not found', res);
+      return;
     }
     const rating = await models.Rating.findAll({
       where: {
         userId: user.dataValues.id,
+        is_driver: false,
       },
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
