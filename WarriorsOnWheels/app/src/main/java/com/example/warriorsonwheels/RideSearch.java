@@ -46,6 +46,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
     ArrayList<Integer> rideId = new ArrayList<Integer>();
     ArrayList<Integer> driverId = new ArrayList<Integer>();
     ArrayList<String> riders = new ArrayList<String>();
+    ArrayList<String> drivers = new ArrayList<String>();
     String url1 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
     String url2 = "";
     ProgressDialog dialog;
@@ -68,7 +69,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
         confirmButton.setClickable(false);
 
         rideList = (ListView) findViewById(R.id.rideList);
-
+        rideList.setSelector(R.drawable.list_item_selector);
 
         rideList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -78,6 +79,9 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                 confirmButton.setOnClickListener(RideSearch.this);
                 Shared.Data.selectedDriverId = driverId.get(position);
                 Shared.Data.selectedRideId = rideId.get(position);
+                Shared.Data.AccessIdDriver = drivers.get(position);
+                view.getFocusables(position);
+                view.setSelected(true);
             }
         });
 
@@ -125,6 +129,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                     passengers.add(dataobj.getString("passenger_count"));
                     rideId.add(dataobj.getInt("id"));
                     driverId.add(dataobj.getInt("driverId"));
+                    drivers.add(dataobj.getString("access_id"));
                 //}
 
             }
@@ -204,8 +209,10 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                 riders.add(Shared.Data.loggedInuser);
 
                 postRequest();
-                Intent intent3 = new Intent(getApplicationContext(), RateDriver.class);
-                startActivity(intent3);
+                //Intent intent3 = new Intent(getApplicationContext(), DriverInfo.class);
+                //startActivity(intent3);
+                Intent intent2 = new Intent(getApplicationContext(), RateDriver.class);
+                startActivity(intent2);
                 break;
         }
     }
