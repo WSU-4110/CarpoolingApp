@@ -209,10 +209,10 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                 riders.add(Shared.Data.loggedInuser);
 
                 postRequest();
-                //Intent intent3 = new Intent(getApplicationContext(), DriverInfo.class);
-                //startActivity(intent3);
-                Intent intent2 = new Intent(getApplicationContext(), RateDriver.class);
-                startActivity(intent2);
+                Intent intent3 = new Intent(getApplicationContext(), DriverInfo.class);
+                startActivity(intent3);
+                //Intent intent2 = new Intent(getApplicationContext(), RateDriver.class);
+                //startActivity(intent2);
                 break;
         }
     }

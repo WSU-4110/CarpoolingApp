@@ -21,7 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,8 +34,10 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     //private Button CreateDriveProf;
     private Button finishPassProf;
     // private TextView Name,accessId, phoneNumber, location;
-    private EditText nameInp, idInput, numberInput, locationInput, pw, confirmPW;
+    private EditText nameInp, idInput, numberInput, pw, confirmPW;
     private Toolbar tbrMain;
+    private EditText street, city, state, zip;
+    String locationInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,12 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         nameInp = (EditText) findViewById(R.id.Name);
         idInput = (EditText) findViewById(R.id.accessID);
         numberInput = (EditText) findViewById(R.id.PhoneNumber);
-        locationInput = (EditText) findViewById(R.id.Location);
+        //locationInput = (EditText) findViewById(R.id.Location);
+
+        street = (EditText) findViewById(R.id.street);
+        city = (EditText) findViewById(R.id.city);
+        state = (EditText) findViewById(R.id.state);
+        zip = (EditText) findViewById(R.id.zip);
         pw = (EditText)findViewById(R.id.pw);
         confirmPW = (EditText)findViewById(R.id.confirmpw);
 
@@ -113,14 +119,13 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
+        locationInput = street + " " + city + " " + state + " " + zip;
+
         jsonParams.put("name",nameInp.getText().toString());
         jsonParams.put("access_id",idInput.getText().toString());
         jsonParams.put("password",pw.getText().toString());
         jsonParams.put("phone_number",numberInput.getText().toString());
-        jsonParams.put("location",locationInput.getText().toString());
-
-
-
+        jsonParams.put("location",locationInput);
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
@@ -147,4 +152,9 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Shared.Data.departure = locationInput;
+    }
 }

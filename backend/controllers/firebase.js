@@ -29,6 +29,8 @@ module.exports.post = async (req, res) => {
       notification: {
         icon: 'stock_ticker_update',
         color: '#f45342',
+        title: 'Carpool App',
+        body: req.body.message
       },
     },
 
