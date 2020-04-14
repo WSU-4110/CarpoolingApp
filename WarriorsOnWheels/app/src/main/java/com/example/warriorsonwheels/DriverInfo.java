@@ -3,6 +3,7 @@ package com.example.warriorsonwheels;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,7 +33,8 @@ public class DriverInfo extends AppCompatActivity{
     private ImageView CarImage;
     private TextView driverName, driverPhone, driverRating,placeInLine,ArrivalTime, MakeModeYear, Color, LicensePlate, Date;
     String url1 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/" + Shared.Data.selectedRideId;
-    String url2 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/" + Shared.Data.AccessIdDriver;
+    String url2 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver/" + Shared.Data.AccessIdDriver;
+    String url3 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/" + Shared.Data.AccessIdDriver;
     ProgressDialog dialog;
     String driver, car, phone, rating, time, date;
     @Override
@@ -42,6 +44,10 @@ public class DriverInfo extends AppCompatActivity{
 
         //Buttons
         OptOutOfRide = (Button) findViewById(R.id.OptOutOfRide);
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading....");
+        dialog.show();
 
         driverName = (TextView) findViewById(R.id.DriverName);
         driverPhone = (TextView) findViewById(R.id.DriverPhone);
@@ -55,13 +61,10 @@ public class DriverInfo extends AppCompatActivity{
         //Initialize carImage
 
         getRequest1();
-        //getRequest2();
+        getRequest2();
+        //getRequest3();
 
-        driverName.setText(driver);
-        driverPhone.setText(phone);
-        //driverRating.setText(rating);
-        MakeModeYear.setText(car);
-        ArrivalTime.setText(time);
+
     }
 
     public void onClick (View v) {
@@ -82,33 +85,58 @@ public class DriverInfo extends AppCompatActivity{
         try {
             JSONObject object = new JSONObject(jsonString);
             JSONObject data = object.getJSONObject("data");
+            System.out.println("the ride ifo: " + data.toString());
+            car = data.getString("car");
+            String dateTime = data.getString("date");
+            time = dateTime.substring(dateTime.lastIndexOf('T') + 1 , dateTime.length() - 8);
+            date = dateTime.substring(0, dateTime.lastIndexOf('T'));
+            System.out.println("driver details: " + driver + date + phone);
 
-           if(data.toString() != null) {
-               car = data.getString("car");
-               phone = data.getString("phone_number");
-               String dateTime = data.getString("date");
-               time = dateTime.substring(0, dateTime.lastIndexOf('T'));
-               date = dateTime.substring(0, dateTime.lastIndexOf('T'));
-               System.out.println("driver details: " + driver + date + phone);
-           }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //dialog.dismiss();
-    }
+            Date.setText(date);
+            MakeModeYear.setText(car);
+            ArrivalTime.setText(time);
 
-    void parseJsonData2(String jsonString) {
-        try {
-            JSONObject object = new JSONObject(jsonString);
-            JSONObject data = object.getJSONObject("data");
-            JSONObject driver = object.getJSONObject("driver");
-            rating = driver.getString("average");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         dialog.dismiss();
     }
 
+    void parseJsonData2(String jsonString) {
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONObject data = object.getJSONObject("data");
+            System.out.println("the driver ifo: " + data.toString());
+            driver = data.getString("name");
+            phone = data.getString("phone_number");
+            //rating = data.getString("rating");
+
+            driverName.setText(driver);
+            driverPhone.setText(phone);
+            //driverRating.setText(rating);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        dialog.dismiss();
+    }
+
+    void parseJsonData3(String jsonString) {
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONObject data = object.getJSONObject("data");
+            Log.i("POST",data.toString());
+            if(data.getJSONObject("driver").length() != 0) {
+                JSONObject driver = data.getJSONObject("driver");
+                rating = driver.getString("average");
+                driverRating.setText(rating);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        dialog.dismiss();
+    }
     public void getRequest1()
     {
         StringRequest request = new StringRequest(url1, new Response.Listener<String>() {
@@ -142,6 +170,33 @@ public class DriverInfo extends AppCompatActivity{
             @Override
             public void onResponse(String string) {
                 parseJsonData2(string);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+
+        };
+        RequestQueue rQueue = Volley.newRequestQueue(DriverInfo.this);
+        rQueue.add(request);
+    }
+
+    public void getRequest3()
+    {
+        StringRequest request = new StringRequest(url3, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                parseJsonData3(string);
             }
         }, new Response.ErrorListener() {
             @Override
