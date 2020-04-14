@@ -36,7 +36,7 @@ public class PassengerListAdapter extends ArrayAdapter {
 
         for (int i = 0; i < passengers.size(); i++)
         {
-            Log.i("-------------------------------------------------------------FUCK NULLS",passengers.get(i) + " i = " + i + "Position =  " + position);
+            Log.i("-------------------------------------------------------------",passengers.get(i) + " i = " + i + "Position =  " + position);
         }
 
         passengerTextField.setText(passengers.get(position));
