@@ -283,7 +283,6 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                 return headers;
             }
 
-
         };
         RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
         rQueue.add(request);
