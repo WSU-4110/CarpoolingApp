@@ -250,7 +250,11 @@ module.exports.auth = async (req, res) => {
     if (valid) {
       const data = u.dataValues;
       delete data.password;
-      const token = await jwt.sign(data);
+      const token = await jwt.sign({
+        id: data.id,
+        name: data.name,
+        access_id: data.access_id
+      });
       respond(200, { token }, res);
     } else {
       respond(401, 'Unauthorized', res);
