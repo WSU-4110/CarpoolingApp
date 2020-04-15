@@ -1,0 +1,19 @@
+1. driver initates ride
+    results:
+    - driver and users receive push notification for start of ride
+2. driver arrives at user 1
+    - driver tells server he/she has arrived at user 1
+    - user 1 receives push notification
+3. repeat for all users
+4. driver tells server he has arrived
+    - all users notfied that ride has ended
+    - users are taken to rating page
+    - driver is taken to rating page for all users
+
+event:
+    ride_id int, type short, time datetime, passenger_id int
+
+types:
+0 - begin ride
+1 - pickup passenger
+2 - end ride

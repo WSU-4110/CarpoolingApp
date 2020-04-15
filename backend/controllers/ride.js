@@ -1,119 +1,417 @@
 
-const db = require('../util/db');
+const moment = require('moment');
 const respond = require('../util/respond');
+const models = require('../models/index');
+const validate = require('../util/validate');
+const jwt = require('../util/jwt');
 
-module.exports.get = (req, res) => {
-  const sql = 'SELECT * FROM ride WHERE active = 1';
-  db.query(sql)
-    .then(rows => {
-      respond(200, rows, res);
-    })
-    .catch(err => {
-      respond(500, err, res);
+/**
+ * @api {get} /ride list rides
+ * @apiName RideGet
+ * @apiGroup ride
+ *
+ * @apiParam (Query string) {String} start date and time of departure in format "YYYY-MM-DD hh:mm:ss"
+ * @apiParam (Query string) {String} end date and time of departure in format "YYYY-MM-DD hh:mm:ss"
+ *
+ * @apiExample {curl} Example usage:
+ *     curl -i http://localhost:8080/ride?start=2020-06-05%2000:00:00&end=2020-06-06%2012:00:00
+ *
+ * @apiSuccess (200) {Object[]} data list of ride profiles
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": [
+        {
+            "id": 2,
+            "date": "2020-06-06 12:00:00",
+            "departure_location": "troy",
+            "arrival_location": "wayne",
+            "passenger_count": 5,
+            "driverId": 1,
+            "access_id": "cj5100",
+            "car": "2012 ford fiesta"
+        }
+    ]
+}
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.get = async (req, res) => {
+  const q = req.query;
+  const fmt = 'YYYY-MM-DD hh:mm:ss';
+  const start = moment(`${q.start}`, fmt);
+  const end = moment(`${q.end}`, fmt);
+
+  try {
+    let rides = await models.Ride.findAll({
+      include: {
+        model: models.Driver,
+        include: {
+          model: models.User
+        }
+      }
     });
+    const list = rides.filter(r => {
+      const date = moment(`${r.dataValues.date}`, fmt);
+      if (start && date < start)
+        return false;
+      else if (end && date > end)
+        return false;
+      return true;
+    }).map(ride => {
+      const access_id = ride.driver.user.access_id;
+      const driverCar = ride.driver.car;
+      delete ride.dataValues.driver;
+      return Object.assign({}, ride.dataValues, {
+        access_id,
+        car: driverCar
+      });
+    });
+    respond(200, list, res);
+  }
+  catch (err) {
+    respond(500, err, res);
+  }
 };
 
-module.exports.post = (req, res) => {
-  let sql;
-  let rideId;
-  const driverId = req.body.driver_access_id;
-  db.query('START TRANSACTION')
-    .then(() => {
-      sql = 'SELECT driver.id FROM driver INNER JOIN passenger where passenger.access_id=?';
-      return db.query(sql, [driverId]);
-    })
-    .then(rows => {
-      if (rows.length === 0) {
-        const errString = `driver with access id ${driverId} not found`;
-        respond(400, errString, res);
-        throw errString;
-      }
-      sql = 'INSERT INTO ride (driver_id, departure_time, location) VALUES (?, ?, ?)';
-      return db.query(sql, [rows[0].id, req.body.departure_time, req.body.location]);
-    })
-    // .then(rows => {
-    //   rideId = rows.insertId;
-    //   if (req.body.passengers) {
-    //     sql = 'SELECT id FROM passenger WHERE access_id in ?';
-    //     const values = [
-    //       req.body.passengers
-    //     ];
-    //     return db.query(sql, [values])
-    //   }
-    // })
-    // .then(rows => {
-    //   let values = [];
-    //   rows.forEach(row => {
-    //     values.push([
-    //       rideId,
-    //       row.id
-    //     ]);
-    //   });
-
-    //   sql = 'INSERT INTO ride_passenger_join (ride_id, passenger_id) VALUES ?';
-    //   return db.query(sql, [values]);
-    // })
-    .then(rows => {
-      db.query('COMMIT');
-      respond(200, rows, res);
-    })
-    .catch(err => {
-      db.query('ROLLBACK')
-        .then(() => {
-          respond(500, err, res);
-
-        });
-    });
+/**
+ * @api {get} /ride/:id get ride by ride ID
+ * @apiName RideGetById
+ * @apiGroup ride
+ *
+ * @apiParam {Number} id specific ride id
+ *
+ * @apiSuccess (200) {Object} data ride profile
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+            "id": 11,
+            "driver_id": 2,
+            "time": "2020-05-20 00:00:00s",
+            "location": "troy",
+            "active": 1,
+            "car": "2010 ford fusion",
+            "name": "darpan",
+            "phone_number": "1412122234",
+            "access_id": "ab1234"
+        }
 }
+ *
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.getById = async (req, res) => {
+  if (!validate(req.params, {
+    id: 'integer',
+  }, res)) return;
 
-module.exports.put = (req, res) => {
+  try {
+    const [ride] = await models.Ride.findAll({
+      limit: 1,
+      where: {
+        id: req.params.id
+      },
+      include: {
+        model: models.Driver,
+        include: {
+          model: models.User
+        }
+      }
+    });
+
+    if (!ride) {
+      respond(400, `ride not found`, res);
+      return;
+    }
+
+    const access_id = ride.driver.user.access_id;
+    const driverCar = ride.driver.car;
+    delete ride.dataValues.driver;
+    const obj = Object.assign({}, ride.dataValues, {
+      access_id,
+      car: driverCar
+    });
+    respond(200, obj || {}, res);
+  }
+  catch (err) {
+    respond(500, err, res);
+  }
+};
 
 
-  const ride_id = req.body.ride_id
+/**
+ * @api {post} /ride create ride
+ * @apiName RidePost
+ * @apiGroup ride
+ *
+ * @apiParam {String} driver access ID of driver
+ * @apiParam {String} date date of departure in format "YYYY-MM-DD"
+ * @apiParam {String} time time of departure in format "hh:mm:ss"
+ * @apiParam {String} departure_location departure location
+ * @apiParam {String} arrival_location="wayne" arrival location
+ * @apiParam {Number} passenger_count=3 highest number of passengers this ride can take
+ *
+ * @apiParamExample {json} Request-Example:
+{
+    "driver": "cj5100",
+    "departure_location": "troy",
+    "arrival_location": "wayne",
+    "passenger_count": 5,
+    "date": "2020-06-06",
+    "time": "12:00:00"
+}
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "id": 2,
+        "driverId": 1,
+        "date": "2020-06-06T16:00:00.000Z",
+        "departure_location": "troy",
+        "arrival_location": "wayne",
+        "passenger_count": 5
+    }
+}
+ *
+ * @apiError (Error 4xx) {String} 400 Bad Request
+ * @apiError (Error 4xx) {String} 403 Forbidden
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.post = async (req, res) => {
+  const b = req.body;
+  if (!validate(b, {
+    // driver: 'string',
+    date: 'date',
+    time: 'string',
+    departure_location: 'string',
+    arrival_location: 'string',
+    passenger_count: 'integer',
+  }, res)) return;
 
-  for (i in req.body.passenger) {
+  const decoded = await jwt.decode(req.headers.authorization);
 
-    sql = 'SELECT id FROM passenger WHERE access_id=?';
-    return db.query(sql, [passenger.id])
-      .then(rows => {
-        sql = 'INSERT INTO ride_passenger_join id (ride_id, passenger_id) VALUES ?';
-        return db.query(sql, [ride.id, passenger.id]);
+  const [driver] = await models.Driver.findAll({
+    include: {
+      model: models.User,
+      where: {
+        access_id: decoded.access_id,
+      },
+    },
+  });
 
-
-      })
-      .then(rows => {
-        respond(200, rows, res);
-      })
-      .catch(err => {
-        respond(500, err, res);
-      });
+  if (!driver) {
+    respond(403, 'Forbidden', res);
+    return;
   }
 
+  const fmt = 'YYYY-MM-DD hh:mm:ss';
+  const datetime = moment(`${b.date} ${b.time}`, fmt);
+
+  if (!datetime.isValid() || datetime < moment()) {
+    respond(400, 'please supply a valid date and time.', res);
+    return;
+  }
+
+  try {
+
+    const ride = await models.Ride.create({
+      driverId: driver.dataValues.id,
+      date: datetime,
+      departure_location: b.departure_location,
+      arrival_location: b.arrival_location,
+      passenger_count: b.passenger_count,
+    });
+    respond(200, ride, res);
+  } catch (err) {
+    respond(500, err, res);
+  }
 };
 
-
-module.exports.delete = (req, res) => {
-
-  const ride_id = req.body.ride_id;
-  const active = req.body.active;
-
-    sql = 'UPDATE ride_passenger_join SET active=0 WHERE ride_id=?';
-    db.query(sql,[active])
-
-    .then(rows => {
-      respond(200, rows, res);
-    })
-    .catch(err => {
-      respond(500, err, res);
+/**
+ * @api {delete} /ride/:id delete ride
+ * @apiName rideDelete
+ * @apiGroup ride
+ *
+ * @apiParam {Integer} id id of ride to delete
+ *
+ *  @apiSuccess (200) {Object} data successful user update
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+        "deleted": 1
+    }
+}
+ * @apiError (Error 4xx) {String} 400 Bad Request: "Please provide a valid access id."
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.delete = async (req, res) => {
+  try {
+    const deleted = await models.Ride.destroy({
+      where: {
+        id: req.params.id,
+      }
     });
-    
-    
+    respond(200, { deleted }, res);
 
-   
-  
+  }
+  catch (err) {
+    respond(500, err, res);
 
-
+  }
 }
 
+/**
+ * @api {get} /ride/:id/users get ride's user list
+ * @apiName RideUserGet
+ * @apiGroup ride
+ *
+ * @apiParam {String} id specific ride id
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": [
+        {
+            "id": 2,
+            "name": "Sam",
+            "phone_number": "1112223333",
+            "location": "clawson",
+            "access_id": "ab1234",
+            "ride_user_join": {
+                "createdAt": "2020-04-09 18:07:43",
+                "updatedAt": "2020-04-09 18:07:43",
+                "userId": 2,
+                "rideId": 1
+            }
+        }
+    ]
+}
+ *
+ * @apiError (Error 4xx) {String} 400 Bad Request
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.rideUsersGet = async (req, res) => {
+  if (!validate(req.params, {
+    id: 'integer',
+  }, res)) return;
 
+  const rideId = req.params.id;
 
+  try {
+    const ride = await models.Ride.findByPk(rideId);
+    if (!ride) {
+      respond(400, `ride with id ${rideId} not found`, res);
+      return;
+    }
+    const rideUserSelect = await ride.getUsers();
+    const resp = rideUserSelect.map(r => {
+      delete r.dataValues.password;
+      return r;
+    })
+    respond(200, resp, res);
+  }
+  catch (err) {
+    respond(500, err, res);
+  }
+};
+
+/**
+ * @api {post} /ride/:id/users add users to ride
+ * @apiName RideUserPost
+ * @apiGroup ride
+ *
+ * @apiParam {String} id specific ride id
+ * @apiParam {String[]} users list of users' access IDs. Completely replaces list of users attached to this ride
+ *
+ *  * @apiParamExample {json} Request-Example:
+{
+  "users": ["ab1234"]
+}
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": [
+        {
+            "id": 2,
+            "name": "Sam",
+            "phone_number": "1112223333",
+            "location": "clawson",
+            "access_id": "ab1234",
+            "ride_user_join": {
+                "createdAt": "2020-04-09 18:07:43",
+                "updatedAt": "2020-04-09 18:07:43",
+                "userId": 2,
+                "rideId": 1
+            }
+        }
+    ]
+}
+ *
+ * @apiError (Error 4xx) {String} 400 Bad Request
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.rideUsersPost = async (req, res) => {
+  const b = req.body;
+  if (!validate(b, {
+    users: 'array',
+  }, res)) return;
+
+  if (!validate(req.params, {
+    id: 'integer',
+  }, res)) return;
+
+  const rideId = req.params.id;
+  const { users } = req.body;
+
+  try {
+    const userAccessIds = await models.User.findAll({
+      attributes: ['id'],
+      where: {
+        access_id: users
+      }
+    });
+
+    if (users.length != userAccessIds.length) {
+      respond(400, 'invalid list of user access IDs', res);
+      return;
+    }
+
+    const ride = await models.Ride.findByPk(rideId);
+    if (!ride) {
+      respond(400, `ride with id ${rideId} not found`, res);
+      return;
+    }
+    if (ride.passenger_count < userAccessIds.length) {
+      respond(400, 'Number of users added exceeds maximum passenger count: ' + ride.passenger_count, res);
+      return;
+    }
+    await ride.setUsers(userAccessIds.map(u => u.id));
+    const rideUserSelect = await ride.getUsers();
+    const resp = rideUserSelect.map(r => {
+      delete r.dataValues.password;
+      return r;
+    })
+    respond(200, resp, res);
+  }
+  catch (err) {
+    respond(500, err, res);
+  }
+};

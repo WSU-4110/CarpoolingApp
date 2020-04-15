@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,10 +31,10 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
     private LinearLayout AccessLayout;
     private LinearLayout NumberLayout;
     private LinearLayout LocationLayout;
-    private Button CreateDriveProf;
+    //private Button CreateDriveProf;
     private Button finishPassProf;
-   // private TextView Name,accessId, phoneNumber, location;
-    private EditText nameInp, idInput, numberInput, locationInput;
+    // private TextView Name,accessId, phoneNumber, location;
+    private EditText nameInp, idInput, numberInput, pw, confirmPW, location;
     private Toolbar tbrMain;
 
     @Override
@@ -46,85 +47,89 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         setSupportActionBar(tbrMain);
 
         //Buttons
-        finishPassProf = findViewById(R.id.finishPassProf);
-        CreateDriveProf = findViewById(R.id.createDrivProf);
-
-
+        finishPassProf = (Button) findViewById(R.id.finishPassProf);
+        //CreateDriveProf = (Button) findViewById(R.id.createDrivProf);
 
         //EditText
-        nameInp = findViewById(R.id.Name);
-        //String sendNameInp = nameInp.getText().toString();
+        nameInp = (EditText) findViewById(R.id.Name);
+        idInput = (EditText) findViewById(R.id.accessID);
+        numberInput = (EditText) findViewById(R.id.PhoneNumber);
+        //locationInput = (EditText) findViewById(R.id.Location);
 
-        idInput = findViewById(R.id.accessID);
-        //String sendidInput = idInput.getText().toString();
+        location = (EditText) findViewById(R.id.locationInput);
+        //city = (EditText) findViewById(R.id.city);
+        //state = (EditText) findViewById(R.id.state);
+        //zip = (EditText) findViewById(R.id.zip);
+        pw = (EditText)findViewById(R.id.pw);
+        confirmPW = (EditText)findViewById(R.id.confirmpw);
 
-        numberInput = findViewById(R.id.PhoneNumber);
-        //String sendNumInp = numberInput.getText().toString();
+        finishPassProf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        locationInput = findViewById(R.id.Location);
-        //String sendLocInput = locationInput.getText().toString();
 
+                if(String.valueOf(pw.getText()).equals(String.valueOf(confirmPW.getText())))
+                {
+                    createUser();
+                }
+                else
+                {
+
+                    Toast toast = Toast.makeText(getApplicationContext(), "Password did not match",Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
+            }
+        });
 
     }
-
 
     @Override
     public void onClick(View v) {
         switch(v.getId())
         {
-            case R.id.createDrivProf:
-                postRequest();
-                Intent intent2 = new Intent(getApplicationContext(), DriverProfile.class);
-                startActivity(intent2);
-                break;
-            case R.id.finishPassProf:
-                postRequest();
-                Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
-                startActivity(intent1);
-                break;
+            //Go to FindPassengers.java
+            case R.id.shareRideButton:
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
 
-        //sends sign in info to userprofile.java
-        String sendNameInp = nameInp.getText().toString();
-        Shared.Data.userName = sendNameInp;
+    public void successfulReg (boolean success)
+    {
+        if(success)
+        {
 
-        String sendidInput = idInput.getText().toString();
-        Shared.Data.userId = sendidInput;
-
-        String sendNumInp = numberInput.getText().toString();
-        Shared.Data.phNumber = sendNumInp;
-
-        String sendLocInput = locationInput.getText().toString();
-        Shared.Data.userLoc = sendLocInput;
+            Intent intent = new Intent(getApplicationContext(),Login.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast toast = Toast.makeText(getApplicationContext(), "API ERROR",Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
-    public void postRequest()
+    public void createUser()
     {
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-
-
-        //Need to add Date, Departure Location, Arrival Location
         jsonParams.put("name",nameInp.getText().toString());
-        jsonParams.put("phone_number",numberInput.getText().toString());
-        jsonParams.put("location",locationInput.getText().toString());
         jsonParams.put("access_id",idInput.getText().toString());
-
+        jsonParams.put("password",pw.getText().toString());
+        jsonParams.put("phone_number",numberInput.getText().toString());
+        jsonParams.put("location",location.getText().toString());
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                 //runs when API called from RestQueue/MySingleton
-                // Name.setText(response.toString());
                 Log.i("POST",response.toString());
+                successfulReg(true);
 
             }
         },
@@ -132,17 +137,14 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
-
+                        successfulReg(false);
 
                     }
                 });
-//
+
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
 
     }
-
-
-
 }

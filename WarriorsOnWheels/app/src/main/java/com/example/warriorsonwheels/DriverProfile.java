@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,7 +37,7 @@ import java.util.Map;
 public class DriverProfile extends AppCompatActivity implements View.OnClickListener{
 
     private Button finishDriverProf;
-    private EditText location, time, make, model, year, color, licensePlate, accessId;
+    private EditText location, time, make, model, year, color, license_plate, accessId;
     private ImageButton carImage;
     private boolean isDriver = false;
     private Toolbar tbrMain;
@@ -51,18 +52,39 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         setSupportActionBar(tbrMain);
 
         //Buttons
-        finishDriverProf = findViewById(R.id.finishDriver);
+        finishDriverProf = (Button) findViewById(R.id.finishDriver);
 
         //EditText
-        location = findViewById(R.id.Loc);
-        accessId = findViewById(R.id.accessIDask);
-        //time = findViewById(R.id.time1);
-        make = findViewById(R.id.make);
-        model = findViewById(R.id.model);
-        year = findViewById(R.id.year);
-        color = findViewById(R.id.color);
-        licensePlate = findViewById(R.id.license);
-        carImage = findViewById(R.id.carImage);
+        location = (EditText) findViewById(R.id.Loc);
+        accessId = (EditText) findViewById(R.id.accessIDask);
+        make = (EditText) findViewById(R.id.make);
+        model = (EditText) findViewById(R.id.model);
+        year = (EditText) findViewById(R.id.year);
+        color = (EditText) findViewById(R.id.color);
+        license_plate = (EditText)findViewById(R.id.license);
+        carImage = (ImageButton) findViewById(R.id.carImage);
+        carImage.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //sends sign in info to userprofile.java
+        String sendMake = make.getText().toString();
+        Shared.Data.userName = sendMake;
+
+        String sendModel = model.getText().toString();
+        Shared.Data.userId = sendModel;
+
+        String sendYear = year.getText().toString();
+        Shared.Data.phNumber = sendYear;
+
+        String sendColor = color.getText().toString();
+        Shared.Data.userLoc = sendColor;
+
+        String sendPlateNum = license_plate.getText().toString();
+        Shared.Data.userLoc = sendPlateNum;
     }
 
     @Override
@@ -71,11 +93,14 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         {
             case R.id.carImage:
                 selectImage(DriverProfile.this);
+                break;
             case R.id.finishDriver:
+
                 sendRequest();
-                isDriver = true;
+                Shared.Data.isDriverCheck = true;
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
+                break;
         }
     }
 
@@ -108,7 +133,8 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_CANCELED) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_CANCELED) {
             switch (requestCode) {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
@@ -119,7 +145,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                     break;
                 case 1:
                     if (resultCode == RESULT_OK && data != null) {
-                        Uri selectedImage =  data.getData();
+                        Uri selectedImage = data.getData();
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         if (selectedImage != null) {
                             Cursor cursor = getContentResolver().query(selectedImage,
@@ -138,14 +164,6 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                     break;
             }
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        //Sends isDriver to following pages
-        Shared.Data.isDriver = isDriver;
     }
 
     public void sendRequest()
@@ -172,10 +190,16 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
-
-
                     }
-                });
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);

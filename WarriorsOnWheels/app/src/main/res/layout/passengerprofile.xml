@@ -1,165 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbrMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:text="@string/app_name"
-        android:theme="?attr/actionBarTheme" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".PassengerProfile">
 
     <LinearLayout
-        android:id="@+id/NameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="88dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tbrMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:text="@string/app_name"
+            android:theme="?attr/actionBarTheme"
+            android:backgroundTint="@color/toolbar"/>
 
         <TextView
-            android:id="@+id/askName"
-            android:layout_width="wrap_content"
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Name:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="Passenger Profile:"
+            android:textColor="@color/heading_1"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"/>
 
-        <EditText
-            android:id="@+id/Name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/NameLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120dp"
-            android:ems="10"
-            android:hint="Ex: John Smith"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/askName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Name:"
+                android:textColor="@color/heading_2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="120dp"
+                android:ems="10"
+                android:hint="Ex: John Smith"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/AccessLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:id="@+id/askAccessId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Access Id:"
+                android:textColor="@color/heading_2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/accessID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="87dp"
+                android:ems="10"
+                android:hint="Ex: ab1234"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
+                android:inputType="text"
+                android:maxLength="6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/NumberLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:id="@+id/askPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Phone Number:"
+                android:textColor="@color/heading_2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/PhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:ems="10"
+                android:hint="Ex: 3132485863"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
+                android:inputType="phone"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LocationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:id="@+id/askLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Location:"
+                android:textColor="@color/heading_2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/locationInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:ems="10"
+                android:hint="Street"
+                android:inputType="textPostalAddress"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/pwLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:id="@+id/askPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Password:"
+                android:textColor="@color/heading_2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/pw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="88dp"
+                android:ems="10"
+                android:hint="Input Password"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
+                android:inputType="textPassword"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/confirmPassLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:id="@+id/confirmPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Confirm Password:"
+                android:textColor="@color/heading_2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/confirmpw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:ems="10"
+                android:hint="Confirm Password"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
+                android:inputType="textPassword" />
+
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/finishPassProf"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:text="Finish"
+                android:background="@color/button"
+                android:onClick="onClick"
+                android:textColor="@color/text" />
+
+        </LinearLayout>
 
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/AccessLayout"
-        android:layout_width="match_parent"
-        android:layout_height="88dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp">
-
-
-        <TextView
-            android:id="@+id/askAccessId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Access Id:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/accessID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="87dp"
-            android:ems="10"
-            android:hint="Ex: ab1234"
-            android:inputType="text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/NumberLayout"
-        android:layout_width="match_parent"
-        android:layout_height="88dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp">
-
-
-        <TextView
-            android:id="@+id/askPhoneNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Phone Number:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/PhoneNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:ems="10"
-            android:hint="Ex: 3132485863"
-            android:inputType="phone"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/LocationLayout"
-        android:layout_width="match_parent"
-        android:layout_height="88dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp">
-
-
-        <TextView
-            android:id="@+id/askLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Primary Location:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/Location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:ems="10"
-            android:hint="Ex: Sterling Heights"
-            android:inputType="text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/createDrivProf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
-            android:text="Create Driver Profile"
-            android:onClick="onClick"/>
-
-        <Button
-            android:id="@+id/finishPassProf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:text="Finish"
-            android:onClick="onClick"/>
-
-    </LinearLayout>
-
-
-
-
-</LinearLayout>
+</ScrollView>

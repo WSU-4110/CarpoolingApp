@@ -1,5 +1,7 @@
 package com.example.warriorsonwheels;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -28,7 +31,7 @@ import java.util.Map;
 
 public class RatePassenger extends AppCompatActivity{
 
-    private Button Rate;
+    private Button rateBtn;
     private RatingBar RatePassenger;
     private ImageView imageView;
 
@@ -39,25 +42,35 @@ public class RatePassenger extends AppCompatActivity{
 
         //Buttons
         RatePassenger = findViewById(R.id.passengerRatingBar);
-        Rate = findViewById(R.id.RatePassenger);
+        rateBtn = findViewById(R.id.rateBtn);
         imageView = findViewById(R.id.imageView);
 
         Glide.with(this).load(Shared.Data.imgURL).into(imageView);
 
         RatePassenger.setNumStars(5);
+
         //Initialize DriverImage
     }
 
     public void onClick(View v) {
-        //add rating to DataBase
-        switch (v.getId())
+        switch(v.getId())
         {
-            case R.id.RatePassenger:
+            case R.id.rateBtn:
                 postRequest();
-                Intent intent1 = new Intent(getApplicationContext(), FindPassengers.class);
-                startActivity(intent1);
-
-
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(v.getContext());
+                builder.setTitle("RIDE OVER");
+                builder.setMessage("Thank you for using Warriors on Wheels!");
+                builder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+                                Intent intent4 = new Intent(getApplicationContext(), HomePage.class);
+                                startActivity(intent4);
+                            }
+                        });
         }
 
     }
@@ -88,6 +101,11 @@ public class RatePassenger extends AppCompatActivity{
                 startActivity(intent2);
                 return true;
 
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -96,7 +114,7 @@ public class RatePassenger extends AppCompatActivity{
 
     public void postRequest()
     {
-
+        //accessId SHOULD BE PASSENGERS
         String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/"+Shared.Data.driverAccessID;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
@@ -104,10 +122,8 @@ public class RatePassenger extends AppCompatActivity{
 
 
 
-
-        jsonParams.put("accessId",Shared.Data.driverAccessID);
         jsonParams.put("rating",String.valueOf(RatePassenger.getNumStars()));
-        jsonParams.put("isDriver","true");
+        jsonParams.put("isDriver","false");
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -127,7 +143,16 @@ public class RatePassenger extends AppCompatActivity{
 
 
                     }
-                });
+                }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+
+        };
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);

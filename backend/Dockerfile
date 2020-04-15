@@ -1,6 +1,5 @@
-FROM node:10-alpine
+FROM node:12
 
 COPY . /nodeApp
 WORKDIR /nodeApp
-RUN npm install
 CMD npm start

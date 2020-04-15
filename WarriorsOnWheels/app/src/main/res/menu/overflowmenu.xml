@@ -11,4 +11,9 @@
         android:title="My Profile"
         app:showAsAction="never"
         />
+    <item
+        android:id="@+id/userLoginPage"
+        android:title="Sign Out"
+        app:showAsAction="never"
+        />
 </menu>
