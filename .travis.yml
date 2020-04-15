@@ -1,7 +1,7 @@
 branches:
   only:
     - feature/backend
-    - feature/pipeline
+    - master
 language: node_js
 services: 
   - docker
