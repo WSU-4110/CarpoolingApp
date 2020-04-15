@@ -10,15 +10,15 @@ const verifyDriver = async (header, rideId, res) => {
   const decoded = await jwt.decode(header);
   const ride = await models.Ride.findByPk(rideId,
     {
-      include: models.Driver
+      include: models.Driver,
     });
 
   if (decoded.id !== ride.driver.userId) {
-    respond(403, "Forbidden", res);
+    respond(403, 'Forbidden', res);
     return false;
   }
   return true;
-}
+};
 
 /**
  * @api {get} /ride/:id/events get ride events
@@ -67,35 +67,33 @@ module.exports.get = async (req, res) => {
 
     const events = await models.RideEvent.findAll({
       where: {
-        rideId: req.params.id
-      }
-    })
+        rideId: req.params.id,
+      },
+    });
 
     respond(200, events, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
-
   }
-}
+};
 
 /**
  * @api {post} /ride/:id/events post ride event
  * @apiName RideEventPost
  * @apiGroup rideEvent
- * 
- * @apiDescription This call manages the ride session timeline. Only the driver associated with this ride can create events. 
- * 
+ *
+ * @apiDescription This call manages the ride session timeline. Only the driver associated with this ride can create events.
+ *
  * Types:
- * 
+ *
  * 0 - driver wants to begin ride
- * 
+ *
  * 1 - driver wants to pick up a passenger
- * 
+ *
  * 2 - driver wants to end ride
  *
  * @apiParam {Number} id specific ride id
- * @apiParam {Number} type type of event. Must be one of: [0, 1, 2] 
+ * @apiParam {Number} type type of event. Must be one of: [0, 1, 2]
  * @apiParam {String} access_id access ID of passenger. Provide only if type == 1
  *
  * @apiSuccess (200) {Object} data ride profile
@@ -143,13 +141,13 @@ module.exports.post = async (req, res) => {
     return;
   }
 
-  const type = req.body.type;
-  let userAccessId = req.body.access_id || null;
+  const { type } = req.body;
+  const userAccessId = req.body.access_id || null;
   let userDbId = null;
   let beginEvent = [];
   let endEvent = [];
   let user;
-  let message = "";
+  let message = '';
   // begin SQL transaction
   const t = await models.sequelize.transaction();
 
@@ -168,8 +166,8 @@ module.exports.post = async (req, res) => {
     endEvent = await models.RideEvent.findAll({
       where: {
         rideId: req.params.id,
-        type: 2
-      }
+        type: 2,
+      },
     }, { transaction: t });
     if (endEvent.length) {
       await t.rollback();
@@ -182,8 +180,8 @@ module.exports.post = async (req, res) => {
       [user] = await models.User.findAll({
         limit: 1,
         where: {
-          access_id: userAccessId
-        }
+          access_id: userAccessId,
+        },
       }, { transaction: t });
       userDbId = user.dataValues.id;
     }
@@ -191,101 +189,101 @@ module.exports.post = async (req, res) => {
     // get ride's list of passengers
     const passengers = await ride.getUsers();
     const driver = await ride.getDriver({
-      include: models.User
+      include: models.User,
     });
     passengers.push(driver.dataValues.user);
 
     switch (type) {
-      // caller wants to begin ride
-      case 0:
+    // caller wants to begin ride
+    case 0:
 
-        // test if ride has already begun
-        beginEvent = await models.RideEvent.findAll({
-          where: {
-            rideId: req.params.id,
-            type: 0
-          }
-        }, { transaction: t });
-        if (beginEvent.length) {
-          await t.rollback();
-          respond(400, 'ride has already begun', res);
-          return;
-        }
+      // test if ride has already begun
+      beginEvent = await models.RideEvent.findAll({
+        where: {
+          rideId: req.params.id,
+          type: 0,
+        },
+      }, { transaction: t });
+      if (beginEvent.length) {
+        await t.rollback();
+        respond(400, 'ride has already begun', res);
+        return;
+      }
 
-        // remove pending tag from ride. Ride is no longer available
-        await models.Ride.update({ pending: false, }, {
-          where: {
-            id: req.params.id
-          }
-        }, { transaction: t });
+      // remove pending tag from ride. Ride is no longer available
+      await models.Ride.update({ pending: false }, {
+        where: {
+          id: req.params.id,
+        },
+      }, { transaction: t });
 
-        message = `Ride with driver ${driver.dataValues.user.dataValues.access_id} has started!`;
-        break;
+      message = `Ride with driver ${driver.dataValues.user.dataValues.access_id} has started!`;
+      break;
 
       // driver has picked up a passenger
-      case 1:
-        // test if ride has already begun
-        beginEvent = await models.RideEvent.findAll({
-          where: {
-            rideId: req.params.id,
-            type: 0
-          }
-        }, { transaction: t });
-        if (!beginEvent.length) {
-          await t.rollback();
-          respond(400, 'ride has not begun yet', res);
-          return;
-        }
-
-        // caller must provide passenger's access id
-        if (!user) {
-          await t.rollback();
-          respond(400, `user with access ID ${req.body.access_id} not found`, res);
-          return;
-        }
-
-        // passenger must be a part of this ride
-        if (passengers.find(p => p.dataValues.access_id === req.body.access_id) === undefined) {
-          await t.rollback();
-          respond(400, `user with access ID ${req.body.access_id} not part of this ride`, res);
-          return;
-        }
-
-        const [pickedUp] = await models.RideEvent.findAll({
-          where: {
-            rideId: req.params.id,
-            userId: userDbId
-          }
-        });
-        if (pickedUp) {
-          await t.rollback();
-          respond(400, `user with access ID ${user.dataValues.access_id} has already been picked up`, res);
-          return;
-        }
-
-        message = `Driver has picked up passenger ${req.body.access_id}!`;
-        break;
-      // driver has finished ride
-      case 2:
-        // test if ride has already begun
-        beginEvent = await models.RideEvent.findAll({
-          where: {
-            rideId: req.params.id,
-            type: 0
-          }
-        }, { transaction: t });
-        if (!beginEvent.length) {
-          await t.rollback();
-          respond(400, 'ride has not begun yet', res);
-          return;
-        }
-
-        message = "You have arrived at your destination. Go Warriors!";
-        break;
-      default:
+    case 1:
+      // test if ride has already begun
+      beginEvent = await models.RideEvent.findAll({
+        where: {
+          rideId: req.params.id,
+          type: 0,
+        },
+      }, { transaction: t });
+      if (!beginEvent.length) {
         await t.rollback();
-        respond(400, 'invalid event type: possible values are {0, 1, 2}', res);
+        respond(400, 'ride has not begun yet', res);
         return;
+      }
+
+      // caller must provide passenger's access id
+      if (!user) {
+        await t.rollback();
+        respond(400, `user with access ID ${req.body.access_id} not found`, res);
+        return;
+      }
+
+      // passenger must be a part of this ride
+      if (passengers.find(p => p.dataValues.access_id === req.body.access_id) === undefined) {
+        await t.rollback();
+        respond(400, `user with access ID ${req.body.access_id} not part of this ride`, res);
+        return;
+      }
+
+      const [pickedUp] = await models.RideEvent.findAll({
+        where: {
+          rideId: req.params.id,
+          userId: userDbId,
+        },
+      });
+      if (pickedUp) {
+        await t.rollback();
+        respond(400, `user with access ID ${user.dataValues.access_id} has already been picked up`, res);
+        return;
+      }
+
+      message = `Driver has picked up passenger ${req.body.access_id}!`;
+      break;
+      // driver has finished ride
+    case 2:
+      // test if ride has already begun
+      beginEvent = await models.RideEvent.findAll({
+        where: {
+          rideId: req.params.id,
+          type: 0,
+        },
+      }, { transaction: t });
+      if (!beginEvent.length) {
+        await t.rollback();
+        respond(400, 'ride has not begun yet', res);
+        return;
+      }
+
+      message = 'You have arrived at your destination. Go Warriors!';
+      break;
+    default:
+      await t.rollback();
+      respond(400, 'invalid event type: possible values are {0, 1, 2}', res);
+      return;
     }
 
     // create new event for this ride
@@ -293,14 +291,14 @@ module.exports.post = async (req, res) => {
       time: moment(),
       type,
       userId: type === 1 ? userDbId : null,
-      rideId: parseInt(req.params.id)
+      rideId: parseInt(req.params.id),
     }, { transaction: t });
 
     const firebaseRequest = {
       body: {
         message,
-        users: passengers.map(p => p.access_id)
-      }
+        users: passengers.map(p => p.access_id),
+      },
     };
 
     const notification = await firebase.post(firebaseRequest, null);
@@ -308,10 +306,8 @@ module.exports.post = async (req, res) => {
 
     await t.commit();
     respond(200, event, res);
-  }
-  catch (err) {
+  } catch (err) {
     await t.rollback();
     respond(500, err, res);
-
   }
-}
+};

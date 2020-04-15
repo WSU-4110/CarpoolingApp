@@ -10,14 +10,14 @@ let sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
   process.env.DB_PASS, {
-  host: process.env.DB_HOST,
-  dialect: 'mysql',
-  pool: {
-    min: 0,
-    max: 5,
-    idle: 10000,
+    host: process.env.DB_HOST,
+    dialect: 'mysql',
+    pool: {
+      min: 0,
+      max: 5,
+      idle: 10000,
+    },
   },
-},
 );
 
 if (process.env.NODE_ENV === 'development') {
@@ -25,23 +25,23 @@ if (process.env.NODE_ENV === 'development') {
     process.env.DB_NAME,
     'root',
     'root', {
-    host: '127.0.0.1',
-    dialect: 'mysql',
-    dialectOptions: {
-      typeCast(field, next) { // for reading from database
-        if (field.type === 'DATETIME') {
-          return field.string();
-        }
-        return next();
+      host: '127.0.0.1',
+      dialect: 'mysql',
+      dialectOptions: {
+        typeCast(field, next) { // for reading from database
+          if (field.type === 'DATETIME') {
+            return field.string();
+          }
+          return next();
+        },
+      },
+      timezone: 'America/Detroit', // for writing to database
+      pool: {
+        min: 0,
+        max: 5,
+        idle: 10000,
       },
     },
-    timezone: 'America/Detroit', // for writing to database
-    pool: {
-      min: 0,
-      max: 5,
-      idle: 10000,
-    },
-  },
   );
 }
 
@@ -57,7 +57,7 @@ User.hasOne(Driver, { onDelete: 'cascade' });
 Driver.belongsTo(User);
 
 const RideUser = sequelize.define('ride_user_join', {}, {
-  freezeTableName: true
+  freezeTableName: true,
 });
 User.belongsToMany(Ride, { through: RideUser, unique: false });
 Ride.belongsToMany(User, { through: RideUser, unique: false });
@@ -81,5 +81,5 @@ module.exports = {
   Driver,
   Ride,
   Rating,
-  RideEvent
+  RideEvent,
 };

@@ -22,40 +22,32 @@ app.delete('/_sync', (req, res) => {
 });
 app.post('/_fill', (req, res) => {
   models._sync()
-    .then(() => {
-      return models.User.create({
-        "access_id": "cj5100",
-        "password": "1234",
-        "name": "Evan",
-        "phone_number": "0001112222",
-        "location": "troy"
-      })
-    })
-    .then(() => {
-      return models.User.create({
-        "access_id": "ab1234",
-        "password": "1234",
-        "name": "Sam",
-        "phone_number": "1112223333",
-        "location": "clawson"
-      })
-    })
-    .then(() => {
-      return models.Driver.create({
-        "userId": "1",
-        "car": "2012 ford fiesta"
-      })
-    })
-    .then(() => {
-      return models.Ride.create({
-        "driverId": "1",
-        "passenger_count": 5,
-        "date": new Date(),
-      })
-    })
+    .then(() => models.User.create({
+      access_id: 'cj5100',
+      password: '1234',
+      name: 'Evan',
+      phone_number: '0001112222',
+      location: 'troy',
+    }))
+    .then(() => models.User.create({
+      access_id: 'ab1234',
+      password: '1234',
+      name: 'Sam',
+      phone_number: '1112223333',
+      location: 'clawson',
+    }))
+    .then(() => models.Driver.create({
+      userId: '1',
+      car: '2012 ford fiesta',
+    }))
+    .then(() => models.Ride.create({
+      driverId: '1',
+      passenger_count: 5,
+      date: new Date(),
+    }))
     .then(() => {
       res.send('OK');
-    })
+    });
 });
 
 app.listen(port, () => {

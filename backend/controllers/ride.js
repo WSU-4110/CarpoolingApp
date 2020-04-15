@@ -46,33 +46,31 @@ module.exports.get = async (req, res) => {
   const end = moment(`${q.end}`, fmt);
 
   try {
-    let rides = await models.Ride.findAll({
+    const rides = await models.Ride.findAll({
       include: {
         model: models.Driver,
         include: {
-          model: models.User
-        }
-      }
+          model: models.User,
+        },
+      },
     });
     const list = rides.filter(r => {
       const date = moment(`${r.dataValues.date}`, fmt);
-      if (start && date < start)
-        return false;
-      else if (end && date > end)
-        return false;
+      if (start && date < start) return false;
+      if (end && date > end) return false;
       return true;
     }).map(ride => {
-      const access_id = ride.driver.user.access_id;
+      const { access_id } = ride.driver.user;
       const driverCar = ride.driver.car;
       delete ride.dataValues.driver;
-      return Object.assign({}, ride.dataValues, {
+      return {
+        ...ride.dataValues,
         access_id,
-        car: driverCar
-      });
+        car: driverCar,
+      };
     });
     respond(200, list, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
   }
 };
@@ -115,31 +113,31 @@ module.exports.getById = async (req, res) => {
     const [ride] = await models.Ride.findAll({
       limit: 1,
       where: {
-        id: req.params.id
+        id: req.params.id,
       },
       include: {
         model: models.Driver,
         include: {
-          model: models.User
-        }
-      }
+          model: models.User,
+        },
+      },
     });
 
     if (!ride) {
-      respond(400, `ride not found`, res);
+      respond(400, 'ride not found', res);
       return;
     }
 
-    const access_id = ride.driver.user.access_id;
+    const { access_id } = ride.driver.user;
     const driverCar = ride.driver.car;
     delete ride.dataValues.driver;
-    const obj = Object.assign({}, ride.dataValues, {
+    const obj = {
+      ...ride.dataValues,
       access_id,
-      car: driverCar
-    });
+      car: driverCar,
+    };
     respond(200, obj || {}, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
   }
 };
@@ -222,7 +220,6 @@ module.exports.post = async (req, res) => {
   }
 
   try {
-
     const ride = await models.Ride.create({
       driverId: driver.dataValues.id,
       date: datetime,
@@ -262,16 +259,13 @@ module.exports.delete = async (req, res) => {
     const deleted = await models.Ride.destroy({
       where: {
         id: req.params.id,
-      }
+      },
     });
     respond(200, { deleted }, res);
-
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
-
   }
-}
+};
 
 /**
  * @api {get} /ride/:id/users get ride's user list
@@ -322,10 +316,9 @@ module.exports.rideUsersGet = async (req, res) => {
     const resp = rideUserSelect.map(r => {
       delete r.dataValues.password;
       return r;
-    })
+    });
     respond(200, resp, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
   }
 };
@@ -385,8 +378,8 @@ module.exports.rideUsersPost = async (req, res) => {
     const userAccessIds = await models.User.findAll({
       attributes: ['id'],
       where: {
-        access_id: users
-      }
+        access_id: users,
+      },
     });
 
     if (users.length != userAccessIds.length) {
@@ -400,7 +393,7 @@ module.exports.rideUsersPost = async (req, res) => {
       return;
     }
     if (ride.passenger_count < userAccessIds.length) {
-      respond(400, 'Number of users added exceeds maximum passenger count: ' + ride.passenger_count, res);
+      respond(400, `Number of users added exceeds maximum passenger count: ${ride.passenger_count}`, res);
       return;
     }
     await ride.setUsers(userAccessIds.map(u => u.id));
@@ -408,10 +401,9 @@ module.exports.rideUsersPost = async (req, res) => {
     const resp = rideUserSelect.map(r => {
       delete r.dataValues.password;
       return r;
-    })
+    });
     respond(200, resp, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
   }
 };

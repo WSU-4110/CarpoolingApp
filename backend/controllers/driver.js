@@ -1,7 +1,7 @@
+const sequelize = require('sequelize');
 const models = require('../models/index');
 const respond = require('../util/respond');
 const validate = require('../util/validate');
-const sequelize = require('sequelize');
 const jwt = require('../util/jwt');
 
 /**
@@ -35,9 +35,9 @@ const jwt = require('../util/jwt');
 
 module.exports.get = async (req, res) => {
   try {
-    let drivers = await models.Driver.findAll({
+    const drivers = await models.Driver.findAll({
       include: {
-        model: models.User
+        model: models.User,
       },
     });
 
@@ -49,9 +49,9 @@ module.exports.get = async (req, res) => {
         },
         attributes: [
           [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-          [sequelize.fn('AVG', sequelize.col('value')), 'average']
+          [sequelize.fn('AVG', sequelize.col('value')), 'average'],
         ],
-        group: ["user_id"],
+        group: ['user_id'],
       });
       driver.rating = rating !== undefined ? rating.dataValues.average : null;
     }));
@@ -63,14 +63,13 @@ module.exports.get = async (req, res) => {
       location: d.user.location,
       access_id: d.user.access_id,
       car: d.car,
-      rating: d.rating
+      rating: d.rating,
     }));
     respond(200, list, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
   }
-}
+};
 
 /**
  * @api {get} /driver/:accessId get driver by access ID
@@ -85,7 +84,7 @@ module.exports.get = async (req, res) => {
  * HTTP/1.1 200 OK
 {
     "error": false,
-    "data": 
+    "data":
         {
             "id": 1,
             "user_id": 1,
@@ -109,13 +108,13 @@ module.exports.getById = async (req, res) => {
     const [driver] = await models.Driver.findAll({
       include: {
         model: models.User,
-        where: { access_id: accessId }
+        where: { access_id: accessId },
 
       },
     });
 
     if (!driver) {
-      respond(400, 'driver with access ID ' + accessId + ' not found', res);
+      respond(400, `driver with access ID ${accessId} not found`, res);
       return;
     }
 
@@ -126,9 +125,9 @@ module.exports.getById = async (req, res) => {
       },
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-        [sequelize.fn('AVG', sequelize.col('value')), 'average']
+        [sequelize.fn('AVG', sequelize.col('value')), 'average'],
       ],
-      group: ["user_id"]
+      group: ['user_id'],
     });
 
     driver.rating = rating !== undefined ? rating.dataValues.average : null;
@@ -141,11 +140,10 @@ module.exports.getById = async (req, res) => {
       location: d.user.location,
       access_id: d.user.access_id,
       car: d.car,
-      rating: d.rating
+      rating: d.rating,
     };
     respond(200, obj, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
   }
 };
@@ -185,16 +183,15 @@ module.exports.post = async (req, res) => {
   }, res)) return;
 
   try {
-
     const decoded = await jwt.decode(req.headers.authorization);
 
     const [driver] = await models.Driver.findAll({
       include: {
         model: models.User,
         where: {
-          access_id: decoded.access_id
-        }
-      }
+          access_id: decoded.access_id,
+        },
+      },
     });
 
     if (driver) {
@@ -204,13 +201,11 @@ module.exports.post = async (req, res) => {
 
     const created = await models.Driver.create({
       car: b.car,
-      userId: decoded.id
+      userId: decoded.id,
     }, { fields: ['car', 'userId'] });
 
     respond(200, created, res);
-  }
-
-  catch (err) {
+  } catch (err) {
     if (err.name && err.name === 'SequelizeUniqueConstraintError') respond(400, err.errors[0].message, res);
     else respond(500, err, res);
   }
@@ -245,12 +240,10 @@ module.exports.delete = async (req, res) => {
     const deleted = await models.Driver.destroy({
       where: {
         userId: decoded.id,
-      }
+      },
     });
     respond(200, { deleted }, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
   }
-
-}
+};

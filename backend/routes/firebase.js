@@ -9,14 +9,13 @@ router.post('/', async (req, res) => {
   const b = req.body;
   if (!validate(b, {
     users: 'array',
-    message: 'string'
+    message: 'string',
   }, res)) return;
 
   try {
     const notify = await controller.post(req, res);
     respond(200, notify, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
   }
 });

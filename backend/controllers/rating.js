@@ -1,7 +1,7 @@
+const sequelize = require('sequelize');
 const models = require('../models/index');
 const respond = require('../util/respond');
 const validate = require('../util/validate');
-const sequelize = require('sequelize');
 
 /**
  * @api {get} /rating/:accessId get rating
@@ -36,56 +36,50 @@ module.exports.get = async (req, res) => {
   }, res)) return;
 
   try {
-
     const [userRatings] = await models.Rating.findAll({
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-        [sequelize.fn('AVG', sequelize.col('value')), 'average']
+        [sequelize.fn('AVG', sequelize.col('value')), 'average'],
       ],
-      group: ["user_id"],
+      group: ['user_id'],
       where: {
         is_driver: false,
       },
       include: {
         model: models.User,
         where: {
-          access_id: req.params.accessId
-        }
-      }
+          access_id: req.params.accessId,
+        },
+      },
     });
 
-    if (userRatings)
-      delete userRatings.dataValues.user;
+    if (userRatings) delete userRatings.dataValues.user;
 
     const [driverRatings] = await models.Rating.findAll({
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-        [sequelize.fn('AVG', sequelize.col('value')), 'average']
+        [sequelize.fn('AVG', sequelize.col('value')), 'average'],
       ],
-      group: ["user_id"],
+      group: ['user_id'],
       where: {
         is_driver: true,
       },
       include: {
         model: models.User,
         where: {
-          access_id: req.params.accessId
-        }
-      }
+          access_id: req.params.accessId,
+        },
+      },
     });
-    if (driverRatings)
-      delete driverRatings.dataValues.user;
+    if (driverRatings) delete driverRatings.dataValues.user;
 
     respond(200, {
       user: userRatings || { count: 0, average: null },
-      driver: driverRatings || { count: 0, average: null }
+      driver: driverRatings || { count: 0, average: null },
     }, res);
-
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
   }
-
 };
 
 /**
@@ -98,7 +92,7 @@ module.exports.get = async (req, res) => {
  * @apiParam {String} accessId specific user's access ID
  * @apiParam {Number} rating rating to add. Must be between 1 and 5 inclusive
  * @apiParam {Boolean} is_driver whether rating is for user or driver profile
- * 
+ *
  *  * @apiParamExample {json} Request-Example:
 {
 	"rating": 4,
@@ -129,12 +123,11 @@ module.exports.post = async (req, res) => {
   }, res)) return;
 
   try {
-
     const [user] = await models.User.findAll({
       limit: 1,
       where: {
         access_id: req.params.accessId,
-      }
+      },
     });
     if (!user) {
       respond(400, `cannot find user with access ID ${req.params.accessId}`, res);
@@ -146,7 +139,7 @@ module.exports.post = async (req, res) => {
         limit: 1,
         where: {
           userId: user.dataValues.id,
-        }
+        },
       });
       if (!driver) {
         respond(400, `cannot find driver with access ID ${req.params.accessId}`, res);
@@ -156,13 +149,10 @@ module.exports.post = async (req, res) => {
     const userRatingInsert = await user.createRating({
       userId: user.id,
       value: b.rating,
-      is_driver: b.is_driver
-    })
+      is_driver: b.is_driver,
+    });
     respond(200, userRatingInsert, res);
-
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
-
   }
 };

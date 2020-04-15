@@ -1,9 +1,9 @@
 // Api documentation documentation http://apidocjs.com/#params
+const sequelize = require('sequelize');
 const models = require('../models/index');
 const respond = require('../util/respond');
 const jwt = require('../util/jwt');
 const validate = require('../util/validate');
-const sequelize = require('sequelize');
 
 
 /**
@@ -42,8 +42,6 @@ const sequelize = require('sequelize');
  */
 module.exports.get = async (req, res) => {
   try {
-
-
     const users = await models.User.findAll();
     await Promise.all(users.map(async user => {
       const [rating] = await models.Rating.findAll({
@@ -53,20 +51,18 @@ module.exports.get = async (req, res) => {
         },
         attributes: [
           [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-          [sequelize.fn('AVG', sequelize.col('value')), 'average']
+          [sequelize.fn('AVG', sequelize.col('value')), 'average'],
         ],
-        group: ["user_id"],
+        group: ['user_id'],
       });
       user.dataValues.rating = rating !== undefined ? rating.dataValues.average : null;
-
     }));
 
     users.map(u => { delete u.dataValues.password; return u; });
     respond(200, users, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
-  };
+  }
 };
 
 /**
@@ -104,10 +100,10 @@ module.exports.getById = async (req, res) => {
       limit: 1,
       where: {
         access_id: accessId,
-      }
+      },
     });
     if (!user) {
-      respond(400, 'user with access ID ' + accessId + ' not found', res);
+      respond(400, `user with access ID ${accessId} not found`, res);
       return;
     }
     const [rating] = await models.Rating.findAll({
@@ -117,20 +113,18 @@ module.exports.getById = async (req, res) => {
       },
       attributes: [
         [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-        [sequelize.fn('AVG', sequelize.col('value')), 'average']
+        [sequelize.fn('AVG', sequelize.col('value')), 'average'],
       ],
-      group: ["user_id"],
+      group: ['user_id'],
     });
     user.dataValues.rating = rating !== undefined ? rating.dataValues.average : null;
 
     const obj = (user && user.dataValues.id !== null) ? user : {};
-    if (obj.dataValues)
-      delete obj.dataValues.password;
+    if (obj.dataValues) delete obj.dataValues.password;
     respond(200, obj, res);
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
-  };
+  }
 };
 
 /**
@@ -196,7 +190,7 @@ module.exports.post = (req, res) => {
     location: b.location,
     access_id: b.access_id,
     password: b.password,
-    device_token: b.device_token
+    device_token: b.device_token,
   };
 
   models.User.create(user)
@@ -379,15 +373,11 @@ module.exports.devicePost = async (req, res) => {
 
     const [updated] = await models.User.update({ device_token: req.body.token }, {
       where: {
-        id: decoded.id
-      }
-    })
+        id: decoded.id,
+      },
+    });
     respond(200, { updated }, res);
-
-  }
-  catch (err) {
+  } catch (err) {
     respond(500, err, res);
-
   }
-
 };
