@@ -3,6 +3,7 @@ package com.example.warriorsonwheels;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +22,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     private Button findRideButton;
     private Button postRideButton;
-    private boolean isDriverHome = false;
+    private boolean isDriverHome;
     private Toast toast;
     private Toolbar tbrMain;
 
@@ -35,8 +36,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         setSupportActionBar(tbrMain);
 
         //Button Ids
-        findRideButton = findViewById(R.id.findRideButton);
-        postRideButton = findViewById(R.id.postRideButton);
+        findRideButton = (Button) findViewById(R.id.findRideButton);
+        postRideButton = (Button) findViewById(R.id.postRideButton);
     }
 
     //Create Menu
@@ -65,16 +66,15 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 startActivity(intent2);
                 return true;
 
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isDriverHome = (Shared.Data.isDriver);
     }
 
     @Override
@@ -85,13 +85,27 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
             case R.id.findRideButton:
                 Intent intent1 = new Intent(getApplicationContext(), RideSearch.class);
                 startActivity(intent1);
+                break;
 
+            case R.id.createDrivProf:
+                Intent intent2 = new Intent(getApplicationContext(), DriverProfile.class);
+                startActivity(intent2);
+                break;
                 //Go to PostRide.java
             case R.id.postRideButton:
+                if (Shared.Data.isDriverCheck = true) {
+                    Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
+                    startActivity(intent3);
+                }
 
-
-                    Intent intent2 = new Intent(getApplicationContext(), PostRide.class);
-                    startActivity(intent2);
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Error:");
+                    builder.setMessage("Driver Profile must be made to share rides.");
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
+                }
+                break;
         }
     }
 }

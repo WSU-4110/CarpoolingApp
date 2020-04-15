@@ -18,5 +18,7 @@ module.exports = {
     "indent": [2, 2],
     "no-console": "off",
     "arrow-parens": 0,
+    "no-underscore-dangle": 0,
+    "no-plusplus": 0,
   },
 };

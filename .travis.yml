@@ -1,12 +1,15 @@
 branches:
   only:
     - feature/backend
-    - feature/pipeline
+    - master
 language: node_js
 services: 
   - docker
 node_js:  
-  - 10
+  - 12
+cache:
+  directories:
+    - backend/node_modules
 env:
   global:
     - NODE_ENV=production
