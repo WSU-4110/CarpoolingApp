@@ -5,21 +5,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
-
+import static org.junit.Assert.*;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.Test;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-class DriverInfoTest {
-    void testOnCreate() {
+public class DriverInfoTest {
+    @Test
+    public void testOnCreate() {
         String expected = "layout created";
 
         String actual = "layout created";
         assertEquals(expected,actual);
     }
 
-    void testOnCreateOptionsMenu() {
+    @Test
+    public void testOnCreateOptionsMenu() {
 
         MenuInflater inflater = null;
         String actual = "";
@@ -37,7 +42,8 @@ class DriverInfoTest {
         assertEquals(expected,actual);
     }
 
-    void testOnOptionsItemSelected() {
+    @Test
+    public void testOnOptionsItemSelected() {
         boolean expected = true;
         boolean actual = false;
 
@@ -49,9 +55,10 @@ class DriverInfoTest {
         assertEquals(expected,actual);
     }
 
+    @Test
     void testOnClick() {
         boolean onClick = true;
-        String expected = " button clicked";
+        String expected = "button clicked";
         String actual = "";
 
         if(onClick == true)
