@@ -178,12 +178,6 @@ module.exports.post = (req, res) => {
     password: 'string',
   }, res)) return;
 
-  const phoneNumber = b.phone_number.replace(/\D/g, '');
-  if (phoneNumber.length < 9 || phoneNumber.length > 10) {
-    respond(400, 'Please provide a valid phone number.', res);
-    return;
-  }
-
   const user = {
     name: b.name,
     phone_number: b.phone_number,

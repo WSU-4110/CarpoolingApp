@@ -22,7 +22,7 @@ let sequelize = new Sequelize(
 
 if (process.env.NODE_ENV === 'development') {
   sequelize = new Sequelize(
-    process.env.DB_NAME,
+    process.env.DB_NAME || 'warriors_on_wheels',
     'root',
     'root', {
       host: '127.0.0.1',
@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'development') {
           return next();
         },
       },
-      timezone: 'America/Detroit', // for writing to database
+      // timezone: 'America/Detroit', // for writing to database
       pool: {
         min: 0,
         max: 5,
