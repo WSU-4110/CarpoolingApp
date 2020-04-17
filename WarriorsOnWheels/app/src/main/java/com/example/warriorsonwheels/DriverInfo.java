@@ -37,9 +37,9 @@ public class DriverInfo extends AppCompatActivity{
     private ImageView CarImage;
     private Toolbar tbrMain;
     private TextView driverName, driverPhone, driverRating,placeInLine,ArrivalTime, MakeModeYear, Color, LicensePlate, Date;
-    String url1 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/" + Shared.Data.selectedRideId;
-    String url2 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver/" + Shared.Data.AccessIdDriver;
-    String url3 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/" + Shared.Data.AccessIdDriver;
+    String url1 = Shared.Data.url +  "ride/" + Shared.Data.selectedRideId;
+    String url2 = Shared.Data.url + "driver/" + Shared.Data.AccessIdDriver;
+    String url3 = Shared.Data.url + "rating/" + Shared.Data.AccessIdDriver;
     ProgressDialog dialog;
     String driver, car, phone, rating, time, date;
     @Override

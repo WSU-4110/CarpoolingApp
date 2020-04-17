@@ -70,7 +70,7 @@ public class UserProfile extends AppCompatActivity {
 
     public void getUserData()
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/"+Shared.Data.loggedInuser;
+        String url = Shared.Data.url + "user/" + Shared.Data.loggedInuser;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -126,7 +126,7 @@ public class UserProfile extends AppCompatActivity {
 
     public void getDriverData()
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver/"+Shared.Data.loggedInuser;
+        String url = Shared.Data.url + "driver/" + Shared.Data.loggedInuser;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

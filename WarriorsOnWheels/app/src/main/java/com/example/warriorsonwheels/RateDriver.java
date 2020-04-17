@@ -108,7 +108,7 @@ public class RateDriver extends AppCompatActivity{
     public void postRequest()
     {
 
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/"+Shared.Data.AccessIdDriver;
+        String url = Shared.Data.url + "rating/" + Shared.Data.AccessIdDriver;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 

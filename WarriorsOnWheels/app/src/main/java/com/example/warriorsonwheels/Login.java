@@ -99,7 +99,7 @@ public class Login extends AppCompatActivity {
 
         public void loginPost ()
         {
-            String url = Shared.Data.url + "/user/auth";
+            String url = Shared.Data.url + "user/auth";
 
             Map<String, String> jsonParams = new HashMap<String, String>();
 
@@ -147,7 +147,7 @@ public class Login extends AppCompatActivity {
 
     public void getToken() {
 
-        String url = Shared.Data.url + "/user/token";
+        String url = Shared.Data.url + "user/token";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 

@@ -36,7 +36,7 @@ public enum Shared {
     GoogleSignInAccount googleAccount;
     String name, email, imgURL;
 
-    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app";
+    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/";
 
     int currentRideId;
 
