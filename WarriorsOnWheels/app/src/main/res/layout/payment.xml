@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".UserProfile">
+    tools:context=".Payment">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -71,6 +71,7 @@
                 android:ems="10"
                 android:hint="Name on Card"
                 android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="textPersonName"
                 android:text="" />
 
@@ -94,6 +95,7 @@
                 android:ems="10"
                 android:hint="Credit Card Number"
                 android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="number"
                 android:text=""
                 android:maxLength="16"/>
@@ -115,6 +117,7 @@
                 android:ems="10"
                 android:hint="Expiration Date"
                 android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="date"
                 android:text=""
                 android:maxLength="5"/>
@@ -131,6 +134,7 @@
                 android:ems="10"
                 android:hint="CVV"
                 android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="number"
                 android:text=""
                 android:maxLength="3"/>
@@ -148,6 +152,7 @@
                 android:ems="10"
                 android:hint="Zip Code"
                 android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
                 android:inputType="number"
                 android:text=""
                 android:maxLength="5"/>
