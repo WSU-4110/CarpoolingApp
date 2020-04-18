@@ -7,9 +7,6 @@ services:
   - docker
 node_js:  
   - 12
-cache:
-  directories:
-    - backend/node_modules
 env:
   global:
     - NODE_ENV=production
