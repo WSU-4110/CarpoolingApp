@@ -62,7 +62,7 @@ module.exports.get = async (req, res) => {
       return true;
     }).map(ride => {
       const { driver } = ride.dataValues;
-      const { access_id } = driver.dataValues.user.dataValues;
+      const { access_id } = driver.dataValues.user.dataValues; // eslint-disable-line camelcase
 
       delete ride.dataValues.driver;
       return {
@@ -131,7 +131,7 @@ module.exports.getById = async (req, res) => {
     }
 
     const { driver } = ride.dataValues;
-    const { access_id } = driver.dataValues.user.dataValues;
+    const { access_id } = driver.dataValues.user.dataValues; // eslint-disable-line camelcase
     delete ride.dataValues.driver;
     const obj = {
       ...ride.dataValues,
