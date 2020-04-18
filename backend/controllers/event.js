@@ -82,7 +82,8 @@ module.exports.get = async (req, res) => {
  * @apiName RideEventPost
  * @apiGroup rideEvent
  *
- * @apiDescription This call manages the ride session timeline. Only the driver associated with this ride can create events.
+ * @apiDescription This call manages the ride session timeline.
+ * Only the driver associated with this ride can create events.
  *
  * Types:
  *

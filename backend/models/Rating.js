@@ -1,5 +1,6 @@
 
 const config = require('../util/sequelize_config');
+const UserModel = require('./User');
 
 module.exports = (sequelize, DataTypes) => {
   const Rating = sequelize.define('rating', {
@@ -16,6 +17,25 @@ module.exports = (sequelize, DataTypes) => {
     is_driver: DataTypes.BOOLEAN,
 
   }, config);
+
+  Rating.getAverage = function getAverage(accessId, isDriver) {
+    return this.findAll({
+      attributes: [
+        [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
+        [sequelize.fn('AVG', sequelize.col('value')), 'average'],
+      ],
+      group: ['user_id'],
+      where: {
+        is_driver: isDriver,
+      },
+      include: {
+        model: UserModel(sequelize, DataTypes),
+        where: {
+          access_id: accessId,
+        },
+      },
+    });
+  };
 
   return Rating;
 };

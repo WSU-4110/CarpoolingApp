@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     car: DataTypes.STRING,
   }, config);
 
-  Driver.associate = function (models) {
+  Driver.associate = function associate(models) {
     models.Driver.hasOne(models.User);
   };
 

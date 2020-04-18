@@ -12,8 +12,6 @@ if (process.env.NODE_ENV === 'production') {
   sequelize = new Sequelize(config.production);
 }
 
-const _sync = () => module.exports.sequelize.sync({ force: true });
-
 const User = UserModel(sequelize, Sequelize);
 const Driver = DriverModel(sequelize, Sequelize);
 const Ride = RideModel(sequelize, Sequelize);
@@ -43,7 +41,6 @@ RideEvent.belongsTo(User);
 
 module.exports = {
   sequelize,
-  _sync,
   User,
   Driver,
   Ride,

@@ -1,4 +1,3 @@
-const sequelize = require('sequelize');
 const models = require('../models/index');
 const respond = require('../util/respond');
 const validate = require('../util/validate');
@@ -31,51 +30,16 @@ const validate = require('../util/validate');
  *
  */
 module.exports.get = async (req, res) => {
-  if (!validate(req.params, {
-    accessId: 'string',
-  }, res)) return;
-
   try {
-    const [userRatings] = await models.Rating.findAll({
-      attributes: [
-        [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-        [sequelize.fn('AVG', sequelize.col('value')), 'average'],
-      ],
-      group: ['user_id'],
-      where: {
-        is_driver: false,
-      },
-      include: {
-        model: models.User,
-        where: {
-          access_id: req.params.accessId,
-        },
-      },
-    });
-
+    const [userRatings] = await models.Rating.getAverage(req.params.accessId, false);
     if (userRatings) delete userRatings.dataValues.user;
 
-    const [driverRatings] = await models.Rating.findAll({
-      attributes: [
-        [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-        [sequelize.fn('AVG', sequelize.col('value')), 'average'],
-      ],
-      group: ['user_id'],
-      where: {
-        is_driver: true,
-      },
-      include: {
-        model: models.User,
-        where: {
-          access_id: req.params.accessId,
-        },
-      },
-    });
+    const [driverRatings] = await models.Rating.getAverage(req.params.accessId, true);
     if (driverRatings) delete driverRatings.dataValues.user;
 
     respond(200, {
-      user: userRatings || { count: 0, average: null },
-      driver: driverRatings || { count: 0, average: null },
+      user: userRatings || { count: 0, average: 5 },
+      driver: driverRatings || { count: 0, average: 5 },
     }, res);
   } catch (err) {
     respond(500, err, res);
@@ -95,8 +59,8 @@ module.exports.get = async (req, res) => {
  *
  *  * @apiParamExample {json} Request-Example:
 {
-	"rating": 4,
-	"is_driver": true
+  "rating": 4,
+  "is_driver": true
 }
  *
  * @apiSuccessExample Success-Response:

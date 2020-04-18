@@ -16,16 +16,14 @@ module.exports = (sequelize, DataTypes) => {
     ...{
       hooks: {
         beforeCreate: async (user) => {
-          const obj = user;
           const salt = await bcrypt.genSalt(10);
-          obj.password = await bcrypt.hash(user.password, salt);
-          obj.access_id = user.access_id.toLowerCase();
-          return obj;
+          user.password = await bcrypt.hash(user.password, salt);
         },
       },
     },
   });
-  User.prototype.validPassword = async (password) => bcrypt.compare(password, this.password);
-
+  User.prototype.validPassword = async function valid(password) {
+    return bcrypt.compare(password, this.password);
+  };
   return User;
 };

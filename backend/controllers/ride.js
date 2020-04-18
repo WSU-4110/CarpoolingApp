@@ -10,7 +10,8 @@ const jwt = require('../util/jwt');
  * @apiName RideGet
  * @apiGroup ride
  *
- * @apiParam (Query string) {String} start date and time of departure in format "YYYY-MM-DD hh:mm:ss"
+ * @apiParam (Query string) {String} start date and time of departure
+ * in format "YYYY-MM-DD hh:mm:ss"
  * @apiParam (Query string) {String} end date and time of departure in format "YYYY-MM-DD hh:mm:ss"
  *
  * @apiExample {curl} Example usage:
@@ -60,12 +61,12 @@ module.exports.get = async (req, res) => {
       if (end && date > end) return false;
       return true;
     }).map(ride => {
-      const { access_id } = ride.driver.user;
+      const { accessId } = ride.driver.user;
       const driverCar = ride.driver.car;
       delete ride.dataValues.driver;
       return {
         ...ride.dataValues,
-        access_id,
+        access_id: accessId,
         car: driverCar,
       };
     });
@@ -128,12 +129,12 @@ module.exports.getById = async (req, res) => {
       return;
     }
 
-    const { access_id } = ride.driver.user;
+    const { accessId } = ride.driver.user;
     const driverCar = ride.driver.car;
     delete ride.dataValues.driver;
     const obj = {
       ...ride.dataValues,
-      access_id,
+      access_id: accessId,
       car: driverCar,
     };
     respond(200, obj || {}, res);
@@ -187,7 +188,6 @@ module.exports.getById = async (req, res) => {
 module.exports.post = async (req, res) => {
   const b = req.body;
   if (!validate(b, {
-    // driver: 'string',
     date: 'date',
     time: 'string',
     departure_location: 'string',
@@ -329,7 +329,8 @@ module.exports.rideUsersGet = async (req, res) => {
  * @apiGroup ride
  *
  * @apiParam {String} id specific ride id
- * @apiParam {String[]} users list of users' access IDs. Completely replaces list of users attached to this ride
+ * @apiParam {String[]} users list of users' access IDs.
+ * Completely replaces list of users attached to this ride
  *
  *  * @apiParamExample {json} Request-Example:
 {
@@ -382,7 +383,7 @@ module.exports.rideUsersPost = async (req, res) => {
       },
     });
 
-    if (users.length != userAccessIds.length) {
+    if (users.length !== userAccessIds.length) {
       respond(400, 'invalid list of user access IDs', res);
       return;
     }
@@ -392,10 +393,19 @@ module.exports.rideUsersPost = async (req, res) => {
       respond(400, `ride with id ${rideId} not found`, res);
       return;
     }
+
+    const drivers = await Promise.all(userAccessIds.map(async user => user.getDriver()));
+    if (drivers.filter(d => d !== null && d !== undefined).find(d => d.dataValues.id
+      === ride.dataValues.driverId)) {
+      respond(400, 'Driver cannot be a passenger of his/her own ride', res);
+      return;
+    }
+
     if (ride.passenger_count < userAccessIds.length) {
       respond(400, `Number of users added exceeds maximum passenger count: ${ride.passenger_count}`, res);
       return;
     }
+
     await ride.setUsers(userAccessIds.map(u => u.id));
     const rideUserSelect = await ride.getUsers();
     const resp = rideUserSelect.map(r => {
