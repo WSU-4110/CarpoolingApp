@@ -20,7 +20,7 @@ android {
         }
         debug {
 //            buildConfigField("String", "API_URL", "\"https://carpool-api-r64g2xh4xa-uc.a.run.app\"")
-            buildConfigField("String", "API_URL", "\"http://10.0.2.2:8080\"")
+            buildConfigField("String", "API_URL", "\"https://carpool-api-r64g2xh4xa- 3uc.a.run.app\"")
         }
     }
 }
