@@ -1,6 +1,6 @@
 # Warriors On Wheels
 
-[![Build Status](https://travis-ci.com/WSU-4110/CarpoolingApp.svg?branch=feature%2Fbackend)](https://travis-ci.com/WSU-4110/CarpoolingApp)
+[![Build Status](https://travis-ci.org/WSU-4110/CarpoolingApp.svg?branch=master)](https://travis-ci.org/WSU-4110/CarpoolingApp)
 
 ## Development
 dev api link: https://carpool-api-r64g2xh4xa-uc.a.run.app
