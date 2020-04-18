@@ -19,7 +19,7 @@ public class HTTPRequest extends Application{
 
     public String apiCall(String URL_TAIL)
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app" + URL_TAIL;
+        String url = BuildConfig.API_URL + URL_TAIL;
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

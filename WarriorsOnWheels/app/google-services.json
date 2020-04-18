@@ -8,38 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:52456763798:android:e654ebb4e87fd9cee4edb7",
+        "mobilesdk_app_id": "1:52456763798:android:9fb6a29415f57358e4edb7",
         "android_client_info": {
           "package_name": "com.example.warriorsonwheels"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "52456763798-spfn5e6h9i67p421qrjhdbl09nocfefk.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBLpgfxAW2_6GI9in-imkOcRR0LX5-z1tA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "52456763798-spfn5e6h9i67p421qrjhdbl09nocfefk.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:52456763798:android:7ebbcc8abbd6d716e4edb7",
-        "android_client_info": {
-          "package_name": "com.google.firebase.quickstart.fcm"
         }
       },
       "oauth_client": [
