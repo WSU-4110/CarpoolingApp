@@ -1,5 +1,3 @@
-// Api documentation documentation http://apidocjs.com/#params
-const sequelize = require('sequelize');
 const models = require('../models/index');
 const respond = require('../util/respond');
 const jwt = require('../util/jwt');
@@ -44,18 +42,8 @@ module.exports.get = async (req, res) => {
   try {
     const users = await models.User.findAll();
     await Promise.all(users.map(async user => {
-      const [rating] = await models.Rating.findAll({
-        where: {
-          userId: user.dataValues.id,
-          is_driver: false,
-        },
-        attributes: [
-          [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-          [sequelize.fn('AVG', sequelize.col('value')), 'average'],
-        ],
-        group: ['user_id'],
-      });
-      user.dataValues.rating = rating !== undefined ? rating.dataValues.average : null;
+      const [rating] = await models.Rating.getAverage(user.access_id, false);
+      user.dataValues.rating = rating !== undefined ? rating.dataValues.average : 5;
     }));
 
     users.map(u => { delete u.dataValues.password; return u; });
@@ -96,8 +84,7 @@ module.exports.getById = async (req, res) => {
   try {
     const { accessId } = req.params;
 
-    const [user] = await models.User.findAll({
-      limit: 1,
+    const user = await models.User.findOne({
       where: {
         access_id: accessId,
       },
@@ -106,18 +93,8 @@ module.exports.getById = async (req, res) => {
       respond(400, `user with access ID ${accessId} not found`, res);
       return;
     }
-    const [rating] = await models.Rating.findAll({
-      where: {
-        userId: user.dataValues.id,
-        is_driver: false,
-      },
-      attributes: [
-        [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-        [sequelize.fn('AVG', sequelize.col('value')), 'average'],
-      ],
-      group: ['user_id'],
-    });
-    user.dataValues.rating = rating !== undefined ? rating.dataValues.average : null;
+    const [rating] = await models.Rating.getAverage(user.access_id, false);
+    user.dataValues.rating = rating !== undefined ? rating.dataValues.average : 5;
 
     const obj = (user && user.dataValues.id !== null) ? user : {};
     if (obj.dataValues) delete obj.dataValues.password;
@@ -134,10 +111,10 @@ module.exports.getById = async (req, res) => {
  *
  *  * @apiParamExample {json} Request-Example:
 {
-	"name":"Evan de Jesus",
+  "name":"Evan de Jesus",
   "access_id": "cj5102",
   "password": "1234",
-	"phone_number": "5869783333",
+  "phone_number": "5869783333",
   "location":"atlantis",
   "device_token": "eScrvHntSOKlY8DNpsi6l4:APA91bE1YZX-_PDGe5Rh"
 }
@@ -199,7 +176,7 @@ module.exports.post = (req, res) => {
       respond(200, rows, res);
     })
     .catch(err => {
-      if (err.name && err.name === 'SequelizeUniqueConstraintError') respond(400, err.errors[0].message, res);
+      if (err.name && err.name.includes('Sequelize')) respond(400, err.errors[0].message, res);
       else respond(500, err, res);
     });
 };
@@ -223,7 +200,7 @@ module.exports.post = (req, res) => {
 {
     "error": false,
     "data": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IkV2YW4gZGUgSmVzdXMiLCJwaG9uZV9udW1iZXIiOiI1ODY5NzgzMzMzIiwibG9jYXRpb24iOiJhdGxhbnRpcyIsImFjY2Vzc19pZCI6ImFhMjIyMiIsImlhdCI6MTU4NjQ3MjU5MSwiZXhwIjoxNTg2NzMxNzkxfQ.7IXaMlJOJm_NSKr8vU1BJivOPl6POxQu5CWHFZb-zo4"
+      "token": "eyJhbGciOiJIUzI1NiIsInR"
     }
 }
  *
@@ -236,29 +213,33 @@ module.exports.auth = async (req, res) => {
   const b = req.body;
   if (!validate(b, { access_id: 'string', password: 'string' }, res)) return;
 
-  const users = await models.User.findAll({
-    limit: 1,
-    where: {
-      access_id: b.access_id,
-    },
-  });
-  if (!users.length) {
-    respond(401, 'Unauthorized', res);
-  } else {
-    const u = users[0];
-    const valid = await u.validPassword(b.password);
-    if (valid) {
-      const data = u.dataValues;
-      delete data.password;
-      const token = await jwt.sign({
-        id: data.id,
-        name: data.name,
-        access_id: data.access_id
-      });
-      respond(200, { token }, res);
-    } else {
+  try {
+    const users = await models.User.findAll({
+      limit: 1,
+      where: {
+        access_id: b.access_id,
+      },
+    });
+    if (!users.length) {
       respond(401, 'Unauthorized', res);
+    } else {
+      const u = users[0];
+      const valid = await u.validPassword(b.password);
+      if (valid) {
+        const data = u.dataValues;
+        delete data.password;
+        const token = await jwt.sign({
+          id: data.id,
+          name: data.name,
+          access_id: data.access_id,
+        });
+        respond(200, { token }, res);
+      } else {
+        respond(401, 'Unauthorized', res);
+      }
     }
+  } catch (err) {
+    respond(500, err, res);
   }
 };
 
@@ -294,10 +275,6 @@ module.exports.auth = async (req, res) => {
  *
  */
 module.exports.put = (req, res) => {
-  if (!validate(req.params, {
-    accessId: 'string',
-  }, res)) return;
-
   models.User.update(req.body.user, {
     where: {
       access_id: req.params.accessId,
@@ -332,14 +309,11 @@ module.exports.put = (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.delete = (req, res) => {
-  if (!validate(req.params, {
-    accessId: 'string',
-  }, res)) return;
-
+module.exports.delete = async (req, res) => {
+  const decoded = await jwt.decode(req.headers.authorization);
   models.User.destroy({
     where: {
-      access_id: req.params.accessId,
+      access_id: decoded.access_id,
     },
   })
     .then(deleted => {
@@ -373,8 +347,6 @@ module.exports.delete = (req, res) => {
 module.exports.devicePost = async (req, res) => {
   try {
     const decoded = await jwt.decode(req.headers.authorization);
-    // console.log(decoded);
-
     const [updated] = await models.User.update({ device_token: req.body.token }, {
       where: {
         id: decoded.id,
