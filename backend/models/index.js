@@ -5,7 +5,7 @@ const DriverModel = require('./Driver');
 const RideModel = require('./Ride');
 const RatingModel = require('./Rating');
 const RideEventModel = require('./RideEvent');
-const config = require('../config/config.json');
+const config = require('../config/config');
 
 let sequelize = new Sequelize(config.development);
 if (process.env.NODE_ENV === 'production') {
