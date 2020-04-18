@@ -134,10 +134,10 @@ module.exports.getById = async (req, res) => {
  *
  *  * @apiParamExample {json} Request-Example:
 {
-	"name":"Evan de Jesus",
+  "name":"Evan de Jesus",
   "access_id": "cj5102",
   "password": "1234",
-	"phone_number": "5869783333",
+  "phone_number": "5869783333",
   "location":"atlantis",
   "device_token": "eScrvHntSOKlY8DNpsi6l4:APA91bE1YZX-_PDGe5Rh"
 }
@@ -199,7 +199,7 @@ module.exports.post = (req, res) => {
       respond(200, rows, res);
     })
     .catch(err => {
-      if (err.name && err.name === 'SequelizeUniqueConstraintError') respond(400, err.errors[0].message, res);
+      if (err.name && err.name.includes('Sequelize')) respond(400, err.errors[0].message, res);
       else respond(500, err, res);
     });
 };
@@ -223,7 +223,7 @@ module.exports.post = (req, res) => {
 {
     "error": false,
     "data": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IkV2YW4gZGUgSmVzdXMiLCJwaG9uZV9udW1iZXIiOiI1ODY5NzgzMzMzIiwibG9jYXRpb24iOiJhdGxhbnRpcyIsImFjY2Vzc19pZCI6ImFhMjIyMiIsImlhdCI6MTU4NjQ3MjU5MSwiZXhwIjoxNTg2NzMxNzkxfQ.7IXaMlJOJm_NSKr8vU1BJivOPl6POxQu5CWHFZb-zo4"
+      "token": "eyJhbGciOiJIUzI1NiIsInR"
     }
 }
  *
@@ -253,7 +253,7 @@ module.exports.auth = async (req, res) => {
       const token = await jwt.sign({
         id: data.id,
         name: data.name,
-        access_id: data.access_id
+        access_id: data.access_id,
       });
       respond(200, { token }, res);
     } else {

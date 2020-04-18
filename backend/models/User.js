@@ -10,21 +10,22 @@ module.exports = (sequelize, DataTypes) => {
     location: DataTypes.STRING,
     password: DataTypes.STRING,
     device_token: DataTypes.STRING,
-    access_id: { type: DataTypes.CHAR(6), unique: true },
+    access_id: { type: DataTypes.CHAR(6), unique: true, validate: { is: /^([a-z]){2}([0-9]){4}$/ } },
   }, {
     ...config,
     ...{
       hooks: {
         beforeCreate: async (user) => {
-          const salt = await bcrypt.genSalt(10); // whatever number you want
-          user.password = await bcrypt.hash(user.password, salt);
+          const obj = user;
+          const salt = await bcrypt.genSalt(10);
+          obj.password = await bcrypt.hash(user.password, salt);
+          obj.access_id = user.access_id.toLowerCase();
+          return obj;
         },
       },
     },
   });
-  User.prototype.validPassword = async function (password) {
-    return await bcrypt.compare(password, this.password);
-  };
+  User.prototype.validPassword = async (password) => bcrypt.compare(password, this.password);
 
   return User;
 };

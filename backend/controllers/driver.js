@@ -42,9 +42,10 @@ module.exports.get = async (req, res) => {
     });
 
     await Promise.all(drivers.map(async driver => {
+      const obj = driver;
       const [rating] = await models.Rating.findAll({
         where: {
-          userId: driver.dataValues.user.id,
+          userId: obj.dataValues.user.id,
           is_driver: true,
         },
         attributes: [
@@ -53,7 +54,8 @@ module.exports.get = async (req, res) => {
         ],
         group: ['user_id'],
       });
-      driver.rating = rating !== undefined ? rating.dataValues.average : null;
+      obj.rating = rating !== undefined ? rating.dataValues.average : null;
+      return obj;
     }));
     const list = drivers.map(d => ({
       id: d.id,
@@ -195,7 +197,7 @@ module.exports.post = async (req, res) => {
     });
 
     if (driver) {
-      respond(400, 'Driver with access ID ${decoded.access_id} already exists', res);
+      respond(400, `Driver with access ID ${decoded.access_id} already exists`, res);
       return;
     }
 

@@ -5,44 +5,11 @@ const DriverModel = require('./Driver');
 const RideModel = require('./Ride');
 const RatingModel = require('./Rating');
 const RideEventModel = require('./RideEvent');
+const config = require('../config/config.json');
 
-let sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS, {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    pool: {
-      min: 0,
-      max: 5,
-      idle: 10000,
-    },
-  },
-);
-
-if (process.env.NODE_ENV === 'development') {
-  sequelize = new Sequelize(
-    process.env.DB_NAME,
-    'root',
-    'root', {
-      host: '127.0.0.1',
-      dialect: 'mysql',
-      dialectOptions: {
-        typeCast(field, next) { // for reading from database
-          if (field.type === 'DATETIME') {
-            return field.string();
-          }
-          return next();
-        },
-      },
-      timezone: 'America/Detroit', // for writing to database
-      pool: {
-        min: 0,
-        max: 5,
-        idle: 10000,
-      },
-    },
-  );
+let sequelize = new Sequelize(config.development);
+if (process.env.NODE_ENV === 'production') {
+  sequelize = new Sequelize(config.production);
 }
 
 const _sync = () => module.exports.sequelize.sync({ force: true });

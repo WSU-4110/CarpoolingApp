@@ -193,6 +193,7 @@ module.exports.post = async (req, res) => {
     });
     passengers.push(driver.dataValues.user);
 
+    let pickedUp;
     switch (type) {
     // caller wants to begin ride
     case 0:
@@ -249,7 +250,7 @@ module.exports.post = async (req, res) => {
         return;
       }
 
-      const [pickedUp] = await models.RideEvent.findAll({
+      [pickedUp] = await models.RideEvent.findAll({
         where: {
           rideId: req.params.id,
           userId: userDbId,
@@ -291,7 +292,7 @@ module.exports.post = async (req, res) => {
       time: moment(),
       type,
       userId: type === 1 ? userDbId : null,
-      rideId: parseInt(req.params.id),
+      rideId: parseInt(req.params.id, 10),
     }, { transaction: t });
 
     const firebaseRequest = {
