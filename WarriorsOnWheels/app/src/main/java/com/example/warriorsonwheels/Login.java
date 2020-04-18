@@ -134,7 +134,7 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
-                            Log.println(Log.ERROR, "ERROR:", "Volley Error");
+                            Log.println(Log.ERROR, "ERROR:", "Volley Error: " + error);
                             loginSuccess(false);
 
                         }
