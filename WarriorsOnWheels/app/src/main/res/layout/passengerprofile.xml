@@ -146,23 +146,78 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Location:"
+                android:text="Address:"
                 android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/streetName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+
             <EditText
-                android:id="@+id/locationInput"
+                android:id="@+id/street"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Ex: 123 Main St"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:id="@+id/addressLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:ems="10"
+                android:layout_marginLeft="20dp"
                 android:hint="Ex: Canton"
-                android:inputType="textPostalAddress"
-                android:textColor="@color/text"
                 android:textColorHint="@color/textHint"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColor="@color/text"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Ex: MI"
+                android:maxLength="2"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/zip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Street Name"
+                android:maxLength="5"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
+                android:textSize="20sp" />
 
         </LinearLayout>
 

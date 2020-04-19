@@ -27,14 +27,10 @@ import java.util.Map;
 
 public class PassengerProfile extends AppCompatActivity implements View.OnClickListener {
 
-    private LinearLayout NameLayout;
-    private LinearLayout AccessLayout;
-    private LinearLayout NumberLayout;
-    private LinearLayout LocationLayout;
     //private Button CreateDriveProf;
     private Button finishPassProf;
     // private TextView Name,accessId, phoneNumber, location;
-    private EditText nameInp, idInput, numberInput, pw, confirmPW, location;
+    private EditText nameInp, idInput, numberInput, pw, confirmPW, street, city, state, zip;
     private Toolbar tbrMain;
 
     @Override
@@ -54,12 +50,11 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         nameInp = (EditText) findViewById(R.id.Name);
         idInput = (EditText) findViewById(R.id.accessID);
         numberInput = (EditText) findViewById(R.id.PhoneNumber);
-        //locationInput = (EditText) findViewById(R.id.Location);
 
-        location = (EditText) findViewById(R.id.locationInput);
-        //city = (EditText) findViewById(R.id.city);
-        //state = (EditText) findViewById(R.id.state);
-        //zip = (EditText) findViewById(R.id.zip);
+        street = (EditText) findViewById(R.id.street);
+        city = (EditText) findViewById(R.id.city);
+        state = (EditText) findViewById(R.id.state);
+        zip = (EditText) findViewById(R.id.zip);
         pw = (EditText)findViewById(R.id.pw);
         confirmPW = (EditText)findViewById(R.id.confirmpw);
 
@@ -121,7 +116,10 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
         jsonParams.put("access_id",idInput.getText().toString());
         jsonParams.put("password",pw.getText().toString());
         jsonParams.put("phone_number",numberInput.getText().toString());
-        jsonParams.put("location",location.getText().toString());
+        jsonParams.put("street",street.getText().toString());
+        jsonParams.put("city",city.getText().toString());
+        jsonParams.put("state",state.getText().toString());
+        jsonParams.put("zip",zip.getText().toString());
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
