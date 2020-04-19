@@ -83,6 +83,7 @@ public class Registration extends AppCompatActivity {
 
     }
 
+    //Created Shared Method, did not use because some values can be error if not 0
     public void fillCheck()
     {
         boolean allFilled = true;
@@ -198,7 +199,9 @@ public class Registration extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
+                        Log.println(Log.ERROR,"ERROR RESPONSE",error.networkResponse.toString());
                         successfulReg(false);
 
                     }

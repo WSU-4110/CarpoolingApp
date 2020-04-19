@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -49,7 +50,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
     //Variables
     private EditText departureText, arrivalText;
-    private EditText passengerCount;
+    private Spinner passengerCount;
     private Button shareRideButton, dateBtn, timeBtn;
     private Toolbar tbrMain;
 
@@ -70,7 +71,13 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         //Set Variables
         departureText = (EditText) findViewById(R.id.departureText);
         arrivalText = (EditText)findViewById(R.id.arrivalText);
-        passengerCount = (EditText)findViewById(R.id.passengerCount);
+
+        String[] arraySpinner = new String[] {"1", "2", "3", "4", "5", "6"};
+        passengerCount = (Spinner) findViewById(R.id.passengerCount);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        passengerCount.setAdapter(adapter);
+
         shareRideButton = (Button) findViewById(R.id.shareRideButton);
         dateBtn = (Button) findViewById(R.id.dateBtn);
         timeBtn = (Button) findViewById(R.id.timeBtn);
@@ -204,7 +211,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         jsonParams.put("time",leaveTime.getText().toString());
         jsonParams.put("departure_location",departureText.getText().toString());
         jsonParams.put("arrival_location",arrivalText.getText().toString());
-        jsonParams.put("passenger_count",passengerCount.getText().toString());
+        jsonParams.put("passenger_count",passengerCount.getSelectedItem().toString());
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
