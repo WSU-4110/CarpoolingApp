@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.registerButton:
-                Intent intent1 = new Intent (getApplicationContext(), PassengerProfile.class);
+                Intent intent1 = new Intent (getApplicationContext(), Registration.class);
                 startActivity(intent1);
                 break;
 

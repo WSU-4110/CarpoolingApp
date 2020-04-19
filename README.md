@@ -21,7 +21,7 @@ npm run dev
 ## Using Postman
 https://www.postman.com/downloads/
 
-Collection Link (4/10): https://www.postman.com/collections/667746efefc1bb389fa0
+Collection Link (updated 4/18): https://www.getpostman.com/collections/b8e99359e86de9526040
 
 Postman is a GUI application for designing and testing HTTP requests. This is the most efficient way to test the API. Add the collection above for a starter set of API calls.
 
