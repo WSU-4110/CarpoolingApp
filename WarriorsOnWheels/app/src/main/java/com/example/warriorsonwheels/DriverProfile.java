@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,6 +67,13 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         license_plate = (EditText)findViewById(R.id.license);
         carImage = (ImageButton) findViewById(R.id.carImage);
         carImage.setOnClickListener(this);
+
+        finishDriverProf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fillCheck();
+            }
+        });
     }
 
     @Override
@@ -85,6 +95,8 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
 
         String sendPlateNum = license_plate.getText().toString();
         Shared.Data.userLoc = sendPlateNum;
+
+
     }
 
     @Override
@@ -100,6 +112,11 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
                 break;
+
+//            case R.id.finishDriver:
+//                fillCheck();
+//                break;
+
         }
     }
 
@@ -165,15 +182,40 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    public void fillCheck()
+    {
+        ArrayList<EditText> arrayList = new ArrayList<>();
+        arrayList.add(location);
+        arrayList.add(make);
+        arrayList.add(model);
+        arrayList.add(year);
+        arrayList.add(color);
+        arrayList.add(license_plate);
+
+        boolean isFilled = Shared.Data.checkFilled(arrayList);
+
+        if(isFilled)
+        {
+            sendRequest();
+            Shared.Data.isDriverCheck = true;
+            Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
+            startActivity(intent1);
+        }
+        else
+        {
+            Toast.makeText(DriverProfile.this, "All fields must be filled", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void sendRequest()
     {
         String url = Shared.Data.url + "driver";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
-        jsonParams.put("access_id",accessId.getText().toString());
+        jsonParams.put("access_id",Shared.Data.loggedInuser);
        jsonParams.put("car",year.getText().toString() + " " + make.getText().toString() + " " + model.getText().toString());
 
-       Shared.Data.driverAccessID = accessId.getText().toString();
+       Shared.Data.driverAccessID = Shared.Data.loggedInuser;
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override

@@ -87,13 +87,21 @@ public class Login extends AppCompatActivity {
             allFilled = false;
 
         }
+        else
+        {
+            accessID.setBackgroundResource(R.color.transparent);
+        }
 
         if(pw.getText().toString().trim().length() == 0)
         {
             pw.setBackgroundResource(R.color.error);
             allFilled = false;
-
         }
+        else
+        {
+            pw.setBackgroundResource(R.color.transparent);
+        }
+
 
         if(allFilled)
         {

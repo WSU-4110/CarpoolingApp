@@ -185,7 +185,7 @@
                 android:hint="Ex: 2015"
                 android:textColorHint="@color/textHint"
                 android:textColor="@color/text"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
