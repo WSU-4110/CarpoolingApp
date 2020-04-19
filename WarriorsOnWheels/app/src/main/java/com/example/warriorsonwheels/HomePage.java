@@ -1,6 +1,7 @@
 package com.example.warriorsonwheels;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,9 +37,9 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private Button postRideButton;
     private Button createDrivProf;
     private TextView drivProfTitle;
-    private boolean isDriverHome;
     private Toast toast;
     private Toolbar tbrMain;
+    private Boolean isDriver = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +113,27 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 break;
                 //Go to PostRide.java
             case R.id.postRideButton:
+                if (isDriver = false) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(v.getContext());
+                    builder.setTitle("NOT A DRIVER");
+                    builder.setMessage("You must have a driver profile made to post a ride");
+                    builder.setPositiveButton("Ok",
+                            new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(
+                                        DialogInterface dialog, int option)
+                                {
+                                    Intent intent4 = new Intent(getApplicationContext(), HomePage.class);
+                                    startActivity(intent4);
+                                }
+                            });
+                }
+                else {
                     Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
                     startActivity(intent3);
+                }
+
                 break;
         }
     }
@@ -136,6 +156,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                             {
                                 createDrivProf.setVisibility(View.INVISIBLE);
                                 drivProfTitle.setVisibility(View.INVISIBLE);
+                                isDriver = false;
                             }
 
 
