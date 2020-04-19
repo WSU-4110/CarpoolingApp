@@ -287,7 +287,7 @@ module.exports.auth = async (req, res) => {
 };
 
 /**
- * @api {put} /users/:accessId update user
+ * @api {put} /user/:accessId update user
  * @apiName UserPut
  * @apiGroup user
  *
@@ -332,7 +332,7 @@ module.exports.put = async (req, res) => {
 };
 
 /**
- * @api {delete} /users/:accessId delete user
+ * @api {delete} /user delete user
  * @apiName UserDelete
  * @apiGroup user
  *
@@ -368,7 +368,7 @@ module.exports.delete = async (req, res) => {
 };
 
 /**
- * @api {post} /users/token update device token
+ * @api {post} /user/token update device token
  * @apiName UserTokenPost
  * @apiGroup user
  *
