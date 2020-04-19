@@ -2,7 +2,6 @@ package com.example.warriorsonwheels;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,11 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -24,11 +19,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Console;
 
 public class GoogleInfo extends AppCompatActivity implements View.OnClickListener  {
 
@@ -119,7 +109,7 @@ public class GoogleInfo extends AppCompatActivity implements View.OnClickListene
                 signOut();
                 break;
             case R.id.passProf:
-                Intent intent1 = new Intent(getApplicationContext(), PassengerProfile.class);
+                Intent intent1 = new Intent(getApplicationContext(), Registration.class);
                 startActivity(intent1);
                 break;
         }

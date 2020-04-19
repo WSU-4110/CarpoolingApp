@@ -61,7 +61,7 @@
             android:windowSoftInputMode="stateHidden">
         </activity>
 
-        <activity android:name=".PassengerProfile">
+        <activity android:name=".Registration">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

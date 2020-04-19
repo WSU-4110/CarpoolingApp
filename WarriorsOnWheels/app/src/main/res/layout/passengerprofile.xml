@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".PassengerProfile">
+    tools:context=".Registration">
 
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="Name:"
                 android:textColor="@color/heading_2"
-                android:textSize="20sp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
             <EditText
@@ -71,8 +71,8 @@
             android:id="@+id/AccessLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
 
 
             <TextView
@@ -92,10 +92,10 @@
                 android:layout_marginLeft="87dp"
                 android:ems="10"
                 android:hint="Ex: ab1234"
-                android:textColor="@color/text"
-                android:textColorHint="@color/textHint"
                 android:inputType="text"
                 android:maxLength="6"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -142,25 +142,126 @@
 
 
             <TextView
-                android:id="@+id/askLocation"
-                android:layout_width="wrap_content"
+                android:id="@+id/addressHeader"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Location:"
+                android:text="Address:"
                 android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/locationInput"
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:ems="10"
-                android:hint="Ex: Canton"
+                android:hint="Ex: 123 Main Street"
                 android:inputType="textPostalAddress"
                 android:textColor="@color/text"
                 android:textColorHint="@color/textHint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cityLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:id="@+id/cityHeader"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="City:"
+                android:textColor="@color/heading_2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:ems="10"
+                android:hint="Ex: Detroit"
+                android:inputType="textPostalAddress"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/stateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:id="@+id/stateHeader"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="State:"
+                android:textColor="@color/heading_2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:ems="10"
+                android:hint="Ex: MI"
+                android:inputType="textPostalAddress"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
+                android:maxLength="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/zipLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:id="@+id/zipHeader"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Zip Code:"
+                android:textColor="@color/heading_2"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/zip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:ems="10"
+                android:hint="Ex: 48201"
+                android:inputType="number"
+                android:textColor="@color/text"
+                android:textColorHint="@color/textHint"
+                android:maxLength="5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
