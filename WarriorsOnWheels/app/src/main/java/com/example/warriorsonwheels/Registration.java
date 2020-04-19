@@ -37,7 +37,7 @@ public class Registration extends AppCompatActivity {
     //private Button CreateDriveProf;
     private Button finishPassProf;
     // private TextView Name,accessId, phoneNumber, location;
-    private EditText nameInp, idInput, numberInput, pw, confirmPW, address,city,state,zip;
+    private EditText nameInp, idInput, numberInput, pw, confirmPW, street, city,state,zip;
     private Toolbar tbrMain;
     private ArrayList<EditText> inputs = new ArrayList<>();
 
@@ -62,7 +62,7 @@ public class Registration extends AppCompatActivity {
         idInput = (EditText) findViewById(R.id.accessID);
         numberInput = (EditText) findViewById(R.id.PhoneNumber);
 
-        address = (EditText) findViewById(R.id.address);
+        street = (EditText) findViewById(R.id.street);
         city = (EditText) findViewById(R.id.city);
         state = (EditText) findViewById(R.id.state);
         zip = (EditText) findViewById(R.id.zip);
@@ -122,15 +122,15 @@ public class Registration extends AppCompatActivity {
             numberInput.setBackgroundResource(R.color.transparent);
         }
 
-        if(address.getText().toString().trim().length() == 0)
+        if(street.getText().toString().trim().length() == 0)
         {
-            address.setBackgroundResource(R.color.error);
+            street.setBackgroundResource(R.color.error);
             allFilled = false;
 
         }
         else
         {
-            address.setBackgroundResource(R.color.transparent);
+            street.setBackgroundResource(R.color.transparent);
         }
 
         if(city.getText().toString().trim().length() == 0)
@@ -213,7 +213,7 @@ public class Registration extends AppCompatActivity {
         jsonParams.put("access_id",idInput.getText().toString());
         jsonParams.put("password",pw.getText().toString());
         jsonParams.put("phone_number",numberInput.getText().toString());
-        jsonParams.put("street",address.getText().toString());
+        jsonParams.put("street",street.getText().toString());
         jsonParams.put("city",city.getText().toString());
         jsonParams.put("state",state.getText().toString());
         jsonParams.put("zip",zip.getText().toString());
