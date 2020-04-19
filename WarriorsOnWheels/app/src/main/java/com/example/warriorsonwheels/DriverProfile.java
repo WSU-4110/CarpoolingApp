@@ -97,7 +97,6 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
             case R.id.finishDriver:
 
                 sendRequest();
-                Shared.Data.isDriverCheck = true;
                 Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
                 startActivity(intent1);
                 break;

@@ -124,12 +124,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/drivProfTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Not a Registered Driver?"
                 android:textColor="@color/heading_2"
                 android:gravity="center"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                android:visibility="visible"/>
 
             <Space
                 android:layout_width="match_parent"

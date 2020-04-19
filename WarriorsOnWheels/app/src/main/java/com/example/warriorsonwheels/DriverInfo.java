@@ -129,7 +129,7 @@ public class DriverInfo extends AppCompatActivity{
         try {
             JSONObject object = new JSONObject(jsonString);
             JSONObject data = object.getJSONObject("data");
-            System.out.println("the ride ifo: " + data.toString());
+            System.out.println("the ride info: " + data.toString());
             car = data.getString("car");
             String dateTime = data.getString("date");
             time = dateTime.substring(dateTime.lastIndexOf('T') + 1 , dateTime.length() - 8);
@@ -150,7 +150,7 @@ public class DriverInfo extends AppCompatActivity{
         try {
             JSONObject object = new JSONObject(jsonString);
             JSONObject data = object.getJSONObject("data");
-            System.out.println("the driver ifo: " + data.toString());
+            System.out.println("the driver info: " + data.toString());
             driver = data.getString("name");
             phone = data.getString("phone_number");
             //rating = data.getString("rating");
