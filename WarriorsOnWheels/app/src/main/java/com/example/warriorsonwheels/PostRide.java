@@ -189,7 +189,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
     public void postRequest()
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
+        String url = Shared.Data.url + "ride";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 

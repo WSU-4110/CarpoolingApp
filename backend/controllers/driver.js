@@ -1,4 +1,3 @@
-const sequelize = require('sequelize');
 const models = require('../models/index');
 const respond = require('../util/respond');
 const validate = require('../util/validate');
@@ -42,18 +41,9 @@ module.exports.get = async (req, res) => {
     });
 
     await Promise.all(drivers.map(async driver => {
-      const [rating] = await models.Rating.findAll({
-        where: {
-          userId: driver.dataValues.user.id,
-          is_driver: true,
-        },
-        attributes: [
-          [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-          [sequelize.fn('AVG', sequelize.col('value')), 'average'],
-        ],
-        group: ['user_id'],
-      });
-      driver.rating = rating !== undefined ? rating.dataValues.average : null;
+      const [rating] = await models.Rating.getAverage(driver.dataValues.user.access_id, true);
+      driver.rating = rating !== undefined ? rating.dataValues.average : 5;
+      return driver;
     }));
     const list = drivers.map(d => ({
       id: d.id,
@@ -118,19 +108,8 @@ module.exports.getById = async (req, res) => {
       return;
     }
 
-    const [rating] = await models.Rating.findAll({
-      where: {
-        userId: driver.dataValues.user.id,
-        is_driver: true,
-      },
-      attributes: [
-        [sequelize.fn('COUNT', sequelize.col('value')), 'count'],
-        [sequelize.fn('AVG', sequelize.col('value')), 'average'],
-      ],
-      group: ['user_id'],
-    });
-
-    driver.rating = rating !== undefined ? rating.dataValues.average : null;
+    const [rating] = await models.Rating.getAverage(driver.dataValues.user.access_id, true);
+    driver.dataValues.rating = rating !== undefined ? rating.dataValues.average : 5;
     const d = driver.dataValues;
     const obj = {
       id: d.id,
@@ -195,7 +174,7 @@ module.exports.post = async (req, res) => {
     });
 
     if (driver) {
-      respond(400, 'Driver with access ID ${decoded.access_id} already exists', res);
+      respond(400, `Driver with access ID ${decoded.access_id} already exists`, res);
       return;
     }
 
@@ -216,6 +195,9 @@ module.exports.post = async (req, res) => {
  * @apiName DriverDelete
  * @apiGroup driver
  *
+ * @apiDescription
+ * Removes the logged in user as a driver
+ *
  * @apiSuccess (200) {Object} data successful driver creation
  *
  * @apiSuccessExample Success-Response:
@@ -231,10 +213,6 @@ module.exports.post = async (req, res) => {
  * @apiError (Error 4xx) {String} 400 Bad Request: cannot find user with access id <accessId>
  */
 module.exports.delete = async (req, res) => {
-  if (!validate(req.params, {
-    accessId: 'string',
-  }, res)) return;
-
   try {
     const decoded = await jwt.decode(req.headers.authorization);
     const deleted = await models.Driver.destroy({

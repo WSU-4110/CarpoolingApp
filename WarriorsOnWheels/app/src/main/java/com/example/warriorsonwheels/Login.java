@@ -99,7 +99,7 @@ public class Login extends AppCompatActivity {
 
         public void loginPost ()
         {
-            String url = Shared.Data.url + "/user/auth";
+            String url = Shared.Data.url + "user/auth";
 
             Map<String, String> jsonParams = new HashMap<String, String>();
 
@@ -134,7 +134,7 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
-                            Log.println(Log.ERROR, "ERROR:", "Volley Error");
+                            Log.println(Log.ERROR, "ERROR:", "Volley Error: " + error);
                             loginSuccess(false);
 
                         }
@@ -147,7 +147,7 @@ public class Login extends AppCompatActivity {
 
     public void getToken() {
 
-        String url = Shared.Data.url + "/user/token";
+        String url = Shared.Data.url + "user/token";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 

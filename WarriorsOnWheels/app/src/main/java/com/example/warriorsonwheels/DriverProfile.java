@@ -56,7 +56,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
 
         //EditText
         location = (EditText) findViewById(R.id.Loc);
-        accessId = (EditText) findViewById(R.id.accessIDask);
+        //accessId = (EditText) findViewById(R.id.accessIDask);
         make = (EditText) findViewById(R.id.make);
         model = (EditText) findViewById(R.id.model);
         year = (EditText) findViewById(R.id.year);
@@ -168,7 +168,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
 
     public void sendRequest()
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver";
+        String url = Shared.Data.url + "driver";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
         jsonParams.put("access_id",accessId.getText().toString());

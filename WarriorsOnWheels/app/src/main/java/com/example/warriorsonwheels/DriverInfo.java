@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -31,16 +35,20 @@ public class DriverInfo extends AppCompatActivity{
 
     private Button OptOutOfRide;
     private ImageView CarImage;
+    private Toolbar tbrMain;
     private TextView driverName, driverPhone, driverRating,placeInLine,ArrivalTime, MakeModeYear, Color, LicensePlate, Date;
-    String url1 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/" + Shared.Data.selectedRideId;
-    String url2 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver/" + Shared.Data.AccessIdDriver;
-    String url3 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/" + Shared.Data.AccessIdDriver;
+    String url1 = Shared.Data.url +  "ride/" + Shared.Data.selectedRideId;
+    String url2 = Shared.Data.url + "driver/" + Shared.Data.AccessIdDriver;
+    String url3 = Shared.Data.url + "rating/" + Shared.Data.AccessIdDriver;
     ProgressDialog dialog;
     String driver, car, phone, rating, time, date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.driverinfo);
+
+        tbrMain = findViewById(R.id.tbrMain);
+        setSupportActionBar(tbrMain);
 
         //Buttons
         OptOutOfRide = (Button) findViewById(R.id.OptOutOfRide);
@@ -65,6 +73,42 @@ public class DriverInfo extends AppCompatActivity{
         //getRequest3();
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.overflowmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    //Menu Options
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.homePage:
+                Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
+                startActivity(intent1);
+                return true;
+
+            case R.id.userProfilePage:
+                Intent intent2 = new Intent(getApplicationContext(), UserProfile.class);
+                startActivity(intent2);
+                return true;
+
+            case R.id.userLoginPage:
+                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent3);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     public void onClick (View v) {

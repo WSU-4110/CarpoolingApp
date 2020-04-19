@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:ems="10"
-                android:hint="Street"
+                android:hint="Ex: Canton"
                 android:inputType="textPostalAddress"
                 android:textColor="@color/text"
                 android:textColorHint="@color/textHint"

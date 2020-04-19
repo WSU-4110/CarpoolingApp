@@ -48,7 +48,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
     ArrayList<String> riders = new ArrayList<String>();
 
     ArrayList<String> drivers = new ArrayList<String>();
-    String url1 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
+    String url1 = Shared.Data.url + "ride";
     String url2 = "";
     ProgressDialog dialog;
 
@@ -130,7 +130,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                     passengers.add(dataobj.getString("passenger_count"));
                     rideId.add(dataobj.getInt("id"));
                     driverId.add(dataobj.getInt("driverId"));
-                    drivers.add(dataobj.getString("access_id"));
+                    drivers.add(dataobj.getString("access_id"));    
                 //}
 
             }

@@ -113,7 +113,7 @@ public class PassengerProfile extends AppCompatActivity implements View.OnClickL
 
     public void createUser()
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user";
+        String url = Shared.Data.url + "user";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 

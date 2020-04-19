@@ -85,8 +85,8 @@ public class Payment extends AppCompatActivity implements View.OnClickListener {
             case R.id.payButton:
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(v.getContext());
-                builder.setTitle("RIDE OVER");
-                builder.setMessage("Thank you for using Warriors on Wheels!");
+                builder.setTitle("PAYMENT RECEIVED:");
+                builder.setMessage("Your payment is being processed.");
                 builder.setPositiveButton("Ok",
                         new DialogInterface.OnClickListener()
                         {

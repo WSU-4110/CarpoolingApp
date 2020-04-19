@@ -15,7 +15,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rulesspro'
+            buildConfigField("String", "API_URL", "\"https://carpool-api-r64g2xh4xa-uc.a.run.app\"")
+        }
+        debug {
+//            buildConfigField("String", "API_URL", "\"http://10.0.2.2:8080\"")
+            buildConfigField("String", "API_URL", "\"https://carpool-api-r64g2xh4xa-uc.a.run.app\"")
         }
     }
 }

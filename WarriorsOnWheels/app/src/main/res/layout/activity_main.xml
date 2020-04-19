@@ -27,25 +27,56 @@
         android:text="@string/app_name"
         android:theme="?attr/actionBarTheme" />
 
-    <Button
-        android:id="@+id/loginButton"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Welcome to Warriors on Wheels!"
+            android:textColor="@color/heading_1"
+            android:textStyle="bold"
+            android:textSize="40dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/button"
-        android:textColor="@color/text"
-        android:text="Login"
-        android:onClick="onClick"/>
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="150dp">
 
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/button"
-        android:textColor="@color/text"
-        android:text="Register"
-        android:onClick="onClick"/>
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/button"
+            android:textColor="@color/text"
+            android:text="Login"
+            android:onClick="onClick"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/button"
+            android:textColor="@color/text"
+            android:text="Register"
+            android:onClick="onClick"/>
 
 
+    </LinearLayout>
 
 </LinearLayout>
 </ScrollView>

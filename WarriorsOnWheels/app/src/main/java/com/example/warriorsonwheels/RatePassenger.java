@@ -115,7 +115,7 @@ public class RatePassenger extends AppCompatActivity{
     public void postRequest()
     {
         //accessId SHOULD BE PASSENGERS
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/"+Shared.Data.driverAccessID;
+        String url = Shared.Data.url + "rating/" + Shared.Data.driverAccessID;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 

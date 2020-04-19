@@ -8,7 +8,7 @@ const jwtVerify = util.promisify(jwt.verify);
 exports.default = {
   async sign(user) {
     return jwt.sign(user, jwtSecret, {
-      expiresIn: '72h',
+      expiresIn: '7d',
     });
   },
   async verify(token) {
