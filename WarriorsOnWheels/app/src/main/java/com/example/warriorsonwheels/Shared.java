@@ -71,6 +71,10 @@ public enum Shared {
                 arrayList.get(i).setBackgroundResource(R.color.error);
                 allFilled = false;
             }
+            else
+            {
+                arrayList.get(i).setBackgroundResource(R.color.transparent);
+            }
         }
 
         return allFilled;
