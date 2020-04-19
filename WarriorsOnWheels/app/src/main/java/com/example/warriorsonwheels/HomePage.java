@@ -36,10 +36,10 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private Button findRideButton;
     private Button postRideButton;
     private Button createDrivProf;
-    private TextView drivProfTitle;
+    private TextView drivProfTitle, or;
     private Toast toast;
     private Toolbar tbrMain;
-    private Boolean isDriver = true;
+    private Boolean isDriver = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         setSupportActionBar(tbrMain);
 
         drivProfTitle = (TextView) findViewById(R.id.drivProfTitle);
+        or = (TextView) findViewById(R.id.or);
 
         //Button Ids
         findRideButton = (Button) findViewById(R.id.findRideButton);
@@ -113,27 +114,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 break;
                 //Go to PostRide.java
             case R.id.postRideButton:
-                if (isDriver = false) {
-                    AlertDialog.Builder builder =
-                            new AlertDialog.Builder(v.getContext());
-                    builder.setTitle("NOT A DRIVER");
-                    builder.setMessage("You must have a driver profile made to post a ride");
-                    builder.setPositiveButton("Ok",
-                            new DialogInterface.OnClickListener()
-                            {
-                                public void onClick(
-                                        DialogInterface dialog, int option)
-                                {
-                                    Intent intent4 = new Intent(getApplicationContext(), HomePage.class);
-                                    startActivity(intent4);
-                                }
-                            });
-                }
-                else {
-                    Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
-                    startActivity(intent3);
-                }
-
+                Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
+                startActivity(intent3);
                 break;
         }
     }
@@ -156,12 +138,15 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                             {
                                 createDrivProf.setVisibility(View.INVISIBLE);
                                 drivProfTitle.setVisibility(View.INVISIBLE);
-                                isDriver = false;
+                                or.setVisibility(View.VISIBLE);
+                                postRideButton.setVisibility(View.VISIBLE);
+                                isDriver = true;
                             }
 
 
                         } catch (JSONException e) {
-                            Log.i("JSONException ERROR", e.toString()); }
+                            Log.i("JSONException ERROR", e.toString());
+                            }
                     }
                 },
                         new Response.ErrorListener() {
