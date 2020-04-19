@@ -61,6 +61,15 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         checkDriver();
     }
 
+    //stop homepage from stuttering
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        View current = getCurrentFocus();
+        if (current != null) current.clearFocus();
+        finish();
+    }
+
     //Create Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
