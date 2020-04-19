@@ -5,6 +5,7 @@ const DriverModel = require('./Driver');
 const RideModel = require('./Ride');
 const RatingModel = require('./Rating');
 const RideEventModel = require('./RideEvent');
+const AddressModel = require('./Address');
 const config = require('../config/config');
 
 let sequelize = new Sequelize(config.development);
@@ -17,6 +18,7 @@ const Driver = DriverModel(sequelize, Sequelize);
 const Ride = RideModel(sequelize, Sequelize);
 const Rating = RatingModel(sequelize, Sequelize);
 const RideEvent = RideEventModel(sequelize, Sequelize);
+const Address = AddressModel(sequelize, Sequelize);
 
 User.hasOne(Driver, { onDelete: 'cascade' });
 Driver.belongsTo(User);
@@ -39,6 +41,9 @@ RideEvent.belongsTo(Ride);
 User.hasMany(RideEvent);
 RideEvent.belongsTo(User);
 
+User.hasOne(Address);
+Address.belongsTo(User);
+
 module.exports = {
   sequelize,
   User,
@@ -46,4 +51,5 @@ module.exports = {
   Ride,
   Rating,
   RideEvent,
+  Address,
 };
