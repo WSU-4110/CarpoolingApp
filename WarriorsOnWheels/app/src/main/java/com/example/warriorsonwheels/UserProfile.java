@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class UserProfile extends AppCompatActivity {
     private TextView carMake, drivRating,licensePlate;
 
     private Toolbar tbrMain;
+    private LinearLayout driverProfLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,8 @@ public class UserProfile extends AppCompatActivity {
         carMake = (TextView)findViewById(R.id.carMake);
         //licensePlate = (TextView)findViewById(R.id.licensePlate);
         drivRating = (TextView)findViewById(R.id.drivRating);
+
+        driverProfLayout = (LinearLayout) findViewById(R.id.driverProfLayout);
 
 
         getUserData();
@@ -157,7 +161,8 @@ public class UserProfile extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                carMake.setText("NOT A DRIVER");
+                                //carMake.setText("NOT A DRIVER");
+                                driverProfLayout.setVisibility(View.INVISIBLE);
                                 Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
 
 
