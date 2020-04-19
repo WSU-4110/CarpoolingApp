@@ -22,6 +22,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -188,10 +189,31 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         {
             //Go to FindPassengers.java
             case R.id.shareRideButton:
-                postRequest();
-                Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
-                startActivity(intent);
+                fillCheck();
         }
+    }
+
+    public void fillCheck()
+    {
+        ArrayList<EditText> arrayList = new ArrayList<>();
+        arrayList.add(departureText);
+        arrayList.add(arrivalText);
+        arrayList.add(leaveDate);
+        arrayList.add((leaveTime));
+
+        boolean isFilled = Shared.Data.checkFilled(arrayList);
+
+        if(isFilled)
+        {
+            postRequest();
+            Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(PostRide.this, "Fill all fields", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void postRequest()
