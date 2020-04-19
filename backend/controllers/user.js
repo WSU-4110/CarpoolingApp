@@ -18,19 +18,15 @@ const validate = require('../util/validate');
     "data": [
         {
             "id": 1,
-            "name": "Evan",
-            "phone_number": "0001112222",
-            "location": "troy",
             "access_id": "cj5100",
-            "rating": null
-        },
-        {
-            "id": 2,
-            "name": "Sam",
-            "phone_number": "1112223333",
-            "location": "clawson",
-            "access_id": "ab1234",
-            "rating": null
+            "name": "Evan de Jesus",
+            "phone_number": "5869783333",
+            "device_token": null,
+            "rating": 5,
+            "street": "14345 Brierstone Dr.",
+            "city": "Sterling Heights",
+            "state": "MI",
+            "zip": 48312
         }
     ]
 }
@@ -40,13 +36,24 @@ const validate = require('../util/validate');
  */
 module.exports.get = async (req, res) => {
   try {
-    const users = await models.User.findAll();
+    const users = await models.User.findAll({
+      include: models.Address,
+    });
     await Promise.all(users.map(async user => {
       const [rating] = await models.Rating.getAverage(user.access_id, false);
       user.dataValues.rating = rating !== undefined ? rating.dataValues.average : 5;
     }));
 
-    users.map(u => { delete u.dataValues.password; return u; });
+    users.map(u => {
+      const address = u.dataValues.address.dataValues;
+      delete u.dataValues.password;
+      u.dataValues.street = address.street;
+      u.dataValues.city = address.city;
+      u.dataValues.state = address.state;
+      u.dataValues.zip = address.zip;
+      delete u.dataValues.address;
+      return u;
+    });
     respond(200, users, res);
   } catch (err) {
     respond(500, err, res);
@@ -85,6 +92,7 @@ module.exports.getById = async (req, res) => {
     const { accessId } = req.params;
 
     const user = await models.User.findOne({
+      include: models.Address,
       where: {
         access_id: accessId,
       },
@@ -93,6 +101,13 @@ module.exports.getById = async (req, res) => {
       respond(400, `user with access ID ${accessId} not found`, res);
       return;
     }
+    const address = user.dataValues.address.dataValues;
+    delete user.dataValues.password;
+    user.dataValues.street = address.street;
+    user.dataValues.city = address.city;
+    user.dataValues.state = address.state;
+    user.dataValues.zip = address.zip;
+    delete user.dataValues.address;
     const [rating] = await models.Rating.getAverage(user.access_id, false);
     user.dataValues.rating = rating !== undefined ? rating.dataValues.average : 5;
 
@@ -111,18 +126,24 @@ module.exports.getById = async (req, res) => {
  *
  *  * @apiParamExample {json} Request-Example:
 {
-  "name":"Evan de Jesus",
   "access_id": "cj5102",
   "password": "1234",
+  "name":"Evan de Jesus",
   "phone_number": "5869783333",
-  "location":"atlantis",
+  "street": "1111 street st.",
+  "city" : "sterling heights",
+  "state": "MI",
+  "zip" : "48313",
   "device_token": "eScrvHntSOKlY8DNpsi6l4:APA91bE1YZX-_PDGe5Rh"
 }
  * @apiParam {String} access_id user's access ID
  * @apiParam {String} name user name
  * @apiParam {String} password user password
  * @apiParam {String} phone_number user phone number
- * @apiParam {String} location user address
+ * @apiParam {String} street user address street
+ * @apiParam {String} city user address city
+ * @apiParam {String} state user address state
+ * @apiParam {String} zip user address zip code
  * @apiParam {String} device_token (Optional) registration token of caller's device
  *
  *
@@ -133,11 +154,20 @@ module.exports.getById = async (req, res) => {
 {
     "error": false,
     "data": {
-        "id": 2,
-        "name": "Evan de Jesus",
-        "phone_number": "5869783333",
-        "location": "atlantis",
-        "access_id": "cj5102"
+        "user": {
+            "id": 1,
+            "name": "Evan de Jesus",
+            "phone_number": "5869783333",
+            "access_id": "cj5100"
+        },
+        "address": {
+            "id": 1,
+            "street": "14345 Brierstone Dr.",
+            "city": "Sterling Heights",
+            "state": "MI",
+            "zip": "48312",
+            "userId": 1
+        }
     }
 }
  *
@@ -145,40 +175,53 @@ module.exports.getById = async (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.post = (req, res) => {
+module.exports.post = async (req, res) => {
   const b = req.body;
   if (!validate(b, {
     access_id: 'string',
-    name: 'string',
-    location: 'string',
-    phone_number: 'string',
     password: 'string',
+    name: 'string',
+    phone_number: 'string',
+    street: 'string',
+    city: 'string',
+    state: 'string',
+    zip: 'string',
   }, res)) return;
 
-  const phoneNumber = b.phone_number.replace(/\D/g, '');
-  if (phoneNumber.length < 9 || phoneNumber.length > 10) {
-    respond(400, 'Please provide a valid phone number.', res);
-    return;
+  const t = await models.sequelize.transaction();
+
+  try {
+    const user = {
+      name: b.name,
+      phone_number: b.phone_number,
+      location: b.location,
+      access_id: b.access_id,
+      password: b.password,
+      device_token: b.device_token,
+    };
+
+    const address = {
+      street: b.street,
+      city: b.city,
+      state: b.state,
+      zip: b.zip,
+    };
+
+    const createdUser = await models.User.create(user,
+      { transaction: t });
+    delete createdUser.dataValues.password;
+    const createdAddress = await createdUser.createAddress(address, { transaction: t });
+
+    t.commit();
+    respond(200, {
+      user: createdUser,
+      address: createdAddress,
+    }, res);
+  } catch (err) {
+    await t.rollback();
+    if (err.name && err.name.includes('Sequelize')) respond(400, err.errors[0].message, res);
+    else respond(500, err, res);
   }
-
-  const user = {
-    name: b.name,
-    phone_number: b.phone_number,
-    location: b.location,
-    access_id: b.access_id,
-    password: b.password,
-    device_token: b.device_token,
-  };
-
-  models.User.create(user)
-    .then(rows => {
-      delete rows.dataValues.password;
-      respond(200, rows, res);
-    })
-    .catch(err => {
-      if (err.name && err.name.includes('Sequelize')) respond(400, err.errors[0].message, res);
-      else respond(500, err, res);
-    });
 };
 
 /**
@@ -244,7 +287,7 @@ module.exports.auth = async (req, res) => {
 };
 
 /**
- * @api {put} /users/:accessId update user
+ * @api {put} /user/:accessId update user
  * @apiName UserPut
  * @apiGroup user
  *
@@ -274,22 +317,22 @@ module.exports.auth = async (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.put = (req, res) => {
-  models.User.update(req.body.user, {
-    where: {
-      access_id: req.params.accessId,
-    },
-  })
-    .then(updated => {
-      respond(200, { updated: updated[0] }, res);
-    })
-    .catch(err => {
-      respond(500, err, res);
+module.exports.put = async (req, res) => {
+  try {
+    const [updated] = await models.User.update(req.body, {
+      where: {
+        access_id: req.params.accessId,
+      },
     });
+    respond(200, { updated }, res);
+  } catch (err) {
+    if (err.name && err.name.includes('Sequelize')) respond(400, err.errors[0].message, res);
+    else respond(500, err, res);
+  }
 };
 
 /**
- * @api {delete} /users/:accessId delete user
+ * @api {delete} /user delete user
  * @apiName UserDelete
  * @apiGroup user
  *
@@ -325,7 +368,7 @@ module.exports.delete = async (req, res) => {
 };
 
 /**
- * @api {post} /users/token update device token
+ * @api {post} /user/token update device token
  * @apiName UserTokenPost
  * @apiGroup user
  *

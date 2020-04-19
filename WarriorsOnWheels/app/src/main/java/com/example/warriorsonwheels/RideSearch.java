@@ -130,7 +130,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
                     passengers.add(dataobj.getString("passenger_count"));
                     rideId.add(dataobj.getInt("id"));
                     driverId.add(dataobj.getInt("driverId"));
-                    drivers.add(dataobj.getString("access_id"));
+                    drivers.add(dataobj.getString("access_id"));    
                 //}
 
             }

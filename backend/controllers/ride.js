@@ -61,13 +61,14 @@ module.exports.get = async (req, res) => {
       if (end && date > end) return false;
       return true;
     }).map(ride => {
-      const { accessId } = ride.driver.user;
-      const driverCar = ride.driver.car;
+      const { driver } = ride.dataValues;
+      const { access_id } = driver.dataValues.user.dataValues; // eslint-disable-line camelcase
+
       delete ride.dataValues.driver;
       return {
         ...ride.dataValues,
-        access_id: accessId,
-        car: driverCar,
+        access_id,
+        car: driver.dataValues.car,
       };
     });
     respond(200, list, res);
@@ -129,13 +130,13 @@ module.exports.getById = async (req, res) => {
       return;
     }
 
-    const { accessId } = ride.driver.user;
-    const driverCar = ride.driver.car;
+    const { driver } = ride.dataValues;
+    const { access_id } = driver.dataValues.user.dataValues; // eslint-disable-line camelcase
     delete ride.dataValues.driver;
     const obj = {
       ...ride.dataValues,
-      access_id: accessId,
-      car: driverCar,
+      access_id,
+      car: driver.dataValues.car,
     };
     respond(200, obj || {}, res);
   } catch (err) {

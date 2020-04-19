@@ -1,5 +1,7 @@
 package com.example.warriorsonwheels;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -10,15 +12,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,6 +32,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -37,7 +45,9 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
     private Toolbar tbrMain;
     private GoogleMap mMap;
     private Button endRide;
-    private TextView city;
+    private TextView address;
+    ProgressDialog dialog;
+    String street, city, state, zip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +58,7 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
         tbrMain =  findViewById(R.id.tbrMain);
         //setSupportActionBar(tbrMain);
         endRide = (Button) findViewById(R.id.endRide);
-
-        city = (TextView) findViewById(R.id.city);
+        address = (TextView) findViewById(R.id.address);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -88,7 +97,7 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
         // Add a marker
         //city.setText(Shared.Data.arrival);
         LatLng address = new LatLng(42.358694, -83.070194);
-        mMap.addMarker(new MarkerOptions().position(address).title("Marker is Placed"));
+        mMap.addMarker(new MarkerOptions().position(address).title("End"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
     }
 
@@ -100,8 +109,6 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
 
         jsonParams.put("access_id","gh4683");
         jsonParams.put("type","2");
-
-
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
@@ -133,6 +140,5 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
     }
-
 
 }

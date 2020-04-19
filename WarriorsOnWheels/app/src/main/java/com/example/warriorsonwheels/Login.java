@@ -54,10 +54,6 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast toast = Toast.makeText(getApplicationContext(), "Processing...", Toast.LENGTH_LONG);
-                toast.show();
-
-
                 FirebaseInstanceId.getInstance().getInstanceId()
                         .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                             @Override
@@ -76,74 +72,100 @@ public class Login extends AppCompatActivity {
                                 //Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
-                loginPost();
-                //getToken();
+                fillCheck();
             }
         });
     }
 
+    public void fillCheck()
+    {
+        boolean allFilled = true;
 
-        public void loginSuccess (boolean success)
+        if(accessID.getText().toString().trim().length() < 6)
         {
-            if (success) {
-                Shared.Data.firebaseToken = FBtoken;
-                Shared.Data.loggedInuser = accessID.getText().toString();
+            accessID.setBackgroundResource(R.color.error);
+            allFilled = false;
 
-                Intent intent = new Intent(getApplicationContext(), HomePage.class);
-                startActivity(intent);
-            } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "Unsuccessful Login", Toast.LENGTH_LONG);
-                toast.show();
-            }
+        }
+        else
+        {
+            accessID.setBackgroundResource(R.color.transparent);
         }
 
-        public void loginPost ()
+        if(pw.getText().toString().trim().length() == 0)
         {
-            String url = Shared.Data.url + "user/auth";
-
-            Map<String, String> jsonParams = new HashMap<String, String>();
-
-
-            jsonParams.put("access_id", accessID.getText().toString());
-            jsonParams.put("password", pw.getText().toString());
-
-
-            JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-
-                    try {
-                        JSONObject data = response.getJSONObject("data");
-                        Shared.Data.token = (String) data.get("token");
-
-                        Log.i("Token", Shared.Data.token);
-                        getToken();
-                        loginSuccess(true);
+            pw.setBackgroundResource(R.color.error);
+            allFilled = false;
+        }
+        else
+        {
+            pw.setBackgroundResource(R.color.transparent);
+        }
 
 
-                    } catch (JSONException e) {
-                        Log.i("JSONException ERROR", e.toString());
+        if(allFilled)
+        {
+            Toast toast = Toast.makeText(getApplicationContext(), "Processing...", Toast.LENGTH_LONG);
+            toast.show();
 
-                    }
-                    //runs when API called from RestQueue/MySingleton
-                    Log.i("POST", response.toString());
+            loginPost();
+        }
+        else
+        {
+            Toast toast = Toast.makeText(getApplicationContext(), "All fields must be filled in properly",Toast.LENGTH_LONG);
+            toast.show();
+        }
+
+    }
+
+    public void loginPost ()
+    {
+        String url = Shared.Data.url + "user/auth";
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+
+
+        jsonParams.put("access_id", accessID.getText().toString());
+        jsonParams.put("password", pw.getText().toString());
+
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    JSONObject data = response.getJSONObject("data");
+                    Shared.Data.token = (String) data.get("token");
+
+                    Log.i("Token", Shared.Data.token);
+                    getToken();
+                    loginSuccess(true);
+
+
+                } catch (JSONException e) {
+                    Log.i("JSONException ERROR", e.toString());
 
                 }
-            },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
+                //runs when API called from RestQueue/MySingleton
+                Log.i("POST", response.toString());
 
-                            Log.println(Log.ERROR, "ERROR:", "Volley Error: " + error);
-                            loginSuccess(false);
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
 
-                        }
-                    });
-//
+                        Log.println(Log.ERROR, "ERROR:", "Volley Error: " + error);
+                        loginSuccess(false);
+
+                    }
+                });
+
 //        //Makes API Call
-            MySingleton.getInstance(this).addToRequestQueue(postRequest);
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
-        }
+    }
+
 
     public void getToken() {
 
@@ -184,6 +206,20 @@ public class Login extends AppCompatActivity {
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
+    }
+
+    public void loginSuccess (boolean success)
+    {
+        if (success) {
+            Shared.Data.firebaseToken = FBtoken;
+            Shared.Data.loggedInuser = accessID.getText().toString();
+
+            Intent intent = new Intent(getApplicationContext(), HomePage.class);
+            startActivity(intent);
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(), "Unsuccessful Login", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
 }
