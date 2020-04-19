@@ -353,18 +353,17 @@ module.exports.put = async (req, res) => {
  *
  */
 module.exports.delete = async (req, res) => {
-  const decoded = await jwt.decode(req.headers.authorization);
-  models.User.destroy({
-    where: {
-      access_id: decoded.access_id,
-    },
-  })
-    .then(deleted => {
-      respond(200, { deleted }, res);
-    })
-    .catch(err => {
-      respond(500, err, res);
+  try {
+    const decoded = await jwt.decode(req.headers.authorization);
+    const deleted = await models.User.destroy({
+      where: {
+        access_id: decoded.access_id,
+      },
     });
+    respond(200, { deleted }, res);
+  } catch (err) {
+    respond(500, err, res);
+  }
 };
 
 /**

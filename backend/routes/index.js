@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
   res.send(`docs: ${req.protocol}://${req.get('host')}${req.originalUrl}docs`);
 });
 
+// clears db
 router.delete('/sync', (req, res) => {
   db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
     .then(() => db.sequelize.sync({ force: true })).then(() => db.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')).then(() => res.send('OK'))
