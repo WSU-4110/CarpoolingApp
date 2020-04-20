@@ -39,7 +39,7 @@ public class Payment extends AppCompatActivity implements View.OnClickListener {
         zipCode = (EditText)findViewById(R.id.zipCode);
 
         payButton = (Button) findViewById(R.id.payButton);
-
+        payButton.setOnClickListener(this);
     }
 
     //Create Menu
