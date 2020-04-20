@@ -120,13 +120,14 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker
+        // Add default marker at wsu
         LatLng wayne = new LatLng(42.358694, -83.070194);
-        mMap.addMarker(new MarkerOptions().position(wayne).title("Marker is Placed"));
+        mMap.addMarker(new MarkerOptions().position(wayne).title("Wayne State University"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne));
     }
 
-    public void setMarker(String pickUpLocation) {
+    public void setMarker(String strAddress)
+    {
 
     }
 
