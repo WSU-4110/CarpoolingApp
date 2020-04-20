@@ -36,7 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MyRides extends AppCompatActivity{
+public class MyRides extends AppCompatActivity implements View.OnClickListener{
 
     private Toolbar tbrMain;
     private ListView rideList;
@@ -49,6 +49,8 @@ public class MyRides extends AppCompatActivity{
     String url2 = "";
     ProgressDialog dialog;
     TextView noRide;
+
+    Button postRide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,8 @@ public class MyRides extends AppCompatActivity{
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading....");
         dialog.show();
+
+        postRide = findViewById(R.id.postRide);
 
         rideList = (ListView) findViewById(R.id.myRideList);
         rideList.setSelector(R.drawable.list_item_selector);
@@ -129,12 +133,23 @@ public class MyRides extends AppCompatActivity{
             if(times.size() == 0)
             {
                 noRide.setVisibility(View.VISIBLE);
+                postRide.setVisibility(View.VISIBLE);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         dialog.dismiss();
+    }
+
+    public void onClick (View v) {
+        switch(v.getId())
+        {
+            case R.id.postRide:
+                Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
+                startActivity(intent3);
+                break;
+        }
     }
 
 

@@ -47,12 +47,26 @@
             android:visibility="gone"
             />
 
+        <Button
+            android:id="@+id/postRide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share a Ride"
+            android:textColor="@color/text"
+            android:background="@color/button"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:enabled="true"
+            android:visibility="gone"/>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/myRideList"
             android:layout_weight="5"
             android:choiceMode="singleChoice"
+            android:layout_marginLeft="10dp"
             />
 
 

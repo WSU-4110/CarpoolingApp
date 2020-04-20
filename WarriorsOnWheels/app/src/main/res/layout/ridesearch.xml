@@ -53,6 +53,7 @@
             android:id="@+id/rideList"
             android:layout_weight="5"
             android:choiceMode="singleChoice"
+            android:layout_marginLeft="10dp"
             />
 
 
