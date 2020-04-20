@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +23,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,7 +117,7 @@ public class DriverInfo extends AppCompatActivity{
                 //cancel ride
                 break;
             case R.id.DriverRatingButton:
-                Intent intent2 = new Intent(getApplicationContext(), DuringRide.class);
+                Intent intent2 = new Intent(getApplicationContext(), RideMap.class);
                 startActivity(intent2);
                 break;
         }

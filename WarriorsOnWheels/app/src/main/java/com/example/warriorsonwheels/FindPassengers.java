@@ -43,6 +43,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     private Button refresh, start, cancel;
     private ListView passList;
     ArrayList<String> passengers = new ArrayList<String>();
+    ArrayList<String> accessIds = new ArrayList<String>();
     //int rideId = Shared.Data.currentRideId;
 
     String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/";
@@ -80,6 +81,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 refresh.setClickable(true);
                 refresh.setOnClickListener(FindPassengers.this);
                 passengers.get(position);
+                accessIds.get(position);
             }
         });
     }
@@ -98,10 +100,11 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 JSONObject dataobj = ridesArray.getJSONObject(i);
                 //if(!dataobj.toString().equals("{}")) {
                 passengers.add(dataobj.getString("name"));
+                accessIds.add(dataobj.getString("access_id"));
                 //}
             }
 
-            PassengerListAdapter whatever = new PassengerListAdapter(this, passengers);
+            PassengerListAdapter whatever = new PassengerListAdapter(this, passengers, accessIds);
             passList.setAdapter(whatever);
 
         } catch (JSONException e) {
@@ -151,7 +154,8 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
             case R.id.start:
                 postRideEvent();
-                Intent intent2 = new Intent(getApplicationContext(), DuringRide.class);
+                Shared.Data.currentRidePassengerIds  = accessIds;
+                Intent intent2 = new Intent(getApplicationContext(), RideMap.class);
                 startActivity(intent2);
                 break;
 
@@ -239,7 +243,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
 
         jsonParams.put("type","0");
-
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {

@@ -1,30 +1,22 @@
 package com.example.warriorsonwheels;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,15 +24,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
+public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
     private Toolbar tbrMain;
     private GoogleMap mMap;
@@ -48,11 +37,12 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
     private TextView address;
     ProgressDialog dialog;
     String street, city, state, zip;
+    String passengerid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.duringride);
+        setContentView(R.layout.ridemap);
 
         //Toolbar
         tbrMain =  findViewById(R.id.tbrMain);
@@ -116,6 +106,7 @@ public class DuringRide extends FragmentActivity implements OnMapReadyCallback {
 
                 //runs when API called from RestQueue/MySingleton
                 Log.i("POST",response.toString());
+
 
             }
         },

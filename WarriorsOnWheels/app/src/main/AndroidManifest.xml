@@ -139,7 +139,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DuringRide">
+        <activity android:name=".RideMap">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

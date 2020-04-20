@@ -43,6 +43,8 @@ public enum Shared {
 
     int currentRideId;
 
+    ArrayList<String> currentRidePassengerIds;
+
     public void setGoogleAccount(GoogleSignInAccount account)
     {
         googleAccount = account;
