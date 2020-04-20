@@ -8,15 +8,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,6 +28,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
@@ -41,6 +46,8 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     String street, city, state, zip;
     //String passengerid;
     ArrayList<String> passengerIds = Shared.Data.currentRidePassengerIds;
+    ArrayList<String> addresses = new ArrayList<String>();
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +73,11 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         for(int i = 0; i < passengerIds.size(); i++) {
             String id = passengerIds.get(i);
             getAddress(id);
+        }
 
+        for(int i = 0; i < addresses.size(); i++) {
+            String pickUpLocation = addresses.get(i);
+            setMarker(pickUpLocation);
         }
 
         endRide.setOnClickListener(new View.OnClickListener() {
@@ -108,8 +119,60 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         // Add a marker
     }
 
-    public void getAddress(String id) {
+    public void setMarker(String pickUpLocation) {
 
+    }
+
+    public void getAddress(String id) {
+        url = Shared.Data.url + "users/" + id;
+        getRequest();
+    }
+
+    public void parseAddress(String jsonString) {
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONObject data = object.getJSONObject("data");
+            String street = data.getString("street");
+            String city = data.getString("city");
+            String state = data.getString("state");
+            String zip = data.getString("zip");
+            String address = street + " " + city + " " + state + " " + zip;
+            System.out.println("address: " + street + " " + city + " " + state + " " + zip);
+
+            addresses.add(address);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        dialog.dismiss();
+    }
+
+    public void getRequest() {
+        {
+            StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String string) {
+                    parseAddress(string);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            }) {
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<String, String>();
+                    headers.put("Authorization", Shared.Data.token);
+                    return headers;
+                }
+
+            };
+            RequestQueue rQueue = Volley.newRequestQueue(RideMap.this);
+            rQueue.add(request);
+        }
     }
 
     public void endRide()
