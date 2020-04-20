@@ -162,7 +162,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                             @Override
                             public void onErrorResponse(VolleyError error) {
 
-                                Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+                                Log.println(Log.ERROR,"NOT DRIVER:", Shared.Data.loggedInuser + " is not a driver.");
 
                             }
                         }) {
