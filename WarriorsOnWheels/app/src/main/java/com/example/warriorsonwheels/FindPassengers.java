@@ -116,7 +116,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
     public void getRiders()
     {
-        url = url + Shared.Data.currentRideId + "/users";
+        url = url + Shared.Data.mySelectedRideId + "/users";
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
@@ -237,7 +237,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
     public void postRideEvent()
     {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+        String url = Shared.Data.url + "/ride/" + Shared.Data.mySelectedRideId + "/events";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 

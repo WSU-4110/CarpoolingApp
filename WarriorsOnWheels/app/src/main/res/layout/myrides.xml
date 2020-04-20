@@ -27,7 +27,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rides Available right now:"
+            android:text="Your Rides:"
             android:textColor="@color/heading_1"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -35,10 +35,10 @@
             android:layout_marginLeft="10dp"/>
 
         <TextView
-            android:id="@+id/noride"
+            android:id="@+id/nomyride"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No Rides to show at this time."
+            android:text="You have no active rides."
             android:textColor="@color/heading_1"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -50,7 +50,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rideList"
+            android:id="@+id/myRideList"
             android:layout_weight="5"
             android:choiceMode="singleChoice"
             />

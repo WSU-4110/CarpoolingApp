@@ -36,7 +36,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private Button findRideButton;
     private Button postRideButton;
     private Button createDrivProf;
-    private TextView drivProfTitle, or;
+    private Button listMyRides;
+    private TextView drivProfTitle, or, or2;
     private Toast toast;
     private Toolbar tbrMain;
     private Boolean isDriver = false;
@@ -52,11 +53,13 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
         drivProfTitle = (TextView) findViewById(R.id.drivProfTitle);
         or = (TextView) findViewById(R.id.or);
+        or2 = (TextView) findViewById(R.id.or2);
 
         //Button Ids
         findRideButton = (Button) findViewById(R.id.findRideButton);
         postRideButton = (Button) findViewById(R.id.postRideButton);
         createDrivProf = (Button) findViewById(R.id.createDrivProf);
+        listMyRides = (Button) findViewById(R.id.myRides);
 
         checkDriver();
     }
@@ -126,6 +129,11 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
                 startActivity(intent3);
                 break;
+            case R.id.myRides:
+                Intent intent4 = new Intent(getApplicationContext(), MyRides.class);
+                startActivity(intent4);
+                break;
+
         }
     }
 
@@ -145,10 +153,13 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
                             if (!dataobj.getString("id").equals("null"))
                             {
+                                Shared.Data.currentDriver = dataobj.getInt("id");
                                 createDrivProf.setVisibility(View.INVISIBLE);
                                 drivProfTitle.setVisibility(View.INVISIBLE);
                                 or.setVisibility(View.VISIBLE);
                                 postRideButton.setVisibility(View.VISIBLE);
+                                listMyRides.setVisibility(View.VISIBLE);
+                                or2.setVisibility(View.VISIBLE);
                                 isDriver = true;
                             }
 
