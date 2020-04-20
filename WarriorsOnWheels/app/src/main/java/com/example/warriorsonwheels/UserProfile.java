@@ -64,10 +64,18 @@ public class UserProfile extends AppCompatActivity {
         drivRating = (TextView)findViewById(R.id.drivRating);
 
         driverProfLayout = (LinearLayout) findViewById(R.id.driverProfLayout);
+        driverProfLayout.setVisibility(View.INVISIBLE);
 
 
         getUserData();
-        getDriverData();
+
+        if(Shared.Data.isDriverCheck = true)
+        {
+            driverProfLayout.setVisibility(View.VISIBLE);
+            getDriverData();
+        }
+
+
         Log.i("LOGGED IN USER",Shared.Data.loggedInuser);
 
     }
@@ -91,16 +99,9 @@ public class UserProfile extends AppCompatActivity {
                             accessID.setText(dataobj.getString("access_id"));
                             phNum.setText(dataobj.getString("phone_number"));
                             primLoc.setText(dataobj.getString("street") + " " + dataobj.getString("city") + " " + dataobj.getString("state") + " " + dataobj.getString("zip"));
+                            passRating.setText(dataobj.getString("rating"));
 
-                            if (dataobj.getString("average").equals("null"))
-                            {
-                                passRating.setText("No Rating");
-                            }
-                            else
-                            {
-                                passRating.setText(dataobj.getString("rating"));
 
-                            }
 
 
                         } catch (JSONException e) {
@@ -142,16 +143,8 @@ public class UserProfile extends AppCompatActivity {
 
                             JSONObject dataobj = response.getJSONObject("data");
                             carMake.setText(dataobj.getString("car"));
+                            drivRating.setText(dataobj.getString("rating"));
 
-                            if (dataobj.getString("average").equals("null"))
-                            {
-                                drivRating.setText("No Rating");
-                            }
-                            else
-                            {
-                                drivRating.setText(dataobj.getString("rating"));
-
-                            }
 
 
                         } catch (JSONException e) {
