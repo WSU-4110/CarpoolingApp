@@ -84,7 +84,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="Picked Up Passenger"
                 android:textColor="@color/text"
-                android:visibility="visible"/>
+                android:visibility="invisible"/>
 
             <Space
                 android:layout_width="100dp"
@@ -94,7 +94,6 @@
                 android:id="@+id/endRide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:background="@color/button"
                 android:text="Ride Ended"
                 android:textColor="@color/text" />

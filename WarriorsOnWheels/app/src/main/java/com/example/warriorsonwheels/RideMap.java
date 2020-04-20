@@ -2,6 +2,8 @@ package com.example.warriorsonwheels;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -34,6 +36,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RideMap extends FragmentActivity implements OnMapReadyCallback {
@@ -66,18 +69,19 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         mapFragment.onResume(); // needed to get the map to display immediately
 
-        if (Shared.Data.isDriverCheck = false) {
-            passengerUpdate.setVisibility(View.INVISIBLE);
+        if (Shared.Data.currentDriver = true) {
+            passengerUpdate.setVisibility(View.VISIBLE);
         }
+        else if (passengerIds != null) {
+            for(int i = 0; i < passengerIds.size(); i++) {
+                String id = passengerIds.get(i);
+                getAddress(id);
+            }
 
-        for(int i = 0; i < passengerIds.size(); i++) {
-            String id = passengerIds.get(i);
-            getAddress(id);
-        }
-
-        for(int i = 0; i < addresses.size(); i++) {
-            String pickUpLocation = addresses.get(i);
-            setMarker(pickUpLocation);
+            for(int i = 0; i < addresses.size(); i++) {
+                String pickUpLocation = addresses.get(i);
+                setMarker(pickUpLocation);
+            }
         }
 
         endRide.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +121,9 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker
+        LatLng wayne = new LatLng(42.358694, -83.070194);
+        mMap.addMarker(new MarkerOptions().position(wayne).title("Marker is Placed"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne));
     }
 
     public void setMarker(String pickUpLocation) {
@@ -190,8 +197,6 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
                 //runs when API called from RestQueue/MySingleton
                 Log.i("POST",response.toString());
-
-
             }
         },
 
