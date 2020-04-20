@@ -90,7 +90,7 @@ public class UserProfile extends AppCompatActivity {
                             name.setText(dataobj.getString("name"));
                             accessID.setText(dataobj.getString("access_id"));
                             phNum.setText(dataobj.getString("phone_number"));
-                            primLoc.setText(dataobj.getString("location"));
+                            primLoc.setText(dataobj.getString("street") + " " + dataobj.getString("city") + " " + dataobj.getString("state") + " " + dataobj.getString("zip"));
 
                             if (dataobj.getString("average").equals("null"))
                             {

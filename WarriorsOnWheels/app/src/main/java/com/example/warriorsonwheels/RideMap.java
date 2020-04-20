@@ -26,6 +26,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,11 +35,12 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
     private Toolbar tbrMain;
     private GoogleMap mMap;
-    private Button endRide;
+    private Button endRide, passengerUpdate;
     private TextView address;
     ProgressDialog dialog;
     String street, city, state, zip;
-    String passengerid;
+    //String passengerid;
+    ArrayList<String> passengerIds = Shared.Data.currentRidePassengerIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +51,23 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         tbrMain =  findViewById(R.id.tbrMain);
         //setSupportActionBar(tbrMain);
         endRide = (Button) findViewById(R.id.endRide);
+        passengerUpdate = (Button) findViewById(R.id.passengerUpdate);
         address = (TextView) findViewById(R.id.address);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mapFragment.onResume(); // needed to get the map to display immediately
+
+        if (Shared.Data.isDriverCheck = false) {
+            passengerUpdate.setVisibility(View.INVISIBLE);
+        }
+
+        for(int i = 0; i < passengerIds.size(); i++) {
+            String id = passengerIds.get(i);
+            getAddress(id);
+
+        }
 
         endRide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +92,13 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                     }
             }
         });
+
+        passengerUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateRideEvent();
+            }
+        });
     }
 
     @Override
@@ -85,10 +106,10 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker
-        //city.setText(Shared.Data.arrival);
-        LatLng address = new LatLng(42.358694, -83.070194);
-        mMap.addMarker(new MarkerOptions().position(address).title("End"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
+    }
+
+    public void getAddress(String id) {
+
     }
 
     public void endRide()
@@ -97,7 +118,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-        jsonParams.put("access_id","gh4683");
+        //jsonParams.put("access_id","gh4683");
         jsonParams.put("type","2");
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -130,6 +151,44 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
 
+    }
+
+    public void updateRideEvent() {
+        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+
+        jsonParams.put("type","1");
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("POST",response.toString());
+
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
     }
 
 }

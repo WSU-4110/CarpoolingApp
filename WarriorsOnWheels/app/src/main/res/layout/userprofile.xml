@@ -7,9 +7,7 @@
     android:fillViewport="true"
     tools:context=".UserProfile">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -203,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_weight="1"
-            android:text="Primary Location:"
+            android:text="Address:"
             android:textColor="@color/heading_2"
             android:textSize="15dp"
             android:textStyle="bold" />
@@ -214,12 +212,12 @@
 
         <TextView
             android:id="@+id/primLoc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="93dp"
+            android:layout_height="37dp"
             android:layout_weight="1"
             android:text="(insert location)"
             android:textColor="@color/text"
-            android:textSize="15dp"/>
+            android:textSize="15dp" />
 
     </LinearLayout>
 
@@ -291,7 +289,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/profileppic1" />
+            app:srcCompat="@drawable/profilepic2" />
 
         <LinearLayout
             android:layout_width="200dp"

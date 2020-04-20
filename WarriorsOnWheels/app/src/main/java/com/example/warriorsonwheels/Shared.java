@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static android.provider.Settings.System.getString;
