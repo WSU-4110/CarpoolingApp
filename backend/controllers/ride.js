@@ -4,6 +4,7 @@ const respond = require('../util/respond');
 const models = require('../models/index');
 const validate = require('../util/validate');
 const jwt = require('../util/jwt');
+const firebase = require('./firebase');
 
 /**
  * @api {get} /ride list rides
@@ -409,10 +410,24 @@ module.exports.rideUsersPost = async (req, res) => {
 
     await ride.setUsers(userAccessIds.map(u => u.id));
     const rideUserSelect = await ride.getUsers();
-    const resp = rideUserSelect.map(r => {
+    const resp = {};
+    resp.users = rideUserSelect.map(r => {
       delete r.dataValues.password;
       return r;
     });
+    const driver = await models.Driver.findByPk(ride.dataValues.driverId, { include: models.User });
+
+    if (userAccessIds.length) {
+      const firebaseRequest = {
+        body: {
+          message: 'A passenger was added to your ride!',
+          users: [driver.dataValues.user.dataValues.access_id],
+        },
+      };
+      const notification = await firebase.post(firebaseRequest, null);
+      resp.notification = notification;
+    }
+
     respond(200, resp, res);
   } catch (err) {
     respond(500, err, res);
