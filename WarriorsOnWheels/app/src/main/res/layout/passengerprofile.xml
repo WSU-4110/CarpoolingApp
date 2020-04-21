@@ -206,6 +206,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:hint="Ex: MI"
+                android:textColor="@color/text"
                 android:maxLength="2"
                 android:textColorHint="@color/textHint" />
 
