@@ -183,6 +183,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
     public void getRequest() {
         {
+
             StringRequest request = new StringRequest(url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String string) {
