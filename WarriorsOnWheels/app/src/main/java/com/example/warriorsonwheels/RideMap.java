@@ -76,6 +76,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         if (!Shared.Data.isPassenger) {
             passengerUpdate.setVisibility(View.VISIBLE);
             endRide.setVisibility(View.VISIBLE);
+            endRide.setText("RIDE FINISHED");
         }
         else if (passengerIds != null) {
             for(int i = 0; i < passengerIds.size(); i++) {

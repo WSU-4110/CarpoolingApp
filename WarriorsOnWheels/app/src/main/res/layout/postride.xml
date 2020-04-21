@@ -136,14 +136,14 @@
                 android:id="@+id/dateBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="30dp"
                 android:text="Choose Date:"
                 android:textColor="@color/text"
                 android:background="@color/button"
                 android:textStyle="bold" />
 
             <Space
-                android:layout_width="74dp"
+                android:layout_width="54dp"
                 android:layout_height="match_parent" />
 
             <EditText
@@ -174,14 +174,14 @@
                 android:id="@+id/timeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="30dp"
                 android:text="Choose Time"
                 android:textColor="@color/text"
                 android:background="@color/button"
                 android:textStyle="bold" />
 
             <Space
-                android:layout_width="82dp"
+                android:layout_width="62dp"
                 android:layout_height="match_parent" />
 
             <EditText
