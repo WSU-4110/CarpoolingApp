@@ -67,10 +67,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     //stop homepage from stuttering
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        View current = getCurrentFocus();
-        if (current != null) current.clearFocus();
-        finish();
+        //super.onBackPressed();
+        Toast.makeText(getApplicationContext(), "To log out, sign out through toolbar.", Toast.LENGTH_SHORT).show();
     }
 
     //Create Menu
