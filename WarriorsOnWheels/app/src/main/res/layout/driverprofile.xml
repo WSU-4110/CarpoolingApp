@@ -36,53 +36,6 @@
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Departure Details:"
-            android:textColor="@color/heading_2"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"/>
-
-
-        <LinearLayout
-            android:id="@+id/NameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
-
-
-            <TextView
-                android:id="@+id/askDepLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Location:"
-                android:textColor="@color/heading_2"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/Loc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:ems="10"
-                android:hint="Ex: Canton"
-                android:textColorHint="@color/textHint"
-                android:textColor="@color/text"
-                android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-
-        </LinearLayout>
-
-        <TextView
             android:id="@+id/Car"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -235,7 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Licence Plate:"
+                android:text="License Plate:"
                 android:textColor="@color/heading_2"
                 android:textSize="20sp"
                 android:textStyle="bold" />

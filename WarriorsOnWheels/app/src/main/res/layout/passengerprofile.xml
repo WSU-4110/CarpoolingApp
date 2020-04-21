@@ -151,11 +151,23 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+        </LinearLayout>
+        
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <EditText
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
+                android:id="@+id/street"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:ems="10"
                 android:hint="Ex: 123 Main Street"
                 android:inputType="textPostalAddress"
@@ -166,107 +178,49 @@
 
         </LinearLayout>
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
         <LinearLayout
-            android:id="@+id/cityLayout"
+            android:id="@+id/addressLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+            android:orientation="horizontal">
 
-
-            <TextView
-                android:id="@+id/cityHeader"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="City:"
-                android:textColor="@color/heading_2"
-                android:textSize="20sp"
-                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:ems="10"
-                android:hint="Ex: Detroit"
-                android:inputType="textPostalAddress"
-                android:textColor="@color/text"
-                android:textColorHint="@color/textHint"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/stateLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
-
-
-            <TextView
-                android:id="@+id/stateHeader"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="State:"
-                android:textColor="@color/heading_2"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:hint="Ex: Detroit"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:ems="10"
-                android:hint="Ex: MI"
-                android:inputType="textPostalAddress"
-                android:textColor="@color/text"
-                android:textColorHint="@color/textHint"
-                android:maxLength="2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/zipLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
-
-
-            <TextView
-                android:id="@+id/zipHeader"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Zip Code:"
-                android:textColor="@color/heading_2"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_marginRight="20dp"
+                android:hint="Ex: MI"
+                android:maxLength="2"
+                android:textColorHint="@color/textHint" />
 
             <EditText
                 android:id="@+id/zip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:ems="10"
-                android:hint="Ex: 48201"
-                android:inputType="number"
-                android:textColor="@color/text"
-                android:textColorHint="@color/textHint"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Ex: 12345"
                 android:maxLength="5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/pwLayout"
@@ -350,7 +304,6 @@
                 android:layout_height="wrap_content"
                 android:text="Finish"
                 android:background="@color/button"
-                android:onClick="onClick"
                 android:textColor="@color/text" />
 
         </LinearLayout>
