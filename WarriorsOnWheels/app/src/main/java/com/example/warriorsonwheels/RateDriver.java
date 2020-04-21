@@ -49,6 +49,7 @@ public class RateDriver extends AppCompatActivity{
         switch(v.getId())
         {
             case R.id.rateDriver:
+                Shared.Data.isPassenger = false;
                 postRequest();
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(v.getContext());

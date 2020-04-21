@@ -73,7 +73,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         mapFragment.onResume(); // needed to get the map to display immediately
 
-        if (Shared.Data.madeRide == Shared.Data.currentRideId) {
+        if (!Shared.Data.isPassenger) {
             passengerUpdate.setVisibility(View.VISIBLE);
             endRide.setVisibility(View.VISIBLE);
         }
@@ -103,7 +103,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                 switch(v.getId())
                 {
                     case R.id.endRide:
-                        if(Shared.Data.madeRide == Shared.Data.currentRideId)
+                        if(!Shared.Data.isPassenger)
                         {
                             endRide();
                             Intent intent1 = new Intent(getApplicationContext(), RatePassenger.class);

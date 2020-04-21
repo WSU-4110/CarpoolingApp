@@ -31,7 +31,7 @@ public enum Shared {
     public String rideId;
     public String userRideId;
 
-    public boolean isDriverCheck = false;
+    public boolean isDriverCheck = false, isPassenger = false;
     public int profPic;
 
     public String userName, userId, userLoc, phNumber,driverAccessID, token, loggedInuser;
