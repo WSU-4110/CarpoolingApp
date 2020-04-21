@@ -50,12 +50,10 @@ public class RatePassenger extends AppCompatActivity{
         RatePassenger.setNumStars(5);
 
         //Initialize DriverImage
-    }
 
-    public void onClick(View v) {
-        switch(v.getId())
-        {
-            case R.id.rateBtn:
+        rateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 postRequest();
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(v.getContext());
@@ -71,9 +69,16 @@ public class RatePassenger extends AppCompatActivity{
                                 startActivity(intent4);
                             }
                         });
+            }
+        });
+    }
+
+    /*public void onClick(View v) {
+        switch(v.getId())
+        {
         }
 
-    }
+    }*/
 
     //Create Menu
     @Override

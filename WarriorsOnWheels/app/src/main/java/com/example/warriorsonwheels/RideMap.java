@@ -90,12 +90,12 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                         getApplicationContext(), new GeocoderHandler());
             }
         }
-        else if (passengerIds.isEmpty()) {
+        /*else if (passengerIds.isEmpty()) {
             //set default marker
             LatLng wayne = new LatLng(42.357184, -83.069852);
             mMap.addMarker(new MarkerOptions().position(wayne).title("Default Location: WSU"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne));
-        }
+        }*/
 
         endRide.setOnClickListener(new View.OnClickListener() {
             @Override
