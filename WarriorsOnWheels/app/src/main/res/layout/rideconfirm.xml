@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".DriverInfo">
+
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tbrMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:backgroundTint="@color/toolbar"
+            android:text="@string/app_name"
+            android:theme="?attr/actionBarTheme" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ride Information:"
+            android:textColor="@color/heading_1"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="250dp"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Departure Location:"
+                    android:textColor="@color/heading_2"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Arrival Location:"
+                    android:textColor="@color/heading_2"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date:"
+                    android:textColor="@color/heading_2"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <!--
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Place in line:"
+                    android:textColor="@color/heading_2"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                    -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Departure Time:"
+                    android:textColor="@color/heading_2"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Number of Passengers:"
+                    android:textColor="@color/heading_2"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <!--
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Color"
+                    android:textColor="@color/heading_2"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="License Plate:"
+                    android:textColor="@color/heading_2"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                    -->
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="250dp"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/DepLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="XYZ"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/ArrivalLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ABC"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <!--
+                <TextView
+                    android:id="@+id/PassPlaceInLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="#3"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                    -->
+                <TextView
+                    android:id="@+id/Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2020-08-09"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <TextView
+                    android:id="@+id/DepTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="11:00pm"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <TextView
+                    android:id="@+id/passengers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <!--
+                <TextView
+                    android:id="@+id/Carcolor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Black"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                <TextView
+                    android:id="@+id/CarLicense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="XXXXXX"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+                    -->
+            </LinearLayout>
+        </LinearLayout>
+        <!--
+        <ImageView
+            android:id="@+id/carImage"
+            android:layout_width="200dp"
+            android:layout_height="125dp"
+            app:srcCompat="@android:drawable/ic_menu_gallery"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
+            -->
+
+            <Button
+                android:id="@+id/confirmbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm Ride"
+                android:textColor="@color/text"
+                android:background="@color/button"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:enabled="true"/>
+
+
+
+    </LinearLayout>
+
+</ScrollView>

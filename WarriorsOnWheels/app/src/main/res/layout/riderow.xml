@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:layout_height="185dp"
+    android:layout_height="150dp"
     android:layout_width="match_parent"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="200dp"
-        android:layout_height="185dp"
+        android:layout_height="150dp"
         android:orientation="vertical"
         >
 
@@ -23,16 +23,7 @@
             android:textStyle="bold"
             />
 
-        <TextView
-        android:id="@+id/leave1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Departure location:"
-        android:textColor="@color/heading_2"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/driver1"
@@ -40,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="Arrival location:"
+            android:layout_marginTop="10dp"
             android:textColor="@color/heading_2"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -66,21 +58,11 @@
             android:textStyle="bold" />
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="# of Passengers:"
-            android:textColor="@color/heading_2"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            />
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="200dp"
-        android:layout_height="185dp"
+        android:layout_height="150dp"
         android:orientation="vertical">
 
         <TextView
@@ -93,22 +75,13 @@
             android:textSize="21sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/left1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Troy"
-            android:textColor="@color/text"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/arrival1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:text="wayne"
             android:textColor="@color/text"
             android:textSize="20sp"
@@ -134,15 +107,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/numPasses1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="3"
-            android:textColor="@color/text"
-            android:textSize="20sp"
-            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

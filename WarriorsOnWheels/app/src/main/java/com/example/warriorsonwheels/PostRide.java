@@ -206,8 +206,8 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         if(isFilled)
         {
             postRequest();
-            Shared.Data.currentDriver = true;
-            Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
+            Shared.Data.madeRide = true;
+            Intent intent = new Intent(getApplicationContext(), MyRides.class);
             startActivity(intent);
         }
         else
