@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class Payment extends AppCompatActivity implements View.OnClickListener {
+public class Payment extends AppCompatActivity {
     public EditText nameOnCard, creditCardNum, expDate, cvv, zipCode;
 
     private Toolbar tbrMain;
@@ -39,8 +39,27 @@ public class Payment extends AppCompatActivity implements View.OnClickListener {
         zipCode = (EditText)findViewById(R.id.zipCode);
 
         payButton = (Button) findViewById(R.id.payButton);
-        payButton.setOnClickListener(this);
+        payButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(v.getContext());
+                builder.setTitle("PAYMENT RECEIVED:");
+                builder.setMessage("Your payment is being processed.");
+                builder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+                                Intent intent4 = new Intent(getApplicationContext(), RateDriver.class);
+                                startActivity(intent4);
+                            }
+                        });
+            }
+        });
     }
+
 
     //Create Menu
     @Override
@@ -78,7 +97,7 @@ public class Payment extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    @Override
+    /*@Override
     public void onClick(View v) {
         switch(v.getId())
         {
@@ -98,5 +117,5 @@ public class Payment extends AppCompatActivity implements View.OnClickListener {
                             }
                         });
         }
-    }
+    }*/
 }
