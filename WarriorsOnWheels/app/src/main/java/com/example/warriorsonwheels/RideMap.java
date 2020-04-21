@@ -78,10 +78,12 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
             endRide.setVisibility(View.VISIBLE);
             endRide.setText("RIDE FINISHED");
         }
-        else if (passengerIds != null) {
+
+        if (passengerIds != null) {
             for(int i = 0; i < passengerIds.size(); i++) {
                 String id = passengerIds.get(i);
                 getAddress(id);
+                Log.i("----------------------------------POST",passengerIds.get(i).toString());
             }
 
             for(int i = 0; i < addresses.size(); i++) {
@@ -89,6 +91,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                 GeocodingLocation locationAddress = new GeocodingLocation();
                 locationAddress.getAddressFromLocation(pickUpLocation,
                         getApplicationContext(), new GeocoderHandler());
+                Log.i("----------------------------------POST",addresses.get(i).toString());
             }
         }
 
@@ -149,6 +152,8 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
             setLatLng =  locationAddress.split(",");
             latitude = Double.parseDouble(setLatLng[0]);
             longitude = Double.parseDouble(setLatLng[1]);
+            Log.i("----------------------------------POST", String.valueOf(latitude));
+            Log.i("----------------------------------POST", String.valueOf(longitude));
         }
     }
 
