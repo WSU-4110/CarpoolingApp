@@ -7,9 +7,7 @@
     android:fillViewport="true"
     tools:context=".HomePage">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -41,7 +39,7 @@
             android:textSize="40dp"/>
 
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,35 +60,36 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/findRideButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="Find A Ride"
-            android:background="@color/button"
-            android:textColor="@color/text"
-            android:onClick="onClick"/>
+            <Button
+                android:id="@+id/findRideButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/button"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="Find A Ride"
+                android:textColor="@color/text" />
 
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/orText"
+                android:id="@+id/or"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="or"
                 android:textColor="@color/heading_2"
+                android:textSize="30dp"
                 android:textStyle="italic"
-                android:textSize="30dp"/>
+                android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -101,15 +100,54 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/postRideButton"
+            <Button
+                android:id="@+id/postRideButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/button"
+                android:onClick="onClick"
+                android:text="Share a Ride"
+                android:textColor="@color/text"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Share a Ride"
-            android:background="@color/button"
-            android:textColor="@color/text"
-            android:onClick="onClick"/>
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/or2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="or"
+                android:textColor="@color/heading_2"
+                android:textSize="30dp"
+                android:textStyle="italic"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/myRides"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/button"
+                android:onClick="onClick"
+                android:text="List My Rides"
+                android:textColor="@color/text"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -124,12 +162,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/drivProfTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Not a Registered Driver?"
                 android:textColor="@color/heading_2"
-                android:gravity="center"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                android:visibility="visible" />
 
             <Space
                 android:layout_width="match_parent"
@@ -140,11 +180,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Create a Driver Profile"
                 android:background="@color/button"
-                android:textColor="@color/text"
                 android:onClick="onClick"
-                android:visibility="visible"/>
+                android:text="Create a Driver Profile"
+                android:textColor="@color/text"
+                android:visibility="visible" />
 
         </LinearLayout>
 

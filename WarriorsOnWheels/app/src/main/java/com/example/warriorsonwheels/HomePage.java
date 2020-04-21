@@ -1,6 +1,7 @@
 package com.example.warriorsonwheels;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,13 +19,28 @@ import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     private Button findRideButton;
     private Button postRideButton;
-    private boolean isDriverHome;
+    private Button createDrivProf;
+    private Button listMyRides;
+    private TextView drivProfTitle, or, or2;
     private Toast toast;
     private Toolbar tbrMain;
+    private Boolean isDriver = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +51,24 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
 
+        drivProfTitle = (TextView) findViewById(R.id.drivProfTitle);
+        or = (TextView) findViewById(R.id.or);
+        or2 = (TextView) findViewById(R.id.or2);
+
         //Button Ids
         findRideButton = (Button) findViewById(R.id.findRideButton);
         postRideButton = (Button) findViewById(R.id.postRideButton);
+        createDrivProf = (Button) findViewById(R.id.createDrivProf);
+        listMyRides = (Button) findViewById(R.id.myRides);
+
+        checkDriver();
+    }
+
+    //stop homepage from stuttering
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Toast.makeText(getApplicationContext(), "To log out, sign out through toolbar.", Toast.LENGTH_SHORT).show();
     }
 
     //Create Menu
@@ -93,19 +124,67 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 break;
                 //Go to PostRide.java
             case R.id.postRideButton:
-                if (Shared.Data.isDriverCheck = true) {
-                    Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
-                    startActivity(intent3);
-                }
-
-                else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Error:");
-                    builder.setMessage("Driver Profile must be made to share rides.");
-                    builder.setPositiveButton("OK", null);
-                    builder.show();
-                }
+                Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
+                startActivity(intent3);
                 break;
+            case R.id.myRides:
+                Intent intent4 = new Intent(getApplicationContext(), MyRides.class);
+                startActivity(intent4);
+                break;
+
         }
+    }
+
+    public void checkDriver()
+    {
+        String url = Shared.Data.url + "driver/" + Shared.Data.loggedInuser;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.i("Driver Profile Created",response.toString());
+
+                            JSONObject dataobj = response.getJSONObject("data");
+
+                            if (!dataobj.getString("id").equals("null"))
+                            {
+                                Shared.Data.currentDriver = dataobj.getInt("id");
+                                createDrivProf.setVisibility(View.INVISIBLE);
+                                drivProfTitle.setVisibility(View.INVISIBLE);
+                                or.setVisibility(View.VISIBLE);
+                                postRideButton.setVisibility(View.VISIBLE);
+                                listMyRides.setVisibility(View.VISIBLE);
+                                or2.setVisibility(View.VISIBLE);
+                                isDriver = true;
+                            }
+
+
+                        } catch (JSONException e) {
+                            Log.i("JSONException ERROR", e.toString());
+                            }
+                    }
+                },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                                Log.println(Log.ERROR,"NOT DRIVER:", Shared.Data.loggedInuser + " is not a driver.");
+
+                            }
+                        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+
+        // Access the RequestQueue through your singleton class.
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 }

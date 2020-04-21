@@ -1,6 +1,8 @@
 package com.example.warriorsonwheels;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RideSearch extends AppCompatActivity{
+public class MyRides extends AppCompatActivity implements View.OnClickListener{
 
     private Toolbar tbrMain;
     private ListView rideList;
@@ -42,42 +44,42 @@ public class RideSearch extends AppCompatActivity{
     ArrayList<String> arrives = new ArrayList<String>();
     ArrayList<String> dates = new ArrayList<String>();
     ArrayList<Integer> rideId = new ArrayList<Integer>();
-    ArrayList<Integer> driverId = new ArrayList<Integer>();
 
-    ArrayList<String> drivers = new ArrayList<String>();
     String url1 = Shared.Data.url + "ride";
     String url2 = "";
     ProgressDialog dialog;
     TextView noRide;
 
+    Button postRide;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ridesearch);
+        setContentView(R.layout.myrides);
 
         //Toolbar
         tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
 
-        noRide = findViewById(R.id.noride);
+        noRide = findViewById(R.id.nomyride);
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading....");
         dialog.show();
 
-        rideList = (ListView) findViewById(R.id.rideList);
+        postRide = findViewById(R.id.postRide);
+
+        rideList = (ListView) findViewById(R.id.myRideList);
         rideList.setSelector(R.drawable.list_item_selector);
 
         rideList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                Shared.Data.selectedDriverId = driverId.get(position);
-                Shared.Data.selectedRideId = rideId.get(position);
-                Shared.Data.AccessIdDriver = drivers.get(position);
+                Shared.Data.mySelectedRideId = rideId.get(position);
                 view.getFocusables(position);
                 view.setSelected(true);
-                Intent intent3 = new Intent(getApplicationContext(), RideConfirm.class);
-                startActivity(intent3);
+                confirm(view);
+
             }
         });
 
@@ -102,7 +104,7 @@ public class RideSearch extends AppCompatActivity{
             }
 
         };
-        RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
+        RequestQueue rQueue = Volley.newRequestQueue(MyRides.this);
         rQueue.add(request);
 
 
@@ -116,29 +118,38 @@ public class RideSearch extends AppCompatActivity{
             for(int i = 0; i < ridesArray.length(); ++i) {
                 JSONObject dataobj = ridesArray.getJSONObject(i);
 
-                //if(!dataobj.toString().equals("{}")) {
-                    String dateTime = dataobj.getString("date");
-                    arrives.add(dataobj.getString("arrival_location"));
-                    dates.add(dateTime.substring(0,dateTime.lastIndexOf('T')));
-                    times.add(dateTime.substring(dateTime.lastIndexOf('T') + 1 , dateTime.length() - 8));
-                    rideId.add(dataobj.getInt("id"));
-                    driverId.add(dataobj.getInt("driverId"));
-                    drivers.add(dataobj.getString("access_id"));    
-                //}
+                if(dataobj.getInt("driverId") == Shared.Data.currentDriver) {
+                String dateTime = dataobj.getString("date");
+                arrives.add(dataobj.getString("arrival_location"));
+                dates.add(dateTime.substring(0,dateTime.lastIndexOf('T')));
+                times.add(dateTime.substring(dateTime.lastIndexOf('T') + 1 , dateTime.length() - 8));
+                rideId.add(dataobj.getInt("id"));
+                }
 
             }
 
-            CustomListAdapter whatever = new CustomListAdapter(this, times, arrives, dates);
+            MyRideListAdapter whatever = new MyRideListAdapter(this, times, arrives, dates);
             rideList.setAdapter(whatever);
             if(times.size() == 0)
             {
                 noRide.setVisibility(View.VISIBLE);
+                postRide.setVisibility(View.VISIBLE);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         dialog.dismiss();
+    }
+
+    public void onClick (View v) {
+        switch(v.getId())
+        {
+            case R.id.postRide:
+                Intent intent3 = new Intent(getApplicationContext(), PostRide.class);
+                startActivity(intent3);
+                break;
+        }
     }
 
 
@@ -151,6 +162,25 @@ public class RideSearch extends AppCompatActivity{
         return super.onCreateOptionsMenu(menu);
     }
 
+    private void  confirm(View v) {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Confirm");
+        builder.setMessage("Confirm this ride?");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(
+                            DialogInterface dialog, int option)
+                    {
+
+                        Intent intent3 = new Intent(getApplicationContext(), FindPassengers.class);
+                        startActivity(intent3);
+                    }
+                });
+        builder.setNegativeButton("No", null);
+        builder.show();
+    }
 
     //Menu Options
     @Override

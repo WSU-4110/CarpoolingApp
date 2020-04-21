@@ -222,18 +222,14 @@
                 android:layout_width="27dp"
                 android:layout_height="match_parent" />
 
-            <EditText
+
+
+            <Spinner
                 android:id="@+id/passengerCount"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginRight="10dp"
-                android:hint="no more than 6"
-                android:textColor="@color/text"
-                android:textColorHint="@color/textHint"
-                android:ems="10"
-                android:inputType="number"
-                android:maxEms="6"/>
+                />
 
         </LinearLayout>
 

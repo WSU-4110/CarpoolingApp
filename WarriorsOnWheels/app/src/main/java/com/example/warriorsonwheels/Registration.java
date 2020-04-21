@@ -47,8 +47,6 @@ public class Registration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.passengerprofile);
 
-
-
         //Toolbar
         tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
@@ -83,6 +81,7 @@ public class Registration extends AppCompatActivity {
 
     }
 
+    //Created Shared Method, did not use because some values can be error if not 0
     public void fillCheck()
     {
         boolean allFilled = true;
@@ -93,11 +92,20 @@ public class Registration extends AppCompatActivity {
             allFilled = false;
 
         }
+        else
+        {
+            nameInp.setBackgroundResource(R.color.transparent);
+        }
 
         if(idInput.getText().toString().trim().length() < 6)
         {
             idInput.setBackgroundResource(R.color.error);
             allFilled = false;
+
+        }
+        else
+        {
+            idInput.setBackgroundResource(R.color.transparent);
 
         }
 
@@ -107,12 +115,20 @@ public class Registration extends AppCompatActivity {
             allFilled = false;
 
         }
+        else
+        {
+            numberInput.setBackgroundResource(R.color.transparent);
+        }
 
         if(address.getText().toString().trim().length() == 0)
         {
             address.setBackgroundResource(R.color.error);
             allFilled = false;
 
+        }
+        else
+        {
+            address.setBackgroundResource(R.color.transparent);
         }
 
         if(city.getText().toString().trim().length() == 0)
@@ -121,12 +137,20 @@ public class Registration extends AppCompatActivity {
             allFilled = false;
 
         }
+        else
+        {
+            city.setBackgroundResource(R.color.transparent);
+        }
 
         if(state.getText().toString().trim().length() < 2)
         {
             state.setBackgroundResource(R.color.error);
             allFilled = false;
 
+        }
+        else
+        {
+            state.setBackgroundResource(R.color.transparent);
         }
 
         if(zip.getText().toString().trim().length() < 5)
@@ -135,12 +159,20 @@ public class Registration extends AppCompatActivity {
             allFilled = false;
 
         }
+        else
+        {
+            zip.setBackgroundResource(R.color.transparent);
+        }
 
         if(pw.getText().toString().trim().length() == 0)
         {
             pw.setBackgroundResource(R.color.error);
             allFilled = false;
 
+        }
+        else
+        {
+            pw.setBackgroundResource(R.color.transparent);
         }
 
         if(allFilled)
@@ -198,7 +230,9 @@ public class Registration extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
+                        Log.println(Log.ERROR,"ERROR RESPONSE",error.networkResponse.toString());
                         successfulReg(false);
 
                     }

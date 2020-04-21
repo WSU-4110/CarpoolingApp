@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CustomListAdapter extends ArrayAdapter {
+public class MyRideListAdapter extends ArrayAdapter {
 
     private final Activity context;
 
@@ -17,7 +17,7 @@ public class CustomListAdapter extends ArrayAdapter {
     private final ArrayList<String> time;
     private final ArrayList<String> arrival;
 
-    public CustomListAdapter(Activity context, ArrayList<String> time, ArrayList<String> arrival, ArrayList<String> date) {
+    public MyRideListAdapter(Activity context, ArrayList<String> time, ArrayList<String> arrival, ArrayList<String> date) {
         super(context, R.layout.riderow, arrival);
         this.context = context;
         this.date = date;
