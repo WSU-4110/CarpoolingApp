@@ -58,7 +58,6 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         finishDriverProf = (Button) findViewById(R.id.finishDriver);
 
         //EditText
-        location = (EditText) findViewById(R.id.Loc);
         //accessId = (EditText) findViewById(R.id.accessIDask);
         make = (EditText) findViewById(R.id.make);
         model = (EditText) findViewById(R.id.model);
