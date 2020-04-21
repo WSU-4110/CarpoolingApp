@@ -54,7 +54,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     ArrayList<String> addresses = new ArrayList<String>();
     String url;
     String [] setLatLng;
-    float latitude, longitude;
+    double latitude = 42.357184, longitude = -83.069852;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +91,6 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                         getApplicationContext(), new GeocoderHandler());
             }
         }
-        /*else if (passengerIds.isEmpty()) {
-            //set default marker
-            LatLng wayne = new LatLng(42.357184, -83.069852);
-            mMap.addMarker(new MarkerOptions().position(wayne).title("Default Location: WSU"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne));
-        }*/
 
         endRide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +129,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add default marker at wsu
-        LatLng latLng = new LatLng(latitude, longitude);
+        LatLng latLng = new LatLng (latitude, longitude);
         mMap.addMarker(new MarkerOptions().position(latLng).title("Set Destination"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
@@ -153,8 +147,8 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                     locationAddress = null;
             }
             setLatLng =  locationAddress.split(",");
-            latitude = Float.parseFloat(setLatLng[0]);
-            longitude = Float.parseFloat(setLatLng[1]);
+            latitude = Double.parseDouble(setLatLng[0]);
+            longitude = Double.parseDouble(setLatLng[1]);
         }
     }
 

@@ -60,3 +60,4 @@ class GeocodingLocation {
         thread.start();
     }
 }
+
