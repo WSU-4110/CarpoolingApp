@@ -35,7 +35,7 @@ public class PassengerListAdapter extends ArrayAdapter {
 
         //this code sets the values of the objects to values from the arrays
         passengerTextField.setText(passengers.get(position));
-        idTextField.setText(accessIds.get(position));
+        //idTextField.setText(accessIds.get(position));
 
         return rowView;
     };

@@ -304,7 +304,8 @@
                 android:layout_height="wrap_content"
                 android:text="Finish"
                 android:background="@color/button"
-                android:textColor="@color/text" />
+                android:textColor="@color/text"
+                android:enabled="true"/>
 
         </LinearLayout>
 

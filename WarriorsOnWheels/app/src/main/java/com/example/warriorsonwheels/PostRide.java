@@ -206,7 +206,6 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         if(isFilled)
         {
             postRequest();
-            Shared.Data.madeRide = true;
             Intent intent = new Intent(getApplicationContext(), MyRides.class);
             startActivity(intent);
         }
@@ -246,6 +245,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                 try {
                     JSONObject obj = response.getJSONObject("data");
                     Shared.Data.currentRideId = obj.getInt("id");
+                    Shared.Data.madeRide = obj.getInt("id");
                     Log.i("Ride ID", String.valueOf(Shared.Data.currentRideId));
 
                 } catch (JSONException e) {

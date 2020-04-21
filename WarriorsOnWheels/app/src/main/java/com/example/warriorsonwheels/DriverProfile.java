@@ -58,7 +58,7 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
         finishDriverProf = (Button) findViewById(R.id.finishDriver);
 
         //EditText
-        location = (EditText) findViewById(R.id.Loc);
+        //location = (EditText) findViewById(R.id.Loc);
         //accessId = (EditText) findViewById(R.id.accessIDask);
         make = (EditText) findViewById(R.id.make);
         model = (EditText) findViewById(R.id.model);
@@ -185,7 +185,6 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
     public void fillCheck()
     {
         ArrayList<EditText> arrayList = new ArrayList<>();
-        arrayList.add(location);
         arrayList.add(make);
         arrayList.add(model);
         arrayList.add(year);

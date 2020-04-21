@@ -74,7 +74,7 @@ public class Registration extends AppCompatActivity {
             public void onClick(View v) {
 
                 fillCheck();
-
+                finishPassProf.setEnabled(false);
 
             }
         });
@@ -183,6 +183,7 @@ public class Registration extends AppCompatActivity {
         {
             Toast toast = Toast.makeText(getApplicationContext(), "All fields must be filled in properly",Toast.LENGTH_LONG);
             toast.show();
+            finishPassProf.setEnabled(true);
         }
 
     }
@@ -256,6 +257,7 @@ public class Registration extends AppCompatActivity {
         {
             Toast toast = Toast.makeText(getApplicationContext(), "API ERROR",Toast.LENGTH_LONG);
             toast.show();
+            finishPassProf.setEnabled(true);
         }
     }
 }

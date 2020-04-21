@@ -81,6 +81,12 @@ public class DriverInfo extends AppCompatActivity{
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Toast.makeText(getApplicationContext(), "To go back, you have to opt out of ride.", Toast.LENGTH_SHORT).show();
+    }
+
 
     //Menu Options
     @Override
