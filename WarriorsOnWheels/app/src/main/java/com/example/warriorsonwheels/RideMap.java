@@ -211,11 +211,13 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
     public void endRide()
     {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
+
+
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-        //jsonParams.put("access_id","gh4683");
         jsonParams.put("type","2");
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -249,7 +251,10 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void updateRideEvent() {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+
+            String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
+
+
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 

@@ -69,6 +69,8 @@ public class RatePassenger extends AppCompatActivity{
                                 startActivity(intent4);
                             }
                         });
+
+                builder.show();
             }
         });
     }
@@ -120,7 +122,7 @@ public class RatePassenger extends AppCompatActivity{
     public void postRequest()
     {
         //accessId SHOULD BE PASSENGERS
-        String url = Shared.Data.url + "rating/" + Shared.Data.driverAccessID;
+        String url = Shared.Data.url + "rating/" + Shared.Data.AccessIdPass;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
@@ -128,7 +130,7 @@ public class RatePassenger extends AppCompatActivity{
 
 
         jsonParams.put("rating",String.valueOf(RatePassenger.getNumStars()));
-        jsonParams.put("isDriver","false");
+        jsonParams.put("is_driver","false");
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
