@@ -68,7 +68,7 @@ public class DriverInfo extends AppCompatActivity{
 
         getRequest1();
         getRequest2();
-        //getRequest3();
+        getRequest3();
 
 
     }
