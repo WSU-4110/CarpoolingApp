@@ -47,7 +47,7 @@ public enum Shared {
     String url = BuildConfig.API_URL + '/';
 
     int currentRideId;
-    public boolean currentDriver = false;
+    public boolean madeRide = false;
 
     ArrayList<String> currentRidePassengerIds;
 

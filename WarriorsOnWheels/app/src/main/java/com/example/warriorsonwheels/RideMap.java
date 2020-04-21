@@ -6,6 +6,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +53,8 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     ArrayList<String> passengerIds = Shared.Data.currentRidePassengerIds;
     ArrayList<String> addresses = new ArrayList<String>();
     String url;
+    String [] setLatLng;
+    float latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         mapFragment.onResume(); // needed to get the map to display immediately
 
-        if (Shared.Data.currentDriver = true) {
+        if (Shared.Data.madeRide = true) {
             passengerUpdate.setVisibility(View.VISIBLE);
         }
         else if (passengerIds != null) {
@@ -80,8 +84,16 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
             for(int i = 0; i < addresses.size(); i++) {
                 String pickUpLocation = addresses.get(i);
-                setMarker(pickUpLocation);
+                GeocodingLocation locationAddress = new GeocodingLocation();
+                locationAddress.getAddressFromLocation(pickUpLocation,
+                        getApplicationContext(), new GeocoderHandler());
             }
+        }
+        else if (passengerIds.isEmpty()) {
+            //set default marker
+            LatLng wayne = new LatLng(42.357184, -83.069852);
+            mMap.addMarker(new MarkerOptions().position(wayne).title("Default Location: WSU"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne));
         }
 
         endRide.setOnClickListener(new View.OnClickListener() {
@@ -121,14 +133,27 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add default marker at wsu
-        LatLng wayne = new LatLng(42.358694, -83.070194);
-        mMap.addMarker(new MarkerOptions().position(wayne).title("Wayne State University"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne));
+        LatLng latLng = new LatLng(latitude, longitude);
+        mMap.addMarker(new MarkerOptions().position(latLng).title("Set Destination"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
-    public void setMarker(String strAddress)
-    {
-
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            setLatLng =  locationAddress.split(",");
+            latitude = Float.parseFloat(setLatLng[0]);
+            longitude = Float.parseFloat(setLatLng[1]);
+        }
     }
 
     public void getAddress(String id) {
