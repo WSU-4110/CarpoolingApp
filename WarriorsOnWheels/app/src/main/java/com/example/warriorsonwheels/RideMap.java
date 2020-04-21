@@ -211,11 +211,13 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
     public void endRide()
     {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
+
+
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-        //jsonParams.put("access_id","gh4683");
         jsonParams.put("type","2");
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -224,6 +226,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
                 //runs when API called from RestQueue/MySingleton
                 Log.i("POST",response.toString());
+                deleteRide();
             }
         },
 
@@ -249,7 +252,10 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void updateRideEvent() {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+
+            String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
+
+
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
@@ -284,6 +290,44 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
+    public void deleteRide()
+    {
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId;
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+        jsonParams.put("type","0");
+
+
+        JsonObjectRequest delRequest = new JsonObjectRequest(Request.Method.DELETE, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("DELETE",response.toString());
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(delRequest);
     }
 
 }

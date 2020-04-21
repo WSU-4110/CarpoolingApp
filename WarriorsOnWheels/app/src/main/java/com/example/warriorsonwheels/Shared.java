@@ -27,7 +27,7 @@ public enum Shared {
     public int currentDriver = 0;
     public int mySelectedRideId = 0;
 
-    public String AccessIdDriver = "";
+    public String AccessIdDriver = "",AccessIdPass ="";
     public String rideId;
     public String userRideId;
 
