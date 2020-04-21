@@ -332,7 +332,7 @@ module.exports.rideUsersGet = async (req, res) => {
  *
  * @apiParam {String} id specific ride id
  * @apiParam {String[]} users list of users' access IDs.
- * Completely replaces list of users attached to this ride
+ * @apiDescription Completely replaces list of users attached to this ride
  *
  *  * @apiParamExample {json} Request-Example:
 {
@@ -429,6 +429,68 @@ module.exports.rideUsersPost = async (req, res) => {
     }
 
     respond(200, resp, res);
+  } catch (err) {
+    respond(500, err, res);
+  }
+};
+
+/**
+ * @api {delete} /ride/:id/users delete users from ride
+ * @apiName RideUserDelete
+ * @apiGroup ride
+ *
+ * @apiParam {String} id specific ride id
+ * @apiParam {String[]} users list of users' access IDs.
+ * 
+ * @apiDescription removes users if they are on this ride
+ *
+ *  * @apiParamExample {json} Request-Example:
+{
+  "users": ["ab1234"]
+}
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+      deleted: 1
+    }
+}
+ *
+ * @apiError (Error 4xx) {String} 400 Bad Request
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.rideUsersDelete = async (req, res) => {
+  const b = req.body;
+  if (!validate(b, {
+    users: 'array',
+  }, res)) return;
+
+  if (!validate(req.params, {
+    id: 'integer',
+  }, res)) return;
+
+  const rideId = req.params.id;
+  const { users } = req.body;
+
+  try {
+    const userAccessIds = await models.User.findAll({
+      attributes: ['id'],
+      where: {
+        access_id: users,
+      },
+    });
+
+    const ride = await models.Ride.findByPk(rideId);
+    if (!ride) {
+      respond(400, `ride with id ${rideId} not found`, res);
+      return;
+    }
+
+    const deleted = await ride.removeUsers(userAccessIds);
+    respond(200, { deleted }, res);
   } catch (err) {
     respond(500, err, res);
   }
