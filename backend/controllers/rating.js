@@ -83,7 +83,7 @@ module.exports.post = async (req, res) => {
   const b = req.body;
   if (!validate(b, {
     rating: 'integer',
-    is_driver: 'boolean',
+    is_driver: 'string',
   }, res)) return;
 
   try {
@@ -113,7 +113,7 @@ module.exports.post = async (req, res) => {
     const userRatingInsert = await user.createRating({
       userId: user.id,
       value: b.rating,
-      is_driver: b.is_driver,
+      is_driver: (b.is_driver.toLowerCase() === 'true'),
     });
     respond(200, userRatingInsert, res);
   } catch (err) {

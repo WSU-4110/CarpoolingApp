@@ -13,6 +13,11 @@ const verifyDriver = async (header, rideId, res) => {
       include: models.Driver,
     });
 
+  if (!ride) {
+    respond(400, 'Ride not found', res);
+    return false;
+  }
+
   if (decoded.id !== ride.driver.userId) {
     respond(403, 'Forbidden', res);
     return false;
