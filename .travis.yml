@@ -8,7 +8,6 @@ node_js:
   - 12
 env:
   global:
-    - NODE_ENV=production
     - GCP_PROJECT_ID=carpooling-app-271518
     - CLOUD_RUN_SERVICE=carpool-api
     - CLOUD_RUN_REGION=us-central1

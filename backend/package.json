@@ -32,7 +32,6 @@
     "faker": "^4.1.0",
     "mocha": "^7.1.1",
     "nodemon": "^2.0.2",
-    "sequelize-test-helpers": "^1.2.2",
     "sinon": "^9.0.2"
   }
 }
