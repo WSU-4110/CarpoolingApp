@@ -1,6 +1,8 @@
 package com.example.warriorsonwheels;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,15 +19,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +45,7 @@ public class DriverInfo extends AppCompatActivity{
     String url3 = Shared.Data.url + "rating/" + Shared.Data.AccessIdDriver;
     ProgressDialog dialog;
     String driver, car, phone, rating, time, date;
+    boolean rideStarted = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +126,31 @@ public class DriverInfo extends AppCompatActivity{
         {
             //Go to FindPassengers.java
             case R.id.OptOutOfRide:
-                //cancel ride
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(this);
+                builder.setTitle("END RIDE");
+                builder.setMessage("Are you sure you want to opt out of this ride?");
+                builder.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+
+                                if(rideStarted)
+                                {
+                                    Toast.makeText(getApplicationContext(), "The Driver has already started the ride. You can no longer opt out.", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    optOutOfRide();
+
+                                    Intent intent3 = new Intent(getApplicationContext(), RideSearch.class);
+                                    startActivity(intent3);
+                                }
+                            }
+                        });
+                builder.setNegativeButton("No", null);
+                builder.show();
                 break;
             case R.id.DriverRatingButton:
                 Intent intent2 = new Intent(getApplicationContext(), RideMap.class);
@@ -138,6 +168,7 @@ public class DriverInfo extends AppCompatActivity{
             String dateTime = data.getString("date");
             time = dateTime.substring(dateTime.lastIndexOf('T') + 1 , dateTime.length() - 8);
             date = dateTime.substring(0, dateTime.lastIndexOf('T'));
+            rideStarted = !data.getBoolean("pending");
             System.out.println("driver details: " + driver + date + phone);
 
             Date.setText(date);
@@ -264,5 +295,45 @@ public class DriverInfo extends AppCompatActivity{
         };
         RequestQueue rQueue = Volley.newRequestQueue(DriverInfo.this);
         rQueue.add(request);
+    }
+
+    public void optOutOfRide()
+    {
+        String url = Shared.Data.url + "ride/" + Shared.Data.selectedRideId + "/users";
+        ArrayList<String> riders = new ArrayList<>();
+        riders.add(Shared.Data.loggedInuser);
+        Map<String, ArrayList<String>> jsonParams = new HashMap<>();
+
+        jsonParams.put("users", riders);
+        Log.i("after putting",jsonParams.toString());
+
+        JsonObjectRequest delRequest = new JsonObjectRequest(Request.Method.DELETE, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("DELETE",response.toString());
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(delRequest);
     }
 }
