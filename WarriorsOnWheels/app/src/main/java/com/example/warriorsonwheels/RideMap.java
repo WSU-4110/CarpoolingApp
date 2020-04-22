@@ -2,8 +2,6 @@ package com.example.warriorsonwheels;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -11,7 +9,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -35,13 +32,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class RideMap extends FragmentActivity implements OnMapReadyCallback {
+public class RideMap extends FragmentActivity {
 
     private Toolbar tbrMain;
     private GoogleMap mMap;
@@ -56,6 +51,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     String url;
     String [] setLatLng;
     double latitude = 42.357184, longitude = -83.069852;
+    LatLng setMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +64,6 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         endRide = (Button) findViewById(R.id.endRide);
         passengerUpdate = (Button) findViewById(R.id.passengerUpdate);
         //address = (TextView) findViewById(R.id.address);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        mapFragment.onResume(); // needed to get the map to display immediately
 
         if (!Shared.Data.isPassenger) {
             passengerUpdate.setVisibility(View.VISIBLE);
@@ -134,17 +125,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                 getApplicationContext(), new GeocoderHandler());
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add default marker at wsu
-        LatLng latLng = new LatLng (latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(latLng).title("Set Destination"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-    }
-
-    private class GeocoderHandler extends Handler {
+    private class GeocoderHandler extends Handler implements OnMapReadyCallback {
         @Override
         public void handleMessage(Message message) {
             String locationAddress;
@@ -156,13 +137,30 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                 default:
                     locationAddress = null;
             }
-            setLatLng =  locationAddress.split(" ");
+            setLatLng =  locationAddress.split(",");
             latitude = Double.parseDouble(setLatLng[0]);
             longitude = Double.parseDouble(setLatLng[1]);
             Log.i("----------------------------------POST", String.valueOf(latitude));
             Log.i("----------------------------------POST", String.valueOf(longitude));
+            setMarker = new LatLng(latitude, longitude);
+
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+            mapFragment.onResume(); // needed to get the map to display immediately
+        }
+
+        public void onMapReady(GoogleMap googleMap) {
+            mMap = googleMap;
+
+            // Add default marker at wsu
+            LatLng latLng = setMarker;
+            mMap.addMarker(new MarkerOptions().position(latLng).title("Set Destination"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         }
     }
+
+
 
     public void getAddress(String id) {
         url = Shared.Data.url + "user/" + id;

@@ -29,8 +29,8 @@ class GeocodingLocation {
                     if (addressList != null && addressList.size() > 0) {
                         Address address = (Address) addressList.get(0);
                         StringBuilder sb = new StringBuilder();
-                        sb.append(address.getLatitude()).append("\n");
-                        sb.append(address.getLongitude()).append("\n");
+                        sb.append(address.getLatitude()).append(",");
+                        sb.append(address.getLongitude());
                         result = sb.toString();
                     }
                 } catch (IOException e) {
