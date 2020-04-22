@@ -21,5 +21,5 @@ before_install:
 - sudo chmod +x gradlew
 
 script:
-- ./gradlew build --scan
+- ./gradlew build
     
