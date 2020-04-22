@@ -476,19 +476,14 @@ module.exports.rideUsersPost = async (req, res) => {
 };
 
 /**
- * @api {delete} /ride/:id/users delete users from ride
+ * @api {delete} /ride/:id/users/:userId delete users from ride
  * @apiName RideUserDelete
  * @apiGroup ride
  *
  * @apiParam {String} id specific ride id
- * @apiParam {String[]} users list of users' access IDs.
+ * @apiParam {String} userId access ID of user to delete from ride
  *
  * @apiDescription removes users if they are on this ride
- *
- *  * @apiParamExample {json} Request-Example:
-{
-  "users": ["ab1234"]
-}
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -504,17 +499,6 @@ module.exports.rideUsersPost = async (req, res) => {
  *
  */
 module.exports.rideUsersDelete = async (req, res) => {
-  const b = req.body;
-  if (
-    !validate(
-      b,
-      {
-        users: 'array',
-      },
-      res,
-    )
-  ) return;
-
   if (
     !validate(
       req.params,
@@ -526,13 +510,13 @@ module.exports.rideUsersDelete = async (req, res) => {
   ) return;
 
   const rideId = req.params.id;
-  const { users } = req.body;
+  const { userId } = req.params;
 
   try {
-    const userAccessIds = await models.User.findAll({
+    const user = await models.User.findOne({
       attributes: ['id'],
       where: {
-        access_id: users,
+        access_id: userId,
       },
     });
 
@@ -542,14 +526,14 @@ module.exports.rideUsersDelete = async (req, res) => {
       return;
     }
 
-    const deleted = await ride.removeUsers(userAccessIds);
+    const deleted = await ride.removeUser(user);
 
     const driver = await models.Driver.findByPk(ride.dataValues.driverId, {
       include: models.User,
     });
 
     let notification = {};
-    if (userAccessIds.length) {
+    if (deleted > 0) {
       const firebaseRequest = {
         body: {
           message: 'A passenger has opted out of your ride.',
