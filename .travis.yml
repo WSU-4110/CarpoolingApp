@@ -1,6 +1,5 @@
 branches:
   only:
-    - feature/backend
     - master
 language: node_js
 services: 
