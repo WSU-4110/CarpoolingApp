@@ -21,7 +21,5 @@ before_install:
 - sudo chmod +x gradlew
 
 script:
-- ./gradlew clean
-- ./gradlew assembleDebug
-- ./gradlew assembleDebugAndroidTest
+- ./gradlew build --scan
     
