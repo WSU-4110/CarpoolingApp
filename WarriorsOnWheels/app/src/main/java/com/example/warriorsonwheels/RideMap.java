@@ -46,10 +46,11 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     private Toolbar tbrMain;
     private GoogleMap mMap;
     private Button endRide, passengerUpdate;
-    private TextView address;
+    //private TextView addressTextView;
     ProgressDialog dialog;
     String street, city, state, zip;
     //String passengerid;
+    String address;
     ArrayList<String> passengerIds = Shared.Data.currentRidePassengerIds;
     ArrayList<String> addresses = new ArrayList<String>();
     String url;
@@ -66,7 +67,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         //setSupportActionBar(tbrMain);
         endRide = (Button) findViewById(R.id.endRide);
         passengerUpdate = (Button) findViewById(R.id.passengerUpdate);
-        address = (TextView) findViewById(R.id.address);
+        //address = (TextView) findViewById(R.id.address);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -127,6 +128,12 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         });
     }
 
+    public void goToGeocoder(String address) {
+        GeocodingLocation locationAddress = new GeocodingLocation();
+        locationAddress.getAddressFromLocation(address,
+                getApplicationContext(), new GeocoderHandler());
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -158,7 +165,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void getAddress(String id) {
-        url = Shared.Data.url + "users/" + id;
+        url = Shared.Data.url + "user/" + id;
         getRequest();
     }
 
@@ -170,15 +177,16 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
             String city = data.getString("city");
             String state = data.getString("state");
             String zip = data.getString("zip");
-            String address = street + " " + city + " " + state + " " + zip;
-            System.out.println("address: " + street + " " + city + " " + state + " " + zip);
+            address = street + " " + city + " " + state + " " + zip;
+            System.out.println("------------------------------------------address: " + street + " " + city + " " + state + " " + zip);
 
-            addresses.add(address);
+            //addresses.add(address);
+            goToGeocoder(address);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        dialog.dismiss();
+        //dialog.dismiss();
     }
 
     public void getRequest() {
@@ -193,7 +201,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                    //dialog.dismiss();
                 }
             }) {
 
