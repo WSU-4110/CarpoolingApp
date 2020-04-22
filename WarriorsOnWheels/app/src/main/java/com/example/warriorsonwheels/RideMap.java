@@ -54,7 +54,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     ArrayList<String> addresses = new ArrayList<String>();
     String url;
     String [] setLatLng;
-    float latitude, longitude;
+    double latitude = 42.357184, longitude = -83.069852;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +73,17 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         mapFragment.onResume(); // needed to get the map to display immediately
 
-        if (Shared.Data.madeRide == Shared.Data.currentRideId) {
+        if (!Shared.Data.isPassenger) {
             passengerUpdate.setVisibility(View.VISIBLE);
             endRide.setVisibility(View.VISIBLE);
+            endRide.setText("RIDE FINISHED");
         }
-        else if (passengerIds != null) {
+
+        if (passengerIds != null) {
             for(int i = 0; i < passengerIds.size(); i++) {
                 String id = passengerIds.get(i);
                 getAddress(id);
+                Log.i("----------------------------------POST",passengerIds.get(i).toString());
             }
 
             for(int i = 0; i < addresses.size(); i++) {
@@ -88,13 +91,8 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                 GeocodingLocation locationAddress = new GeocodingLocation();
                 locationAddress.getAddressFromLocation(pickUpLocation,
                         getApplicationContext(), new GeocoderHandler());
+                Log.i("----------------------------------POST",addresses.get(i).toString());
             }
-        }
-        else if (passengerIds.isEmpty()) {
-            //set default marker
-            LatLng wayne = new LatLng(42.357184, -83.069852);
-            mMap.addMarker(new MarkerOptions().position(wayne).title("Default Location: WSU"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(wayne));
         }
 
         endRide.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +101,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                 switch(v.getId())
                 {
                     case R.id.endRide:
-                        if(Shared.Data.madeRide == Shared.Data.currentRideId)
+                        if(!Shared.Data.isPassenger)
                         {
                             endRide();
                             Intent intent1 = new Intent(getApplicationContext(), RatePassenger.class);
@@ -134,7 +132,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add default marker at wsu
-        LatLng latLng = new LatLng(latitude, longitude);
+        LatLng latLng = new LatLng (latitude, longitude);
         mMap.addMarker(new MarkerOptions().position(latLng).title("Set Destination"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
@@ -152,8 +150,10 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                     locationAddress = null;
             }
             setLatLng =  locationAddress.split(",");
-            latitude = Float.parseFloat(setLatLng[0]);
-            longitude = Float.parseFloat(setLatLng[1]);
+            latitude = Double.parseDouble(setLatLng[0]);
+            longitude = Double.parseDouble(setLatLng[1]);
+            Log.i("----------------------------------POST", String.valueOf(latitude));
+            Log.i("----------------------------------POST", String.valueOf(longitude));
         }
     }
 
@@ -183,6 +183,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
     public void getRequest() {
         {
+
             StringRequest request = new StringRequest(url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String string) {
@@ -211,11 +212,13 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
     public void endRide()
     {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
+
+
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
-        //jsonParams.put("access_id","gh4683");
         jsonParams.put("type","2");
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -224,6 +227,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 
                 //runs when API called from RestQueue/MySingleton
                 Log.i("POST",response.toString());
+                deleteRide();
             }
         },
 
@@ -249,7 +253,10 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void updateRideEvent() {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+
+            String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
+
+
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
@@ -284,6 +291,44 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(postRequest);
+    }
+
+    public void deleteRide()
+    {
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId;
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+        jsonParams.put("type","0");
+
+
+        JsonObjectRequest delRequest = new JsonObjectRequest(Request.Method.DELETE, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("DELETE",response.toString());
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(delRequest);
     }
 
 }

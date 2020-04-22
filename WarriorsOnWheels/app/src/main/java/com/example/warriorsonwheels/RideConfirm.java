@@ -85,6 +85,7 @@ public class RideConfirm extends AppCompatActivity implements View.OnClickListen
                 Date.setText(dateTime.substring(0,dateTime.lastIndexOf('T')));
                 DepTime.setText(dateTime.substring(dateTime.lastIndexOf('T') + 1 , dateTime.length() - 8));
                 passengers.add(dataobj.getString("passenger_count"));
+                Shared.Data.AccessIdDriver = dataobj.getString("access_id");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -154,7 +155,7 @@ public class RideConfirm extends AppCompatActivity implements View.OnClickListen
         switch(v.getId())
         {
             case R.id.confirmbutton:
-
+                Shared.Data.isPassenger = true;
                 getRiders();
                 riders.add(Shared.Data.loggedInuser);
                 postRequest();

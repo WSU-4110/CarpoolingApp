@@ -50,12 +50,10 @@ public class RatePassenger extends AppCompatActivity{
         RatePassenger.setNumStars(5);
 
         //Initialize DriverImage
-    }
 
-    public void onClick(View v) {
-        switch(v.getId())
-        {
-            case R.id.rateBtn:
+        rateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 postRequest();
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(v.getContext());
@@ -71,9 +69,18 @@ public class RatePassenger extends AppCompatActivity{
                                 startActivity(intent4);
                             }
                         });
+
+                builder.show();
+            }
+        });
+    }
+
+    /*public void onClick(View v) {
+        switch(v.getId())
+        {
         }
 
-    }
+    }*/
 
     //Create Menu
     @Override
@@ -115,7 +122,7 @@ public class RatePassenger extends AppCompatActivity{
     public void postRequest()
     {
         //accessId SHOULD BE PASSENGERS
-        String url = Shared.Data.url + "rating/" + Shared.Data.driverAccessID;
+        String url = Shared.Data.url + "rating/" + Shared.Data.AccessIdPass;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
@@ -123,7 +130,7 @@ public class RatePassenger extends AppCompatActivity{
 
 
         jsonParams.put("rating",String.valueOf(RatePassenger.getNumStars()));
-        jsonParams.put("isDriver","false");
+        jsonParams.put("is_driver","false");
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {

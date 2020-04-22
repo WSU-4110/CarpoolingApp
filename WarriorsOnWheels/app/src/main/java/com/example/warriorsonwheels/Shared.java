@@ -27,11 +27,11 @@ public enum Shared {
     public int currentDriver = 0;
     public int mySelectedRideId = 0;
 
-    public String AccessIdDriver = "";
+    public String AccessIdDriver = "",AccessIdPass ="";
     public String rideId;
     public String userRideId;
 
-    public boolean isDriverCheck = false;
+    public boolean isDriverCheck = false, isPassenger = false;
     public int profPic;
 
     public String userName, userId, userLoc, phNumber,driverAccessID, token, loggedInuser;

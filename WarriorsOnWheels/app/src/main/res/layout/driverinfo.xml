@@ -39,7 +39,7 @@
             android:id="@+id/imageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/headshot"
+            app:srcCompat="@drawable/profilepic2"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"/>
         <LinearLayout

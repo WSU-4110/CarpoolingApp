@@ -207,7 +207,8 @@
                 android:layout_marginRight="20dp"
                 android:hint="Ex: MI"
                 android:maxLength="2"
-                android:textColorHint="@color/textHint" />
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"/>
 
             <EditText
                 android:id="@+id/zip"

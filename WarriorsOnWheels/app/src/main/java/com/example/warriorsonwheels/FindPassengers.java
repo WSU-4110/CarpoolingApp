@@ -101,6 +101,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 //if(!dataobj.toString().equals("{}")) {
                 passengers.add(dataobj.getString("name"));
                 accessIds.add(dataobj.getString("access_id"));
+                Shared.Data.AccessIdPass = dataobj.getString("access_id");
                 //}
             }
 
@@ -343,7 +344,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
     public void deleteRide()
     {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.mySelectedRideId;
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
         jsonParams.put("type","0");
@@ -382,7 +383,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
     public void postRideEvent()
     {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.mySelectedRideId + "/events";
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
