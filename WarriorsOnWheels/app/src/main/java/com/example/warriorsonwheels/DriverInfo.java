@@ -299,13 +299,10 @@ public class DriverInfo extends AppCompatActivity{
 
     public void optOutOfRide()
     {
-        String url = Shared.Data.url + "ride/" + Shared.Data.selectedRideId + "/users";
-        ArrayList<String> riders = new ArrayList<>();
-        riders.add(Shared.Data.loggedInuser);
-        Map<String, ArrayList<String>> jsonParams = new HashMap<>();
+        String url = Shared.Data.url +  "ride/" + Shared.Data.selectedRideId + "/users/" + Shared.Data.loggedInuser;
+        Map<String, String> jsonParams = new HashMap<String, String>();
+        jsonParams.put("type","0");
 
-        jsonParams.put("users", riders);
-        Log.i("after putting",jsonParams.toString());
 
         JsonObjectRequest delRequest = new JsonObjectRequest(Request.Method.DELETE, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
@@ -335,5 +332,6 @@ public class DriverInfo extends AppCompatActivity{
 //
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(delRequest);
+
     }
 }
