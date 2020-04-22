@@ -549,7 +549,7 @@ module.exports.rideUsersDelete = async (req, res) => {
     });
 
     let notification = {};
-    if (userAccessIds.length) {
+    if (deleted > 0) {
       const firebaseRequest = {
         body: {
           message: 'A passenger has opted out of your ride.',
