@@ -5,53 +5,20 @@ const DriverModel = require('./Driver');
 const RideModel = require('./Ride');
 const RatingModel = require('./Rating');
 const RideEventModel = require('./RideEvent');
+const AddressModel = require('./Address');
+const config = require('../config/config');
 
-let sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS, {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    pool: {
-      min: 0,
-      max: 5,
-      idle: 10000,
-    },
-  },
-);
-
-if (process.env.NODE_ENV === 'development') {
-  sequelize = new Sequelize(
-    process.env.DB_NAME || 'warriors_on_wheels',
-    'root',
-    'root', {
-      host: '127.0.0.1',
-      dialect: 'mysql',
-      dialectOptions: {
-        typeCast(field, next) { // for reading from database
-          if (field.type === 'DATETIME') {
-            return field.string();
-          }
-          return next();
-        },
-      },
-      // timezone: 'America/Detroit', // for writing to database
-      pool: {
-        min: 0,
-        max: 5,
-        idle: 10000,
-      },
-    },
-  );
+let sequelize = new Sequelize(config.development);
+if (process.env.NODE_ENV === 'production') {
+  sequelize = new Sequelize(config.production);
 }
-
-const _sync = () => module.exports.sequelize.sync({ force: true });
 
 const User = UserModel(sequelize, Sequelize);
 const Driver = DriverModel(sequelize, Sequelize);
 const Ride = RideModel(sequelize, Sequelize);
 const Rating = RatingModel(sequelize, Sequelize);
 const RideEvent = RideEventModel(sequelize, Sequelize);
+const Address = AddressModel(sequelize, Sequelize);
 
 User.hasOne(Driver, { onDelete: 'cascade' });
 Driver.belongsTo(User);
@@ -74,12 +41,15 @@ RideEvent.belongsTo(Ride);
 User.hasMany(RideEvent);
 RideEvent.belongsTo(User);
 
+User.hasOne(Address);
+Address.belongsTo(User);
+
 module.exports = {
   sequelize,
-  _sync,
   User,
   Driver,
   Ride,
   Rating,
   RideEvent,
+  Address,
 };

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class UserProfile extends AppCompatActivity {
     private TextView carMake, drivRating,licensePlate;
 
     private Toolbar tbrMain;
+    private LinearLayout driverProfLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +63,26 @@ public class UserProfile extends AppCompatActivity {
         //licensePlate = (TextView)findViewById(R.id.licensePlate);
         drivRating = (TextView)findViewById(R.id.drivRating);
 
+        driverProfLayout = (LinearLayout) findViewById(R.id.driverProfLayout);
+        driverProfLayout.setVisibility(View.INVISIBLE);
+
 
         getUserData();
-        getDriverData();
+
+        if(Shared.Data.isDriverCheck = true)
+        {
+            driverProfLayout.setVisibility(View.VISIBLE);
+            getDriverData();
+        }
+
+
         Log.i("LOGGED IN USER",Shared.Data.loggedInuser);
 
     }
 
     public void getUserData()
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/user/"+Shared.Data.loggedInuser;
+        String url = Shared.Data.url + "user/" + Shared.Data.loggedInuser;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -86,17 +98,10 @@ public class UserProfile extends AppCompatActivity {
                             name.setText(dataobj.getString("name"));
                             accessID.setText(dataobj.getString("access_id"));
                             phNum.setText(dataobj.getString("phone_number"));
-                            primLoc.setText(dataobj.getString("location"));
+                            primLoc.setText(dataobj.getString("street") + " " + dataobj.getString("city") + " " + dataobj.getString("state") + " " + dataobj.getString("zip"));
+                            passRating.setText(dataobj.getString("rating"));
 
-                            if (dataobj.getString("average").equals("null"))
-                            {
-                                passRating.setText("No Rating");
-                            }
-                            else
-                            {
-                                passRating.setText(dataobj.getString("rating"));
 
-                            }
 
 
                         } catch (JSONException e) {
@@ -126,7 +131,7 @@ public class UserProfile extends AppCompatActivity {
 
     public void getDriverData()
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/driver/"+Shared.Data.loggedInuser;
+        String url = Shared.Data.url + "driver/" + Shared.Data.loggedInuser;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -138,16 +143,8 @@ public class UserProfile extends AppCompatActivity {
 
                             JSONObject dataobj = response.getJSONObject("data");
                             carMake.setText(dataobj.getString("car"));
+                            drivRating.setText(dataobj.getString("rating"));
 
-                            if (dataobj.getString("average").equals("null"))
-                            {
-                                drivRating.setText("No Rating");
-                            }
-                            else
-                            {
-                                drivRating.setText(dataobj.getString("rating"));
-
-                            }
 
 
                         } catch (JSONException e) {
@@ -157,7 +154,8 @@ public class UserProfile extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                carMake.setText("NOT A DRIVER");
+                                //carMake.setText("NOT A DRIVER");
+                                driverProfLayout.setVisibility(View.INVISIBLE);
                                 Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
 
 

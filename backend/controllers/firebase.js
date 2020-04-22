@@ -9,7 +9,7 @@ admin.initializeApp({
   databaseURL: 'https://carpooling-app-271518.firebaseio.com',
 });
 
-module.exports.post = async (req, res) => {
+module.exports.post = async (req, res) => { // eslint-disable-line no-unused-vars
   const users = await models.User.findAll({
     where: {
       access_id: {
@@ -17,7 +17,8 @@ module.exports.post = async (req, res) => {
       },
     },
   });
-  const tokens = users.map(u => u.dataValues.device_token).filter(t => t !== null && t !== undefined);
+  const tokens = users.map(u => u.dataValues.device_token).filter(t => t !== null
+&& t !== undefined);
   const message = {
     notification: {
       title: 'Carpool App',

@@ -57,6 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        Log.d(TAG, "Remote Message: " + remoteMessage.toString());
         // [START_EXCLUDE]
         // There are two types of messages data messages and notification messages. Data messages
         // are handled

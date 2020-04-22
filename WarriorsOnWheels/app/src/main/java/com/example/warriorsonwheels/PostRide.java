@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -21,6 +22,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -49,7 +51,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
 
     //Variables
     private EditText departureText, arrivalText;
-    private EditText passengerCount;
+    private Spinner passengerCount;
     private Button shareRideButton, dateBtn, timeBtn;
     private Toolbar tbrMain;
 
@@ -70,7 +72,13 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         //Set Variables
         departureText = (EditText) findViewById(R.id.departureText);
         arrivalText = (EditText)findViewById(R.id.arrivalText);
-        passengerCount = (EditText)findViewById(R.id.passengerCount);
+
+        String[] arraySpinner = new String[] {"1", "2", "3", "4", "5", "6"};
+        passengerCount = (Spinner) findViewById(R.id.passengerCount);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        passengerCount.setAdapter(adapter);
+
         shareRideButton = (Button) findViewById(R.id.shareRideButton);
         dateBtn = (Button) findViewById(R.id.dateBtn);
         timeBtn = (Button) findViewById(R.id.timeBtn);
@@ -181,15 +189,36 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         {
             //Go to FindPassengers.java
             case R.id.shareRideButton:
-                postRequest();
-                Intent intent = new Intent(getApplicationContext(), FindPassengers.class);
-                startActivity(intent);
+                fillCheck();
         }
+    }
+
+    public void fillCheck()
+    {
+        ArrayList<EditText> arrayList = new ArrayList<>();
+        arrayList.add(departureText);
+        arrayList.add(arrivalText);
+        arrayList.add(leaveDate);
+        arrayList.add((leaveTime));
+
+        boolean isFilled = Shared.Data.checkFilled(arrayList);
+
+        if(isFilled)
+        {
+            postRequest();
+            Intent intent = new Intent(getApplicationContext(), MyRides.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(PostRide.this, "Fill all fields", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void postRequest()
     {
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
+        String url = Shared.Data.url + "ride";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
@@ -204,7 +233,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         jsonParams.put("time",leaveTime.getText().toString());
         jsonParams.put("departure_location",departureText.getText().toString());
         jsonParams.put("arrival_location",arrivalText.getText().toString());
-        jsonParams.put("passenger_count",passengerCount.getText().toString());
+        jsonParams.put("passenger_count",passengerCount.getSelectedItem().toString());
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
@@ -216,6 +245,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                 try {
                     JSONObject obj = response.getJSONObject("data");
                     Shared.Data.currentRideId = obj.getInt("id");
+                    Shared.Data.madeRide = obj.getInt("id");
                     Log.i("Ride ID", String.valueOf(Shared.Data.currentRideId));
 
                 } catch (JSONException e) {

@@ -1,16 +1,17 @@
-
 const moment = require('moment');
 const respond = require('../util/respond');
 const models = require('../models/index');
 const validate = require('../util/validate');
 const jwt = require('../util/jwt');
+const firebase = require('./firebase');
 
 /**
  * @api {get} /ride list rides
  * @apiName RideGet
  * @apiGroup ride
  *
- * @apiParam (Query string) {String} start date and time of departure in format "YYYY-MM-DD hh:mm:ss"
+ * @apiParam (Query string) {String} start date and time of departure
+ * in format "YYYY-MM-DD hh:mm:ss"
  * @apiParam (Query string) {String} end date and time of departure in format "YYYY-MM-DD hh:mm:ss"
  *
  * @apiExample {curl} Example usage:
@@ -54,21 +55,24 @@ module.exports.get = async (req, res) => {
         },
       },
     });
-    const list = rides.filter(r => {
-      const date = moment(`${r.dataValues.date}`, fmt);
-      if (start && date < start) return false;
-      if (end && date > end) return false;
-      return true;
-    }).map(ride => {
-      const { access_id } = ride.driver.user;
-      const driverCar = ride.driver.car;
-      delete ride.dataValues.driver;
-      return {
-        ...ride.dataValues,
-        access_id,
-        car: driverCar,
-      };
-    });
+    const list = rides
+      .filter((r) => {
+        const date = moment(`${r.dataValues.date}`, fmt);
+        if (start && date < start) return false;
+        if (end && date > end) return false;
+        return true;
+      })
+      .map((ride) => {
+        const { driver } = ride.dataValues;
+        const { access_id } = driver.dataValues.user.dataValues; // eslint-disable-line camelcase
+
+        delete ride.dataValues.driver;
+        return {
+          ...ride.dataValues,
+          access_id,
+          car: driver.dataValues.car,
+        };
+      });
     respond(200, list, res);
   } catch (err) {
     respond(500, err, res);
@@ -105,9 +109,15 @@ module.exports.get = async (req, res) => {
  *
  */
 module.exports.getById = async (req, res) => {
-  if (!validate(req.params, {
-    id: 'integer',
-  }, res)) return;
+  if (
+    !validate(
+      req.params,
+      {
+        id: 'integer',
+      },
+      res,
+    )
+  ) return;
 
   try {
     const [ride] = await models.Ride.findAll({
@@ -128,20 +138,19 @@ module.exports.getById = async (req, res) => {
       return;
     }
 
-    const { access_id } = ride.driver.user;
-    const driverCar = ride.driver.car;
+    const { driver } = ride.dataValues;
+    const { access_id } = driver.dataValues.user.dataValues; // eslint-disable-line camelcase
     delete ride.dataValues.driver;
     const obj = {
       ...ride.dataValues,
       access_id,
-      car: driverCar,
+      car: driver.dataValues.car,
     };
     respond(200, obj || {}, res);
   } catch (err) {
     respond(500, err, res);
   }
 };
-
 
 /**
  * @api {post} /ride create ride
@@ -186,14 +195,19 @@ module.exports.getById = async (req, res) => {
  */
 module.exports.post = async (req, res) => {
   const b = req.body;
-  if (!validate(b, {
-    // driver: 'string',
-    date: 'date',
-    time: 'string',
-    departure_location: 'string',
-    arrival_location: 'string',
-    passenger_count: 'integer',
-  }, res)) return;
+  if (
+    !validate(
+      b,
+      {
+        date: 'date',
+        time: 'string',
+        departure_location: 'string',
+        arrival_location: 'string',
+        passenger_count: 'integer',
+      },
+      res,
+    )
+  ) return;
 
   const decoded = await jwt.decode(req.headers.authorization);
 
@@ -300,9 +314,15 @@ module.exports.delete = async (req, res) => {
  *
  */
 module.exports.rideUsersGet = async (req, res) => {
-  if (!validate(req.params, {
-    id: 'integer',
-  }, res)) return;
+  if (
+    !validate(
+      req.params,
+      {
+        id: 'integer',
+      },
+      res,
+    )
+  ) return;
 
   const rideId = req.params.id;
 
@@ -313,7 +333,7 @@ module.exports.rideUsersGet = async (req, res) => {
       return;
     }
     const rideUserSelect = await ride.getUsers();
-    const resp = rideUserSelect.map(r => {
+    const resp = rideUserSelect.map((r) => {
       delete r.dataValues.password;
       return r;
     });
@@ -329,7 +349,8 @@ module.exports.rideUsersGet = async (req, res) => {
  * @apiGroup ride
  *
  * @apiParam {String} id specific ride id
- * @apiParam {String[]} users list of users' access IDs. Completely replaces list of users attached to this ride
+ * @apiParam {String[]} users list of users' access IDs.
+ * @apiDescription Completely replaces list of users attached to this ride
  *
  *  * @apiParamExample {json} Request-Example:
 {
@@ -363,13 +384,25 @@ module.exports.rideUsersGet = async (req, res) => {
  */
 module.exports.rideUsersPost = async (req, res) => {
   const b = req.body;
-  if (!validate(b, {
-    users: 'array',
-  }, res)) return;
+  if (
+    !validate(
+      b,
+      {
+        users: 'array',
+      },
+      res,
+    )
+  ) return;
 
-  if (!validate(req.params, {
-    id: 'integer',
-  }, res)) return;
+  if (
+    !validate(
+      req.params,
+      {
+        id: 'integer',
+      },
+      res,
+    )
+  ) return;
 
   const rideId = req.params.id;
   const { users } = req.body;
@@ -382,7 +415,7 @@ module.exports.rideUsersPost = async (req, res) => {
       },
     });
 
-    if (users.length != userAccessIds.length) {
+    if (users.length !== userAccessIds.length) {
       respond(400, 'invalid list of user access IDs', res);
       return;
     }
@@ -392,17 +425,125 @@ module.exports.rideUsersPost = async (req, res) => {
       respond(400, `ride with id ${rideId} not found`, res);
       return;
     }
-    if (ride.passenger_count < userAccessIds.length) {
-      respond(400, `Number of users added exceeds maximum passenger count: ${ride.passenger_count}`, res);
+
+    const drivers = await Promise.all(
+      userAccessIds.map(async (user) => user.getDriver()),
+    );
+    if (
+      drivers
+        .filter((d) => d !== null && d !== undefined)
+        .find((d) => d.dataValues.id === ride.dataValues.driverId)
+    ) {
+      respond(400, 'Driver cannot be a passenger of his/her own ride', res);
       return;
     }
-    await ride.setUsers(userAccessIds.map(u => u.id));
+
+    if (ride.passenger_count < userAccessIds.length) {
+      respond(
+        400,
+        `Number of users added exceeds maximum passenger count: ${ride.passenger_count}`,
+        res,
+      );
+      return;
+    }
+
+    await ride.setUsers(userAccessIds.map((u) => u.id));
     const rideUserSelect = await ride.getUsers();
-    const resp = rideUserSelect.map(r => {
+    const resp = {};
+    resp.users = rideUserSelect.map((r) => {
       delete r.dataValues.password;
       return r;
     });
+    const driver = await models.Driver.findByPk(ride.dataValues.driverId, {
+      include: models.User,
+    });
+
+    if (userAccessIds.length) {
+      const firebaseRequest = {
+        body: {
+          message: 'A passenger was added to your ride!',
+          users: [driver.dataValues.user.dataValues.access_id],
+        },
+      };
+      const notification = await firebase.post(firebaseRequest, null);
+      resp.notification = notification;
+    }
+
     respond(200, resp, res);
+  } catch (err) {
+    respond(500, err, res);
+  }
+};
+
+/**
+ * @api {delete} /ride/:id/users/:userId delete users from ride
+ * @apiName RideUserDelete
+ * @apiGroup ride
+ *
+ * @apiParam {String} id specific ride id
+ * @apiParam {String} userId access ID of user to delete from ride
+ *
+ * @apiDescription removes users if they are on this ride
+ *
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 200 OK
+{
+    "error": false,
+    "data": {
+      deleted: 1
+    }
+}
+ *
+ * @apiError (Error 4xx) {String} 400 Bad Request
+ * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
+ *
+ */
+module.exports.rideUsersDelete = async (req, res) => {
+  if (
+    !validate(
+      req.params,
+      {
+        id: 'integer',
+      },
+      res,
+    )
+  ) return;
+
+  const rideId = req.params.id;
+  const { userId } = req.params;
+
+  try {
+    const user = await models.User.findOne({
+      attributes: ['id'],
+      where: {
+        access_id: userId,
+      },
+    });
+
+    const ride = await models.Ride.findByPk(rideId);
+    if (!ride) {
+      respond(400, `ride with id ${rideId} not found`, res);
+      return;
+    }
+
+    const deleted = await ride.removeUser(user);
+
+    const driver = await models.Driver.findByPk(ride.dataValues.driverId, {
+      include: models.User,
+    });
+
+    let notification = {};
+    if (deleted > 0) {
+      const firebaseRequest = {
+        body: {
+          message: 'A passenger has opted out of your ride.',
+          users: [driver.dataValues.user.dataValues.access_id],
+        },
+      };
+      notification = await firebase.post(firebaseRequest, null);
+    }
+
+    respond(200, { deleted, notification }, res);
   } catch (err) {
     respond(500, err, res);
   }

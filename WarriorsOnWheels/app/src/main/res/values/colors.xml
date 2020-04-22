@@ -7,4 +7,6 @@
     <color name="heading_2">#609f89</color>
     <color name="button">#609f89</color>
     <color name="textHint">#aba287</color>
+    <color name="error">#ff0000</color>
+    <color name="transparent">#00000000</color>
 </resources>

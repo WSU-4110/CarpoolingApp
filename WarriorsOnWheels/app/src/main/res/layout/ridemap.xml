@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".DuringRide">
+    tools:context=".RideMap">
 
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
@@ -33,14 +33,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="50dp"
                 android:text="Destination: "
                 android:textColor="@color/heading_1"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/city"
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="(city name)"
@@ -73,17 +73,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/passengerUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/button"
+                android:layout_marginLeft="20dp"
+                android:text="Picked Up Passenger"
+                android:textColor="@color/text"
+                android:visibility="invisible"/>
+
+            <Space
+                android:layout_width="100dp"
+                android:layout_height="match_parent"/>
 
             <Button
                 android:id="@+id/endRide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="300dp"
-                android:layout_marginTop="30dp"
                 android:background="@color/button"
                 android:text="Ride Ended"
-                android:textColor="@color/text" />
+                android:textColor="@color/text"
+               />
 
         </LinearLayout>
     </LinearLayout>

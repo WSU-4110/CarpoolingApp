@@ -43,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
 
+        if(Shared.Data.loggedInuser != null)
+        {
+            Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
+            startActivity(intent1);
+        }
+
 
     }
 
@@ -57,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.registerButton:
-                Intent intent1 = new Intent (getApplicationContext(), PassengerProfile.class);
+                Intent intent1 = new Intent (getApplicationContext(), Registration.class);
                 startActivity(intent1);
                 break;
 

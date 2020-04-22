@@ -1,15 +1,11 @@
 branches:
   only:
-    - feature/backend
     - master
 language: node_js
 services: 
   - docker
 node_js:  
   - 12
-cache:
-  directories:
-    - backend/node_modules
 env:
   global:
     - NODE_ENV=production
@@ -19,7 +15,7 @@ env:
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install: 
   - cd backend/
-  - openssl aes-256-cbc -K $encrypted_252072f00533_key -iv $encrypted_252072f00533_iv -in key.json.enc -out key.json -d
+  - openssl aes-256-cbc -K $encrypted_b8f3373f0840_key -iv $encrypted_b8f3373f0840_iv -in carpooling-app-271518-66e2ce40cf23.json.enc -out key.json -d
   - curl https://sdk.cloud.google.com | bash > /dev/null
   - source "$HOME/google-cloud-sdk/path.bash.inc" > /dev/null
   - gcloud auth activate-service-account --key-file=key.json

@@ -43,6 +43,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     private Button refresh, start, cancel;
     private ListView passList;
     ArrayList<String> passengers = new ArrayList<String>();
+    ArrayList<String> accessIds = new ArrayList<String>();
     //int rideId = Shared.Data.currentRideId;
 
     String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/";
@@ -80,6 +81,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 refresh.setClickable(true);
                 refresh.setOnClickListener(FindPassengers.this);
                 passengers.get(position);
+                accessIds.get(position);
             }
         });
     }
@@ -98,10 +100,12 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 JSONObject dataobj = ridesArray.getJSONObject(i);
                 //if(!dataobj.toString().equals("{}")) {
                 passengers.add(dataobj.getString("name"));
+                accessIds.add(dataobj.getString("access_id"));
+                Shared.Data.AccessIdPass = dataobj.getString("access_id");
                 //}
             }
 
-            PassengerListAdapter whatever = new PassengerListAdapter(this, passengers);
+            PassengerListAdapter whatever = new PassengerListAdapter(this, passengers, accessIds);
             passList.setAdapter(whatever);
 
         } catch (JSONException e) {
@@ -113,7 +117,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
     public void getRiders()
     {
-        url = url + Shared.Data.currentRideId + "/users";
+        url = url + Shared.Data.mySelectedRideId + "/users";
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
@@ -151,7 +155,8 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
             case R.id.start:
                 postRideEvent();
-                Intent intent2 = new Intent(getApplicationContext(), DuringRide.class);
+                Shared.Data.currentRidePassengerIds  = accessIds;
+                Intent intent2 = new Intent(getApplicationContext(), RideMap.class);
                 startActivity(intent2);
                 break;
 
@@ -174,8 +179,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                             DialogInterface dialog, int option)
                     {
 
-                        //TO DO
-                        // ADD ABILITY TO CANCEL RIDE
+                        deleteRide();
 
                         Intent intent3 = new Intent(getApplicationContext(), HomePage.class);
                         startActivity(intent3);
@@ -192,6 +196,39 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 });
         builder.show();
     }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this);
+        builder.setTitle("END RIDE");
+        builder.setMessage("Are you sure you want to Leave this page? It will cancel your ride.");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(
+                            DialogInterface dialog, int option)
+                    {
+
+                        deleteRide();
+
+                        Intent intent3 = new Intent(getApplicationContext(), MyRides.class);
+                        startActivity(intent3);
+                    }
+                });
+        builder.setNegativeButton("No",
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(
+                            DialogInterface dialog, int option)
+                    {
+                        System.out.println("Ride will not be cancelled.");
+                        finish();
+                    }
+                });
+        builder.show();
+    }
+
 
     //Create Menu
     @Override
@@ -210,18 +247,93 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         switch (item.getItemId())
         {
             case R.id.homePage:
-                Intent intent1 = new Intent(getApplicationContext(), HomePage.class);
-                startActivity(intent1);
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(this);
+                builder.setTitle("END RIDE");
+                builder.setMessage("Are you sure you want to Leave this page? It will cancel your ride.");
+                builder.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+
+                                deleteRide();
+
+                                Intent intent3 = new Intent(getApplicationContext(), HomePage.class);
+                                startActivity(intent3);
+                            }
+                        });
+                builder.setNegativeButton("No",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+                                System.out.println("Ride will not be cancelled.");
+                            }
+                        });
+                builder.show();
                 return true;
 
             case R.id.userProfilePage:
-                Intent intent2 = new Intent(getApplicationContext(), UserProfile.class);
-                startActivity(intent2);
+                AlertDialog.Builder builder2 =
+                        new AlertDialog.Builder(this);
+                builder2.setTitle("END RIDE");
+                builder2.setMessage("Are you sure you want to Leave this page? It will cancel your ride.");
+                builder2.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+
+                                deleteRide();
+
+                                Intent intent3 = new Intent(getApplicationContext(), UserProfile.class);
+                                startActivity(intent3);
+                            }
+                        });
+                builder2.setNegativeButton("No",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+                                System.out.println("Ride will not be cancelled.");
+                            }
+                        });
+                builder2.show();
                 return true;
 
             case R.id.userLoginPage:
-                Intent intent3 = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent3);
+                AlertDialog.Builder builder3 =
+                        new AlertDialog.Builder(this);
+                builder3.setTitle("END RIDE");
+                builder3.setMessage("Are you sure you want to Leave this page? It will cancel your ride.");
+                builder3.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+
+                                deleteRide();
+
+                                Intent intent3 = new Intent(getApplicationContext(), Login.class);
+                                startActivity(intent3);
+                            }
+                        });
+                builder3.setNegativeButton("No",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(
+                                    DialogInterface dialog, int option)
+                            {
+                                System.out.println("Ride will not be cancelled.");
+                            }
+                        });
+                builder3.show();
                 return true;
 
             default:
@@ -230,16 +342,53 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    public void deleteRide()
+    {
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId;
+
+        Map<String, String> jsonParams = new HashMap<String, String>();
+        jsonParams.put("type","0");
+
+
+        JsonObjectRequest delRequest = new JsonObjectRequest(Request.Method.DELETE, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("DELETE",response.toString());
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(delRequest);
+    }
+
 
     public void postRideEvent()
     {
-        String url = Shared.Data.url + "/ride/" + Shared.Data.currentRideId + "/events";
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
 
         jsonParams.put("type","0");
-
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {

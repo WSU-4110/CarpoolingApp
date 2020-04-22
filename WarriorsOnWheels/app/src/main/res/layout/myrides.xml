@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".RateDriver">
+    tools:context=".RideSearch" >
 
     <LinearLayout
         android:orientation="vertical"
@@ -28,42 +27,51 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rate Your Driver!"
+            android:text="Your Rides:"
             android:textColor="@color/heading_1"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"/>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/profilepic2"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"/>
-
-        <RatingBar
-            android:id="@+id/driverRatingBar"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/nomyride"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:numStars="5"
-            android:progressTint="@color/heading_2"
-            android:progressBackgroundTint="@color/text"
-            android:layout_marginTop="20dp"/>
+            android:text="You have no active rides."
+            android:textColor="@color/heading_1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            />
 
         <Button
-            android:id="@+id/rateDriver"
+            android:id="@+id/postRide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Rate"
-            android:background="@color/button"
+            android:text="Share a Ride"
             android:textColor="@color/text"
-            android:layout_marginTop="20dp"
-            android:onClick="onClick"/>
+            android:background="@color/button"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:enabled="true"
+            android:visibility="gone"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/myRideList"
+            android:layout_weight="5"
+            android:choiceMode="singleChoice"
+            android:layout_marginLeft="10dp"
+            />
+
+
+
     </LinearLayout>
 
 </ScrollView>
+

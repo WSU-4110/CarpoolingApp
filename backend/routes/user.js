@@ -8,7 +8,7 @@ router.get('/', auth, controller.get);
 router.get('/:accessId', auth, controller.getById);
 router.post('/', controller.post);
 router.put('/:accessId', controller.put);
-router.delete('/:accessId', auth, controller.delete);
+router.delete('/', auth, controller.delete);
 router.post('/auth', controller.auth);
 router.post('/token', auth, controller.devicePost);
 

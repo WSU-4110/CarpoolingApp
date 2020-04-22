@@ -13,6 +13,11 @@ const verifyDriver = async (header, rideId, res) => {
       include: models.Driver,
     });
 
+  if (!ride) {
+    respond(400, 'Ride not found', res);
+    return false;
+  }
+
   if (decoded.id !== ride.driver.userId) {
     respond(403, 'Forbidden', res);
     return false;
@@ -82,7 +87,8 @@ module.exports.get = async (req, res) => {
  * @apiName RideEventPost
  * @apiGroup rideEvent
  *
- * @apiDescription This call manages the ride session timeline. Only the driver associated with this ride can create events.
+ * @apiDescription This call manages the ride session timeline.
+ * Only the driver associated with this ride can create events.
  *
  * Types:
  *
@@ -193,6 +199,7 @@ module.exports.post = async (req, res) => {
     });
     passengers.push(driver.dataValues.user);
 
+    let pickedUp;
     switch (type) {
     // caller wants to begin ride
     case 0:
@@ -249,7 +256,7 @@ module.exports.post = async (req, res) => {
         return;
       }
 
-      const [pickedUp] = await models.RideEvent.findAll({
+      [pickedUp] = await models.RideEvent.findAll({
         where: {
           rideId: req.params.id,
           userId: userDbId,
@@ -291,7 +298,7 @@ module.exports.post = async (req, res) => {
       time: moment(),
       type,
       userId: type === 1 ? userDbId : null,
-      rideId: parseInt(req.params.id),
+      rideId: parseInt(req.params.id, 10),
     }, { transaction: t });
 
     const firebaseRequest = {

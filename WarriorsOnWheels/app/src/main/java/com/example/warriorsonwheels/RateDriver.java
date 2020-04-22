@@ -42,13 +42,10 @@ public class RateDriver extends AppCompatActivity{
         RateDriver = (RatingBar) findViewById(R.id.driverRatingBar);
         Rate = (Button) findViewById(R.id.rateDriver);
         //Initialize DriverImage
-    }
 
-    public void onClick(View v) {
-        //add rating to DataBase
-        switch(v.getId())
-        {
-            case R.id.rateDriver:
+        Rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 postRequest();
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(v.getContext());
@@ -64,9 +61,14 @@ public class RateDriver extends AppCompatActivity{
                                 startActivity(intent4);
                             }
                         });
-        }
-        
+                builder.show();
+            }
+        });
+
+
     }
+
+
 
     //Create Menu
     @Override
@@ -108,13 +110,13 @@ public class RateDriver extends AppCompatActivity{
     public void postRequest()
     {
 
-        String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/rating/"+Shared.Data.AccessIdDriver;
+        String url = Shared.Data.url + "rating/" + Shared.Data.AccessIdDriver;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
 
         jsonParams.put("rating",String.valueOf(RateDriver.getNumStars()));
-        jsonParams.put("isDriver","true");
+        jsonParams.put("is_driver","true");
 
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
