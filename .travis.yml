@@ -1,19 +1,32 @@
 branches:
-only: a7unittest
+only: a7unittest  
 language: android
-dist: trusty
 android:
-    components:
-        - platform-tools
-        - tools
-        - build-tools-29.0.2
-        - android-29
-        - extra-google-google_play_services
-        
-    before_install:
-        - cd WarriorsOnWheels
-        - chmod +x gradlew
-                
-    script:
-        ./gradlew build connectedCheck
+components:
+- platform-tools
+- tools
+
+# The BuildTools version used by your project
+- build-tools-29.0.2
+
+# The SDK version used to compile your project
+- android-29
+
+# Additional components
+- extra-google-google_play_services
+- extra-google-m2repository
+- extra-android-m2repository
+
+before_install:
+- sudo chmod +x gradlew
+
+
+#
+before_script:
+- cd WarriorsOnWheels
+
+script:
+- ./gradlew clean
+- ./gradlew assembleDebug
+- ./gradlew assembleDebugAndroidTest
     
