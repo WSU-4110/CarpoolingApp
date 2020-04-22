@@ -321,7 +321,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                             {
 
                                 deleteRide();
-
+                                Shared.Data.token = null;
                                 Intent intent3 = new Intent(getApplicationContext(), Login.class);
                                 startActivity(intent3);
                             }

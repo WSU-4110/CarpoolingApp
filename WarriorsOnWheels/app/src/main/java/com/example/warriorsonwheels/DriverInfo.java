@@ -111,6 +111,7 @@ public class DriverInfo extends AppCompatActivity{
                 return true;
 
             case R.id.userLoginPage:
+                Shared.Data.token = null;
                 Intent intent3 = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent3);
                 return true;

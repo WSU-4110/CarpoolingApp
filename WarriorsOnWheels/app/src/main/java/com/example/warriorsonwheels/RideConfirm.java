@@ -140,6 +140,7 @@ public class RideConfirm extends AppCompatActivity implements View.OnClickListen
                 return true;
 
             case R.id.userLoginPage:
+                Shared.Data.token = null;
                 Intent intent3 = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent3);
                 return true;
