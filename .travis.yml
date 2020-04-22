@@ -2,7 +2,9 @@ branches:
   only:
     - feature/backend
     - master
+    - a7unittest
 language: node_js
+
 services: 
   - docker
 node_js:  
@@ -33,3 +35,19 @@ script:
   - docker build -t $IMAGE_NAME .
   - docker push $IMAGE_NAME
   - gcloud run deploy "${CLOUD_RUN_SERVICE}" --image="${IMAGE_NAME}" --platform=managed --region="${CLOUD_RUN_REGION}" --allow-unauthenticated
+ 
+
+
+language: android
+dist: trusty
+android:
+    components:
+        - platform-tools
+        - tools
+        - build-tools-29.0.2
+        - android-29
+        - extra-google-google_play_services
+        
+    script:
+        - ./gradlew build testDebugUnitTest
+    
