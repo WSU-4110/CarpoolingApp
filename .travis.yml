@@ -21,7 +21,7 @@ before_install:
 - sudo chmod +x gradlew
 
 script:
-- ./gradlew build > /dev/null
+- ./gradlew build
        
 before_cache:
   - rm -f  $HOME/WarriorsOnWheels/.gradle/caches/modules-2/modules-2.lock
