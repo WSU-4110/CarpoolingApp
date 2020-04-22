@@ -46,7 +46,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     ArrayList<String> accessIds = new ArrayList<String>();
     //int rideId = Shared.Data.currentRideId;
 
-    //String newUrl = " ";
     ProgressDialog dialog;
 
     @Override
