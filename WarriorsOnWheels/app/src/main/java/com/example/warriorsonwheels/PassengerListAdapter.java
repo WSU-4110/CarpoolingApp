@@ -31,7 +31,7 @@ public class PassengerListAdapter extends ArrayAdapter {
 
         //this code gets references to objects in the listview_row.xml file
         TextView passengerTextField = (TextView) rowView.findViewById(R.id.passName);
-        TextView idTextField = (TextView) rowView.findViewById(R.id.accessID);
+        //TextView idTextField = (TextView) rowView.findViewById(R.id.accessID);
 
         //this code sets the values of the objects to values from the arrays
         passengerTextField.setText(passengers.get(position));

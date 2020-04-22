@@ -22,17 +22,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/idName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:text="Access Id:"
-            android:textColor="@color/heading_2"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -47,17 +36,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:hint="(insert name)"
-            android:textColor="@color/textHint"
-            android:textSize="21sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:hint="(insert access id)"
             android:textColor="@color/textHint"
             android:textSize="21sp"
             android:textStyle="bold" />
