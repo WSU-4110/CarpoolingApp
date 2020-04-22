@@ -46,7 +46,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     ArrayList<String> accessIds = new ArrayList<String>();
     //int rideId = Shared.Data.currentRideId;
 
-    String url = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride/";
     //String newUrl = " ";
     ProgressDialog dialog;
 
@@ -81,7 +80,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 refresh.setClickable(true);
                 refresh.setOnClickListener(FindPassengers.this);
                 passengers.get(position);
-                accessIds.get(position);
             }
         });
 
@@ -114,12 +112,11 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
 
-        //dialog.dismiss();
     }
 
     public void getRiders()
     {
-        url = url + Shared.Data.mySelectedRideId + "/users";
+        String url = Shared.Data.url + Shared.Data.mySelectedRideId + "/users";
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
@@ -151,8 +148,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         {
             case R.id.refresh:
                 getRiders();
-//                Intent intent1 = new Intent(getApplicationContext(), FindPassengers.class);
-//                startActivity(intent1);
                 break;
 
             case R.id.start:

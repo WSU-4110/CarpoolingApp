@@ -186,7 +186,6 @@ public class RideMap extends FragmentActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //dialog.dismiss();
     }
 
     public void getRequest() {
@@ -201,7 +200,6 @@ public class RideMap extends FragmentActivity {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
-                    //dialog.dismiss();
                 }
             }) {
 
