@@ -118,7 +118,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
 
     public void getRiders()
     {
-        String url = Shared.Data.url + Shared.Data.mySelectedRideId + "/users";
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/users";
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
