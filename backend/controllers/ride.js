@@ -481,7 +481,7 @@ module.exports.rideUsersPost = async (req, res) => {
  * @apiGroup ride
  *
  * @apiParam {String} id specific ride id
- * @apiParam {String userId access ID of user to delete from ride
+ * @apiParam {String} userId access ID of user to delete from ride
  *
  * @apiDescription removes users if they are on this ride
  *
