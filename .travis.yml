@@ -17,10 +17,8 @@ android:
     - extra-android-m2repository
 
 before_install:
-- sudo chmod +x gradlew
-
-before_script:
 - cd WarriorsOnWheels
+- sudo chmod +x gradlew
 
 script:
 - ./gradlew clean
