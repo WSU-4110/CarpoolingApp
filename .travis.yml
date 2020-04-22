@@ -1,60 +1,56 @@
 jobs:
-  include: 
-    - language: android
-      android:
-        components:
-        - platform-tools
-        - tools
-        # The BuildTools version used by your project
-        - build-tools-29.0.2
-
-        # The SDK version used to compile your project
-        - android-29
-
-        # Additional components
-        - extra-google-google_play_services
-        - extra-google-m2repository
-        - extra-android-m2repository
-
-      before_install:
-      - cd WarriorsOnWheels
-      - sudo chmod +x gradlew
-
-      script:
-      - ./gradlew test
-            
-      before_cache:
-        - rm -f  $HOME/WarriorsOnWheels/.gradle/caches/modules-2/modules-2.lock
-        - rm -fr $HOME/WarriorsOnWheels/.gradle/caches/*/plugin-resolution/
-      cache:
-        directories:
-          - $HOME/WarriorsOnWheels/.gradle/caches/
-          - $HOME/WarriorsOnWheels/.gradle/wrapper/
-          - $HOME/WarriorsOnWheels/.android/build-cache
-    - language: node_js
-      services: 
-        - docker
-      node_js:  
-        - 12
-      env:
-        - GCP_PROJECT_ID=carpooling-app-271518
-        - CLOUD_RUN_SERVICE=carpool-api
-        - CLOUD_RUN_REGION=us-central1
-        - CLOUDSDK_CORE_DISABLE_PROMPTS=1
-      before_install: 
-        - cd backend/
-        - openssl aes-256-cbc -K $encrypted_b8f3373f0840_key -iv $encrypted_b8f3373f0840_iv -in carpooling-app-271518-66e2ce40cf23.json.enc -out key.json -d
-        - curl https://sdk.cloud.google.com | bash > /dev/null
-        - source "$HOME/google-cloud-sdk/path.bash.inc" > /dev/null
-        - gcloud auth activate-service-account --key-file=key.json
-        - gcloud auth configure-docker
-        - gcloud config set project "${GCP_PROJECT_ID}"
-      install: 
-        - npm install
-      script: 
-        - npm test
-        - npm run doc
-        - export IMAGE_NAME=us.gcr.io/carpooling-app-271518/api:$TRAVIS_COMMIT
-        - docker build -t $IMAGE_NAME .
-        - docker push $IMAGE_NAME
-        - gcloud run deploy "${CLOUD_RUN_SERVICE}" --image="${IMAGE_NAME}" --platform=managed --region="${CLOUD_RUN_REGION}" --allow-unauthenticated
+  include:
+  - language: android
+    android:
+      components:
+      - platform-tools
+      - tools
+      - build-tools-29.0.2
+      - android-29
+      - extra-google-google_play_services
+      - extra-google-m2repository
+      - extra-android-m2repository
+    env:
+      secure: fM0C1nnHP63T/wggPgL9B1BcnNnD6vajug04hvZtVKV8hZrXmq5otXxfl8hrzrTbbDOn8UN8OqvWf6D/YmwMImp2We5l0TnJmTQKHjbewIXi08EXfqZ+eR1nPLL9yQ4wTHPS6mt1jQ0T01D4WxVAe0tsxyfEGZ5km/qtJGyknh18/BIET6sQlo7aq17vcmieo/A3bhxM82lm3/FIIQrw2+icN2rHcUPdJ+if2tR5JIwww0G3VUnGYcCv06s4GjAa6+6/fd9UoE2gp+IEbAuvCAZ+xGiIxJPJZzg59paWPeBnSvKjNU8ML9wnUpDd3gYWe4utCpRM2onldHesAqqc4zVqVvHYKDYsv+VMcq0iuwunm3x+1aT7iA5nW4YeYdOPmJ2iD5+K96wyv2AVj1xy7dpaBz4jjW6+2fDH9zFyh5lORGlJssoF1EhhObfOp1cRGpxTNM8Gba0lF9X10VaP5OnENgj5bTKcWP4JpmTGjWFpru/ZJx9BfKQpr41y+HLp75YsJ21rHJXEuRf/kFAlYc8uY1aXJ2hT3zFht+7deDTIiudSgvH3wDwfZGRSkl4aOYHX5/sKUsjueqXEBAQh6LJzyF9sESIVnwseTbvBXeVYCKVs6a933ylMGoSehq1bueu4E/wRg2uIMIOJ8LnC+3bsJj75ceT8zwKwXZb+i2Q=
+    before_install:
+    - cd WarriorsOnWheels
+    - sudo chmod +x gradlew
+    script:
+    - "./gradlew test"
+    before_cache:
+    - rm -f  $HOME/WarriorsOnWheels/.gradle/caches/modules-2/modules-2.lock
+    - rm -fr $HOME/WarriorsOnWheels/.gradle/caches/*/plugin-resolution/
+    cache:
+      directories:
+      - "$HOME/WarriorsOnWheels/.gradle/caches/"
+      - "$HOME/WarriorsOnWheels/.gradle/wrapper/"
+      - "$HOME/WarriorsOnWheels/.android/build-cache"
+  - language: node_js
+    services:
+    - docker
+    node_js:
+    - 12
+    env:
+      GCP_PROJECT_ID: carpooling-app-271518
+      CLOUD_RUN_SERVICE: carpool-api
+      CLOUD_RUN_REGION: us-central1
+      CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+    before_install:
+    - cd backend/
+    - openssl aes-256-cbc -K $encrypted_b8f3373f0840_key -iv $encrypted_b8f3373f0840_iv
+      -in carpooling-app-271518-66e2ce40cf23.json.enc -out key.json -d
+    - curl https://sdk.cloud.google.com | bash > /dev/null
+    - source "$HOME/google-cloud-sdk/path.bash.inc" > /dev/null
+    - gcloud auth activate-service-account --key-file=key.json
+    - gcloud auth configure-docker
+    - gcloud config set project "${GCP_PROJECT_ID}"
+    install:
+    - npm install
+    script:
+    - npm test
+    - npm run doc
+    - export IMAGE_NAME=us.gcr.io/carpooling-app-271518/api:$TRAVIS_COMMIT
+    - docker build -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+    - gcloud run deploy "${CLOUD_RUN_SERVICE}" --image="${IMAGE_NAME}" --platform=managed
+      --region="${CLOUD_RUN_REGION}" --allow-unauthenticated
