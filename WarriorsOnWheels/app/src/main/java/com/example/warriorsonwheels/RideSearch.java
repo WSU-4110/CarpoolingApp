@@ -179,4 +179,92 @@ public class RideSearch extends AppCompatActivity{
         }
     }
 
+    public void onClick(View v) {
+
+        switch(v.getId())
+        {
+            case R.id.confirmbutton:
+
+                url2 = url1 + "/" + Shared.Data.selectedRideId + "/users";
+                getRiders();
+                riders.add(Shared.Data.loggedInuser);
+                for(int i = 0; i < riders.size(); i++)
+                {
+                    Log.i("----------------------riders: ", riders.get(i));
+                }
+                postRequest();
+                Intent intent3 = new Intent(getApplicationContext(), DriverInfo.class);
+                startActivity(intent3);
+                //Intent intent2 = new Intent(getApplicationContext(), RateDriver.class);
+                //startActivity(intent2);
+                break;
+        }
+    }
+
+    public void postRequest()
+    {
+        Map<String, ArrayList<String>> jsonParams = new HashMap<>();
+
+        jsonParams.put("users", riders);
+        Log.i("after putting",jsonParams.toString());
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url2, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                //runs when API called from RestQueue/MySingleton
+                Log.i("POST",response.toString());
+
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+        };
+//
+//        //Makes API Call
+        MySingleton.getInstance(this).addToRequestQueue(postRequest);
+
+    }
+
+    public void getRiders()
+    {
+        StringRequest request = new StringRequest(url2, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                parseJsonData2(string);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+
+        };
+        RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
+        rQueue.add(request);
+    };
+
 }

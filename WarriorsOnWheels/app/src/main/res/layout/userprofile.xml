@@ -289,7 +289,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/profileppic1" />
+            app:srcCompat="@drawable/profilepic2" />
 
         <LinearLayout
             android:layout_width="200dp"
