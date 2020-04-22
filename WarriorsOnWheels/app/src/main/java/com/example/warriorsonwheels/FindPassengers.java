@@ -65,9 +65,9 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         cancel = (Button) findViewById(R.id.cancel);
         passList = (ListView) findViewById(R.id.passList);
 
-        dialog = new ProgressDialog(this);
+        /*dialog = new ProgressDialog(this);
         dialog.setMessage("Loading....");
-        dialog.show();
+        dialog.show();*/
 
         // --------------------------------------------------------------
         //
@@ -84,6 +84,8 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 accessIds.get(position);
             }
         });
+
+        getRiders();
     }
 
     // --------------------------------------------------------------
@@ -100,7 +102,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 JSONObject dataobj = ridesArray.getJSONObject(i);
                 //if(!dataobj.toString().equals("{}")) {
                 passengers.add(dataobj.getString("name"));
-                accessIds.add(dataobj.getString("access_id"));
+                //accessIds.add(dataobj.getString("access_id"));
                 Shared.Data.AccessIdPass = dataobj.getString("access_id");
                 //}
             }
@@ -112,7 +114,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
 
-        dialog.dismiss();
+        //dialog.dismiss();
     }
 
     public void getRiders()
@@ -127,7 +129,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
+                //dialog.dismiss();
             }
         }) {
 
