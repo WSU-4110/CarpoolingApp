@@ -48,6 +48,7 @@ module.exports.get = async (req, res) => {
 
   try {
     const rides = await models.Ride.findAll({
+      order: [['date', 'ASC']],
       include: {
         model: models.Driver,
         include: {
