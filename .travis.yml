@@ -24,6 +24,7 @@ before_install:
 install: 
   - npm install
 script: 
+  - npm test
   - npm run doc
   - export IMAGE_NAME=us.gcr.io/carpooling-app-271518/api:$TRAVIS_COMMIT
   - docker build -t $IMAGE_NAME .
