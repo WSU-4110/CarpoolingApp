@@ -23,3 +23,11 @@ before_install:
 script:
 - ./gradlew build --scan
     
+before_cache:
+  - rm -f  $HOME/WarriorsOnWheels/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/WarriorsOnWheels/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/WarriorsOnWheels/.gradle/caches/
+    - $HOME/WarriorsOnWheels/.gradle/wrapper/
+    - $HOME/WarriorsOnWheels/.android/build-cache
