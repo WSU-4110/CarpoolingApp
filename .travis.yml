@@ -59,4 +59,3 @@ matrix:
         - docker build -t $IMAGE_NAME .
         - docker push $IMAGE_NAME
         - gcloud run deploy "${CLOUD_RUN_SERVICE}" --image="${IMAGE_NAME}" --platform=managed --region="${CLOUD_RUN_REGION}" --allow-unauthenticated
-          only: a7unittest  
