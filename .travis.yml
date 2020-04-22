@@ -21,7 +21,7 @@ jobs:
       - sudo chmod +x gradlew
 
       script:
-      - ./gradlew connectedAndroidTest
+      - ./gradlew test
             
       before_cache:
         - rm -f  $HOME/WarriorsOnWheels/.gradle/caches/modules-2/modules-2.lock
