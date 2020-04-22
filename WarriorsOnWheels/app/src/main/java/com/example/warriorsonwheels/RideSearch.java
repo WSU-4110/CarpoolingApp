@@ -116,7 +116,7 @@ public class RideSearch extends AppCompatActivity{
             for(int i = 0; i < ridesArray.length(); ++i) {
                 JSONObject dataobj = ridesArray.getJSONObject(i);
 
-                //if(!dataobj.toString().equals("{}")) {
+                if(dataobj.getBoolean("pending")) {
                     String dateTime = dataobj.getString("date");
                     arrives.add(dataobj.getString("arrival_location"));
                     dates.add(dateTime.substring(0,dateTime.lastIndexOf('T')));
@@ -124,7 +124,7 @@ public class RideSearch extends AppCompatActivity{
                     rideId.add(dataobj.getInt("id"));
                     driverId.add(dataobj.getInt("driverId"));
                     drivers.add(dataobj.getString("access_id"));    
-                //}
+                }
 
             }
 
