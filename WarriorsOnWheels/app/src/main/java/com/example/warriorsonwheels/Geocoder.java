@@ -41,15 +41,13 @@ class GeocodingLocation {
                     if (result != null) {
                         message.what = 1;
                         Bundle bundle = new Bundle();
-                        result = "Address: " + locationAddress +
-                                "\n\nLatitude and Longitude :\n" + result;
+                        result = result;
                         bundle.putString("address", result);
                         message.setData(bundle);
                     } else {
                         message.what = 1;
                         Bundle bundle = new Bundle();
-                        result = "Address: " + locationAddress +
-                                "\n Unable to get Latitude and Longitude for this address location.";
+                        result = "42.357184 -83.069852";
                         bundle.putString("address", result);
                         message.setData(bundle);
                     }

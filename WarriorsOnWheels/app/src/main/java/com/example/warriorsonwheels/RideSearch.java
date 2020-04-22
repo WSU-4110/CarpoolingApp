@@ -135,7 +135,7 @@ public class RideSearch extends AppCompatActivity implements View.OnClickListene
 
             }
 
-            CustomListAdapter whatever = new CustomListAdapter(this, departs, times, arrives, dates, passengers);
+            CustomListAdapter whatever = new CustomListAdapter(this, times, arrives, dates);
             rideList.setAdapter(whatever);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -87,13 +87,13 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                 Log.i("----------------------------------POST",passengerIds.get(i).toString());
             }
 
-            for(int i = 0; i < addresses.size(); i++) {
+            /*for(int i = 0; i < addresses.size(); i++) {
                 String pickUpLocation = addresses.get(i);
                 GeocodingLocation locationAddress = new GeocodingLocation();
                 locationAddress.getAddressFromLocation(pickUpLocation,
                         getApplicationContext(), new GeocoderHandler());
                 Log.i("----------------------------------POST",addresses.get(i).toString());
-            }
+            }*/
         }
 
         endRide.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +156,7 @@ public class RideMap extends FragmentActivity implements OnMapReadyCallback {
                 default:
                     locationAddress = null;
             }
-            setLatLng =  locationAddress.split(",");
+            setLatLng =  locationAddress.split(" ");
             latitude = Double.parseDouble(setLatLng[0]);
             longitude = Double.parseDouble(setLatLng[1]);
             Log.i("----------------------------------POST", String.valueOf(latitude));
