@@ -13,8 +13,9 @@ android:
         - extra-google-google_play_services
         
     before_install:
+        - cd WarriorsOnWheels
         - chmod +x gradlew
                 
     script:
-        - ./gradlew build
+        ./gradlew build connectedCheck
     
