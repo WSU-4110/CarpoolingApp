@@ -43,9 +43,10 @@
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="(city name)"
-                android:textColor="@color/heading_1"
-                android:textSize="25dp"
+                android:hint="destination"
+                android:textColorHint="@color/textHint"
+                android:textColor="@color/text"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
         </LinearLayout>

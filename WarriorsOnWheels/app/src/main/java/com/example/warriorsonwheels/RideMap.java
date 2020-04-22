@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -41,7 +42,7 @@ public class RideMap extends FragmentActivity {
     private Toolbar tbrMain;
     private GoogleMap mMap;
     private Button endRide, passengerUpdate;
-    //private TextView addressTextView;
+    private TextView setDestination;
     ProgressDialog dialog;
     String street, city, state, zip;
     //String passengerid;
@@ -63,7 +64,7 @@ public class RideMap extends FragmentActivity {
         //setSupportActionBar(tbrMain);
         endRide = (Button) findViewById(R.id.endRide);
         passengerUpdate = (Button) findViewById(R.id.passengerUpdate);
-        //address = (TextView) findViewById(R.id.address);
+        setDestination = (TextView) findViewById(R.id.address);
 
         if (!Shared.Data.isPassenger) {
             passengerUpdate.setVisibility(View.VISIBLE);
@@ -177,6 +178,7 @@ public class RideMap extends FragmentActivity {
             String zip = data.getString("zip");
             address = street + " " + city + " " + state + " " + zip;
             System.out.println("------------------------------------------address: " + street + " " + city + " " + state + " " + zip);
+            setDestination.setText(address);
 
             //addresses.add(address);
             goToGeocoder(address);
