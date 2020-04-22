@@ -2,6 +2,7 @@ branches:
  
 only: a7unittest
 language: android
+install: true
 dist: trusty
 android:
     components:
@@ -12,5 +13,5 @@ android:
         - extra-google-google_play_services
         
     script:
-        - ./gradlew build testDebugUnitTest
+        - ./gradlew build
     
