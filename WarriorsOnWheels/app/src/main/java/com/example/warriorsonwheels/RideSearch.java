@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -34,21 +33,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RideSearch extends AppCompatActivity{
+public class RideSearch extends AppCompatActivity implements View.OnClickListener{
 
+    private Button confirmButton;
     private Toolbar tbrMain;
     private ListView rideList;
+    ArrayList<String> departs = new ArrayList<String>();
     ArrayList<String> times= new ArrayList<String>();
     ArrayList<String> arrives = new ArrayList<String>();
     ArrayList<String> dates = new ArrayList<String>();
+    ArrayList<String> passengers = new ArrayList<String>();
     ArrayList<Integer> rideId = new ArrayList<Integer>();
     ArrayList<Integer> driverId = new ArrayList<Integer>();
+    ArrayList<String> riders = new ArrayList<String>();
 
     ArrayList<String> drivers = new ArrayList<String>();
-    String url1 = Shared.Data.url + "ride";
+    String url1 = "https://carpool-api-r64g2xh4xa-uc.a.run.app/ride";
     String url2 = "";
     ProgressDialog dialog;
-    TextView noRide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +61,13 @@ public class RideSearch extends AppCompatActivity{
         tbrMain = findViewById(R.id.tbrMain);
         setSupportActionBar(tbrMain);
 
-        noRide = findViewById(R.id.noride);
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading....");
         dialog.show();
+
+        //Buttons
+        confirmButton = (Button) findViewById(R.id.confirmbutton);
+        confirmButton.setClickable(false);
 
         rideList = (ListView) findViewById(R.id.rideList);
         rideList.setSelector(R.drawable.list_item_selector);
@@ -71,13 +76,13 @@ public class RideSearch extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
+                confirmButton.setClickable(true);
+                confirmButton.setOnClickListener(RideSearch.this);
                 Shared.Data.selectedDriverId = driverId.get(position);
                 Shared.Data.selectedRideId = rideId.get(position);
                 Shared.Data.AccessIdDriver = drivers.get(position);
                 view.getFocusables(position);
                 view.setSelected(true);
-                Intent intent3 = new Intent(getApplicationContext(), RideConfirm.class);
-                startActivity(intent3);
             }
         });
 
@@ -116,24 +121,22 @@ public class RideSearch extends AppCompatActivity{
             for(int i = 0; i < ridesArray.length(); ++i) {
                 JSONObject dataobj = ridesArray.getJSONObject(i);
 
-                if(dataobj.getBoolean("pending")) {
+                //if(!dataobj.toString().equals("{}")) {
+                    departs.add(dataobj.getString("departure_location"));
                     String dateTime = dataobj.getString("date");
                     arrives.add(dataobj.getString("arrival_location"));
                     dates.add(dateTime.substring(0,dateTime.lastIndexOf('T')));
                     times.add(dateTime.substring(dateTime.lastIndexOf('T') + 1 , dateTime.length() - 8));
+                    passengers.add(dataobj.getString("passenger_count"));
                     rideId.add(dataobj.getInt("id"));
                     driverId.add(dataobj.getInt("driverId"));
-                    drivers.add(dataobj.getString("access_id"));    
-                }
+                    drivers.add(dataobj.getString("access_id"));
+                //}
 
             }
 
-            CustomListAdapter whatever = new CustomListAdapter(this, times, arrives, dates);
+            CustomListAdapter whatever = new CustomListAdapter(this, departs, times, arrives, dates, passengers);
             rideList.setAdapter(whatever);
-            if(times.size() == 0)
-            {
-                noRide.setVisibility(View.VISIBLE);
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -141,6 +144,24 @@ public class RideSearch extends AppCompatActivity{
         dialog.dismiss();
     }
 
+    void parseJsonData2(String jsonString) {
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONArray ridesArray = object.getJSONArray("data");
+
+            for(int i = 0; i < ridesArray.length(); ++i) {
+                JSONObject dataobj = ridesArray.getJSONObject(i);
+                //if(!dataobj.toString().equals("{}")) {
+                riders.add(dataobj.getString("access_id"));
+                //}
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        dialog.dismiss();
+    }
 
     //Create Menu
     @Override
