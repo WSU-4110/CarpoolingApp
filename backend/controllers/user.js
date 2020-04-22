@@ -1,4 +1,4 @@
-const models = require('../models/index');
+// const models = require('../models/index');
 const respond = require('../util/respond');
 const jwt = require('../util/jwt');
 const validate = require('../util/validate');
@@ -34,7 +34,7 @@ const validate = require('../util/validate');
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.get = async (req, res) => {
+module.exports.get = (models) => async (req, res) => {
   try {
     const users = await models.User.findAll({
       include: models.Address,
@@ -87,7 +87,7 @@ module.exports.get = async (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.getById = async (req, res) => {
+module.exports.getById = (models) => async (req, res) => {
   try {
     const { accessId } = req.params;
 
@@ -175,7 +175,7 @@ module.exports.getById = async (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.post = async (req, res) => {
+module.exports.post = (models) => async (req, res) => {
   const b = req.body;
   if (!validate(b, {
     access_id: 'string',
@@ -252,7 +252,7 @@ module.exports.post = async (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.auth = async (req, res) => {
+module.exports.auth = (models) => async (req, res) => {
   const b = req.body;
   if (!validate(b, { access_id: 'string', password: 'string' }, res)) return;
 
@@ -317,7 +317,7 @@ module.exports.auth = async (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.put = async (req, res) => {
+module.exports.put = (models) => async (req, res) => {
   try {
     const [updated] = await models.User.update(req.body, {
       where: {
@@ -352,7 +352,7 @@ module.exports.put = async (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.delete = async (req, res) => {
+module.exports.delete = (models) => async (req, res) => {
   try {
     const decoded = await jwt.decode(req.headers.authorization);
     const deleted = await models.User.destroy({
@@ -386,7 +386,7 @@ module.exports.delete = async (req, res) => {
  * @apiError (Error 5xx) {String} 500 Internal Error: {error message}
  *
  */
-module.exports.devicePost = async (req, res) => {
+module.exports.devicePost = (models) => async (req, res) => {
   try {
     const decoded = await jwt.decode(req.headers.authorization);
     const [updated] = await models.User.update({ device_token: req.body.token }, {

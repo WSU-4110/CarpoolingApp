@@ -25,7 +25,7 @@ module.exports = function respond(statusCode, message, res) {
       error: (message.stack ? message.stack : message),
     };
     // }
-    console.log('ERROR: ', JSON.stringify(message));
+    console.log('ERROR: ', JSON.stringify(msg));
   }
   if (statusCode === 204) {
     res.status(statusCode).send();
