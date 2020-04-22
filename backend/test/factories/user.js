@@ -10,7 +10,20 @@ const data = (props = {}) => {
     state: 'MI',
     zip: faker.address.zipCode(),
     password: faker.random.alphaNumeric(10),
-  }; return { ...defaultProps, ...props };
+    validPassword: () => true,
+  };
+  defaultProps.dataValues = {
+    address: {
+      dataValues: {
+        street: defaultProps.street,
+        city: defaultProps.city,
+        state: defaultProps.state,
+        zip: defaultProps.street,
+      },
+    },
+  };
+
+  return { ...defaultProps, ...props };
 };
 
 module.exports = (props = {}) => data(props);
