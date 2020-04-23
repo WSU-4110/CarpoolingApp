@@ -16,6 +16,7 @@ jobs:
     - sudo chmod +x gradlew
     script:
     - "./gradlew test"
+    - "./gradlew assembleRelease"
     deploy:
       provider: releases
       skip_cleanup: true
@@ -23,7 +24,7 @@ jobs:
       api_key:
         secure: fFxTVS0bTk1MVCYOqa3IwfONDJFEkO9QMiLXRcWb0EelHaiKEXRGsMTzLHKLef/luRbfFJAYQpv/ui9WvqKM2vnVqtdoUGU9wNxrkKhfChGCFmu+S8JdgxamqXbSyXPewkAzhkvD+R1Vx7LeSv4R0JKcGHMYm8T/wwch5RvtDC8b2P0KLObA+8XKdXijdUAZ89tpM77N7Lo3bEEVnkyQIjFpz9hdDLKP2kTRvxfbECmFYpkpRNL89/8lz1a93C7eisX2GDREI2ucjffQ9wnpsNBtqE2HSG6+ToAvhfsXzmqpk9Y43xIhUhMT9M42EjNTnH+t8HytHA5rSG/O8j9icjVpEYL7IM7wwrAun4VPwVYrK8Ugh4divjTGbdmO9wV2xcdpNF3vR4KjQbq8VtHyp/nviB+H19NWuLvvkBunAYUNzRqE7p10X/+bZCTdEcI/L7+2mc5QLdzXJr6I9/ancPyqBOmvZ1KHuEyOUO7bnE3dYOfxhJmCFVESZNf8OMmeg4q4SYR0fcdhbxEO7YnZgp7nPzaMFQbeRLVgy03NSlPEZNsGTdyH2vTveSkErF8Md16YQ78w/3xdMB2j2f4Lq+SAlUArSTNRXfzw4/VjuaTOGJUgnQRk7imNFE8LpkEAnNVKC9ySMNN3h+kD5XoGryFg07jdQcl3TfWRRbDdMas=
       file_glob: true
-      file: WarriorsOnWheels/app/release/*
+      file: /home/travis/build/WSU-4110/CarpoolingApp/WarriorsOnWheels/app/build/outputs/apk/release/*
       on:
         repo: WSU-4110/CarpoolingApp
         tags: true

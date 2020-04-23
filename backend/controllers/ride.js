@@ -210,6 +210,11 @@ module.exports.post = async (req, res) => {
     )
   ) return;
 
+  if (b.passenger_count < 1) {
+    respond(400, 'passenger_count must be greater than 0', res);
+    return;
+  }
+
   const decoded = await jwt.decode(req.headers.authorization);
 
   const [driver] = await models.Driver.findAll({
@@ -345,24 +350,18 @@ module.exports.rideUsersGet = async (req, res) => {
 };
 
 /**
- * @api {post} /ride/:id/users add users to ride
+ * @api {post} /ride/:id/users/:userId add user to ride
  * @apiName RideUserPost
  * @apiGroup ride
  *
  * @apiParam {String} id specific ride id
- * @apiParam {String[]} users list of users' access IDs.
- * @apiDescription Completely replaces list of users attached to this ride
- *
- *  * @apiParamExample {json} Request-Example:
-{
-  "users": ["ab1234"]
-}
+ * @apiParam {String} userId access ID of user to add
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
 {
     "error": false,
-    "data": [
+    "data":
         {
             "id": 2,
             "name": "Sam",
@@ -376,7 +375,7 @@ module.exports.rideUsersGet = async (req, res) => {
                 "rideId": 1
             }
         }
-    ]
+
 }
  *
  * @apiError (Error 4xx) {String} 400 Bad Request
@@ -384,17 +383,6 @@ module.exports.rideUsersGet = async (req, res) => {
  *
  */
 module.exports.rideUsersPost = async (req, res) => {
-  const b = req.body;
-  if (
-    !validate(
-      b,
-      {
-        users: 'array',
-      },
-      res,
-    )
-  ) return;
-
   if (
     !validate(
       req.params,
@@ -406,18 +394,17 @@ module.exports.rideUsersPost = async (req, res) => {
   ) return;
 
   const rideId = req.params.id;
-  const { users } = req.body;
+  const userAccessId = req.params.userId;
 
   try {
-    const userAccessIds = await models.User.findAll({
-      attributes: ['id'],
+    const user = await models.User.findOne({
       where: {
-        access_id: users,
+        access_id: userAccessId,
       },
     });
 
-    if (users.length !== userAccessIds.length) {
-      respond(400, 'invalid list of user access IDs', res);
+    if (!user) {
+      respond(400, 'user not found', res);
       return;
     }
 
@@ -427,19 +414,15 @@ module.exports.rideUsersPost = async (req, res) => {
       return;
     }
 
-    const drivers = await Promise.all(
-      userAccessIds.map(async (user) => user.getDriver()),
-    );
-    if (
-      drivers
-        .filter((d) => d !== null && d !== undefined)
-        .find((d) => d.dataValues.id === ride.dataValues.driverId)
-    ) {
+    let driver = await user.getDriver();
+    if (driver) {
       respond(400, 'Driver cannot be a passenger of his/her own ride', res);
       return;
     }
 
-    if (ride.passenger_count < userAccessIds.length) {
+    const passengers = await ride.getUsers();
+
+    if (ride.passenger_count < passengers.length + 1) {
       respond(
         400,
         `Number of users added exceeds maximum passenger count: ${ride.passenger_count}`,
@@ -448,27 +431,22 @@ module.exports.rideUsersPost = async (req, res) => {
       return;
     }
 
-    await ride.setUsers(userAccessIds.map((u) => u.id));
-    const rideUserSelect = await ride.getUsers();
+    await ride.addUser(user);
     const resp = {};
-    resp.users = rideUserSelect.map((r) => {
-      delete r.dataValues.password;
-      return r;
-    });
-    const driver = await models.Driver.findByPk(ride.dataValues.driverId, {
+    delete user.dataValues.password;
+    resp.user = user;
+    driver = await models.Driver.findByPk(ride.dataValues.driverId, {
       include: models.User,
     });
 
-    if (userAccessIds.length) {
-      const firebaseRequest = {
-        body: {
-          message: 'A passenger was added to your ride!',
-          users: [driver.dataValues.user.dataValues.access_id],
-        },
-      };
-      const notification = await firebase.post(firebaseRequest, null);
-      resp.notification = notification;
-    }
+    const firebaseRequest = {
+      body: {
+        message: 'A passenger was added to your ride!',
+        users: [driver.dataValues.user.dataValues.access_id],
+      },
+    };
+    const notification = await firebase.post(firebaseRequest, null);
+    resp.notification = notification;
 
     respond(200, resp, res);
   } catch (err) {

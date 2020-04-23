@@ -46,8 +46,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     ArrayList<String> accessIds = new ArrayList<String>();
     //int rideId = Shared.Data.currentRideId;
 
-    //String url = Shared.Data.url;
-    //String newUrl = " ";
     ProgressDialog dialog;
 
     @Override
@@ -113,7 +111,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
 
-        //dialog.dismiss();
     }
 
     public void getRiders()
@@ -150,8 +147,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         {
             case R.id.refresh:
                 getRiders();
-//                Intent intent1 = new Intent(getApplicationContext(), FindPassengers.class);
-//                startActivity(intent1);
                 break;
 
             case R.id.start:
@@ -348,7 +343,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
-       // jsonParams.put("type","0");
+
 
         JsonObjectRequest delRequest = new JsonObjectRequest(Request.Method.DELETE, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
