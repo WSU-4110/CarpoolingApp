@@ -1,15 +1,5 @@
-# Installation Instructions:
-### These instructions describe installation on Windows Operating Systems
+# Installation Instructions
 
-# Prerequisites:
-* Android Studio: https://developer.android.com/studio/install
-* Git: https://git-scm.com/downloads
-
-# Installation:
-* Create a local project directory on your device: C:/project-path
-* Clone the CarpoolingApp repository
-
-# In Android Studio:
-### There are two ways of running the app:
-1. Using An Emulator: Choose a device from the Android Virtual Device (AVD) Manager in the toolbar, and then pressing the green play button.
-2. Using An Android Device: Go to Build -> Build Bundle(s)/APK(s) -> Build APK(s). Download the file created on your personal device.
+1. Go to the `Releases` tab of this repository [here](https://github.com/WSU-4110/CarpoolingApp/releases)
+2. Download the latest release's .apk file to your Android phone
+3. Tap the newly downloaded file and install
