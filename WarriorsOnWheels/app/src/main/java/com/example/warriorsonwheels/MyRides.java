@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,7 +49,7 @@ public class MyRides extends AppCompatActivity implements View.OnClickListener{
     String url2 = "";
     ProgressDialog dialog;
     TextView noRide;
-
+    SwipeRefreshLayout mySwipeRefreshLayout;
     Button postRide;
 
     @Override
@@ -66,6 +66,20 @@ public class MyRides extends AppCompatActivity implements View.OnClickListener{
         dialog.setMessage("Loading....");
         dialog.show();
 
+        mySwipeRefreshLayout = findViewById(R.id.swiperefresh3);
+        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                times.clear();
+                arrives.clear();
+                dates.clear();
+                rideId.clear();
+                getRides();
+                mySwipeRefreshLayout.setRefreshing(false);
+            }
+        });
         postRide = findViewById(R.id.postRide);
 
         rideList = (ListView) findViewById(R.id.myRideList);
@@ -83,6 +97,12 @@ public class MyRides extends AppCompatActivity implements View.OnClickListener{
             }
         });
 
+        getRides();
+
+    }
+
+    public void getRides()
+    {
         StringRequest request = new StringRequest(url1, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
@@ -107,8 +127,6 @@ public class MyRides extends AppCompatActivity implements View.OnClickListener{
         };
         RequestQueue rQueue = Volley.newRequestQueue(MyRides.this);
         rQueue.add(request);
-
-
     }
 
     void parseJsonData1(String jsonString) {
