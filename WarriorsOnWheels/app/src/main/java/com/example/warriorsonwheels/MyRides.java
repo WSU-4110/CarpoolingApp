@@ -72,6 +72,7 @@ public class MyRides extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onRefresh()
             {
+                noRide.setVisibility(View.INVISIBLE);
                 times.clear();
                 arrives.clear();
                 dates.clear();

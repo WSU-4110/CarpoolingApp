@@ -73,6 +73,7 @@ public class RideSearch extends AppCompatActivity  {
             @Override
             public void onRefresh()
             {
+                noRide.setVisibility(View.INVISIBLE);
                 times.clear();
                 arrives.clear();
                 dates.clear();

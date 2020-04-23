@@ -56,22 +56,28 @@ public class RatePassenger extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 postRequest();
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(v.getContext());
-                builder.setTitle("RIDE OVER");
-                builder.setMessage("Thank you for using Warriors on Wheels!");
-                builder.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(
-                                    DialogInterface dialog, int option)
-                            {
-                                Intent intent4 = new Intent(getApplicationContext(), HomePage.class);
-                                startActivity(intent4);
-                            }
-                        });
+                Shared.Data.ratePassengerCount++;
+                if(Shared.Data.ratePassengerCount == Shared.Data.currentRidePassengerIds.size()) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(v.getContext());
+                    builder.setTitle("RIDE OVER");
+                    builder.setMessage("Thank you for using Warriors on Wheels!");
+                    builder.setPositiveButton("Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(
+                                        DialogInterface dialog, int option) {
+                                    Intent intent4 = new Intent(getApplicationContext(), HomePage.class);
+                                    startActivity(intent4);
+                                }
+                            });
 
-                builder.show();
+                    builder.show();
+                }
+                else
+                {
+                    Intent intent4 = new Intent(getApplicationContext(), RatePassenger.class);
+                    startActivity(intent4);
+                }
             }
         });
     }
@@ -124,7 +130,7 @@ public class RatePassenger extends AppCompatActivity{
     public void postRequest()
     {
         //accessId SHOULD BE PASSENGERS
-        String url = Shared.Data.url + "rating/" + Shared.Data.AccessIdPass;
+        String url = Shared.Data.url + "rating/" + Shared.Data.currentRidePassengerIds.get(Shared.Data.ratePassengerCount);
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
@@ -151,7 +157,6 @@ public class RatePassenger extends AppCompatActivity{
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
                         Toast toast = Toast.makeText(getApplicationContext(), error.toString(),Toast.LENGTH_LONG);
                         toast.show();
-
 
                     }
                 }){
