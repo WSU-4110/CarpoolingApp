@@ -74,7 +74,6 @@ public class Registration extends AppCompatActivity {
             public void onClick(View v) {
 
                 fillCheck();
-                finishPassProf.setEnabled(false);
 
             }
         });
