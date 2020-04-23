@@ -112,7 +112,7 @@ public class UserProfile extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
-                                
+
 
 
                             }

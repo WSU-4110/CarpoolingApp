@@ -97,6 +97,7 @@ public class RideMap extends FragmentActivity {
                         if(!Shared.Data.isPassenger)
                         {
                             endRide();
+                            Shared.Data.isPassenger = false;
                             Intent intent1 = new Intent(getApplicationContext(), RatePassenger.class);
                             startActivity(intent1);
                             break;

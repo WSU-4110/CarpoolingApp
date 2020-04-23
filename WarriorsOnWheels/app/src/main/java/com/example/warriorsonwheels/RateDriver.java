@@ -117,7 +117,7 @@ public class RateDriver extends AppCompatActivity{
         Map<String, String> jsonParams = new HashMap<String, String>();
 
 
-        jsonParams.put("rating",String.valueOf(RateDriver.getNumStars()));
+        jsonParams.put("rating",String.valueOf(RateDriver.getProgress()/2));
         jsonParams.put("is_driver","true");
 
 
