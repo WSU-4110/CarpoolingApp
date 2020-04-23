@@ -12,6 +12,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+      release
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -23,6 +26,16 @@ android {
             buildConfigField("String", "API_URL", "\"https://carpool-api-r64g2xh4xa-uc.a.run.app\"")
         }
     }
+
+    def isRunningOnTravis = System.getenv("CI") == "true"
+
+    if(isRunningOnTravis){
+        signingConfigs.release.storeFile = file("../OurStore.keystore")
+        signingConfigs.release.storePassword = System.getenv("keystore_password")
+        signingConfigs.release.keyAlias = System.getenv("keystore_alias")
+        signingConfigs.release.keyPassword = System.getenv("keystore_alias_password")
+    }
+
     sourceSets {
         androidTest.setRoot('src/androidTest')
     }

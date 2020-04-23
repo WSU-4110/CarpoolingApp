@@ -10,13 +10,19 @@ jobs:
       - extra-google-google_play_services
       - extra-google-m2repository
       - extra-android-m2repository
-    env:
-      secure: fM0C1nnHP63T/wggPgL9B1BcnNnD6vajug04hvZtVKV8hZrXmq5otXxfl8hrzrTbbDOn8UN8OqvWf6D/YmwMImp2We5l0TnJmTQKHjbewIXi08EXfqZ+eR1nPLL9yQ4wTHPS6mt1jQ0T01D4WxVAe0tsxyfEGZ5km/qtJGyknh18/BIET6sQlo7aq17vcmieo/A3bhxM82lm3/FIIQrw2+icN2rHcUPdJ+if2tR5JIwww0G3VUnGYcCv06s4GjAa6+6/fd9UoE2gp+IEbAuvCAZ+xGiIxJPJZzg59paWPeBnSvKjNU8ML9wnUpDd3gYWe4utCpRM2onldHesAqqc4zVqVvHYKDYsv+VMcq0iuwunm3x+1aT7iA5nW4YeYdOPmJ2iD5+K96wyv2AVj1xy7dpaBz4jjW6+2fDH9zFyh5lORGlJssoF1EhhObfOp1cRGpxTNM8Gba0lF9X10VaP5OnENgj5bTKcWP4JpmTGjWFpru/ZJx9BfKQpr41y+HLp75YsJ21rHJXEuRf/kFAlYc8uY1aXJ2hT3zFht+7deDTIiudSgvH3wDwfZGRSkl4aOYHX5/sKUsjueqXEBAQh6LJzyF9sESIVnwseTbvBXeVYCKVs6a933ylMGoSehq1bueu4E/wRg2uIMIOJ8LnC+3bsJj75ceT8zwKwXZb+i2Q=
     before_install:
     - cd WarriorsOnWheels
+    - openssl aes-256-cbc -K $encrypted_011283d973ad_key -iv $encrypted_011283d973ad_iv -in warriorsOnWheelsKeystore.jks.enc -out warriorsOnWheelsKeystore.jks -d
     - sudo chmod +x gradlew
     script:
     - "./gradlew test"
+    deploy:
+      provider: releases
+      api_key:
+        secure: fFxTVS0bTk1MVCYOqa3IwfONDJFEkO9QMiLXRcWb0EelHaiKEXRGsMTzLHKLef/luRbfFJAYQpv/ui9WvqKM2vnVqtdoUGU9wNxrkKhfChGCFmu+S8JdgxamqXbSyXPewkAzhkvD+R1Vx7LeSv4R0JKcGHMYm8T/wwch5RvtDC8b2P0KLObA+8XKdXijdUAZ89tpM77N7Lo3bEEVnkyQIjFpz9hdDLKP2kTRvxfbECmFYpkpRNL89/8lz1a93C7eisX2GDREI2ucjffQ9wnpsNBtqE2HSG6+ToAvhfsXzmqpk9Y43xIhUhMT9M42EjNTnH+t8HytHA5rSG/O8j9icjVpEYL7IM7wwrAun4VPwVYrK8Ugh4divjTGbdmO9wV2xcdpNF3vR4KjQbq8VtHyp/nviB+H19NWuLvvkBunAYUNzRqE7p10X/+bZCTdEcI/L7+2mc5QLdzXJr6I9/ancPyqBOmvZ1KHuEyOUO7bnE3dYOfxhJmCFVESZNf8OMmeg4q4SYR0fcdhbxEO7YnZgp7nPzaMFQbeRLVgy03NSlPEZNsGTdyH2vTveSkErF8Md16YQ78w/3xdMB2j2f4Lq+SAlUArSTNRXfzw4/VjuaTOGJUgnQRk7imNFE8LpkEAnNVKC9ySMNN3h+kD5XoGryFg07jdQcl3TfWRRbDdMas=
+      file: WarriorsOnWheels/app/release/*
+      on:
+        repo: WSU-4110/CarpoolingApp
     before_cache:
     - rm -f  $HOME/WarriorsOnWheels/.gradle/caches/modules-2/modules-2.lock
     - rm -fr $HOME/WarriorsOnWheels/.gradle/caches/*/plugin-resolution/
