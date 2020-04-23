@@ -20,6 +20,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rulesspro'
             buildConfigField("String", "API_URL", "\"https://carpool-api-r64g2xh4xa-uc.a.run.app\"")
+            signingConfig signingConfigs.release
         }
         debug {
 //            buildConfigField("String", "API_URL", "\"http://10.0.2.2:8080\"")
