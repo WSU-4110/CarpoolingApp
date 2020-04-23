@@ -49,6 +49,8 @@ public class Login extends AppCompatActivity {
         confirm = (Button) findViewById(R.id.submitLoginButton);
 
         FirebaseApp.initializeApp(this);
+        Shared.Data.loggedInuser = null;
+        Shared.Data.token = null;
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
