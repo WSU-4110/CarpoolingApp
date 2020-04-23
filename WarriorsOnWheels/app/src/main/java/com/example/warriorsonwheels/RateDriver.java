@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -134,6 +135,8 @@ public class RateDriver extends AppCompatActivity{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
+                        Toast toast = Toast.makeText(getApplicationContext(), error.toString(),Toast.LENGTH_LONG);
+                        toast.show();
 
 
                     }

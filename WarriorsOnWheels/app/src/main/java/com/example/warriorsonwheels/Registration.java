@@ -236,6 +236,9 @@ public class Registration extends AppCompatActivity {
                         Log.println(Log.ERROR,"ERROR RESPONSE",error.networkResponse.toString());
                         successfulReg(false);
 
+                        Toast toast = Toast.makeText(getApplicationContext(), error.toString(),Toast.LENGTH_LONG);
+                        toast.show();
+
                     }
                 });
 

@@ -229,6 +229,8 @@ public class DriverProfile extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error");
+                        Toast toast = Toast.makeText(getApplicationContext(), error.toString(),Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 }) {
 
