@@ -343,7 +343,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
-       // jsonParams.put("type","0");
+
 
         JsonObjectRequest delRequest = new JsonObjectRequest(Request.Method.DELETE, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
