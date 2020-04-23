@@ -131,7 +131,7 @@ public class RatePassenger extends AppCompatActivity{
 
 
 
-        jsonParams.put("rating",String.valueOf(RatePassenger.getNumStars()));
+        jsonParams.put("rating",String.valueOf(RatePassenger.getProgress()/2));
         jsonParams.put("is_driver","false");
 
 
