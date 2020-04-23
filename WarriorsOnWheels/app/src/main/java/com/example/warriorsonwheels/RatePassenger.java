@@ -35,6 +35,7 @@ public class RatePassenger extends AppCompatActivity{
     private Button rateBtn;
     private RatingBar RatePassenger;
     private ImageView imageView;
+    private TextView header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,8 @@ public class RatePassenger extends AppCompatActivity{
         RatePassenger = findViewById(R.id.passengerRatingBar);
         rateBtn = findViewById(R.id.rateBtn);
         imageView = findViewById(R.id.imageView);
+
+        header = (TextView)findViewById(R.id.textView);
 
         Glide.with(this).load(Shared.Data.imgURL).into(imageView);
 
@@ -131,6 +134,7 @@ public class RatePassenger extends AppCompatActivity{
     {
         //accessId SHOULD BE PASSENGERS
         String url = Shared.Data.url + "rating/" + Shared.Data.currentRidePassengerIds.get(Shared.Data.ratePassengerCount);
+        header.setText("Rating " + Shared.Data.currentRidePassengerIds.get(Shared.Data.ratePassengerCount));
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
