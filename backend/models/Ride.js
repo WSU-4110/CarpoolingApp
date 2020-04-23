@@ -1,4 +1,5 @@
 
+const moment = require('moment');
 const config = require('../util/sequelize_config');
 
 module.exports = (sequelize, DataTypes) => {
@@ -17,7 +18,18 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-  }, config);
+  }, {
+    ...config,
+    ...{
+      hooks: {
+        beforeCreate: (ride) => {
+          const newDate = moment(ride.date).subtract({ hours: 4 });
+          ride.date = newDate;
+        },
+      },
+    },
+  });
+
 
   return Ride;
 };

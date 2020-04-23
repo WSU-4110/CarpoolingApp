@@ -247,6 +247,7 @@ module.exports.post = async (req, res) => {
       arrival_location: b.arrival_location,
       passenger_count: b.passenger_count,
     });
+    ride.dataValues.date = moment(ride.dataValues.date, fmt);
     respond(200, ride, res);
   } catch (err) {
     respond(500, err, res);

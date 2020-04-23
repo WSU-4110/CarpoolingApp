@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     ...config,
     ...{
       hooks: {
-        beforeCreate: async (address) => {
+        beforeCreate: (address) => {
           address.state = address.state.toUpperCase();
         },
       },
