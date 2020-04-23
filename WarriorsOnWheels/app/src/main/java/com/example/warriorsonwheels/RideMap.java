@@ -72,7 +72,11 @@ public class RideMap extends FragmentActivity {
             endRide.setText("RIDE FINISHED");
         }
 
-        if (passengerIds != null) {
+        if (Shared.Data.isPassenger) {
+            getAddress(Shared.Data.loggedInuser);
+        }
+
+        if (passengerIds != null && !Shared.Data.isPassenger) {
             for(int i = 0; i < passengerIds.size(); i++) {
                 String id = passengerIds.get(i);
                 getAddress(id);
