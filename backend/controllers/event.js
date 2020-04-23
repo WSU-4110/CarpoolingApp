@@ -264,7 +264,7 @@ module.exports.post = async (req, res) => {
       });
       if (pickedUp) {
         await t.rollback();
-        respond(400, `user with access ID ${user.dataValues.access_id} has already been picked up`, res);
+        respond(400, `User ${user.dataValues.access_id}: Driver has arrived at your location for pickup!`, res);
         return;
       }
 
