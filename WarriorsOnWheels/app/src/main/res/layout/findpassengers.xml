@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swiperefresh1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".FindPassengers">
+    tools:context=".RideSearch"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
     <LinearLayout
         android:orientation="vertical"
@@ -55,18 +60,8 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="match_parent"/>
 
-                <Button
-                    android:id="@+id/refresh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Refresh Page"
-                    android:background="@color/button"
-                    android:textColor="@color/text"
-                    android:onClick="onClick"/>
+
 
                 <Space
                     android:layout_width="10dp"
@@ -104,3 +99,4 @@
 
     </LinearLayout>
 </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

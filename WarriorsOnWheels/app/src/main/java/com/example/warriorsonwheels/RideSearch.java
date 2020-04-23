@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-//import android.support.v4.widget.SwipeRefreshLayout;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -53,7 +52,7 @@ public class RideSearch extends AppCompatActivity  {
     ProgressDialog dialog;
     TextView noRide;
     SwipeRefreshLayout mySwipeRefreshLayout;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

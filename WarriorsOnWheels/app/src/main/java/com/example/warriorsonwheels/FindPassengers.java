@@ -30,7 +30,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     ArrayList<String> passengers = new ArrayList<String>();
     ArrayList<String> accessIds = new ArrayList<String>();
     //int rideId = Shared.Data.currentRideId;
-
+    SwipeRefreshLayout mySwipeRefreshLayout;
     ProgressDialog dialog;
 
     @Override
@@ -58,11 +58,22 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(tbrMain);
 
         //Vars
-        refresh = (Button) findViewById(R.id.refresh);
         start = (Button) findViewById(R.id.start);
         cancel = (Button) findViewById(R.id.cancel);
         passList = (ListView) findViewById(R.id.passList);
 
+        mySwipeRefreshLayout = findViewById(R.id.swiperefresh1);
+        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                passengers.clear();
+                accessIds.clear();
+                getRiders();
+                mySwipeRefreshLayout.setRefreshing(false);
+            }
+        });
         /*dialog = new ProgressDialog(this);
         dialog.setMessage("Loading....");
         dialog.show();*/
@@ -146,9 +157,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch(v.getId())
         {
-            case R.id.refresh:
-                getRiders();
-                break;
 
             case R.id.start:
                 postRideEvent();
