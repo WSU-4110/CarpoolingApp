@@ -415,7 +415,7 @@ module.exports.rideUsersPost = async (req, res) => {
     }
 
     let driver = await user.getDriver();
-    if (driver) {
+    if (driver !== null && driver.dataValues.id === ride.dataValues.driverId) {
       respond(400, 'Driver cannot be a passenger of his/her own ride', res);
       return;
     }
