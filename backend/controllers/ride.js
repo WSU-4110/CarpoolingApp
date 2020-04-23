@@ -461,7 +461,7 @@ module.exports.rideUsersPost = async (req, res) => {
     notifications.push(await firebase.post(firebaseRequest, null));
     firebaseRequest = {
       body: {
-        message: `You have been added to user !${driver.dataValues.user.dataValues.access_id}'s ride!`,
+        message: `You have been added to user ${driver.dataValues.user.dataValues.access_id}'s ride!`,
         users: [userAccessId],
       },
     };
