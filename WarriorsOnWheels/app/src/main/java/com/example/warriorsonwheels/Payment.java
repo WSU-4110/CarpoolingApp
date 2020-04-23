@@ -56,6 +56,7 @@ public class Payment extends AppCompatActivity {
                                 startActivity(intent4);
                             }
                         });
+                builder.show();
             }
         });
     }

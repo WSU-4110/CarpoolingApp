@@ -99,7 +99,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 JSONObject dataobj = ridesArray.getJSONObject(i);
                 //if(!dataobj.toString().equals("{}")) {
                 passengers.add(dataobj.getString("name"));
-                //accessIds.add(dataobj.getString("access_id"));
+                accessIds.add(dataobj.getString("access_id"));
                 Shared.Data.AccessIdPass = dataobj.getString("access_id");
                 //}
             }
@@ -343,8 +343,7 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId;
 
         Map<String, String> jsonParams = new HashMap<String, String>();
-        jsonParams.put("type","0");
-
+       // jsonParams.put("type","0");
 
         JsonObjectRequest delRequest = new JsonObjectRequest(Request.Method.DELETE, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
@@ -382,8 +381,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
-
-
         jsonParams.put("type","0");
 
 
@@ -394,13 +391,14 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
                 //runs when API called from RestQueue/MySingleton
                 Log.i("POST",response.toString());
 
+
             }
         },
 
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+                        Log.println(Log.ERROR,"ERROR:","Volley Error " + error.networkResponse.toString());
 
                     }
                 }) {
