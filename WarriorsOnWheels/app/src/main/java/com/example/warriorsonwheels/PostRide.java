@@ -128,7 +128,8 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
         Calendar calendar = Calendar.getInstance();
         int HOUR = calendar.get(Calendar.HOUR);
         int MINUTE = calendar.get(Calendar.MINUTE);
-        boolean is24HourFormat = DateFormat.is24HourFormat(this);
+        boolean is24HourFormat = false;//DateFormat.is24HourFormat(this);
+
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
 
@@ -138,7 +139,7 @@ public class PostRide extends AppCompatActivity implements View.OnClickListener{
                 Calendar calendar1 = Calendar.getInstance();
                 calendar1.set(Calendar.HOUR, hour);
                 calendar1.set(Calendar.MINUTE, minute);
-                String dateText = DateFormat.format("hh:mm:00", calendar1).toString();
+                String dateText = DateFormat.format("HH:MM:00", calendar1).toString();
                 leaveTime.setText(dateText);
             }
         }, HOUR, MINUTE, is24HourFormat);

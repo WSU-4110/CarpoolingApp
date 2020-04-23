@@ -157,7 +157,7 @@ public class RideConfirm extends AppCompatActivity implements View.OnClickListen
         {
             case R.id.confirmbutton:
                 Shared.Data.isPassenger = true;
-                getRiders();
+                //getRiders();
                 riders.add(Shared.Data.loggedInuser);
                 postRequest();
                 Intent intent3 = new Intent(getApplicationContext(), DriverInfo.class);
