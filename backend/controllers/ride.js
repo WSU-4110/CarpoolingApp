@@ -247,6 +247,7 @@ module.exports.post = async (req, res) => {
       arrival_location: b.arrival_location,
       passenger_count: b.passenger_count,
     });
+    ride.dataValues.date = moment(ride.dataValues.date, fmt);
     respond(200, ride, res);
   } catch (err) {
     respond(500, err, res);
@@ -439,14 +440,22 @@ module.exports.rideUsersPost = async (req, res) => {
       include: models.User,
     });
 
-    const firebaseRequest = {
+    const notifications = [];
+    let firebaseRequest = {
       body: {
-        message: 'A passenger was added to your ride!',
+        message: `User ${userAccessId} was added to your ride!`,
         users: [driver.dataValues.user.dataValues.access_id],
       },
     };
-    const notification = await firebase.post(firebaseRequest, null);
-    resp.notification = notification;
+    notifications.push(await firebase.post(firebaseRequest, null));
+    firebaseRequest = {
+      body: {
+        message: `You have been added to user !${driver.dataValues.user.dataValues.access_id}'s ride!`,
+        users: [userAccessId],
+      },
+    };
+    notifications.push(await firebase.post(firebaseRequest, null));
+    resp.notifications = notifications;
 
     respond(200, resp, res);
   } catch (err) {

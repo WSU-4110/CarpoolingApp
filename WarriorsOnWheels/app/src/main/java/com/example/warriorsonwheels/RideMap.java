@@ -97,6 +97,7 @@ public class RideMap extends FragmentActivity {
                         if(!Shared.Data.isPassenger)
                         {
                             endRide();
+                            Shared.Data.isPassenger = false;
                             Intent intent1 = new Intent(getApplicationContext(), RatePassenger.class);
                             startActivity(intent1);
                             break;
@@ -199,7 +200,8 @@ public class RideMap extends FragmentActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), volleyError.toString(),Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }) {
 
@@ -241,6 +243,8 @@ public class RideMap extends FragmentActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+                        Toast toast = Toast.makeText(getApplicationContext(), error.toString(),Toast.LENGTH_LONG);
+                        toast.show();
 
                     }
                 }) {
@@ -283,6 +287,8 @@ public class RideMap extends FragmentActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+                        Toast toast = Toast.makeText(getApplicationContext(), error.toString(),Toast.LENGTH_LONG);
+                        toast.show();
 
                     }
                 }) {
@@ -321,6 +327,8 @@ public class RideMap extends FragmentActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
+                        Toast toast = Toast.makeText(getApplicationContext(), error.toString(),Toast.LENGTH_LONG);
+                        toast.show();
 
                     }
                 }) {

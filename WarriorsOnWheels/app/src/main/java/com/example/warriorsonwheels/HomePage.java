@@ -99,6 +99,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
             case R.id.userLoginPage:
                 Shared.Data.token = null;
+                Shared.Data.loggedInuser = null;
                 Intent intent3 = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent3);
                 return true;
@@ -173,6 +174,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                             public void onErrorResponse(VolleyError error) {
 
                                 Log.println(Log.ERROR,"NOT DRIVER:", Shared.Data.loggedInuser + " is not a driver.");
+                                Toast toast = Toast.makeText(getApplicationContext(), Shared.Data.loggedInuser + " is not a driver.",Toast.LENGTH_LONG);
+                                toast.show();
 
                             }
                         }) {

@@ -112,6 +112,7 @@ public class DriverInfo extends AppCompatActivity{
 
             case R.id.userLoginPage:
                 Shared.Data.token = null;
+                Shared.Data.loggedInuser = null;
                 Intent intent3 = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent3);
                 return true;
@@ -227,7 +228,8 @@ public class DriverInfo extends AppCompatActivity{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getApplicationContext(), volleyError.toString(),Toast.LENGTH_LONG);
+                toast.show();
                 dialog.dismiss();
             }
         }) {
@@ -254,7 +256,8 @@ public class DriverInfo extends AppCompatActivity{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getApplicationContext(), volleyError.toString(),Toast.LENGTH_LONG);
+                toast.show();
                 dialog.dismiss();
             }
         }) {
@@ -281,7 +284,8 @@ public class DriverInfo extends AppCompatActivity{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getApplicationContext(), "Some error occurred!!", Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getApplicationContext(), volleyError.toString(),Toast.LENGTH_LONG);
+                toast.show();
                 dialog.dismiss();
             }
         }) {
@@ -320,6 +324,8 @@ public class DriverInfo extends AppCompatActivity{
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
                         rideStarted = true;
+                        Toast toast = Toast.makeText(getApplicationContext(), error.toString(),Toast.LENGTH_LONG);
+                        toast.show();
 
                     }
                 }) {

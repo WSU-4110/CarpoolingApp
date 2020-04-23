@@ -11,10 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import java.util.ArrayList;
 
 public class Payment extends AppCompatActivity {
     public EditText nameOnCard, creditCardNum, expDate, cvv, zipCode;
@@ -42,23 +45,42 @@ public class Payment extends AppCompatActivity {
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(v.getContext());
-                builder.setTitle("PAYMENT RECEIVED:");
-                builder.setMessage("Your payment is being processed.");
-                builder.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(
-                                    DialogInterface dialog, int option)
-                            {
-                                Intent intent4 = new Intent(getApplicationContext(), RateDriver.class);
-                                startActivity(intent4);
-                            }
-                        });
-                builder.show();
+                fillCheck();
             }
         });
+    }
+
+    public void fillCheck()
+    {
+        ArrayList<EditText> arrayList = new ArrayList<>();
+        arrayList.add(nameOnCard);
+        arrayList.add(creditCardNum);
+        arrayList.add(expDate);
+        arrayList.add(cvv);
+        arrayList.add(zipCode);
+
+        boolean isFilled = Shared.Data.checkFilled(arrayList);
+
+        if(isFilled)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("PAYMENT RECEIVED:");
+            builder.setMessage("Your payment is being processed.");
+            builder.setPositiveButton("Ok",
+                    new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int option)
+                        {
+                            Intent intent4 = new Intent(getApplicationContext(), RateDriver.class);
+                            startActivity(intent4);
+                        }
+                    });
+            builder.show();
+        }
+        else
+        {
+            Toast.makeText(Payment.this, "All fields must be filled", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
