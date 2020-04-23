@@ -44,8 +44,9 @@ public class RideConfirm extends AppCompatActivity implements View.OnClickListen
     private TextView departureLocation, arrivalLocation, DepTime, Date, numPassengers;
 
     String url1 = Shared.Data.url +  "ride/" + Shared.Data.selectedRideId;
-    String url2 = url1 + "/users";
+    String url2 = url1 + "/users/" + Shared.Data.loggedInuser;
     ProgressDialog dialog;
+    boolean gotConfirmed = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,10 +161,10 @@ public class RideConfirm extends AppCompatActivity implements View.OnClickListen
                 //getRiders();
                 riders.add(Shared.Data.loggedInuser);
                 postRequest();
-                Intent intent3 = new Intent(getApplicationContext(), DriverInfo.class);
-                startActivity(intent3);
-                //Intent intent2 = new Intent(getApplicationContext(), RateDriver.class);
-                //startActivity(intent2);
+                if(gotConfirmed) {
+                    Intent intent3 = new Intent(getApplicationContext(), DriverInfo.class);
+                    startActivity(intent3);
+                }
                 break;
         }
     }
@@ -172,14 +173,11 @@ public class RideConfirm extends AppCompatActivity implements View.OnClickListen
     {
         Map<String, ArrayList<String>> jsonParams = new HashMap<>();
 
-        jsonParams.put("users", riders);
-        Log.i("after putting",jsonParams.toString());
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url2, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 //runs when API called from RestQueue/MySingleton
                 Log.i("POST",response.toString());
-
 
             }
         },
@@ -188,8 +186,7 @@ public class RideConfirm extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.println(Log.ERROR,"ERROR:","Volley Error " + error.toString());
-
-
+                        gotConfirmed = false;
                     }
                 }) {
 
