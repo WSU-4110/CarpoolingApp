@@ -47,7 +47,7 @@ class GeocodingLocation {
                     } else {
                         message.what = 1;
                         Bundle bundle = new Bundle();
-                        result = "42.357184 -83.069852";
+                        result = "42.357184,-83.069852";
                         bundle.putString("address", result);
                         message.setData(bundle);
                     }
