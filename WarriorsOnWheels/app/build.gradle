@@ -65,3 +65,9 @@ dependencies {
     implementation 'androidx.work:work-runtime:2.1.0'
 
 }
+
+android.applicationVariants.all { variant -> 
+  variant.outputs.all {
+    outputFileName = "warriorsOnWheels-${variant.name}.apk"
+  }
+}
