@@ -173,6 +173,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                             public void onErrorResponse(VolleyError error) {
 
                                 Log.println(Log.ERROR,"NOT DRIVER:", Shared.Data.loggedInuser + " is not a driver.");
+                                Toast toast = Toast.makeText(getApplicationContext(), Shared.Data.loggedInuser + " is not a driver.",Toast.LENGTH_LONG);
+                                toast.show();
 
                             }
                         }) {
