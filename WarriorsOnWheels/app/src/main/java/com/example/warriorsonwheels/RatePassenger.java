@@ -134,7 +134,7 @@ public class RatePassenger extends AppCompatActivity{
     {
         //accessId SHOULD BE PASSENGERS
         String url = Shared.Data.url + "rating/" + Shared.Data.currentRidePassengerIds.get(Shared.Data.ratePassengerCount);
-        header.setText("Rating " + Shared.Data.currentRidePassengerIds.get(Shared.Data.ratePassengerCount));
+        //header.setText("Rating " + Shared.Data.currentRidePassengerIds.get(Shared.Data.ratePassengerCount));
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
