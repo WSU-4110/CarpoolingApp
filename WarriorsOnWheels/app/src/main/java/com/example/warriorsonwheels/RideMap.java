@@ -55,6 +55,7 @@ public class RideMap extends FragmentActivity {
     String [] setLatLng;
     double latitude = 42.357184, longitude = -83.069852;
     LatLng setMarker;
+    int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,10 +120,13 @@ public class RideMap extends FragmentActivity {
             }
         });
 
+
         passengerUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 updateRideEvent();
+                index++;
             }
         });
     }
@@ -275,6 +279,7 @@ public class RideMap extends FragmentActivity {
         Map<String, String> jsonParams = new HashMap<String, String>();
 
         jsonParams.put("type","1");
+        jsonParams.put("access_id", passengerIds.get(index));
 
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonParams), new Response.Listener<JSONObject>() {
             @Override
@@ -282,7 +287,10 @@ public class RideMap extends FragmentActivity {
 
                 //runs when API called from RestQueue/MySingleton
                 Log.i("POST",response.toString());
-
+                if(index == passengerIds.size())
+                {
+                    passengerUpdate.setVisibility(View.INVISIBLE);
+                }
 
             }
         },

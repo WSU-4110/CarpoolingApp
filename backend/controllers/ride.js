@@ -415,6 +415,17 @@ module.exports.rideUsersPost = async (req, res) => {
       return;
     }
 
+    const events = await models.RideEvent.findAll({
+      where: {
+        rideId,
+      },
+    });
+
+    if (events.length) {
+      respond(400, 'Users can no longer join this ride.', res);
+      return;
+    }
+
     let driver = await user.getDriver();
     if (driver !== null && driver.dataValues.id === ride.dataValues.driverId) {
       respond(400, 'Driver cannot be a passenger of his/her own ride', res);
@@ -450,7 +461,7 @@ module.exports.rideUsersPost = async (req, res) => {
     notifications.push(await firebase.post(firebaseRequest, null));
     firebaseRequest = {
       body: {
-        message: `You have been added to user !${driver.dataValues.user.dataValues.access_id}'s ride!`,
+        message: `You have been added to user ${driver.dataValues.user.dataValues.access_id}'s ride!`,
         users: [userAccessId],
       },
     };

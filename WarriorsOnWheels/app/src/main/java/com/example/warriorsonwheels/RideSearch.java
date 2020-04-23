@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RideSearch extends AppCompatActivity{
+public class RideSearch extends AppCompatActivity  {
 
     private Toolbar tbrMain;
     private ListView rideList;
@@ -49,6 +51,7 @@ public class RideSearch extends AppCompatActivity{
     String url2 = "";
     ProgressDialog dialog;
     TextView noRide;
+    SwipeRefreshLayout mySwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,22 @@ public class RideSearch extends AppCompatActivity{
         dialog.setMessage("Loading....");
         dialog.show();
 
+        mySwipeRefreshLayout = findViewById(R.id.swiperefresh);
+        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                times.clear();
+                arrives.clear();
+                dates.clear();
+                rideId.clear();
+                driverId.clear();
+                drivers.clear();
+                getRides();
+                mySwipeRefreshLayout.setRefreshing(false);
+            }
+        });
         rideList = (ListView) findViewById(R.id.rideList);
         rideList.setSelector(R.drawable.list_item_selector);
 
@@ -81,6 +100,11 @@ public class RideSearch extends AppCompatActivity{
             }
         });
 
+        getRides();
+    }
+
+    public void getRides()
+    {
         StringRequest request = new StringRequest(url1, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
@@ -105,9 +129,8 @@ public class RideSearch extends AppCompatActivity{
         };
         RequestQueue rQueue = Volley.newRequestQueue(RideSearch.this);
         rQueue.add(request);
-
-
     }
+
 
     void parseJsonData1(String jsonString) {
         try {
