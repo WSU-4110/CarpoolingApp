@@ -11,7 +11,7 @@ router.get('/:id', auth, rideController.getById);
 router.post('/', auth, rideController.post);
 router.delete('/:id', auth, rideController.delete);
 router.get('/:id/users', auth, rideController.rideUsersGet);
-router.post('/:id/users', auth, rideController.rideUsersPost);
+router.post('/:id/users/:userId', auth, rideController.rideUsersPost);
 router.delete('/:id/users/:userId', auth, rideController.rideUsersDelete);
 
 // events
