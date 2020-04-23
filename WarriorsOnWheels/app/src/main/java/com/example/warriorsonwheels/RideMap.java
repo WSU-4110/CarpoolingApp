@@ -1,6 +1,8 @@
 package com.example.warriorsonwheels;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -72,12 +74,17 @@ public class RideMap extends FragmentActivity {
             endRide.setText("RIDE FINISHED");
         }
 
-        if (passengerIds != null) {
-            for(int i = 0; i < passengerIds.size(); i++) {
+        if (passengerIds != null && !Shared.Data.isPassenger) {
+            for (int i = 0; i < passengerIds.size(); i++) {
                 String id = passengerIds.get(i);
                 getAddress(id);
-                Log.i("----------------------------------POST",passengerIds.get(i).toString());
+                Log.i("----------------------------------POST", passengerIds.get(i).toString());
             }
+        }
+        else if (passengerIds != null && Shared.Data.isPassenger) {
+            String id = Shared.Data.loggedInuser;
+            getAddress(id);
+        }
 
             /*for(int i = 0; i < addresses.size(); i++) {
                 String pickUpLocation = addresses.get(i);
@@ -86,7 +93,6 @@ public class RideMap extends FragmentActivity {
                         getApplicationContext(), new GeocoderHandler());
                 Log.i("----------------------------------POST",addresses.get(i).toString());
             }*/
-        }
 
         endRide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +163,7 @@ public class RideMap extends FragmentActivity {
 
             // Add default marker at wsu
             LatLng latLng = setMarker;
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Set Destination"));
+            mMap.addMarker(new MarkerOptions().position(latLng).title("Get Passenger"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         }
     }
@@ -264,9 +270,7 @@ public class RideMap extends FragmentActivity {
 
     public void updateRideEvent() {
 
-            String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
-
-
+        String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
