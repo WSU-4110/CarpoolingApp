@@ -27,6 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +37,7 @@ import java.util.Map;
 
 public class DriverInfo extends AppCompatActivity{
 
-    private Button OptOutOfRide;
+    private Button OptOutOfRide, goToMap;
     private ImageView CarImage;
     private Toolbar tbrMain;
     private TextView driverName, driverPhone, driverRating,placeInLine,ArrivalTime, MakeModeYear, Color, LicensePlate, Date;
@@ -46,6 +47,8 @@ public class DriverInfo extends AppCompatActivity{
     ProgressDialog dialog;
     String driver, car, phone, rating, time, date;
     boolean rideStarted = false;
+    ArrayList<String> accessIds = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,7 @@ public class DriverInfo extends AppCompatActivity{
 
         //Buttons
         OptOutOfRide = (Button) findViewById(R.id.OptOutOfRide);
+        goToMap = (Button) findViewById(R.id.goToMap);
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading....");
@@ -154,7 +158,9 @@ public class DriverInfo extends AppCompatActivity{
                 builder.setNegativeButton("No", null);
                 builder.show();
                 break;
-            case R.id.DriverRatingButton:
+            case R.id.goToMap:
+                getRiders();
+                Shared.Data.currentRidePassengerIds  = accessIds;
                 Intent intent2 = new Intent(getApplicationContext(), RideMap.class);
                 startActivity(intent2);
                 break;
@@ -172,7 +178,6 @@ public class DriverInfo extends AppCompatActivity{
             date = dateTime.substring(0, dateTime.lastIndexOf('T'));
             rideStarted = !data.getBoolean("pending");
             System.out.println("driver details: " + driver + date + phone);
-
             Date.setText(date);
             MakeModeYear.setText(car);
             ArrivalTime.setText(time);
@@ -218,6 +223,26 @@ public class DriverInfo extends AppCompatActivity{
         }
         dialog.dismiss();
     }
+    void parseJsonData4(String jsonString) {
+        try {
+            JSONObject object = new JSONObject(jsonString);
+            JSONArray ridesArray = object.getJSONArray("data");
+
+            for(int i = 0; i < ridesArray.length(); ++i) {
+                JSONObject dataobj = ridesArray.getJSONObject(i);
+                //if(!dataobj.toString().equals("{}")) {
+                //passengers.add(dataobj.getString("name"));
+                accessIds.add(dataobj.getString("access_id"));
+                Shared.Data.AccessIdPass = dataobj.getString("access_id");
+                //}
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void getRequest1()
     {
         StringRequest request = new StringRequest(url1, new Response.Listener<String>() {
@@ -341,5 +366,34 @@ public class DriverInfo extends AppCompatActivity{
 //        //Makes API Call
         MySingleton.getInstance(this).addToRequestQueue(delRequest);
 
+    }
+
+    public void getRiders()
+    {
+        String url = Shared.Data.url + "ride/" + Shared.Data.selectedRideId + "/users";
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                parseJsonData4(string);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast toast = Toast.makeText(getApplicationContext(), volleyError.toString(),Toast.LENGTH_LONG);
+                toast.show();
+                //dialog.dismiss();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", Shared.Data.token);
+                return headers;
+            }
+
+        };
+        RequestQueue rQueue = Volley.newRequestQueue(DriverInfo.this);
+        rQueue.add(request);
     }
 }

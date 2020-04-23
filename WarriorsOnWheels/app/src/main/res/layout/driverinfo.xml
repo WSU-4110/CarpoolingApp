@@ -281,7 +281,7 @@
                 android:layout_marginLeft="80dp"
                 android:onClick="onClick"/>
             <Button
-                android:id="@+id/DriverRatingButton"
+                android:id="@+id/goToMap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Go to Maps"

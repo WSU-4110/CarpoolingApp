@@ -228,7 +228,6 @@ public class RideConfirm extends AppCompatActivity implements View.OnClickListen
                 return headers;
             }
 
-
         };
         RequestQueue rQueue = Volley.newRequestQueue(RideConfirm.this);
         rQueue.add(request);

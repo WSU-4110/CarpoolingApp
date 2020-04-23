@@ -36,15 +36,22 @@ module.exports.post = async (req, res) => { // eslint-disable-line no-unused-var
 
     tokens,
   };
+  console.log('firebase');
+
 
   // Send a message to the device corresponding to the provided
   // registration token.
   return new Promise((resolve, reject) => {
     if (message.tokens.length) {
       admin.messaging().sendMulticast(message)
-        .then(resolve)
+        .then(notification => {
+          console.log(notification);
+          resolve(notification);
+        })
         .catch(reject);
     } else {
+      console.log('No users notified');
+
       resolve({
         message: 'No users notified',
       });

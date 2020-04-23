@@ -15,7 +15,6 @@ jobs:
     - openssl aes-256-cbc -K $encrypted_011283d973ad_key -iv $encrypted_011283d973ad_iv -in warriorsOnWheelsKeystore.jks.enc -out warriorsOnWheelsKeystore.jks -d
     - sudo chmod +x gradlew
     script:
-    - "./gradlew test"
     - "./gradlew assembleRelease"
     deploy:
       provider: releases
