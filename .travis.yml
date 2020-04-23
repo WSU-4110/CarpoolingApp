@@ -47,7 +47,7 @@ jobs:
       CLOUD_RUN_REGION: us-central1
       CLOUDSDK_CORE_DISABLE_PROMPTS: 1
     before_install:
-    - cd backend/
+    - cd api/
     - openssl aes-256-cbc -K $encrypted_b8f3373f0840_key -iv $encrypted_b8f3373f0840_iv
       -in carpooling-app-271518-66e2ce40cf23.json.enc -out key.json -d
     - curl https://sdk.cloud.google.com | bash > /dev/null
