@@ -244,7 +244,6 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         return super.onCreateOptionsMenu(menu);
     }
 
-
     //Menu Options
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -385,9 +384,8 @@ public class FindPassengers extends AppCompatActivity implements View.OnClickLis
         MySingleton.getInstance(this).addToRequestQueue(delRequest);
     }
 
-
     public void postRideEvent()
-    {
+     {
         String url = Shared.Data.url + "ride/" + Shared.Data.mySelectedRideId + "/events";
 
         Map<String, String> jsonParams = new HashMap<String, String>();
