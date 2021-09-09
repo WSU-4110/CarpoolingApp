@@ -43,3 +43,5 @@ steps to log in:
 
 ## Bug Reporting
 Please create an issue outlining the bug and add any log messages you may have seen related to the bug. Assign the issue either to Evan if it is an API bug, or Nidhi, Saloni, or Darpan if it is a frontend bug. 
+
+# Test in CSC4110
