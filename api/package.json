@@ -30,7 +30,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",
     "faker": "^4.1.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.2",
     "sinon": "^9.0.2"
   }
